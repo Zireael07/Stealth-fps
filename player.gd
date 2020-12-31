@@ -14,6 +14,7 @@ const MAX_SLOPE_ANGLE = 40
 var camera
 var camera_helper
 var rotation_helper
+var left_ik_tg
 
 var MOUSE_SENSITIVITY = 0.05
 
@@ -21,7 +22,10 @@ func _ready():
 	camera = $RotationHelper/Character/Armature/CameraBoneAttachment/Camera
 	camera_helper = $RotationHelper/Character/Armature/HitBoxChest/Spatial # for ik targets
 	rotation_helper = $RotationHelper
-
+	
+	left_ik_tg = camera_helper.get_node("left_ik_tg")
+	
+	# FPS input
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 
 func _physics_process(delta):
@@ -107,7 +111,7 @@ func _input(event):
 		# play ik
 		$RotationHelper/Character/Armature/headik.start()
 		$RotationHelper/Character/Armature/rifleik.start()
-		$RotationHelper/Character/Armature/left_ik.start()
+		#$RotationHelper/Character/Armature/left_ik.start()
 		
 		self.rotate_y(deg2rad(event.relative.x * MOUSE_SENSITIVITY * -1))
 		
@@ -117,6 +121,13 @@ func _input(event):
 		#print("Rot: ", view_rot.x)
 		camera_helper.get_node("head_ik_tg").rotation_degrees = view_rot
 		camera_helper.get_node("rifle_ik_tg").rotation_degrees = view_rot
+		
+		# this is tricky!
+		var g_pos = $RotationHelper/Character/Armature/WeaponHold/Rifle/Position3D.get_global_transform().origin #+ Vector3(0,0, 0.5)
+		var lpos = camera_helper.to_local(g_pos)
+		left_ik_tg.set_translation(lpos)
+		
+		$RotationHelper/Character/Armature/left_ik.start()
 
 #		var camera_rot = rotation_helper.rotation_degrees
 #		camera_rot.x = clamp(camera_rot.x, -70, 50)
