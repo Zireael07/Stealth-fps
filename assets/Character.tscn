@@ -3,10 +3,6 @@
 [ext_resource path="res://assets/Character.escn" type="PackedScene" id=1]
 [ext_resource path="res://assets/Rifle.escn" type="PackedScene" id=2]
 
-
-
-
-
 [sub_resource type="SphereShape" id=1]
 radius = 0.146924
 
@@ -388,20 +384,20 @@ bones/26/bound_children = [ NodePath("WeaponHold") ]
 bones/27/bound_children = [ NodePath("CameraHold"), NodePath("CameraBoneAttachment") ]
 
 [node name="WeaponHold" type="BoneAttachment" parent="Armature" index="2"]
-transform = Transform( 0.0166887, 9.66643e-06, -0.999861, -0.000138758, 1.00045, -5.70659e-09, 0.99986, 0.000138679, 0.0166887, -0.923939, 1.55082, 0.0554007 )
+transform = Transform( 0.99885, -0.0045756, 0.0477309, 0.00332933, 1.0001, 0.0260992, -0.0478335, -0.0259294, 0.998519, -0.196256, 1.42494, 0.372642 )
 bone_name = "HandHold.R"
 
 [node name="Rifle" parent="Armature/WeaponHold" index="0" instance=ExtResource( 2 )]
 
 [node name="CameraHold" type="BoneAttachment" parent="Armature" index="3"]
-transform = Transform( -1, -8.74228e-08, -5.68434e-14, -8.74228e-08, 1, -2.98023e-07, 5.68434e-14, -3.57628e-07, -1, -1.77636e-15, 1.85609, 0.0601248 )
+transform = Transform( -0.999016, -0.000578936, -0.0443465, 0.000578745, 0.99966, -0.026088, 0.0443465, -0.0260881, -0.998676, 0.00233999, 1.72374, 0.043952 )
 bone_name = "Camera"
 
 [node name="Physical Bone Head" type="PhysicalBone" parent="Armature" index="4"]
 transform = Transform( 0.999993, -0.00386151, -0.000203517, -2.98303e-05, 0.0449183, -0.998993, 0.00386682, 0.998984, 0.0449179, 0.000124288, 1.80237, -0.0256335 )
 visible = false
 joint_type = 3
-joint_offset = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -2.42669e-05, 0.0242515, 0.0313182 )
+joint_offset = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -2.42669e-05, 0.0242515, 0.0313181 )
 body_offset = Transform( 0.999993, -0.00386175, -0.000203528, 0.00386706, 0.998984, 0.0449179, 2.98303e-05, -0.0449183, 0.998993, 0.000124294, -0.0256335, -0.0301973 )
 bounce = 0.5
 bone_name = "Head"
@@ -439,7 +435,7 @@ shape = SubResource( 2 )
 transform = Transform( 0.999743, -0.00430045, 0.0222827, 0.0224333, 0.0389153, -0.998992, 0.00342909, 0.999234, 0.0390018, -0.00549548, 1.47897, -0.00963523 )
 visible = false
 joint_type = 3
-joint_offset = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00253125, 0.00440726, 0.133908 )
+joint_offset = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00253124, 0.00440726, 0.133908 )
 body_offset = Transform( 0.999743, -0.00430045, 0.0222827, 0.00342909, 0.999234, 0.0390018, -0.0224333, -0.0389153, 0.998992, -0.00549548, -0.00963523, -0.133545 )
 bounce = 0.5
 bone_name = "Chest"
@@ -457,7 +453,7 @@ shape = SubResource( 3 )
 transform = Transform( 0.999999, -0.00193215, -5.08794e-05, -7.46342e-06, 0.0224649, -0.999747, 0.00193266, 0.999746, 0.0224648, 4.79693e-06, 1.21839, -0.00207373 )
 visible = false
 joint_type = 3
-joint_offset = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.52086e-07, 0.000156123, 0.0853623 )
+joint_offset = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.52086e-07, 0.000156124, 0.0853623 )
 body_offset = Transform( 0.999999, -0.00193239, -5.08848e-05, 0.0019329, 0.999746, 0.0224648, 7.46342e-06, -0.0224649, 0.999747, 4.79742e-06, -0.00207373, -0.0853372 )
 bounce = 0.5
 bone_name = "Torso"
@@ -527,7 +523,7 @@ joint_constraints/angular_limit_relaxation = 1.0
 shape = SubResource( 7 )
 
 [node name="Physical Bone UpperArmL" type="PhysicalBone" parent="Armature" index="11"]
-transform = Transform( 0.0232076, -0.000652973, -0.999731, -0.999468, -0.0230071, -0.0231858, -0.0229846, 0.999735, -0.00118674, 0.389881, 1.54054, -0.0140075 )
+transform = Transform( 0.0232076, -0.000652973, -0.999731, -0.999468, -0.0230071, -0.0231858, -0.0229846, 0.999735, -0.00118673, 0.389881, 1.54054, -0.0140075 )
 visible = false
 joint_type = 3
 joint_offset = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0139028, 0.0138601, 0.142023 )
@@ -546,7 +542,7 @@ transform = Transform( 1, 8.52651e-14, 8.88178e-16, 0, 1, 0, 6.21725e-15, 0, 1, 
 shape = SubResource( 8 )
 
 [node name="Physical Bone UpperArmR" type="PhysicalBone" parent="Armature" index="12"]
-transform = Transform( 0.0325253, -0.00330874, 0.999465, 0.999069, 0.0284833, -0.0324171, -0.0283611, 0.999589, 0.00423289, -0.398457, 1.53648, -0.0235392 )
+transform = Transform( 0.0325252, -0.00330874, 0.999465, 0.999069, 0.0284833, -0.0324171, -0.0283611, 0.999589, 0.00423289, -0.398457, 1.53648, -0.0235392 )
 visible = false
 joint_type = 3
 joint_offset = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0185677, 0.0234386, 0.150447 )
@@ -567,8 +563,8 @@ shape = SubResource( 8 )
 transform = Transform( 0.00208131, -0.071866, -0.997412, -0.999467, -0.0326631, 0.000267796, -0.0325972, 0.996879, -0.0718955, 0.705317, 1.54389, 0.00165593 )
 visible = false
 joint_type = 3
-joint_offset = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00685831, -0.00104571, 0.165829 )
-body_offset = Transform( 0.999466, 0.0326627, -0.000267774, -0.0326472, 0.998689, -0.0394268, -0.0010204, 0.0394146, 0.999222, 0.00693321, 0.00735855, -0.165666 )
+joint_offset = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00685808, -0.00104571, 0.165829 )
+body_offset = Transform( 0.999466, 0.0326627, -0.000267774, -0.0326472, 0.998689, -0.0394268, -0.0010204, 0.0394146, 0.999222, 0.00693297, 0.00735855, -0.165666 )
 bounce = 0.5
 bone_name = "LowerArm.L"
 joint_constraints/angular_limit_enabled = true
@@ -624,8 +620,8 @@ shape = SubResource( 10 )
 transform = Transform( 0.00100625, 1.00004, 0.000993076, 0.105581, -0.0010925, 0.99441, 0.99441, -0.000895823, -0.105582, -0.148724, 0.776122, 0.0226432 )
 visible = false
 joint_type = 3
-joint_offset = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00210001, -2.98393e-06, 0.23424 )
-body_offset = Transform( 0.997651, -0.000935676, -0.0684915, 0.00100602, 0.999999, 0.000993058, 0.0684905, -0.00105978, 0.997651, 0.0139484, -0.000231743, -0.233834 )
+joint_offset = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00210002, -3.01405e-06, 0.234241 )
+body_offset = Transform( 0.997651, -0.000935676, -0.0684915, 0.00100602, 0.999999, 0.000993058, 0.0684905, -0.00105978, 0.997651, 0.0139484, -0.000231713, -0.233834 )
 bounce = 0.5
 bone_name = "UpperLeg.R"
 joint_constraints/angular_limit_enabled = true
@@ -643,8 +639,8 @@ shape = SubResource( 10 )
 transform = Transform( 0.00168538, -1.00004, -0.00183993, 0.0811252, -0.00169594, 0.996702, -0.996703, -0.00182925, 0.081122, 0.14902, 0.315886, 0.0128343 )
 visible = false
 joint_type = 3
-joint_offset = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0185772, 7.03681e-05, 0.266005 )
-body_offset = Transform( 0.9987, 0.00177694, -0.050951, -0.00168521, 0.999997, 0.00183985, 0.0509542, -0.00175184, 0.998699, -0.005, -0.00052847, -0.266605 )
+joint_offset = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0185772, 7.03381e-05, 0.266005 )
+body_offset = Transform( 0.9987, 0.00177694, -0.050951, -0.00168521, 0.999997, 0.00183985, 0.0509542, -0.00175184, 0.998699, -0.005, -0.00052844, -0.266605 )
 bounce = 0.5
 bone_name = "LowerLeg.L"
 joint_constraints/angular_limit_enabled = true
@@ -662,7 +658,7 @@ shape = SubResource( 11 )
 transform = Transform( -1.22738e-05, 1.00004, 0.00141349, -0.0808246, -0.00140864, 0.996727, 0.996728, -0.000102128, 0.0808258, -0.149308, 0.322038, 0.0293799 )
 visible = false
 joint_type = 3
-joint_offset = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0344924, 0.000450176, 0.258541 )
+joint_offset = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0344924, 0.000450177, 0.258541 )
 body_offset = Transform( 0.998716, -5.9298e-05, 0.0506542, -1.23752e-05, 0.999999, 0.00141343, -0.050653, -0.00141245, 0.998715, 0.021352, -0.000816032, -0.259955 )
 bounce = 0.5
 bone_name = "LowerLeg.R"
@@ -678,7 +674,7 @@ transform = Transform( 1, 0, 7.45058e-09, 5.68434e-14, 1, 1.11022e-15, -7.45058e
 shape = SubResource( 11 )
 
 [node name="HitBoxHead" type="BoneAttachment" parent="Armature" index="19"]
-transform = Transform( 1, 2.38419e-07, 0, 0, 0, -1, -2.38419e-07, 1, 0, 0, 1.77218, 0 )
+transform = Transform( 0.999016, 0.0443467, 0.000578833, -0.000578838, 0.0260877, -0.99966, -0.0443467, 0.998676, 0.0260877, -0.000277757, 1.63828, -0.013904 )
 bone_name = "Head"
 
 [node name="Area" type="Area" parent="Armature/HitBoxHead" index="0"]
@@ -690,7 +686,7 @@ transform = Transform( 1, -2.84217e-14, 0, 2.84217e-14, 1, 4.65661e-10, 0, 0, 1,
 shape = SubResource( 1 )
 
 [node name="HitBoxNeck" type="BoneAttachment" parent="Armature" index="20"]
-transform = Transform( 1, 2.38419e-07, 0, 0, 0, -1, -2.38419e-07, 1, 0, 0, 1.6547, 0 )
+transform = Transform( 0.887347, -0.461103, 0.000578833, 0.0125426, 0.022882, -0.99966, 0.460932, 0.887052, 0.0260877, -0.000209755, 1.52084, -0.0108393 )
 bone_name = "Neck"
 
 [node name="Area" type="Area" parent="Armature/HitBoxNeck" index="0"]
@@ -703,7 +699,7 @@ transform = Transform( 1, 1.69407e-21, -2.84217e-14, 2.84217e-14, -4.37114e-08, 
 shape = SubResource( 2 )
 
 [node name="HitBoxChest" type="BoneAttachment" parent="Armature" index="21"]
-transform = Transform( 1, 2.84217e-14, 0, 0, 0, -1, -2.84217e-14, 1, 0, 0, 1.34542, 0 )
+transform = Transform( 0.887347, -0.461103, 0.000578833, 0.0125426, 0.022882, -0.99966, 0.460933, 0.887052, 0.0260877, -3.07362e-05, 1.21167, -0.00277099 )
 bone_name = "Chest"
 
 [node name="Area" type="Area" parent="Armature/HitBoxChest" index="0"]
@@ -716,7 +712,7 @@ transform = Transform( 1, -2.38419e-07, 0, 2.38419e-07, 1, 0, 0, 0, 1, 0, 0, 0.3
 shape = SubResource( 3 )
 
 [node name="HitBoxTorso" type="BoneAttachment" parent="Armature" index="22"]
-transform = Transform( 1, 2.38419e-07, 0, 0, 0, -1, -2.38419e-07, 1, 0, 0, 1.13306, 0 )
+transform = Transform( 0.999754, 0.0221809, 0.000144732, -0.000144735, 0.0130482, -0.999915, -0.0221809, 0.999669, 0.0130482, 0, 0.999324, 0 )
 bone_name = "Torso"
 
 [node name="Area" type="Area" parent="Armature/HitBoxTorso" index="0"]
@@ -729,7 +725,7 @@ transform = Transform( 1, -2.84217e-14, 0, 2.84217e-14, 1, 0, 0, 0, 1, 0, 0, 0.5
 shape = SubResource( 4 )
 
 [node name="HitBoxPelvis" type="BoneAttachment" parent="Armature" index="23"]
-transform = Transform( 1, 2.38419e-07, 0, 0, 0, -1, -2.38419e-07, 1, 0, 0, 0.95981, 0 )
+transform = Transform( 1, 2.38419e-07, 0, 0, 0, -1, -2.38419e-07, 1, 0, 0, 0.826078, 0 )
 bone_name = "Pelvis"
 
 [node name="Area" type="Area" parent="Armature/HitBoxPelvis" index="0"]
@@ -742,7 +738,7 @@ transform = Transform( 1, -5.68434e-14, 0, 5.68434e-14, 1, 0, 0, 0, 1, 0, 0, 0.7
 shape = SubResource( 5 )
 
 [node name="HitBoxUpperArmL" type="BoneAttachment" parent="Armature" index="24"]
-transform = Transform( -9.87202e-08, 0.0378824, -0.999282, -1, -4.00003e-07, 7.45058e-09, -4.01033e-07, 0.999282, 0.0378824, 0.247564, 1.55082, -2.57536e-08 )
+transform = Transform( -0.735313, -0.52833, 0.424479, -0.386784, 0.841452, 0.377303, -0.556519, 0.113254, -0.82308, 0.219526, 1.42011, 0.105981 )
 bone_name = "UpperArm.L"
 
 [node name="Area" type="Area" parent="Armature/HitBoxUpperArmL" index="0"]
@@ -755,7 +751,7 @@ transform = Transform( -9.87201e-08, 0.0378822, -0.999282, -4.01033e-07, 0.99928
 shape = SubResource( 8 )
 
 [node name="HitBoxUpperArmR" type="BoneAttachment" parent="Armature" index="25"]
-transform = Transform( -9.87202e-08, -0.0378824, 0.999282, 1, -4.00003e-07, 7.45058e-09, 4.01033e-07, 0.999282, 0.0378824, -0.247564, 1.55082, -2.57536e-08 )
+transform = Transform( -0.663752, 0.438173, 0.606166, 0.745169, 0.457261, 0.485425, -0.0644763, 0.773898, -0.63002, -0.219825, 1.4139, -0.12224 )
 bone_name = "UpperArm.R"
 
 [node name="Area" type="Area" parent="Armature/HitBoxUpperArmR" index="0"]
@@ -768,7 +764,7 @@ transform = Transform( -9.87203e-08, -0.0378827, 0.999282, 4.01033e-07, 0.999282
 shape = SubResource( 8 )
 
 [node name="HitBoxLowerArmL" type="BoneAttachment" parent="Armature" index="26"]
-transform = Transform( -6.9558e-08, -0.0325149, -0.999471, -1, -3.99606e-07, 6.43268e-09, -4.01203e-07, 0.999471, -0.0325148, 0.539978, 1.55082, -0.0110853 )
+transform = Transform( -0.735313, -0.0649823, 0.674605, -0.386784, 0.857608, -0.33898, -0.556519, -0.510183, -0.655744, 0.0953129, 1.3097, 0.346834 )
 bone_name = "LowerArm.L"
 
 [node name="Area" type="Area" parent="Armature/HitBoxLowerArmL" index="0"]
@@ -781,7 +777,7 @@ transform = Transform( -6.95579e-08, -0.0325151, -0.999471, -4.01204e-07, 0.9994
 shape = SubResource( 9 )
 
 [node name="HitBoxLowerArmR" type="BoneAttachment" parent="Armature" index="27"]
-transform = Transform( -6.9558e-08, 0.0325149, 0.999471, 1, -3.99606e-07, 6.43268e-09, 4.01203e-07, 0.999471, -0.0325148, -0.539978, 1.55082, -0.0110853 )
+transform = Transform( -0.663752, 0.616813, -0.423053, 0.745169, 0.496581, -0.445121, -0.0644768, -0.610695, -0.789236, -0.397204, 1.27185, 0.0621191 )
 bone_name = "LowerArm.R"
 
 [node name="Area" type="Area" parent="Armature/HitBoxLowerArmR" index="0"]
@@ -794,7 +790,7 @@ transform = Transform( -6.95581e-08, 0.0325146, 0.999471, 4.01204e-07, 0.999471,
 shape = SubResource( 9 )
 
 [node name="HitBoxUpperLegL" type="BoneAttachment" parent="Armature" index="28"]
-transform = Transform( 1.94872e-07, -1.00004, -8.87517e-09, -0.0372251, 1.35973e-06, 0.999307, -0.999307, -2.45742e-07, -0.0372251, 0.148492, 1.00928, 6.64599e-09 )
+transform = Transform( 5.48896e-07, -1.00011, 1.73726e-06, -0.727696, 2.16813e-06, 0.6859, -0.6859, -1.69208e-06, -0.727696, 0.148492, 0.875543, 4.29162e-09 )
 bone_name = "UpperLeg.L"
 
 [node name="Area" type="Area" parent="Armature/HitBoxUpperLegL" index="0"]
@@ -807,7 +803,7 @@ transform = Transform( 4.36848e-07, -1.00004, 1.38655e-10, -0.999307, -4.87896e-
 shape = SubResource( 10 )
 
 [node name="HitBoxUpperLegR" type="BoneAttachment" parent="Armature" index="29"]
-transform = Transform( 1.94542e-07, 1.00004, -8.87517e-09, 0.0372251, 1.37463e-06, 0.999307, 0.999307, -2.45996e-07, -0.0372251, -0.148492, 1.00928, 6.64621e-09 )
+transform = Transform( -6.92142e-07, 1.00011, -1.18841e-06, 0.11215, 2.63167e-06, 0.993691, 0.993691, 5.03243e-07, -0.11215, -0.148492, 0.875543, 4.25468e-09 )
 bone_name = "UpperLeg.R"
 
 [node name="Area" type="Area" parent="Armature/HitBoxUpperLegR" index="0"]
@@ -820,7 +816,7 @@ transform = Transform( -4.74337e-08, 1.00004, 1.3866e-10, 0.999307, -3.84196e-09
 shape = SubResource( 10 )
 
 [node name="HitBoxLowerLegL" type="BoneAttachment" parent="Armature" index="30"]
-transform = Transform( 1.01851e-07, -1.00004, 7.90479e-14, 0.0302336, 1.37893e-06, 0.999543, -0.999543, -1.53144e-07, 0.0302336, 0.148492, 0.58252, 0.015897 )
+transform = Transform( 1.68944e-06, -1.00011, 1.0267e-06, 0.0204588, 2.437e-06, 0.999791, -0.999791, -1.71948e-06, 0.0204588, 0.148491, 0.582629, 0.310763 )
 bone_name = "LowerLeg.L"
 
 [node name="Area" type="Area" parent="Armature/HitBoxLowerLegL" index="0"]
@@ -833,7 +829,7 @@ transform = Transform( 3.43884e-07, -1.00004, -7.3208e-09, -0.999543, -3.95297e-
 shape = SubResource( 11 )
 
 [node name="HitBoxLowerLegR" type="BoneAttachment" parent="Armature" index="31"]
-transform = Transform( 1.02018e-07, 1.00004, 1.15463e-14, -0.0302336, 1.37609e-06, 0.999543, 0.999543, -1.53233e-07, 0.0302336, -0.148492, 0.58252, 0.015897 )
+transform = Transform( 3.63147e-07, 1.00011, -1.3837e-06, -0.661658, 2.65092e-06, 0.749806, 0.749806, 5.91985e-07, 0.661658, -0.148491, 0.451187, 0.047894 )
 bone_name = "LowerLeg.R"
 
 [node name="Area" type="Area" parent="Armature/HitBoxLowerLegR" index="0"]
@@ -846,7 +842,10 @@ transform = Transform( -1.40015e-07, 1.00004, -7.32086e-09, 0.999543, 8.89211e-0
 shape = SubResource( 11 )
 
 [node name="CameraBoneAttachment" parent="Armature" index="32"]
-transform = Transform( -1, -8.74228e-08, -5.68434e-14, -8.74228e-08, 1, -2.98023e-07, 5.68434e-14, -3.57628e-07, -1, -1.77636e-15, 1.85609, 0.0601248 )
+transform = Transform( -0.999016, -0.000578936, -0.0443465, 0.000578745, 0.99966, -0.026088, 0.0443465, -0.0260881, -0.998676, 0.00233999, 1.72374, 0.043952 )
+
+[node name="Camera" parent="Armature/CameraBoneAttachment" index="0"]
+current = true
 
 [node name="AnimationTree" type="AnimationTree" parent="." index="1"]
 tree_root = SubResource( 79 )
@@ -876,3 +875,4 @@ animation_path = NodePath("..")
 [node name="CollisionShape" type="CollisionShape" parent="." index="2"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.926618, 0.254346 )
 shape = SubResource( 82 )
+disabled = true
