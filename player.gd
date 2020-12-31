@@ -4,7 +4,7 @@ const GRAVITY = -24.8
 var vel = Vector3()
 const MAX_SPEED = 20
 const JUMP_SPEED = 18
-const ACCEL = 4.5
+const ACCEL = 1 #4.5
 
 var dir = Vector3()
 
@@ -96,5 +96,5 @@ func _input(event):
 		self.rotate_y(deg2rad(event.relative.x * MOUSE_SENSITIVITY * -1))
 
 		var camera_rot = rotation_helper.rotation_degrees
-		camera_rot.x = clamp(camera_rot.x, -70, 70)
+		camera_rot.x = clamp(camera_rot.x, -70, 50)
 		rotation_helper.rotation_degrees = camera_rot
