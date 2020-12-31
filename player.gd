@@ -36,11 +36,15 @@ func process_input(delta):
 
 	# ----------------------------------
 	# Walking
+	# Based on the action pressed, we move in a direction relative to the camera.
+	
+	# Reset dir, so our previous movement does not effect us
 	dir = Vector3()
+	# Get the camera's global transform so we can use its directional vectors
 	var cam_xform = camera.get_global_transform()
-
+	# Create a vector for storing our keyboard/joypad input
 	var input_movement_vector = Vector2()
-
+	# Keyboard input
 	if Input.is_action_pressed("movement_forward"):
 		input_movement_vector.y += 1
 	if Input.is_action_pressed("movement_backward"):
@@ -50,7 +54,14 @@ func process_input(delta):
 	if Input.is_action_pressed("movement_right"):
 		input_movement_vector.x += 1
 
+	# Normalize the input movement vector so we cannot move too fast
 	input_movement_vector = input_movement_vector.normalized()
+
+	# Add the camera's local vectors based on what direction we are heading towards.
+	# NOTE: because the camera is rotated by -180 degrees
+	# all of the directional vectors are the opposite in comparison to our KinematicBody.
+	# (The camera's local Z axis actually points backwards while our KinematicBody points forwards)
+	# To get around this, we flip the camera's directional vectors so they point in the same direction
 
 	# Basis vectors are already normalized.
 	dir += -cam_xform.basis.z * input_movement_vector.y
@@ -65,6 +76,11 @@ func process_input(delta):
 	# ----------------------------------
 
 	# ----------------------------------
+	# Firing the weapons
+	if Input.is_action_pressed("shoot"):
+		camera.get_node("Spatial").fire_weapon()
+
+	# ----------------------------------
 	# Capturing/Freeing the cursor
 	if Input.is_action_just_pressed("ui_cancel"):
 		if Input.get_mouse_mode() == Input.MOUSE_MODE_VISIBLE:
@@ -73,24 +89,28 @@ func process_input(delta):
 			Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 	# ----------------------------------
 
+# Process our movements (influenced by our input) and sending them to KinematicBody
 func process_movement(delta):
+	# Assure our movement direction on the Y axis is zero, and then normalize it.
 	dir.y = 0
 	dir = dir.normalized()
-
+	# Apply gravity
 	vel.y += delta * GRAVITY
-
+	# Set our velocity to a new variable (hvel) and remove the Y velocity.
 	var hvel = vel
 	hvel.y = 0
 
 	var target = dir
 	target *= MAX_SPEED
 
+	# If we have movement input, then accelerate.
+	# Otherwise we are not moving and need to start slowing down.
 	var accel
 	if dir.dot(hvel) > 0:
 		accel = ACCEL
 	else:
 		accel = DEACCEL
-
+	# Interpolate our velocity (without gravity), and then move using move_and_slide
 	hvel = hvel.linear_interpolate(target, accel * delta)
 	vel.x = hvel.x
 	vel.z = hvel.z
