@@ -12,12 +12,14 @@ const DEACCEL= 16
 const MAX_SLOPE_ANGLE = 40
 
 var camera
+var camera_helper
 var rotation_helper
 
 var MOUSE_SENSITIVITY = 0.05
 
 func _ready():
 	camera = $RotationHelper/Character/Armature/CameraBoneAttachment/Camera
+	camera_helper = $RotationHelper/Character/Armature/HitBoxChest/Spatial # for ik targets
 	rotation_helper = $RotationHelper
 
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
@@ -92,9 +94,29 @@ func process_movement(delta):
 
 func _input(event):
 	if event is InputEventMouseMotion and Input.get_mouse_mode() == Input.MOUSE_MODE_CAPTURED:
-		rotation_helper.rotate_x(deg2rad(event.relative.y * MOUSE_SENSITIVITY))
-		self.rotate_y(deg2rad(event.relative.x * MOUSE_SENSITIVITY * -1))
+		# this rotates everything, including our mesh and collision
+		#rotation_helper.rotate_x(deg2rad(event.relative.y * MOUSE_SENSITIVITY))
+		
+		# rotate ik targets
+		var rot = deg2rad(event.relative.y * MOUSE_SENSITIVITY)
+		
+		# rotate_x wants radians
+		camera_helper.get_node("head_ik_tg").rotate_x(rot)
+		camera_helper.get_node("rifle_ik_tg").rotate_x(rot)
 
-		var camera_rot = rotation_helper.rotation_degrees
-		camera_rot.x = clamp(camera_rot.x, -70, 50)
-		rotation_helper.rotation_degrees = camera_rot
+		# play ik
+		$RotationHelper/Character/Armature/headik.start()
+		$RotationHelper/Character/Armature/rifleik.start()
+		
+		self.rotate_y(deg2rad(event.relative.x * MOUSE_SENSITIVITY * -1))
+		
+		# clamp now
+		var view_rot = camera_helper.get_node("head_ik_tg").rotation_degrees 
+		view_rot.x = clamp(view_rot.x, -70, 30) # above 30 we'd need special handling to avoid chest mesh clipping
+		#print("Rot: ", view_rot.x)
+		camera_helper.get_node("head_ik_tg").rotation_degrees = view_rot
+		camera_helper.get_node("rifle_ik_tg").rotation_degrees = view_rot
+
+#		var camera_rot = rotation_helper.rotation_degrees
+#		camera_rot.x = clamp(camera_rot.x, -70, 50)
+#		rotation_helper.rotation_degrees = camera_rot

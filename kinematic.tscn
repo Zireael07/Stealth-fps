@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://player.gd" type="Script" id=1]
-[ext_resource path="res://assets/Character.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Character_ik.tscn" type="PackedScene" id=2]
 [ext_resource path="res://soldier_collision.tres" type="Shape" id=3]
 
 [node name="Spatial" type="KinematicBody"]
