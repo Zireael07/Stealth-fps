@@ -107,6 +107,7 @@ func _input(event):
 		# play ik
 		$RotationHelper/Character/Armature/headik.start()
 		$RotationHelper/Character/Armature/rifleik.start()
+		$RotationHelper/Character/Armature/left_ik.start()
 		
 		self.rotate_y(deg2rad(event.relative.x * MOUSE_SENSITIVITY * -1))
 		
