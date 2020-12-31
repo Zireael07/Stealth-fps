@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://player.gd" type="Script" id=1]
 [ext_resource path="res://Character_ik.tscn" type="PackedScene" id=2]
 [ext_resource path="res://soldier_collision.tres" type="Shape" id=3]
+[ext_resource path="res://hud.tscn" type="PackedScene" id=4]
 
 [node name="Spatial" type="KinematicBody"]
 script = ExtResource( 1 )
@@ -17,3 +18,5 @@ __meta__ = {
 [node name="RotationHelper" type="Spatial" parent="."]
 
 [node name="Character" parent="RotationHelper" instance=ExtResource( 2 )]
+
+[node name="Control" parent="." instance=ExtResource( 4 )]

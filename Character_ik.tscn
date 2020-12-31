@@ -1,10 +1,7 @@
-[gd_scene load_steps=86 format=2]
+[gd_scene load_steps=87 format=2]
 
 [ext_resource path="res://assets/Rifle.escn" type="PackedScene" id=2]
 [ext_resource path="res://assets/Character.escn" type="PackedScene" id=3]
-
-[sub_resource type="CubeMesh" id=1]
-size = Vector3( 0.25, 0.25, 0.25 )
 
 [sub_resource type="SphereShape" id=2]
 radius = 0.146924
@@ -42,329 +39,334 @@ extents = Vector3( 0.128555, 0.0800747, 0.215458 )
 [sub_resource type="BoxShape" id=12]
 extents = Vector3( 0.0858896, 0.0723719, 0.257933 )
 
-[sub_resource type="AnimationNodeAnimation" id=13]
+[sub_resource type="CubeMesh" id=86]
+size = Vector3( 0.25, 0.25, 0.25 )
+
+[sub_resource type="SphereMesh" id=85]
+
+[sub_resource type="AnimationNodeAnimation" id=87]
 animation = "LookUp"
 
-[sub_resource type="AnimationNodeAnimation" id=14]
+[sub_resource type="AnimationNodeAnimation" id=88]
 animation = "LookDown"
 
-[sub_resource type="AnimationNodeAnimation" id=15]
+[sub_resource type="AnimationNodeAnimation" id=89]
 animation = "LookRight"
 
-[sub_resource type="AnimationNodeAnimation" id=16]
+[sub_resource type="AnimationNodeAnimation" id=90]
 animation = "LookLeft"
 
-[sub_resource type="AnimationNodeAnimation" id=17]
+[sub_resource type="AnimationNodeAnimation" id=91]
 animation = "LookRightUp"
 
-[sub_resource type="AnimationNodeAnimation" id=18]
+[sub_resource type="AnimationNodeAnimation" id=92]
 animation = "LookRightDown"
 
-[sub_resource type="AnimationNodeAnimation" id=19]
+[sub_resource type="AnimationNodeAnimation" id=93]
 animation = "LookLeftUp"
 
-[sub_resource type="AnimationNodeAnimation" id=20]
+[sub_resource type="AnimationNodeAnimation" id=94]
 animation = "LookLeftDown"
 
-[sub_resource type="AnimationNodeBlendSpace2D" id=21]
-blend_point_0/node = SubResource( 13 )
+[sub_resource type="AnimationNodeBlendSpace2D" id=95]
+blend_point_0/node = SubResource( 87 )
 blend_point_0/pos = Vector2( 0, 1 )
-blend_point_1/node = SubResource( 14 )
+blend_point_1/node = SubResource( 88 )
 blend_point_1/pos = Vector2( 0, -1 )
-blend_point_2/node = SubResource( 15 )
+blend_point_2/node = SubResource( 89 )
 blend_point_2/pos = Vector2( -1, 0 )
-blend_point_3/node = SubResource( 16 )
+blend_point_3/node = SubResource( 90 )
 blend_point_3/pos = Vector2( 1, 0 )
-blend_point_4/node = SubResource( 17 )
+blend_point_4/node = SubResource( 91 )
 blend_point_4/pos = Vector2( -1, 1 )
-blend_point_5/node = SubResource( 18 )
+blend_point_5/node = SubResource( 92 )
 blend_point_5/pos = Vector2( -1, -1 )
-blend_point_6/node = SubResource( 19 )
+blend_point_6/node = SubResource( 93 )
 blend_point_6/pos = Vector2( 1, 1 )
-blend_point_7/node = SubResource( 20 )
+blend_point_7/node = SubResource( 94 )
 blend_point_7/pos = Vector2( 1, -1 )
 
-[sub_resource type="AnimationNodeBlend2" id=22]
+[sub_resource type="AnimationNodeBlend2" id=96]
 filter_enabled = true
 filters = [ ".:Camera", ".:Chest", ".:HandHold.R", ".:Head", ".:LowerArm.L", ".:LowerArm.R", ".:LowerHand.L", ".:LowerHand.R", ".:LowerThumb.L", ".:LowerThumb.R", ".:Neck", ".:Shoulder.L", ".:Shoulder.R", ".:Torso", ".:UpperArm.L", ".:UpperArm.R", ".:UpperHand.L", ".:UpperHand.R", ".:UpperThumb.L", ".:UpperThumb.R" ]
 
-[sub_resource type="AnimationNodeTimeScale" id=23]
+[sub_resource type="AnimationNodeTimeScale" id=97]
 
-[sub_resource type="AnimationNodeAnimation" id=24]
+[sub_resource type="AnimationNodeAnimation" id=98]
 animation = "CrouchIdle-loop"
 
-[sub_resource type="AnimationNodeAnimation" id=25]
+[sub_resource type="AnimationNodeAnimation" id=99]
 animation = "CrouchForward-loop"
 
-[sub_resource type="AnimationNodeAnimation" id=26]
+[sub_resource type="AnimationNodeAnimation" id=100]
 animation = "CrouchBackward-loop"
 
-[sub_resource type="AnimationNodeAnimation" id=27]
+[sub_resource type="AnimationNodeAnimation" id=101]
 animation = "CrouchRight-loop"
 
-[sub_resource type="AnimationNodeAnimation" id=28]
+[sub_resource type="AnimationNodeAnimation" id=102]
 animation = "CrouchLeft-loop"
 
-[sub_resource type="AnimationNodeBlendSpace2D" id=29]
-blend_point_0/node = SubResource( 24 )
+[sub_resource type="AnimationNodeBlendSpace2D" id=103]
+blend_point_0/node = SubResource( 98 )
 blend_point_0/pos = Vector2( 0, 0 )
-blend_point_1/node = SubResource( 25 )
+blend_point_1/node = SubResource( 99 )
 blend_point_1/pos = Vector2( 0, 1 )
-blend_point_2/node = SubResource( 26 )
+blend_point_2/node = SubResource( 100 )
 blend_point_2/pos = Vector2( 0, -1 )
-blend_point_3/node = SubResource( 27 )
+blend_point_3/node = SubResource( 101 )
 blend_point_3/pos = Vector2( 1, 0 )
-blend_point_4/node = SubResource( 28 )
+blend_point_4/node = SubResource( 102 )
 blend_point_4/pos = Vector2( -1, 0 )
 
-[sub_resource type="AnimationNodeAnimation" id=30]
+[sub_resource type="AnimationNodeAnimation" id=104]
 animation = "RunForward-loop"
 
-[sub_resource type="AnimationNodeAnimation" id=31]
+[sub_resource type="AnimationNodeAnimation" id=105]
 animation = "RunBackward-loop"
 
-[sub_resource type="AnimationNodeAnimation" id=32]
+[sub_resource type="AnimationNodeAnimation" id=106]
 animation = "RunRight-loop"
 
-[sub_resource type="AnimationNodeAnimation" id=33]
+[sub_resource type="AnimationNodeAnimation" id=107]
 animation = "RunLeft-loop"
 
-[sub_resource type="AnimationNodeAnimation" id=34]
+[sub_resource type="AnimationNodeAnimation" id=108]
 animation = "CombatIdle-loop"
 
-[sub_resource type="AnimationNodeBlendSpace2D" id=35]
-blend_point_0/node = SubResource( 30 )
+[sub_resource type="AnimationNodeBlendSpace2D" id=109]
+blend_point_0/node = SubResource( 104 )
 blend_point_0/pos = Vector2( 0, 1 )
-blend_point_1/node = SubResource( 31 )
+blend_point_1/node = SubResource( 105 )
 blend_point_1/pos = Vector2( 0, -0.9 )
-blend_point_2/node = SubResource( 32 )
+blend_point_2/node = SubResource( 106 )
 blend_point_2/pos = Vector2( 1, 0 )
-blend_point_3/node = SubResource( 33 )
+blend_point_3/node = SubResource( 107 )
 blend_point_3/pos = Vector2( -1, 0 )
-blend_point_4/node = SubResource( 34 )
+blend_point_4/node = SubResource( 108 )
 blend_point_4/pos = Vector2( 0, 0 )
 
-[sub_resource type="AnimationNodeAnimation" id=36]
+[sub_resource type="AnimationNodeAnimation" id=110]
 animation = "Slide"
 
-[sub_resource type="AnimationNodeTimeScale" id=37]
+[sub_resource type="AnimationNodeTimeScale" id=111]
 
-[sub_resource type="AnimationNodeBlendTree" id=38]
-nodes/Animation/node = SubResource( 36 )
+[sub_resource type="AnimationNodeBlendTree" id=112]
+nodes/Animation/node = SubResource( 110 )
 nodes/Animation/position = Vector2( 62, 164 )
 nodes/output/position = Vector2( 440, 160 )
-nodes/speed/node = SubResource( 37 )
+nodes/speed/node = SubResource( 111 )
 nodes/speed/position = Vector2( 240, 160 )
 node_connections = [ "speed", 0, "Animation", "output", 0, "speed" ]
 
-[sub_resource type="AnimationNodeAnimation" id=39]
+[sub_resource type="AnimationNodeAnimation" id=113]
 animation = "Sprint-loop"
 
-[sub_resource type="AnimationNodeTimeScale" id=40]
+[sub_resource type="AnimationNodeTimeScale" id=114]
 
-[sub_resource type="AnimationNodeBlendTree" id=41]
-nodes/Animation/node = SubResource( 39 )
+[sub_resource type="AnimationNodeBlendTree" id=115]
+nodes/Animation/node = SubResource( 113 )
 nodes/Animation/position = Vector2( 79, 139 )
 nodes/output/position = Vector2( 480, 160 )
-nodes/speed/node = SubResource( 40 )
+nodes/speed/node = SubResource( 114 )
 nodes/speed/position = Vector2( 280, 160 )
 node_connections = [ "speed", 0, "Animation", "output", 0, "speed" ]
 
-[sub_resource type="AnimationNodeAnimation" id=42]
+[sub_resource type="AnimationNodeAnimation" id=116]
 animation = "TurnRight"
 
-[sub_resource type="AnimationNodeAnimation" id=43]
+[sub_resource type="AnimationNodeAnimation" id=117]
 animation = "TurnLeft"
 
-[sub_resource type="AnimationNodeBlendSpace1D" id=44]
-blend_point_0/node = SubResource( 42 )
+[sub_resource type="AnimationNodeBlendSpace1D" id=118]
+blend_point_0/node = SubResource( 116 )
 blend_point_0/pos = -1.0
-blend_point_1/node = SubResource( 43 )
+blend_point_1/node = SubResource( 117 )
 blend_point_1/pos = 1.0
 
-[sub_resource type="AnimationNodeTimeScale" id=45]
+[sub_resource type="AnimationNodeTimeScale" id=119]
 
-[sub_resource type="AnimationNodeBlendTree" id=46]
+[sub_resource type="AnimationNodeBlendTree" id=120]
 graph_offset = Vector2( -337, 19 )
-nodes/direction/node = SubResource( 44 )
+nodes/direction/node = SubResource( 118 )
 nodes/direction/position = Vector2( -170, 128 )
-nodes/speed/node = SubResource( 45 )
+nodes/speed/node = SubResource( 119 )
 nodes/speed/position = Vector2( 80, 120 )
 node_connections = [ "speed", 0, "direction", "output", 0, "speed" ]
 
-[sub_resource type="AnimationNodeAnimation" id=47]
+[sub_resource type="AnimationNodeAnimation" id=121]
 animation = "Vault"
 
-[sub_resource type="AnimationNodeTimeScale" id=48]
+[sub_resource type="AnimationNodeTimeScale" id=122]
 
-[sub_resource type="AnimationNodeBlendTree" id=49]
-nodes/Animation/node = SubResource( 47 )
+[sub_resource type="AnimationNodeBlendTree" id=123]
+nodes/Animation/node = SubResource( 121 )
 nodes/Animation/position = Vector2( 91, 142 )
 nodes/output/position = Vector2( 460, 140 )
-nodes/speed/node = SubResource( 48 )
+nodes/speed/node = SubResource( 122 )
 nodes/speed/position = Vector2( 280, 140 )
 node_connections = [ "speed", 0, "Animation", "output", 0, "speed" ]
 
-[sub_resource type="AnimationNodeStateMachineTransition" id=50]
+[sub_resource type="AnimationNodeStateMachineTransition" id=124]
 xfade_time = 0.1
 
-[sub_resource type="AnimationNodeStateMachineTransition" id=51]
+[sub_resource type="AnimationNodeStateMachineTransition" id=125]
 switch_mode = 2
 auto_advance = true
 xfade_time = 0.1
 
-[sub_resource type="AnimationNodeStateMachineTransition" id=52]
+[sub_resource type="AnimationNodeStateMachineTransition" id=126]
 switch_mode = 1
 xfade_time = 0.2
 
-[sub_resource type="AnimationNodeStateMachineTransition" id=53]
+[sub_resource type="AnimationNodeStateMachineTransition" id=127]
 switch_mode = 1
 xfade_time = 0.2
 
-[sub_resource type="AnimationNodeStateMachineTransition" id=54]
+[sub_resource type="AnimationNodeStateMachineTransition" id=128]
 switch_mode = 2
 auto_advance = true
 xfade_time = 0.1
 
-[sub_resource type="AnimationNodeStateMachineTransition" id=55]
+[sub_resource type="AnimationNodeStateMachineTransition" id=129]
 xfade_time = 0.2
 
-[sub_resource type="AnimationNodeStateMachineTransition" id=56]
+[sub_resource type="AnimationNodeStateMachineTransition" id=130]
 xfade_time = 0.2
 
-[sub_resource type="AnimationNodeStateMachineTransition" id=57]
+[sub_resource type="AnimationNodeStateMachineTransition" id=131]
 xfade_time = 0.1
 
-[sub_resource type="AnimationNodeStateMachineTransition" id=58]
+[sub_resource type="AnimationNodeStateMachineTransition" id=132]
 xfade_time = 0.1
 
-[sub_resource type="AnimationNodeStateMachineTransition" id=59]
+[sub_resource type="AnimationNodeStateMachineTransition" id=133]
 xfade_time = 0.2
 
-[sub_resource type="AnimationNodeStateMachineTransition" id=60]
+[sub_resource type="AnimationNodeStateMachineTransition" id=134]
 switch_mode = 2
 auto_advance = true
 xfade_time = 0.2
 
-[sub_resource type="AnimationNodeStateMachine" id=61]
-states/crouch/node = SubResource( 29 )
+[sub_resource type="AnimationNodeStateMachine" id=135]
+states/crouch/node = SubResource( 103 )
 states/crouch/position = Vector2( 281, 258 )
-states/run/node = SubResource( 35 )
+states/run/node = SubResource( 109 )
 states/run/position = Vector2( 448, 258 )
-states/slide/node = SubResource( 38 )
+states/slide/node = SubResource( 112 )
 states/slide/position = Vector2( 448, 365 )
-states/sprint/node = SubResource( 41 )
+states/sprint/node = SubResource( 115 )
 states/sprint/position = Vector2( 636, 258 )
-states/turn/node = SubResource( 46 )
+states/turn/node = SubResource( 120 )
 states/turn/position = Vector2( 448, 144 )
-states/vault/node = SubResource( 49 )
+states/vault/node = SubResource( 123 )
 states/vault/position = Vector2( 641, 164 )
-transitions = [ "run", "vault", SubResource( 50 ), "vault", "run", SubResource( 51 ), "run", "crouch", SubResource( 52 ), "crouch", "run", SubResource( 53 ), "slide", "crouch", SubResource( 54 ), "run", "sprint", SubResource( 55 ), "sprint", "run", SubResource( 56 ), "sprint", "slide", SubResource( 57 ), "sprint", "vault", SubResource( 58 ), "run", "turn", SubResource( 59 ), "turn", "run", SubResource( 60 ) ]
+transitions = [ "run", "vault", SubResource( 124 ), "vault", "run", SubResource( 125 ), "run", "crouch", SubResource( 126 ), "crouch", "run", SubResource( 127 ), "slide", "crouch", SubResource( 128 ), "run", "sprint", SubResource( 129 ), "sprint", "run", SubResource( 130 ), "sprint", "slide", SubResource( 131 ), "sprint", "vault", SubResource( 132 ), "run", "turn", SubResource( 133 ), "turn", "run", SubResource( 134 ) ]
 start_node = "run"
 graph_offset = Vector2( -13, 90 )
 
-[sub_resource type="AnimationNodeBlend2" id=62]
+[sub_resource type="AnimationNodeBlend2" id=136]
 filter_enabled = true
 filters = [ ".:HandHold.R", ".:LowerArm.L", ".:LowerArm.R", ".:LowerHand.L", ".:LowerHand.R", ".:LowerThumb.L", ".:LowerThumb.R", ".:Shoulder.L", ".:Shoulder.R", ".:UpperArm.L", ".:UpperArm.R", ".:UpperHand.L", ".:UpperHand.R", ".:UpperThumb.L", ".:UpperThumb.R" ]
 
-[sub_resource type="AnimationNodeAnimation" id=63]
+[sub_resource type="AnimationNodeAnimation" id=137]
 animation = "AimRifle"
 
-[sub_resource type="AnimationNodeAnimation" id=64]
+[sub_resource type="AnimationNodeAnimation" id=138]
 animation = "AimFireRifle"
 
-[sub_resource type="AnimationNodeOneShot" id=65]
+[sub_resource type="AnimationNodeOneShot" id=139]
 
-[sub_resource type="AnimationNodeBlendTree" id=66]
-nodes/Animation/node = SubResource( 64 )
+[sub_resource type="AnimationNodeBlendTree" id=140]
+nodes/Animation/node = SubResource( 138 )
 nodes/Animation/position = Vector2( 60, 260 )
-"nodes/Animation 2/node" = SubResource( 63 )
+"nodes/Animation 2/node" = SubResource( 137 )
 "nodes/Animation 2/position" = Vector2( 63, 125 )
-nodes/fire/node = SubResource( 65 )
+nodes/fire/node = SubResource( 139 )
 nodes/fire/position = Vector2( 300, 120 )
 nodes/output/position = Vector2( 520, 160 )
 node_connections = [ "output", 0, "fire", "fire", 0, "Animation 2", "fire", 1, "Animation" ]
 
-[sub_resource type="AnimationNodeAnimation" id=67]
+[sub_resource type="AnimationNodeAnimation" id=141]
 animation = "AimFireRifle"
 
-[sub_resource type="AnimationNodeAnimation" id=68]
+[sub_resource type="AnimationNodeAnimation" id=142]
 animation = "FireRifle"
 
-[sub_resource type="AnimationNodeAnimation" id=69]
+[sub_resource type="AnimationNodeAnimation" id=143]
 animation = "FireRifle"
 
-[sub_resource type="AnimationNodeAnimation" id=70]
+[sub_resource type="AnimationNodeAnimation" id=144]
 animation = "HoldRifle-loop"
 
-[sub_resource type="AnimationNodeOneShot" id=71]
+[sub_resource type="AnimationNodeOneShot" id=145]
 
-[sub_resource type="AnimationNodeBlendTree" id=72]
+[sub_resource type="AnimationNodeBlendTree" id=146]
 graph_offset = Vector2( -194, 67.5 )
-nodes/Animation/node = SubResource( 70 )
+nodes/Animation/node = SubResource( 144 )
 nodes/Animation/position = Vector2( 60, 100 )
-"nodes/Animation 2/node" = SubResource( 69 )
+"nodes/Animation 2/node" = SubResource( 143 )
 "nodes/Animation 2/position" = Vector2( 80, 240 )
-nodes/fire/node = SubResource( 71 )
+nodes/fire/node = SubResource( 145 )
 nodes/fire/position = Vector2( 300, 100 )
 nodes/output/position = Vector2( 500, 120 )
 node_connections = [ "output", 0, "fire", "fire", 0, "Animation", "fire", 1, "Animation 2" ]
 
-[sub_resource type="AnimationNodeStateMachineTransition" id=73]
+[sub_resource type="AnimationNodeStateMachineTransition" id=147]
 xfade_time = 0.3
 
-[sub_resource type="AnimationNodeStateMachineTransition" id=74]
+[sub_resource type="AnimationNodeStateMachineTransition" id=148]
 xfade_time = 0.5
 
-[sub_resource type="AnimationNodeStateMachineTransition" id=75]
+[sub_resource type="AnimationNodeStateMachineTransition" id=149]
 
-[sub_resource type="AnimationNodeStateMachineTransition" id=76]
+[sub_resource type="AnimationNodeStateMachineTransition" id=150]
 switch_mode = 2
 auto_advance = true
 xfade_time = 0.2
 
-[sub_resource type="AnimationNodeStateMachineTransition" id=77]
+[sub_resource type="AnimationNodeStateMachineTransition" id=151]
 
-[sub_resource type="AnimationNodeStateMachineTransition" id=78]
+[sub_resource type="AnimationNodeStateMachineTransition" id=152]
 switch_mode = 2
 auto_advance = true
 xfade_time = 0.2
 
-[sub_resource type="AnimationNodeStateMachine" id=79]
-states/aim/node = SubResource( 66 )
+[sub_resource type="AnimationNodeStateMachine" id=153]
+states/aim/node = SubResource( 140 )
 states/aim/position = Vector2( 717, 248 )
-states/aimfire/node = SubResource( 67 )
+states/aimfire/node = SubResource( 141 )
 states/aimfire/position = Vector2( 717, 325 )
-states/fire/node = SubResource( 68 )
+states/fire/node = SubResource( 142 )
 states/fire/position = Vector2( 540, 325 )
-states/hold/node = SubResource( 72 )
+states/hold/node = SubResource( 146 )
 states/hold/position = Vector2( 540, 248 )
-transitions = [ "hold", "aim", SubResource( 73 ), "aim", "hold", SubResource( 74 ), "aim", "aimfire", SubResource( 75 ), "aimfire", "aim", SubResource( 76 ), "hold", "fire", SubResource( 77 ), "fire", "hold", SubResource( 78 ) ]
+transitions = [ "hold", "aim", SubResource( 147 ), "aim", "hold", SubResource( 148 ), "aim", "aimfire", SubResource( 149 ), "aimfire", "aim", SubResource( 150 ), "hold", "fire", SubResource( 151 ), "fire", "hold", SubResource( 152 ) ]
 start_node = "hold"
 graph_offset = Vector2( 104, 158.633 )
 
-[sub_resource type="AnimationNodeBlendTree" id=80]
+[sub_resource type="AnimationNodeBlendTree" id=154]
 graph_offset = Vector2( -21, 279.682 )
-nodes/look/node = SubResource( 21 )
+nodes/look/node = SubResource( 95 )
 nodes/look/position = Vector2( 200, 240 )
-nodes/look_blend/node = SubResource( 22 )
+nodes/look_blend/node = SubResource( 96 )
 nodes/look_blend/position = Vector2( 460, 80 )
-nodes/move_speed/node = SubResource( 23 )
+nodes/move_speed/node = SubResource( 97 )
 nodes/move_speed/position = Vector2( 220, 100 )
-nodes/move_state/node = SubResource( 61 )
+nodes/move_state/node = SubResource( 135 )
 nodes/move_state/position = Vector2( -20, 100 )
 nodes/output/position = Vector2( 860, 100 )
-nodes/weapon_blend/node = SubResource( 62 )
+nodes/weapon_blend/node = SubResource( 136 )
 nodes/weapon_blend/position = Vector2( 680, 80 )
-nodes/weaponstate/node = SubResource( 79 )
+nodes/weaponstate/node = SubResource( 153 )
 nodes/weaponstate/position = Vector2( 420, 280 )
 node_connections = [ "output", 0, "weapon_blend", "look_blend", 0, "move_speed", "look_blend", 1, "look", "move_speed", 0, "move_state", "weapon_blend", 0, "look_blend", "weapon_blend", 1, "weaponstate" ]
 
-[sub_resource type="AnimationNodeStateMachinePlayback" id=81]
+[sub_resource type="AnimationNodeStateMachinePlayback" id=155]
 
-[sub_resource type="AnimationNodeStateMachinePlayback" id=82]
+[sub_resource type="AnimationNodeStateMachinePlayback" id=156]
 
-[sub_resource type="BoxShape" id=83]
+[sub_resource type="BoxShape" id=84]
 extents = Vector3( 0.249499, 0.919909, 0.50665 )
 
 [node name="Character" instance=ExtResource( 3 )]
@@ -387,29 +389,24 @@ bones/26/bound_children = [ NodePath("WeaponHold") ]
 bones/27/bound_children = [ NodePath("CameraHold"), NodePath("CameraBoneAttachment") ]
 
 [node name="WeaponHold" type="BoneAttachment" parent="Armature" index="2"]
-transform = Transform( 0.998858, -0.0020761, 0.0477276, 0.000829517, 1.00011, 0.0260903, -0.0477651, -0.0260402, 0.998519, -0.196247, 1.44855, 0.372612 )
+transform = Transform( 0.998853, -0.00375097, 0.0477309, 0.00250436, 1.00011, 0.0260971, -0.047812, -0.0259669, 0.998519, -0.196253, 1.41749, 0.372632 )
 bone_name = "HandHold.R"
 
 [node name="Rifle" parent="Armature/WeaponHold" index="0" instance=ExtResource( 2 )]
 
-[node name="MeshInstance" type="MeshInstance" parent="Armature/WeaponHold/Rifle" index="4"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 5 )
-mesh = SubResource( 1 )
-material/0 = null
-
-[node name="Position3D" type="Position3D" parent="Armature/WeaponHold/Rifle" index="5"]
+[node name="Position3D" type="Position3D" parent="Armature/WeaponHold/Rifle" index="4"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.1, 0, 0.4 )
 
 [node name="CameraHold" type="BoneAttachment" parent="Armature" index="3"]
-transform = Transform( -0.999016, -0.000578936, -0.0443465, 0.000578745, 0.99966, -0.026088, 0.0443465, -0.0260881, -0.998676, 0.00233999, 1.7462, 0.043952 )
+transform = Transform( -0.999016, -0.000578936, -0.0443465, 0.000578745, 0.99966, -0.026088, 0.0443465, -0.0260881, -0.998676, 0.00233999, 1.71591, 0.043952 )
 bone_name = "Camera"
 
 [node name="Physical Bone Head" type="PhysicalBone" parent="Armature" index="4"]
-transform = Transform( 0.999993, -0.00386151, -0.000203517, -2.98303e-05, 0.0449183, -0.998993, 0.00386682, 0.998984, 0.0449179, 0.000124288, 1.80237, -0.0256335 )
+transform = Transform( 0.99918, 0.0404177, 0.00236688, -0.000507772, 0.0709664, -0.997481, -0.0404837, 0.99666, 0.0709289, -0.00130783, 1.69855, -0.0402969 )
 visible = false
 joint_type = 3
-joint_offset = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -2.42669e-05, 0.0242515, 0.0313183 )
-body_offset = Transform( 0.999993, -0.00386175, -0.000203528, 0.00386706, 0.998984, 0.0449179, 2.98303e-05, -0.0449183, 0.998993, 0.000124294, -0.0256335, -0.0301974 )
+joint_offset = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -2.42668e-05, 0.0242515, 0.0313184 )
+body_offset = Transform( 0.999993, -0.00386175, -0.000203528, 0.00386706, 0.998984, 0.0449179, 2.98303e-05, -0.0449183, 0.998993, 0.000124294, -0.0256335, -0.0301975 )
 bounce = 0.5
 bone_name = "Head"
 joint_constraints/angular_limit_enabled = true
@@ -424,11 +421,11 @@ transform = Transform( 1, -2.84217e-14, 0, 1.42109e-14, 1, 4.65661e-10, 0, 0, 1,
 shape = SubResource( 2 )
 
 [node name="Physical Bone Neck" type="PhysicalBone" parent="Armature" index="5"]
-transform = Transform( 0.999743, -0.00430024, 0.0222827, 0.0224333, 0.0389153, -0.998991, 0.00342876, 0.999233, 0.0390018, -0.0102501, 1.69213, -0.0179574 )
+transform = Transform( 0.885524, -0.464587, 0.00236689, 0.0350435, 0.0617126, -0.997479, 0.46327, 0.883374, 0.0709288, -0.00104661, 1.58848, -0.0324695 )
 visible = false
 joint_type = 3
-joint_offset = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00946931, 0.0164429, 0.0383227 )
-body_offset = Transform( 0.999743, -0.00430048, 0.0222827, 0.003429, 0.999233, 0.0390018, -0.0224333, -0.0389153, 0.998991, -0.0102501, -0.0179574, -0.0374317 )
+joint_offset = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00946931, 0.0164429, 0.0383228 )
+body_offset = Transform( 0.999743, -0.00430048, 0.0222827, 0.00342903, 0.999233, 0.0390018, -0.0224333, -0.0389153, 0.998991, -0.0102501, -0.0179574, -0.0374318 )
 bounce = 0.5
 bone_name = "Neck"
 joint_constraints/angular_limit_enabled = true
@@ -443,11 +440,11 @@ transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 1.32349e-22, -1, -4.37114e-0
 shape = SubResource( 3 )
 
 [node name="Physical Bone Chest" type="PhysicalBone" parent="Armature" index="6"]
-transform = Transform( 0.999743, -0.0043005, 0.0222827, 0.0224333, 0.0389153, -0.998992, 0.00342909, 0.999234, 0.0390018, -0.00549548, 1.47897, -0.00963523 )
+transform = Transform( 0.885524, -0.464588, 0.00236689, 0.0350435, 0.0617126, -0.99748, 0.463271, 0.883375, 0.0709288, -0.000541602, 1.37564, -0.0173349 )
 visible = false
 joint_type = 3
-joint_offset = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00253125, 0.00440726, 0.133908 )
-body_offset = Transform( 0.999743, -0.0043005, 0.0222827, 0.00342909, 0.999234, 0.0390018, -0.0224333, -0.0389153, 0.998992, -0.00549548, -0.00963523, -0.133545 )
+joint_offset = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00253124, 0.00440725, 0.133908 )
+body_offset = Transform( 0.999743, -0.00430053, 0.0222827, 0.00342909, 0.999234, 0.0390018, -0.0224333, -0.0389153, 0.998992, -0.00549548, -0.00963523, -0.133545 )
 bounce = 0.5
 bone_name = "Chest"
 joint_constraints/angular_limit_enabled = true
@@ -461,11 +458,11 @@ joint_constraints/angular_limit_relaxation = 1.0
 shape = SubResource( 4 )
 
 [node name="Physical Bone Torso" type="PhysicalBone" parent="Armature" index="7"]
-transform = Transform( 0.999999, -0.00193215, -5.08794e-05, -7.46342e-06, 0.0224649, -0.999747, 0.00193266, 0.999746, 0.0224648, 4.79691e-06, 1.21839, -0.00207373 )
+transform = Transform( 0.999796, 0.0202401, 0.000592112, -0.000126977, 0.0355081, -0.999369, -0.0202485, 0.999165, 0.0355033, -5.35519e-05, 1.11538, -0.00318664 )
 visible = false
 joint_type = 3
-joint_offset = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.52066e-07, 0.000156124, 0.0853623 )
-body_offset = Transform( 0.999999, -0.00193239, -5.08848e-05, 0.0019329, 0.999746, 0.0224648, 7.46342e-06, -0.0224649, 0.999747, 4.7974e-06, -0.00207373, -0.0853372 )
+joint_offset = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.52051e-07, 0.000156124, 0.0853623 )
+body_offset = Transform( 0.999999, -0.00193239, -5.08848e-05, 0.0019329, 0.999746, 0.0224648, 7.46342e-06, -0.0224649, 0.999747, 4.79739e-06, -0.00207373, -0.0853372 )
 bounce = 0.5
 bone_name = "Torso"
 joint_constraints/angular_limit_enabled = true
@@ -480,7 +477,7 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.0241845 )
 shape = SubResource( 5 )
 
 [node name="Physical Bone Pelvis" type="PhysicalBone" parent="Armature" index="8"]
-transform = Transform( 1, 2.68221e-07, 0, 0, 0, -1, -2.68221e-07, 1, 0, 0, 1.01725, 0 )
+transform = Transform( 1, 2.68221e-07, 0, 0, 0, -1, -2.68221e-07, 1, 0, 0, 0.914268, 0 )
 visible = false
 joint_type = 3
 joint_offset = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.0574352 )
@@ -498,7 +495,7 @@ joint_constraints/angular_limit_relaxation = 1.0
 shape = SubResource( 6 )
 
 [node name="Physical Bone ShoulderL" type="PhysicalBone" parent="Armature" index="9"]
-transform = Transform( -0.00441069, -0.00430101, -0.999981, -0.999234, 0.0389148, 0.0042401, 0.0388959, 0.999234, -0.00446834, 0.191273, 1.53544, -0.0109878 )
+transform = Transform( -0.0212704, -0.464589, -0.885272, -0.998059, 0.0617121, -0.00840592, 0.0585374, 0.883374, -0.464998, 0.174651, 1.43453, 0.0706889 )
 visible = false
 joint_type = 3
 joint_offset = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0173973, 0.0118653, 0.0429042 )
@@ -516,7 +513,7 @@ joint_constraints/angular_limit_relaxation = 1.0
 shape = SubResource( 7 )
 
 [node name="Physical Bone ShoulderR" type="PhysicalBone" parent="Armature" index="10"]
-transform = Transform( -0.0489603, -0.0043006, 0.998792, 0.998036, 0.0389148, 0.0490907, -0.0390788, 0.999233, 0.00238726, -0.204585, 1.52656, -0.0123454 )
+transform = Transform( -0.0260031, -0.464588, 0.885145, 0.996188, 0.0617121, 0.0616561, -0.0832688, 0.883374, 0.461213, -0.175981, 1.42065, -0.112747 )
 visible = false
 joint_type = 3
 joint_offset = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0236224, 0.0131414, 0.0574724 )
@@ -534,11 +531,11 @@ joint_constraints/angular_limit_relaxation = 1.0
 shape = SubResource( 8 )
 
 [node name="Physical Bone UpperArmL" type="PhysicalBone" parent="Armature" index="11"]
-transform = Transform( 0.0232076, -0.000652973, -0.999731, -0.999468, -0.0230071, -0.0231858, -0.0229846, 0.999735, -0.00118673, 0.389881, 1.54054, -0.0140076 )
+transform = Transform( -0.732472, -0.530392, 0.426816, -0.41288, 0.84456, 0.340955, -0.541311, 0.073515, -0.837602, 0.156076, 1.38499, 0.216395 )
 visible = false
 joint_type = 3
-joint_offset = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0139028, 0.0138602, 0.142023 )
-body_offset = Transform( 0.999467, 0.0230067, 0.0231858, -0.0220885, 0.998993, -0.0390581, -0.0240617, 0.0385249, 0.998968, 0.0102836, -0.0086062, -0.142745 )
+joint_offset = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0139027, 0.0138603, 0.142023 )
+body_offset = Transform( 0.999467, 0.0230067, 0.0231858, -0.0220885, 0.998993, -0.0390581, -0.0240617, 0.0385249, 0.998968, 0.0102835, -0.00860631, -0.142745 )
 bounce = 0.5
 bone_name = "UpperArm.L"
 joint_constraints/angular_limit_enabled = true
@@ -553,11 +550,11 @@ transform = Transform( 1, 8.52651e-14, 8.88178e-16, 0, 1, 0, 6.21725e-15, 0, 1, 
 shape = SubResource( 9 )
 
 [node name="Physical Bone UpperArmR" type="PhysicalBone" parent="Armature" index="12"]
-transform = Transform( 0.0325252, -0.00330884, 0.999465, 0.999069, 0.0284832, -0.032417, -0.0283611, 0.999589, 0.00423289, -0.398457, 1.53648, -0.0235391 )
+transform = Transform( -0.665145, 0.434566, 0.607234, 0.739987, 0.492521, 0.458087, -0.100007, 0.75404, -0.64917, -0.309017, 1.35045, -0.040391 )
 visible = false
 joint_type = 3
-joint_offset = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0185677, 0.0234385, 0.150447 )
-body_offset = Transform( 0.999068, 0.0284836, -0.032417, -0.0295733, 0.998997, -0.0336323, 0.0314276, 0.0345604, 0.998908, -0.014341, -0.017806, -0.151676 )
+joint_offset = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0185678, 0.0234385, 0.150447 )
+body_offset = Transform( 0.999068, 0.0284837, -0.0324169, -0.0295733, 0.998997, -0.0336323, 0.0314276, 0.0345604, 0.998908, -0.0143411, -0.017806, -0.151676 )
 bounce = 0.5
 bone_name = "UpperArm.R"
 joint_constraints/angular_limit_enabled = true
@@ -571,11 +568,11 @@ joint_constraints/angular_limit_relaxation = 1.0
 shape = SubResource( 9 )
 
 [node name="Physical Bone LowerArmL" type="PhysicalBone" parent="Armature" index="13"]
-transform = Transform( 0.00208143, -0.071866, -0.997412, -0.999467, -0.0326631, 0.000267796, -0.0325972, 0.996879, -0.0718954, 0.705317, 1.54389, 0.00165604 )
+transform = Transform( -0.732485, -0.0646208, 0.677709, -0.412872, 0.833686, -0.366749, -0.541297, -0.548446, -0.637341, -0.0218916, 1.39762, 0.447597 )
 visible = false
 joint_type = 3
-joint_offset = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00685378, -0.0010457, 0.165829 )
-body_offset = Transform( 0.999466, 0.0326627, -0.000267774, -0.0326472, 0.998689, -0.0394267, -0.00102052, 0.0394146, 0.999222, 0.00692868, 0.00735867, -0.165666 )
+joint_offset = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00685343, -0.00104581, 0.165829 )
+body_offset = Transform( 0.999466, 0.0326627, -0.000267744, -0.0326472, 0.998689, -0.0394267, -0.00102052, 0.0394146, 0.999222, 0.00692832, 0.00735879, -0.165666 )
 bounce = 0.5
 bone_name = "LowerArm.L"
 joint_constraints/angular_limit_enabled = true
@@ -590,11 +587,11 @@ transform = Transform( 1, -1.13687e-13, -2.13163e-14, -8.52651e-14, 1, -7.45058e
 shape = SubResource( 10 )
 
 [node name="Physical Bone LowerArmR" type="PhysicalBone" parent="Armature" index="14"]
-transform = Transform( 0.0313421, 0.0665345, 0.997292, 0.99907, -0.0316969, -0.0292839, 0.0296636, 0.99728, -0.0674655, -0.69742, 1.54621, -0.00552631 )
+transform = Transform( -0.665159, 0.617692, -0.419546, 0.739975, 0.470027, -0.481158, -0.10001, -0.6305, -0.769719, -0.326347, 1.36544, 0.185806 )
 visible = false
 joint_type = 3
-joint_offset = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00937086, 0.00478532, 0.157255 )
-body_offset = Transform( 0.999069, -0.0316965, -0.0292839, 0.0306666, 0.998916, -0.035003, 0.0303611, 0.0340729, 0.998958, -0.00460541, 0.000436902, -0.157539 )
+joint_offset = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00937098, 0.00478532, 0.157255 )
+body_offset = Transform( 0.999069, -0.0316965, -0.0292839, 0.0306666, 0.998916, -0.0350031, 0.0303611, 0.0340729, 0.998958, -0.00460553, 0.000436902, -0.157539 )
 bounce = 0.5
 bone_name = "LowerArm.R"
 joint_constraints/angular_limit_enabled = true
@@ -609,11 +606,11 @@ transform = Transform( 1, -5.68434e-14, 1.77636e-15, 2.84217e-14, 1, -3.72529e-0
 shape = SubResource( 10 )
 
 [node name="Physical Bone UpperLegL" type="PhysicalBone" parent="Armature" index="15"]
-transform = Transform( 0.00249442, -1.00004, -6.67673e-05, -0.0965145, -0.000305864, 0.995331, -0.995328, -0.00247657, -0.0965153, 0.148523, 0.780638, 0.00741524 )
+transform = Transform( 0.00249486, -1.00011, -6.51046e-05, -0.69534, -0.00178021, 0.718678, -0.718676, -0.00174778, -0.695343, 0.148523, 0.732021, 0.148182 )
 visible = false
 joint_type = 3
-joint_offset = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0146864, -2.08924e-05, 0.228286 )
-body_offset = Transform( 0.998231, 0.00248604, 0.0593971, -0.00249413, 0.999997, 6.67673e-05, -0.0593964, -0.00021483, 0.998234, 0.00110096, -3.09795e-05, -0.228755 )
+joint_offset = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0146865, -2.08925e-05, 0.228286 )
+body_offset = Transform( 0.998231, 0.00248604, 0.0593971, -0.00249413, 0.999997, 6.67673e-05, -0.0593964, -0.00021483, 0.998234, 0.00110102, -3.09795e-05, -0.228755 )
 bounce = 0.5
 bone_name = "UpperLeg.L"
 joint_constraints/angular_limit_enabled = true
@@ -628,11 +625,11 @@ transform = Transform( 1, 0, 0, 7.10543e-14, 1, 4.44089e-15, 0, -3.55271e-15, 1,
 shape = SubResource( 11 )
 
 [node name="Physical Bone UpperLegR" type="PhysicalBone" parent="Armature" index="16"]
-transform = Transform( 0.00100625, 1.00004, 0.000993076, 0.105581, -0.0010925, 0.99441, 0.99441, -0.000895823, -0.105582, -0.148723, 0.776122, 0.0226432 )
+transform = Transform( 0.00100537, 1.00011, 0.000991985, 0.0987764, -0.0010851, 0.995109, 0.995109, -0.00090245, -0.0987774, -0.148723, 0.672995, 0.0210479 )
 visible = false
 joint_type = 3
-joint_offset = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00210002, -3.56539e-06, 0.234241 )
-body_offset = Transform( 0.997651, -0.000935676, -0.0684915, 0.00100602, 0.999999, 0.000993058, 0.0684905, -0.00105978, 0.997651, 0.0139484, -0.000231162, -0.233834 )
+joint_offset = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00210001, -3.62491e-06, 0.23424 )
+body_offset = Transform( 0.997651, -0.000935676, -0.0684915, 0.00100602, 0.999999, 0.000993058, 0.0684905, -0.00105978, 0.997651, 0.0139484, -0.000231102, -0.233834 )
 bounce = 0.5
 bone_name = "UpperLeg.R"
 joint_constraints/angular_limit_enabled = true
@@ -647,11 +644,11 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 4.44089e-14, 1, -0.0197185, 0, -0.05
 shape = SubResource( 11 )
 
 [node name="Physical Bone LowerLegL" type="PhysicalBone" parent="Armature" index="17"]
-transform = Transform( 0.00168538, -1.00004, -0.00183993, 0.0811252, -0.00169594, 0.996702, -0.996703, -0.00182925, 0.081122, 0.14902, 0.315886, 0.0128343 )
+transform = Transform( 0.00168689, -1.00011, -0.00183896, 0.0094803, -0.00182157, 0.999953, -0.999954, -0.00170427, 0.00947713, 0.149019, 0.316121, 0.294249 )
 visible = false
 joint_type = 3
-joint_offset = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0185772, 6.97867e-05, 0.266005 )
-body_offset = Transform( 0.9987, 0.00177694, -0.050951, -0.00168521, 0.999997, 0.00183985, 0.0509542, -0.00175184, 0.998699, -0.005, -0.000527889, -0.266605 )
+joint_offset = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0185772, 6.97421e-05, 0.266005 )
+body_offset = Transform( 0.9987, 0.00177694, -0.050951, -0.00168521, 0.999997, 0.00183985, 0.0509542, -0.00175184, 0.998699, -0.005, -0.000527844, -0.266605 )
 bounce = 0.5
 bone_name = "LowerLeg.L"
 joint_constraints/angular_limit_enabled = true
@@ -666,11 +663,11 @@ transform = Transform( 1, 0, -9.31323e-09, -3.55271e-14, 1, 1.33227e-15, 9.31323
 shape = SubResource( 12 )
 
 [node name="Physical Bone LowerLegR" type="PhysicalBone" parent="Armature" index="18"]
-transform = Transform( -1.22738e-05, 1.00004, 0.00141349, -0.0808246, -0.00140864, 0.996727, 0.996728, -0.000102127, 0.0808257, -0.149308, 0.322038, 0.0293799 )
+transform = Transform( -1.21425e-05, 1.00011, 0.00141215, -0.635185, -0.00109704, 0.772359, 0.77236, -0.000887727, 0.635185, -0.149307, 0.257849, -0.124603 )
 visible = false
 joint_type = 3
 joint_offset = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0344924, 0.000450192, 0.258541 )
-body_offset = Transform( 0.998716, -5.92978e-05, 0.0506541, -1.23752e-05, 0.999999, 0.00141343, -0.050653, -0.00141245, 0.998715, 0.021352, -0.000816047, -0.259955 )
+body_offset = Transform( 0.998716, -5.92977e-05, 0.0506541, -1.23752e-05, 0.999999, 0.00141343, -0.050653, -0.00141245, 0.998715, 0.021352, -0.000816047, -0.259955 )
 bounce = 0.5
 bone_name = "LowerLeg.R"
 joint_constraints/angular_limit_enabled = true
@@ -685,7 +682,7 @@ transform = Transform( 1, 0, 7.45058e-09, 5.68434e-14, 1, 1.11022e-15, -7.45058e
 shape = SubResource( 12 )
 
 [node name="HitBoxHead" type="BoneAttachment" parent="Armature" index="19"]
-transform = Transform( 0.999016, 0.0443467, 0.000578833, -0.000578838, 0.0260877, -0.99966, -0.0443467, 0.998676, 0.0260877, -0.000277757, 1.66075, -0.013904 )
+transform = Transform( 0.999016, 0.0443467, 0.000578833, -0.000578838, 0.0260877, -0.99966, -0.0443467, 0.998676, 0.0260877, -0.000277757, 1.63046, -0.013904 )
 bone_name = "Head"
 
 [node name="Area" type="Area" parent="Armature/HitBoxHead" index="0"]
@@ -697,7 +694,7 @@ transform = Transform( 1, -2.84217e-14, 0, 2.84217e-14, 1, 4.65661e-10, 0, 0, 1,
 shape = SubResource( 2 )
 
 [node name="HitBoxNeck" type="BoneAttachment" parent="Armature" index="20"]
-transform = Transform( 0.887347, -0.461103, 0.000578833, 0.0125426, 0.022882, -0.99966, 0.460932, 0.887052, 0.0260877, -0.000209755, 1.54331, -0.0108393 )
+transform = Transform( 0.887347, -0.461103, 0.000578833, 0.0125426, 0.022882, -0.99966, 0.460932, 0.887052, 0.0260877, -0.000209755, 1.51302, -0.0108393 )
 bone_name = "Neck"
 
 [node name="Area" type="Area" parent="Armature/HitBoxNeck" index="0"]
@@ -710,7 +707,7 @@ transform = Transform( 1, 1.69407e-21, -2.84217e-14, 2.84217e-14, -4.37114e-08, 
 shape = SubResource( 3 )
 
 [node name="HitBoxChest" type="BoneAttachment" parent="Armature" index="21"]
-transform = Transform( 0.887347, -0.461103, 0.000578833, 0.0125426, 0.022882, -0.99966, 0.460933, 0.887052, 0.0260877, -3.07362e-05, 1.23414, -0.00277099 )
+transform = Transform( 0.887347, -0.461103, 0.000578833, 0.0125426, 0.022882, -0.99966, 0.460933, 0.887052, 0.0260877, -3.07362e-05, 1.20385, -0.00277099 )
 bone_name = "Chest"
 
 [node name="Area" type="Area" parent="Armature/HitBoxChest" index="0"]
@@ -737,11 +734,11 @@ transform = Transform( 0.999999, 0, 0, 0, 1, 0, 0, 0, 0.999999, -0.3, 1.502, 0.8
 [node name="MeshInstance2" type="MeshInstance" parent="Armature/HitBoxChest/Spatial/left_ik_tg" index="0"]
 transform = Transform( 1, 2.91038e-09, -3.72529e-09, 4.65661e-10, 1.00045, 0, 7.45058e-09, 1.86265e-09, 1, 0, 0, 0 )
 visible = false
-mesh = SubResource( 1 )
+mesh = SubResource( 86 )
 material/0 = null
 
 [node name="HitBoxTorso" type="BoneAttachment" parent="Armature" index="22"]
-transform = Transform( 0.999754, 0.0221809, 0.000144732, -0.000144735, 0.0130482, -0.999915, -0.0221809, 0.999669, 0.0130482, 0, 1.02179, 0 )
+transform = Transform( 0.999754, 0.0221809, 0.000144732, -0.000144735, 0.0130482, -0.999915, -0.0221809, 0.999669, 0.0130482, 0, 0.991498, 0 )
 bone_name = "Torso"
 
 [node name="Area" type="Area" parent="Armature/HitBoxTorso" index="0"]
@@ -754,7 +751,7 @@ transform = Transform( 1, -2.84217e-14, 0, 2.84217e-14, 1, 0, 0, 0, 1, 0, 0, 0.5
 shape = SubResource( 5 )
 
 [node name="HitBoxPelvis" type="BoneAttachment" parent="Armature" index="23"]
-transform = Transform( 1, 2.38419e-07, 0, 0, 0, -1, -2.38419e-07, 1, 0, 0, 0.848544, 0 )
+transform = Transform( 1, 2.38419e-07, 0, 0, 0, -1, -2.38419e-07, 1, 0, 0, 0.818252, 0 )
 bone_name = "Pelvis"
 
 [node name="Area" type="Area" parent="Armature/HitBoxPelvis" index="0"]
@@ -767,7 +764,7 @@ transform = Transform( 1, -5.68434e-14, 0, 5.68434e-14, 1, 0, 0, 0, 1, 0, 0, 0.7
 shape = SubResource( 6 )
 
 [node name="HitBoxUpperArmL" type="BoneAttachment" parent="Armature" index="24"]
-transform = Transform( -0.735567, -0.52777, 0.424735, -0.387187, 0.841984, 0.3757, -0.555903, 0.1119, -0.823681, 0.219526, 1.44257, 0.105981 )
+transform = Transform( -0.735397, -0.528145, 0.424563, -0.386917, 0.841628, 0.376774, -0.556316, 0.112808, -0.823278, 0.219526, 1.41228, 0.105981 )
 bone_name = "UpperArm.L"
 
 [node name="Area" type="Area" parent="Armature/HitBoxUpperArmL" index="0"]
@@ -780,7 +777,7 @@ transform = Transform( -9.87201e-08, 0.0378822, -0.999282, -4.01033e-07, 0.99928
 shape = SubResource( 9 )
 
 [node name="HitBoxUpperArmR" type="BoneAttachment" parent="Armature" index="25"]
-transform = Transform( -0.661487, 0.439513, 0.607671, 0.747008, 0.457929, 0.481956, -0.0664442, 0.772742, -0.631233, -0.219825, 1.43636, -0.12224 )
+transform = Transform( -0.663008, 0.438613, 0.606663, 0.745775, 0.457483, 0.484283, -0.065125, 0.773517, -0.630421, -0.219825, 1.40607, -0.12224 )
 bone_name = "UpperArm.R"
 
 [node name="Area" type="Area" parent="Armature/HitBoxUpperArmR" index="0"]
@@ -793,7 +790,7 @@ transform = Transform( -9.87203e-08, -0.0378827, 0.999282, 4.01033e-07, 0.999282
 shape = SubResource( 9 )
 
 [node name="HitBoxLowerArmL" type="BoneAttachment" parent="Armature" index="26"]
-transform = Transform( -0.735567, -0.0643489, 0.674389, -0.387187, 0.856801, -0.340557, -0.555902, -0.511617, -0.655149, 0.095238, 1.33263, 0.34701 )
+transform = Transform( -0.735397, -0.0647724, 0.674533, -0.386917, 0.857342, -0.339502, -0.556315, -0.510656, -0.655548, 0.0952882, 1.30203, 0.346892 )
 bone_name = "LowerArm.L"
 
 [node name="Area" type="Area" parent="Armature/HitBoxLowerArmL" index="0"]
@@ -806,7 +803,7 @@ transform = Transform( -6.95579e-08, -0.0325151, -0.999471, -4.01204e-07, 0.9994
 shape = SubResource( 10 )
 
 [node name="HitBoxLowerArmR" type="BoneAttachment" parent="Armature" index="27"]
-transform = Transform( -0.661487, 0.61834, -0.424371, 0.747008, 0.493118, -0.445886, -0.0664447, -0.611956, -0.788096, -0.397644, 1.29533, 0.0624741 )
+transform = Transform( -0.663007, 0.617316, -0.423488, 0.745775, 0.49544, -0.445376, -0.0651254, -0.611114, -0.788859, -0.397349, 1.26436, 0.0622364 )
 bone_name = "LowerArm.R"
 
 [node name="Area" type="Area" parent="Armature/HitBoxLowerArmR" index="0"]
@@ -819,7 +816,7 @@ transform = Transform( -6.95581e-08, 0.0325146, 0.999471, 4.01204e-07, 0.999471,
 shape = SubResource( 10 )
 
 [node name="HitBoxUpperLegL" type="BoneAttachment" parent="Armature" index="28"]
-transform = Transform( 5.54882e-07, -1.00011, 1.66603e-06, -0.674178, 2.23236e-06, 0.738569, -0.738569, -1.58441e-06, -0.674178, 0.148492, 0.898009, 4.96332e-09 )
+transform = Transform( 5.46429e-07, -1.00011, 1.7614e-06, -0.744163, 2.14595e-06, 0.667998, -0.667998, -1.72718e-06, -0.744163, 0.148492, 0.867717, 5.62184e-09 )
 bone_name = "UpperLeg.L"
 
 [node name="Area" type="Area" parent="Armature/HitBoxUpperLegL" index="0"]
@@ -832,7 +829,7 @@ transform = Transform( 4.36848e-07, -1.00004, 1.38655e-10, -0.999307, -4.87896e-
 shape = SubResource( 11 )
 
 [node name="HitBoxUpperLegR" type="BoneAttachment" parent="Armature" index="29"]
-transform = Transform( -6.81084e-07, 1.00011, -1.21861e-06, 0.054569, 2.6271e-06, 0.99851, 0.99851, 5.6232e-07, -0.054569, -0.148492, 0.898009, 4.92638e-09 )
+transform = Transform( -6.96065e-07, 1.00011, -1.17836e-06, 0.130112, 2.63205e-06, 0.991499, 0.991499, 4.85576e-07, -0.130112, -0.148492, 0.867717, 5.5849e-09 )
 bone_name = "UpperLeg.R"
 
 [node name="Area" type="Area" parent="Armature/HitBoxUpperLegR" index="0"]
@@ -845,7 +842,7 @@ transform = Transform( -4.74337e-08, 1.00004, 1.3866e-10, 0.999307, -3.84196e-09
 shape = SubResource( 11 )
 
 [node name="HitBoxLowerLegL" type="BoneAttachment" parent="Armature" index="30"]
-transform = Transform( 1.51183e-06, -1.00011, 1.12578e-06, -0.0230073, 2.46665e-06, 0.999736, -0.999736, -1.58872e-06, -0.0230073, 0.148491, 0.582602, 0.287908 )
+transform = Transform( 1.74547e-06, -1.00011, 9.908e-07, 0.0338382, 2.42524e-06, 0.999428, -0.999428, -1.76234e-06, 0.0338382, 0.148491, 0.582448, 0.317795 )
 bone_name = "LowerLeg.L"
 
 [node name="Area" type="Area" parent="Armature/HitBoxLowerLegL" index="0"]
@@ -858,7 +855,7 @@ transform = Transform( 3.43884e-07, -1.00004, -7.3208e-09, -0.999543, -3.95297e-
 shape = SubResource( 12 )
 
 [node name="HitBoxLowerLegR" type="BoneAttachment" parent="Armature" index="31"]
-transform = Transform( 2.21234e-07, 1.00011, -1.42765e-06, -0.614888, 2.63504e-06, 0.788615, 0.788615, 6.52118e-07, 0.614888, -0.148491, 0.471594, 0.0233038 )
+transform = Transform( 4.06258e-07, 1.00011, -1.36677e-06, -0.676237, 2.65474e-06, 0.736685, 0.736685, 5.73715e-07, 0.676237, -0.148491, 0.444297, 0.0555646 )
 bone_name = "LowerLeg.R"
 
 [node name="Area" type="Area" parent="Armature/HitBoxLowerLegR" index="0"]
@@ -871,11 +868,16 @@ transform = Transform( -1.40015e-07, 1.00004, -7.32086e-09, 0.999543, 8.89211e-0
 shape = SubResource( 12 )
 
 [node name="CameraBoneAttachment" parent="Armature" index="32"]
-transform = Transform( -0.999016, -0.000578936, -0.0443465, 0.000578745, 0.99966, -0.026088, 0.0443465, -0.0260881, -0.998676, 0.00233999, 1.7462, 0.043952 )
+transform = Transform( -0.999016, -0.000578936, -0.0443465, 0.000578745, 0.99966, -0.026088, 0.0443465, -0.0260881, -0.998676, 0.00233999, 1.71591, 0.043952 )
 
 [node name="Camera" parent="Armature/CameraBoneAttachment" index="0"]
 current = true
 near = 0.1
+
+[node name="DebugAimPoint" type="MeshInstance" parent="Armature/CameraBoneAttachment/Camera" index="0"]
+transform = Transform( 1, 0, 0, 0, 1.00045, 0, 0, 0, 1, 0, 0, -20 )
+mesh = SubResource( 85 )
+material/0 = null
 
 [node name="headik" type="SkeletonIK" parent="Armature" index="33"]
 process_priority = 1
@@ -900,7 +902,7 @@ target_node = NodePath("../HitBoxChest/Spatial/left_ik_tg")
 min_distance = 1.0
 
 [node name="AnimationTree" type="AnimationTree" parent="." index="1"]
-tree_root = SubResource( 80 )
+tree_root = SubResource( 154 )
 anim_player = NodePath("../Armature/AnimationPlayer")
 active = true
 process_mode = 0
@@ -908,7 +910,7 @@ root_motion_track = NodePath(".:Root")
 parameters/look/blend_position = Vector2( 0.029, 0.015 )
 parameters/look_blend/blend_amount = 1.0
 parameters/move_speed/scale = 1.2
-parameters/move_state/playback = SubResource( 81 )
+parameters/move_state/playback = SubResource( 155 )
 parameters/move_state/crouch/blend_position = Vector2( 0, 0 )
 parameters/move_state/run/blend_position = Vector2( 0, 0 )
 parameters/move_state/slide/speed/scale = 1.0
@@ -917,7 +919,7 @@ parameters/move_state/turn/direction/blend_position = 0.998113
 parameters/move_state/turn/speed/scale = 2.0
 parameters/move_state/vault/speed/scale = 1.5
 parameters/weapon_blend/blend_amount = 1.0
-parameters/weaponstate/playback = SubResource( 82 )
+parameters/weaponstate/playback = SubResource( 156 )
 parameters/weaponstate/aim/fire/active = false
 parameters/weaponstate/hold/fire/active = false
 
@@ -926,5 +928,5 @@ animation_path = NodePath("..")
 
 [node name="CollisionShape" type="CollisionShape" parent="." index="2"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.926618, 0.254346 )
-shape = SubResource( 83 )
+shape = SubResource( 84 )
 disabled = true
