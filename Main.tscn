@@ -1,9 +1,11 @@
-[gd_scene load_steps=20 format=2]
+[gd_scene load_steps=22 format=2]
 
 [ext_resource path="res://better_env.tres" type="Environment" id=1]
 [ext_resource path="res://assets/blue.material" type="Material" id=2]
 [ext_resource path="res://assets/shooting_target.jpg" type="Texture" id=3]
 [ext_resource path="res://kinematic.tscn" type="PackedScene" id=4]
+[ext_resource path="res://item.tscn" type="PackedScene" id=5]
+[ext_resource path="res://item2.tscn" type="PackedScene" id=6]
 
 [sub_resource type="PlaneMesh" id=1]
 size = Vector2( 100, 100 )
@@ -170,3 +172,8 @@ shape = SubResource( 15 )
 
 [node name="player" parent="." instance=ExtResource( 4 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.231881, 0 )
+
+[node name="item" parent="." instance=ExtResource( 5 )]
+
+[node name="item2" parent="." instance=ExtResource( 6 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -6.87111, 1.06643, 15.0613 )

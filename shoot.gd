@@ -5,6 +5,7 @@ extends Spatial
 var world_node = null
 var bullet_impact = null
 
+var last_interactable = null
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -45,3 +46,40 @@ func fire_weapon():
 			#print("hit: ", body.get_parent().get_name().find("target"))
 			create_bulletimpact(ray.get_collision_point(), ray.get_collision_normal(), 
 			body.get_parent().get_name().find("target") != -1, true)
+
+func detect_interactable():
+	# Get the raycast node
+	var ray = $RayCast
+	# Force the raycast to update. This will force the raycast to detect collisions when we call it.
+	# This means we are getting a frame perfect collision check with the 3D world.
+	ray.force_raycast_update()
+
+	# Did the ray hit something?
+	if ray.is_colliding():
+		var body = ray.get_collider()
+		
+		if body is Area:
+			if last_interactable:
+				if last_interactable != body:
+					# remove outline from previous interactable
+					var lt = last_interactable.get_parent().get_child(0)
+					lt.get_surface_material(0).next_pass.set_shader_param("thickness", 0)
+					last_interactable = body
+					var target = body.get_parent().get_child(0)
+					target.get_surface_material(0).next_pass.set_shader_param("thickness", 0.1)
+			else:
+				last_interactable = body
+				var target = body.get_parent().get_child(0)
+				target.get_surface_material(0).next_pass.set_shader_param("thickness", 0.1)
+		else:
+			if last_interactable:
+				# remove outline from previous interactable
+				var lt = last_interactable.get_parent().get_child(0)
+				lt.get_surface_material(0).next_pass.set_shader_param("thickness", 0)
+				last_interactable = null
+	else:
+		if last_interactable:
+			# remove outline from previous interactable
+			var lt = last_interactable.get_parent().get_child(0)
+			lt.get_surface_material(0).next_pass.set_shader_param("thickness", 0)
+			last_interactable = null
