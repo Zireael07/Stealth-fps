@@ -1,7 +1,8 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=20 format=2]
 
 [ext_resource path="res://better_env.tres" type="Environment" id=1]
 [ext_resource path="res://assets/blue.material" type="Material" id=2]
+[ext_resource path="res://assets/shooting_target.jpg" type="Texture" id=3]
 [ext_resource path="res://kinematic.tscn" type="PackedScene" id=4]
 
 [sub_resource type="PlaneMesh" id=1]
@@ -28,6 +29,23 @@ points = PoolVector3Array( 0, 1, 1, 0, 1, -1, 0, 1, 1, 0, 1, -1, -1, -1, 1, 1, -
 
 [sub_resource type="ConvexPolygonShape" id=9]
 points = PoolVector3Array( 0, 1, 1, 0, 1, -1, 0, 1, 1, 0, 1, -1, -1, -1, 1, 1, -1, -1, 1, -1, 1, -1, -1, -1, 0, 1, 1, 0, 1, -1, 0, 1, -1, 0, 1, 1, 1, -1, 1, -1, -1, -1, 1, -1, -1, -1, -1, 1, -1, -1, 1, 1, -1, 1, -1, -1, -1, 1, -1, -1 )
+
+[sub_resource type="QuadMesh" id=10]
+
+[sub_resource type="SpatialMaterial" id=11]
+albedo_texture = ExtResource( 3 )
+
+[sub_resource type="BoxShape" id=12]
+extents = Vector3( 0.5, 0.5, 0.1 )
+
+[sub_resource type="CubeMesh" id=13]
+size = Vector3( 2, 2, 1 )
+
+[sub_resource type="SpatialMaterial" id=14]
+albedo_color = Color( 0.501961, 0.364706, 0, 1 )
+
+[sub_resource type="ConvexPolygonShape" id=15]
+points = PoolVector3Array( -1, 1, 0.5, 1, 1, -0.5, 1, 1, 0.5, -1, 1, -0.5, -1, -1, 0.5, 1, -1, -0.5, 1, -1, 0.5, -1, -1, -0.5, 1, 1, 0.5, -1, 1, -0.5, 1, 1, -0.5, -1, 1, 0.5, 1, -1, 0.5, -1, -1, -0.5, 1, -1, -0.5, -1, -1, 0.5, 1, 1, 0.5, -1, -1, 0.5, -1, 1, 0.5, 1, -1, 0.5, 1, 1, -0.5, -1, -1, -0.5, -1, 1, -0.5, 1, -1, -0.5 )
 
 [node name="Spatial" type="Spatial" groups=[
 "root",
@@ -125,6 +143,30 @@ material/0 = null
 [node name="CollisionShape" type="CollisionShape" parent="level/MeshInstance6/StaticBody"]
 transform = Transform( 1, 1.72977e-20, 0, 1.72977e-20, 1, 0, 0, 0, 1, 0, 0, 0 )
 shape = SubResource( 9 )
+
+[node name="Spatial" type="Spatial" parent="level"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 11.8309 )
+
+[node name="target" type="MeshInstance" parent="level/Spatial"]
+transform = Transform( -1, 0, -3.25841e-07, 0, 1, 0, 3.25841e-07, 0, -1, 0, 0.706775, 0 )
+mesh = SubResource( 10 )
+material/0 = SubResource( 11 )
+
+[node name="StaticBody" type="StaticBody" parent="level/Spatial/target"]
+
+[node name="CollisionShape" type="CollisionShape" parent="level/Spatial/target/StaticBody"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.1 )
+shape = SubResource( 12 )
+
+[node name="MeshInstance" type="MeshInstance" parent="level/Spatial"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -3.91474 )
+mesh = SubResource( 13 )
+material/0 = SubResource( 14 )
+
+[node name="StaticBody" type="StaticBody" parent="level/Spatial/MeshInstance"]
+
+[node name="CollisionShape" type="CollisionShape" parent="level/Spatial/MeshInstance/StaticBody"]
+shape = SubResource( 15 )
 
 [node name="player" parent="." instance=ExtResource( 4 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.231881, 0 )

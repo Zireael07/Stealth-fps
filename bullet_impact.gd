@@ -3,6 +3,7 @@ extends Spatial
 # Variables
 var timeout = 0.0;
 var show_bullethole = true;
+var keep = false
 
 func _ready():
 	# Emit particles
@@ -19,12 +20,17 @@ func _ready():
 		$mesh.hide();
 
 func _process(delta):
+	if keep:
+		return;
+	
+	# Count down without using a timer node :)
 	if (timeout > 0.0):
 		timeout -= delta;
 		return;
 	
 	# Remove node
-	queue_free();
+	if not keep:
+		queue_free();
 
 func bullet_hole(visible):
 	# Set mesh visibility

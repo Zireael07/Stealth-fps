@@ -16,12 +16,13 @@ func _ready():
 #func _process(delta):
 #	pass
 
-func create_bulletimpact(pos, normal, bullet_hole = true):
+func create_bulletimpact(pos, normal, keep = false, bullet_hole = true):
 	
 	# Instance scene
 	var instance = bullet_impact.instance();
 	if (instance.has_method("bullet_hole")):
 		instance.bullet_hole(bullet_hole);
+	instance.keep = keep;
 	world_node.add_child(instance);
 	
 	# Set transform
@@ -41,5 +42,6 @@ func fire_weapon():
 		var body = ray.get_collider()
 		
 		if body is StaticBody:
-			#print("hit: ", body.get_name())
-			create_bulletimpact(ray.get_collision_point(), ray.get_collision_normal(), true)
+			#print("hit: ", body.get_parent().get_name().find("target"))
+			create_bulletimpact(ray.get_collision_point(), ray.get_collision_normal(), 
+			body.get_parent().get_name().find("target") != -1, true)
