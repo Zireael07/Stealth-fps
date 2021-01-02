@@ -1,4 +1,4 @@
-[gd_scene load_steps=30 format=2]
+[gd_scene load_steps=32 format=2]
 
 [ext_resource path="res://better_env.tres" type="Environment" id=1]
 [ext_resource path="res://assets/blue.material" type="Material" id=2]
@@ -9,25 +9,27 @@
 [ext_resource path="res://Character2.tscn" type="PackedScene" id=7]
 [ext_resource path="res://display.gd" type="Script" id=8]
 [ext_resource path="res://cctv_camera.gd" type="Script" id=9]
+[ext_resource path="res://assets/cement.png" type="Texture" id=10]
 
-[sub_resource type="PlaneMesh" id=1]
+[sub_resource type="SpatialMaterial" id=1]
+albedo_texture = ExtResource( 10 )
+uv1_scale = Vector3( 10, 10, 1 )
+
+[sub_resource type="PlaneMesh" id=2]
 size = Vector2( 100, 100 )
 subdivide_width = 25
 
-[sub_resource type="BoxShape" id=2]
+[sub_resource type="BoxShape" id=3]
 extents = Vector3( 100, 0.25, 100 )
-
-[sub_resource type="CubeMesh" id=3]
 
 [sub_resource type="CubeMesh" id=4]
 
-[sub_resource type="ConvexPolygonShape" id=5]
+[sub_resource type="CubeMesh" id=5]
+
+[sub_resource type="ConvexPolygonShape" id=6]
 points = PoolVector3Array( -1, 1, 1, 1, 1, -1, 1, 1, 1, -1, 1, -1, -1, -1, 1, 1, -1, -1, 1, -1, 1, -1, -1, -1, 1, 1, 1, -1, 1, -1, 1, 1, -1, -1, 1, 1, 1, -1, 1, -1, -1, -1, 1, -1, -1, -1, -1, 1, 1, 1, 1, -1, -1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, -1, -1, -1, -1, 1, -1, 1, -1, -1 )
 
-[sub_resource type="PrismMesh" id=6]
-
-[sub_resource type="ConvexPolygonShape" id=7]
-points = PoolVector3Array( 0, 1, 1, 0, 1, -1, 0, 1, 1, 0, 1, -1, -1, -1, 1, 1, -1, -1, 1, -1, 1, -1, -1, -1, 0, 1, 1, 0, 1, -1, 0, 1, -1, 0, 1, 1, 1, -1, 1, -1, -1, -1, 1, -1, -1, -1, -1, 1, -1, -1, 1, 1, -1, 1, -1, -1, -1, 1, -1, -1 )
+[sub_resource type="PrismMesh" id=7]
 
 [sub_resource type="ConvexPolygonShape" id=8]
 points = PoolVector3Array( 0, 1, 1, 0, 1, -1, 0, 1, 1, 0, 1, -1, -1, -1, 1, 1, -1, -1, 1, -1, 1, -1, -1, -1, 0, 1, 1, 0, 1, -1, 0, 1, -1, 0, 1, 1, 1, -1, 1, -1, -1, -1, 1, -1, -1, -1, -1, 1, -1, -1, 1, 1, -1, 1, -1, -1, -1, 1, -1, -1 )
@@ -35,27 +37,30 @@ points = PoolVector3Array( 0, 1, 1, 0, 1, -1, 0, 1, 1, 0, 1, -1, -1, -1, 1, 1, -
 [sub_resource type="ConvexPolygonShape" id=9]
 points = PoolVector3Array( 0, 1, 1, 0, 1, -1, 0, 1, 1, 0, 1, -1, -1, -1, 1, 1, -1, -1, 1, -1, 1, -1, -1, -1, 0, 1, 1, 0, 1, -1, 0, 1, -1, 0, 1, 1, 1, -1, 1, -1, -1, -1, 1, -1, -1, -1, -1, 1, -1, -1, 1, 1, -1, 1, -1, -1, -1, 1, -1, -1 )
 
-[sub_resource type="QuadMesh" id=10]
+[sub_resource type="ConvexPolygonShape" id=10]
+points = PoolVector3Array( 0, 1, 1, 0, 1, -1, 0, 1, 1, 0, 1, -1, -1, -1, 1, 1, -1, -1, 1, -1, 1, -1, -1, -1, 0, 1, 1, 0, 1, -1, 0, 1, -1, 0, 1, 1, 1, -1, 1, -1, -1, -1, 1, -1, -1, -1, -1, 1, -1, -1, 1, 1, -1, 1, -1, -1, -1, 1, -1, -1 )
 
-[sub_resource type="SpatialMaterial" id=11]
+[sub_resource type="QuadMesh" id=11]
+
+[sub_resource type="SpatialMaterial" id=12]
 albedo_texture = ExtResource( 3 )
 
-[sub_resource type="BoxShape" id=12]
+[sub_resource type="BoxShape" id=13]
 extents = Vector3( 0.5, 0.5, 0.1 )
 
-[sub_resource type="CubeMesh" id=13]
+[sub_resource type="CubeMesh" id=14]
 size = Vector3( 2, 2, 1 )
 
-[sub_resource type="SpatialMaterial" id=14]
+[sub_resource type="SpatialMaterial" id=15]
 albedo_color = Color( 0.501961, 0.364706, 0, 1 )
 
-[sub_resource type="ConvexPolygonShape" id=15]
+[sub_resource type="ConvexPolygonShape" id=16]
 points = PoolVector3Array( -1, 1, 0.5, 1, 1, -0.5, 1, 1, 0.5, -1, 1, -0.5, -1, -1, 0.5, 1, -1, -0.5, 1, -1, 0.5, -1, -1, -0.5, 1, 1, 0.5, -1, 1, -0.5, 1, 1, -0.5, -1, 1, 0.5, 1, -1, 0.5, -1, -1, -0.5, 1, -1, -0.5, -1, -1, 0.5, 1, 1, 0.5, -1, -1, 0.5, -1, 1, 0.5, 1, -1, 0.5, 1, 1, -0.5, -1, -1, -0.5, -1, 1, -0.5, 1, -1, -0.5 )
 
-[sub_resource type="CubeMesh" id=16]
+[sub_resource type="CubeMesh" id=17]
 size = Vector3( 0.25, 0.25, 0.75 )
 
-[sub_resource type="Shader" id=17]
+[sub_resource type="Shader" id=18]
 code = "shader_type spatial;
 render_mode unshaded;
  
@@ -66,13 +71,13 @@ void fragment() {
 	ALBEDO = texture(refl_tx, UV).rgb;
 }"
 
-[sub_resource type="ViewportTexture" id=18]
+[sub_resource type="ViewportTexture" id=19]
 
-[sub_resource type="ShaderMaterial" id=19]
-shader = SubResource( 17 )
-shader_param/refl_tx = SubResource( 18 )
+[sub_resource type="ShaderMaterial" id=20]
+shader = SubResource( 18 )
+shader_param/refl_tx = SubResource( 19 )
 
-[sub_resource type="QuadMesh" id=20]
+[sub_resource type="QuadMesh" id=21]
 size = Vector2( 1, 0.5 )
 
 [node name="Spatial" type="Spatial" groups=[
@@ -85,116 +90,117 @@ environment = ExtResource( 1 )
 [node name="level" type="Spatial" parent="."]
 
 [node name="MeshInstance" type="MeshInstance" parent="level"]
+material_override = SubResource( 1 )
 cast_shadow = 0
-mesh = SubResource( 1 )
+mesh = SubResource( 2 )
 material/0 = null
 
 [node name="StaticBody" type="StaticBody" parent="level"]
 
 [node name="CollisionShape" type="CollisionShape" parent="level/StaticBody"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.25, 0 )
-shape = SubResource( 2 )
+shape = SubResource( 3 )
 
 [node name="outerwall" type="MeshInstance" parent="level"]
 transform = Transform( 50, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 50 )
-mesh = SubResource( 3 )
+mesh = SubResource( 4 )
 material/0 = null
 
 [node name="outerwall2" type="MeshInstance" parent="level"]
 transform = Transform( 50, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -50 )
-mesh = SubResource( 3 )
+mesh = SubResource( 4 )
 material/0 = null
 
 [node name="outerwall3" type="MeshInstance" parent="level"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 50, -50, 0, 0 )
-mesh = SubResource( 3 )
+mesh = SubResource( 4 )
 material/0 = null
 
 [node name="outerwall4" type="MeshInstance" parent="level"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 50, 50, 0, 0 )
-mesh = SubResource( 3 )
+mesh = SubResource( 4 )
 material/0 = null
 
 [node name="MeshInstance2" type="MeshInstance" parent="level"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 20 )
 material_override = ExtResource( 2 )
-mesh = SubResource( 4 )
+mesh = SubResource( 5 )
 material/0 = null
 
 [node name="StaticBody" type="StaticBody" parent="level/MeshInstance2"]
 
 [node name="CollisionShape" type="CollisionShape" parent="level/MeshInstance2/StaticBody"]
-shape = SubResource( 5 )
+shape = SubResource( 6 )
 
 [node name="MeshInstance3" type="MeshInstance" parent="level"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 8.37495, 0, 15 )
 material_override = ExtResource( 2 )
-mesh = SubResource( 6 )
+mesh = SubResource( 7 )
 material/0 = null
 
 [node name="StaticBody" type="StaticBody" parent="level/MeshInstance3"]
 
 [node name="CollisionShape" type="CollisionShape" parent="level/MeshInstance3/StaticBody"]
-shape = SubResource( 7 )
+shape = SubResource( 8 )
 
 [node name="MeshInstance4" type="MeshInstance" parent="level"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -8.56039, 0, 15 )
 material_override = ExtResource( 2 )
-mesh = SubResource( 6 )
+mesh = SubResource( 7 )
 material/0 = null
 
 [node name="StaticBody2" type="StaticBody" parent="level/MeshInstance4"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 16.9353, 0, 0 )
 
 [node name="CollisionShape" type="CollisionShape" parent="level/MeshInstance4/StaticBody2"]
-shape = SubResource( 7 )
+shape = SubResource( 8 )
 
 [node name="MeshInstance5" type="MeshInstance" parent="level"]
 transform = Transform( -1.62921e-07, -1, 0, 1, -1.62921e-07, 0, 0, 0, 1, -4.64152, 0, 9.33017 )
 material_override = ExtResource( 2 )
-mesh = SubResource( 6 )
+mesh = SubResource( 7 )
 material/0 = null
 
 [node name="StaticBody" type="StaticBody" parent="level/MeshInstance5"]
 
 [node name="CollisionShape" type="CollisionShape" parent="level/MeshInstance5/StaticBody"]
-shape = SubResource( 8 )
+shape = SubResource( 9 )
 
 [node name="MeshInstance6" type="MeshInstance" parent="level"]
 transform = Transform( 1.62921e-07, 1, -3.25841e-07, 1, -1.62921e-07, 0, -5.30863e-14, -3.25841e-07, -1, -2.64376, 0, 9.33017 )
 material_override = ExtResource( 2 )
-mesh = SubResource( 6 )
+mesh = SubResource( 7 )
 material/0 = null
 
 [node name="StaticBody" type="StaticBody" parent="level/MeshInstance6"]
 
 [node name="CollisionShape" type="CollisionShape" parent="level/MeshInstance6/StaticBody"]
 transform = Transform( 1, 1.72977e-20, 0, 1.72977e-20, 1, 0, 0, 0, 1, 0, 0, 0 )
-shape = SubResource( 9 )
+shape = SubResource( 10 )
 
 [node name="Spatial" type="Spatial" parent="level"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 11.8309 )
 
 [node name="target" type="MeshInstance" parent="level/Spatial"]
 transform = Transform( -1, 0, -3.25841e-07, 0, 1, 0, 3.25841e-07, 0, -1, 0, 0.706775, 0 )
-mesh = SubResource( 10 )
-material/0 = SubResource( 11 )
+mesh = SubResource( 11 )
+material/0 = SubResource( 12 )
 
 [node name="StaticBody" type="StaticBody" parent="level/Spatial/target"]
 
 [node name="CollisionShape" type="CollisionShape" parent="level/Spatial/target/StaticBody"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.1 )
-shape = SubResource( 12 )
+shape = SubResource( 13 )
 
 [node name="MeshInstance" type="MeshInstance" parent="level/Spatial"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -3.91474 )
-mesh = SubResource( 13 )
-material/0 = SubResource( 14 )
+mesh = SubResource( 14 )
+material/0 = SubResource( 15 )
 
 [node name="StaticBody" type="StaticBody" parent="level/Spatial/MeshInstance"]
 
 [node name="CollisionShape" type="CollisionShape" parent="level/Spatial/MeshInstance/StaticBody"]
-shape = SubResource( 15 )
+shape = SubResource( 16 )
 
 [node name="player" parent="." instance=ExtResource( 4 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.231881, 0 )
@@ -224,13 +230,13 @@ transform = Transform( -1, -5.65818e-08, 3.20891e-07, 0, 0.984808, 0.173648, -3.
 current = true
 
 [node name="MeshInstance" type="MeshInstance" parent="camera"]
-mesh = SubResource( 16 )
+mesh = SubResource( 17 )
 material/0 = null
 
 [node name="display" type="MeshInstance" parent="."]
 transform = Transform( 1, 0, 0, 0, -1, 3.25841e-07, 0, -3.25841e-07, -1, 0, 1.22023, 18.9015 )
-material_override = SubResource( 19 )
+material_override = SubResource( 20 )
 cast_shadow = 0
-mesh = SubResource( 20 )
+mesh = SubResource( 21 )
 material/0 = null
 script = ExtResource( 8 )
