@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://Character2.tscn" type="PackedScene" id=1]
+[ext_resource path="res://soldier_collision.tres" type="Shape" id=2]
+
+[node name="Spatial" type="KinematicBody"]
+
+[node name="CollisionShape" type="CollisionShape" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.926618, 0.254346 )
+shape = ExtResource( 2 )
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="RotationHelper" type="Spatial" parent="."]
+
+[node name="Character2" parent="RotationHelper" instance=ExtResource( 1 )]

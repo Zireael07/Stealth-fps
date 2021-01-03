@@ -6,7 +6,7 @@
 [ext_resource path="res://kinematic.tscn" type="PackedScene" id=4]
 [ext_resource path="res://item.tscn" type="PackedScene" id=5]
 [ext_resource path="res://item2.tscn" type="PackedScene" id=6]
-[ext_resource path="res://Character2.tscn" type="PackedScene" id=7]
+[ext_resource path="res://AI.tscn" type="PackedScene" id=7]
 [ext_resource path="res://display.gd" type="Script" id=8]
 [ext_resource path="res://cctv_camera.gd" type="Script" id=9]
 [ext_resource path="res://assets/cement.png" type="Texture" id=10]
@@ -210,7 +210,7 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.231881, 0 )
 [node name="item2" parent="." instance=ExtResource( 6 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -6.87111, 1.06643, 15.0613 )
 
-[node name="Character" parent="." instance=ExtResource( 7 )]
+[node name="AI" parent="." instance=ExtResource( 7 )]
 transform = Transform( -1, 0, -3.25841e-07, 0, 1, 0, 3.25841e-07, 0, -1, 0, 0, 24.861 )
 
 [node name="camera" type="Spatial" parent="." groups=[
