@@ -108,7 +108,7 @@ func detect_interactable():
 		var body = ray.get_collider()
 		#print("Colliding with: ", body.get_name())
 
-		if body is Area:
+		if body is Area and body.get_parent().is_in_group("interactable"):
 			if last_interactable:
 				var target = body.get_parent().get_child(0)
 				draw_screen_outline(target)
