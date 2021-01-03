@@ -5,13 +5,15 @@ extends Spatial
 var world_node = null
 var bullet_impact = null
 
+# because interactables use raycasts, they are in this script
+var player = null
 var last_interactable = null
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	world_node = get_tree().get_nodes_in_group("root")[0]
 	bullet_impact = preload("res://bullet_impact.tscn")
-
+	player = get_tree().get_nodes_in_group("player")[0]
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta):
@@ -47,7 +49,50 @@ func fire_weapon():
 			create_bulletimpact(ray.get_collision_point(), ray.get_collision_normal(), 
 			body.get_parent().get_name().find("target") != -1, true)
 
+func draw_screen_outline(target):
+	# HUD outline drawing
+	var originalVerticesArray = []
+	# both array meshes and primitive meshes have AABB
+	for i in range(7):
+		originalVerticesArray.append(target.get_aabb().get_endpoint(i) + target.get_global_transform().origin)
+	
+	# transform
+	var unprojectedVerticesArray = []
+	for p in originalVerticesArray:
+		unprojectedVerticesArray.append(get_viewport().get_camera().unproject_position(p))
+		
+	# based on https://godotengine.org/qa/40175/get-screen-size-bounds-of-3d-mesh
+	# init
+	var p1 = unprojectedVerticesArray[0]
+	var p2 = p1
+
+	# pick min and max only
+	for p in unprojectedVerticesArray:
+		p1.x = min(p1.x, p.x)
+		p1.y = min(p1.y, p.y)
+		p2.x = max(p2.x, p.x)
+		p2.y = max(p2.y, p.y)
+		
+
+	var start = p1
+	var end = p2
+	var width = abs(start.x-end.x)
+	var height = abs(start.y-end.y)
+	
+	# send them to HUD
+	#player.get_node("Control/ColorRect").rect_position = start
+	#player.get_node("Control/ColorRect2").rect_position = end
+	
+	# small margin
+	var margin = Vector2(4,4)
+	
+	player.get_node("Control/ReferenceRect").visible = true
+	player.get_node("Control/ReferenceRect").rect_position = start - margin
+	player.get_node("Control/ReferenceRect").set_size(Vector2(width+2*margin.x, height+2*margin.y))
+
+
 func detect_interactable():
+	#print("Detect interactable...")
 	# Get the raycast node
 	var ray = $RayCast
 	# Force the raycast to update. This will force the raycast to detect collisions when we call it.
@@ -57,29 +102,36 @@ func detect_interactable():
 	# Did the ray hit something?
 	if ray.is_colliding():
 		var body = ray.get_collider()
-		
+
 		if body is Area:
 			if last_interactable:
+				var target = body.get_parent().get_child(0)
+				draw_screen_outline(target)
 				if last_interactable != body:
 					# remove outline from previous interactable
 					var lt = last_interactable.get_parent().get_child(0)
 					lt.get_surface_material(0).next_pass.set_shader_param("thickness", 0)
 					last_interactable = body
-					var target = body.get_parent().get_child(0)
 					target.get_surface_material(0).next_pass.set_shader_param("thickness", 0.1)
+
 			else:
 				last_interactable = body
 				var target = body.get_parent().get_child(0)
 				target.get_surface_material(0).next_pass.set_shader_param("thickness", 0.1)
+				draw_screen_outline(target)
+				
+				
 		else:
 			if last_interactable:
 				# remove outline from previous interactable
 				var lt = last_interactable.get_parent().get_child(0)
 				lt.get_surface_material(0).next_pass.set_shader_param("thickness", 0)
 				last_interactable = null
+				player.get_node("Control/ReferenceRect").hide()
 	else:
 		if last_interactable:
 			# remove outline from previous interactable
 			var lt = last_interactable.get_parent().get_child(0)
 			lt.get_surface_material(0).next_pass.set_shader_param("thickness", 0)
 			last_interactable = null
+			player.get_node("Control/ReferenceRect").hide()
