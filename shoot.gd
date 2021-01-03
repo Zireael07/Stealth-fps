@@ -48,7 +48,11 @@ func fire_weapon():
 			#print("hit: ", body.get_parent().get_name().find("target"))
 			create_bulletimpact(ray.get_collision_point(), ray.get_collision_normal(), 
 			body.get_parent().get_name().find("target") != -1, true)
-
+		if body is KinematicBody:
+			body.die()
+		
+# -----------------------------------
+# interactables use raycasting, so this code is also here
 func draw_screen_outline(target):
 	# HUD outline drawing
 	var originalVerticesArray = []
@@ -102,6 +106,7 @@ func detect_interactable():
 	# Did the ray hit something?
 	if ray.is_colliding():
 		var body = ray.get_collider()
+		#print("Colliding with: ", body.get_name())
 
 		if body is Area:
 			if last_interactable:
