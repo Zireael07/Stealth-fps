@@ -18,12 +18,18 @@ var left_ik_tg
 
 var MOUSE_SENSITIVITY = 0.05
 
+var crouched = false
+
+var state_machine
+
 func _ready():
 	camera = $RotationHelper/Character/Armature/CameraBoneAttachment/Camera
 	camera_helper = $RotationHelper/Character/Armature/HitBoxChest/Spatial # for ik targets
 	rotation_helper = $RotationHelper
 	
 	left_ik_tg = camera_helper.get_node("left_ik_tg")
+	
+	state_machine = $RotationHelper/Character/AnimationTree
 	
 	# FPS input
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
@@ -80,6 +86,22 @@ func process_input(delta):
 	# Firing the weapons
 	if Input.is_action_pressed("shoot"):
 		camera.get_node("Spatial").fire_weapon()
+
+	# Crouch
+	if Input.is_action_just_pressed("movement_crouch"):
+		# toggle
+		crouched = not crouched
+		if crouched:
+			# crouching character is roughly 0.4 (1.7 to 1.3) lower
+			$CollisionShape.set_translation(Vector3(0,0.527,0.324))
+			$CollisionShape.get_shape().extents = Vector3(0.249, 0.52, 0.757)
+			# change anim
+			state_machine["parameters/move_state/playback"].travel("crouch")
+		else:
+			# restore original values
+			$CollisionShape.set_translation(Vector3(0,0.927, 0.324))
+			$CollisionShape.get_shape().extents = Vector3(0.249, 0.92, 0.757)
+			state_machine["parameters/move_state/playback"].travel("run")
 
 	# ----------------------------------
 	# Capturing/Freeing the cursor

@@ -25,7 +25,7 @@ __meta__ = {
 [node name="Character2" parent="RotationHelper" instance=ExtResource( 1 )]
 
 [node name="Area" type="Area" parent="RotationHelper"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.31853, 0 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0 )
 
 [node name="CollisionShape" type="CollisionShape" parent="RotationHelper/Area"]
 shape = ExtResource( 4 )
