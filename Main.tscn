@@ -150,7 +150,6 @@ mesh = SubResource( 7 )
 material/0 = null
 
 [node name="StaticBody2" type="StaticBody" parent="level/MeshInstance4"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 16.9353, 0, 0 )
 
 [node name="CollisionShape" type="CollisionShape" parent="level/MeshInstance4/StaticBody2"]
 shape = SubResource( 8 )
@@ -206,6 +205,7 @@ shape = SubResource( 16 )
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.231881, 0 )
 
 [node name="item" parent="." instance=ExtResource( 5 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 5.735, 0.5, 7.399 )
 
 [node name="item2" parent="." instance=ExtResource( 6 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -6.87111, 1.06643, 15.0613 )

@@ -22,6 +22,12 @@ var crouched = false
 
 var state_machine
 
+var grabbed_object = null
+var grabbed_previous_mode = null
+const OBJECT_THROW_FORCE = 5
+const VIS_OBJECT_GRAB_DISTANCE = 1
+#const OBJECT_GRAB_RAY_DISTANCE = 10
+
 func _ready():
 	camera = $RotationHelper/Character/Armature/CameraBoneAttachment/Camera
 	camera_helper = $RotationHelper/Character/Armature/HitBoxChest/Spatial # for ik targets
@@ -103,6 +109,36 @@ func process_input(delta):
 			$CollisionShape.get_shape().extents = Vector3(0.249, 0.92, 0.757)
 			state_machine["parameters/move_state/playback"].travel("run")
 
+	# ----------------------------------
+	if Input.is_action_just_pressed("interact"):
+		# no interactable detected, do nothing
+		if grabbed_object == null and !camera.get_node("Spatial").last_interactable:
+			return
+		
+		# Case 1: grabbing items
+		if grabbed_object == null:
+			grabbed_object = camera.get_node("Spatial").last_interactable
+			# grab it
+			grabbed_object.mode = RigidBody.MODE_STATIC
+
+			grabbed_object.collision_layer = 0
+			grabbed_object.collision_mask = 0
+
+		else:
+			# throw the object
+			grabbed_object.mode = RigidBody.MODE_RIGID
+
+			grabbed_object.apply_impulse(Vector3(0, 0, 0), -camera.global_transform.basis.z.normalized() * OBJECT_THROW_FORCE)
+
+			grabbed_object.collision_layer = 1
+			grabbed_object.collision_mask = 1
+
+			grabbed_object = null
+
+	if grabbed_object != null:
+		var z_offset = (-camera.global_transform.basis.z.normalized() * VIS_OBJECT_GRAB_DISTANCE)
+		grabbed_object.global_transform.origin = camera.global_transform.origin + z_offset + camera.global_transform.basis.y.normalized() * -0.5
+	
 	# ----------------------------------
 	# Capturing/Freeing the cursor
 	if Input.is_action_just_pressed("ui_cancel"):
