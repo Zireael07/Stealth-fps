@@ -1,5 +1,7 @@
 extends KinematicBody
 
+var player = true
+
 const GRAVITY = -24.8
 var vel = Vector3()
 const MAX_SPEED = 20
@@ -124,6 +126,12 @@ func process_input(delta):
 
 			grabbed_object.collision_layer = 0
 			grabbed_object.collision_mask = 0
+			
+			if grabbed_object is KinematicBody:
+				grabbed_object.carried = true
+				#stop the ragdoll
+				grabbed_object.get_node("RotationHelper/Character2/Armature").physical_bones_stop_simulation()
+				grabbed_object.get_node("RotationHelper/Character2").rotate_x(deg2rad(90))
 
 		else:
 			# throw the object
@@ -132,8 +140,9 @@ func process_input(delta):
 
 				grabbed_object.apply_impulse(Vector3(0, 0, 0), -camera.global_transform.basis.z.normalized() * OBJECT_THROW_FORCE)
 			if grabbed_object is KinematicBody:
+				grabbed_object.carried = false
 				# tipback trick again
-				grabbed_object.get_node("RotationHelper/Character2").rotate_x(deg2rad(-40))
+				grabbed_object.get_node("RotationHelper/Character2").rotate_x(deg2rad(-90))
 				# restart ragdoll
 				grabbed_object.get_node("RotationHelper/Character2/Armature").physical_bones_start_simulation()
 
@@ -147,8 +156,6 @@ func process_input(delta):
 		
 		if grabbed_object is KinematicBody:
 			x_offset = Vector3(0,-1.5,0) # experimentally determined
-			#stop the ragdoll
-			grabbed_object.get_node("RotationHelper/Character2/Armature").physical_bones_stop_simulation()
 		
 		var z_offset = (-camera.global_transform.basis.z.normalized() * VIS_OBJECT_GRAB_DISTANCE)
 		grabbed_object.global_transform.origin = camera.global_transform.origin + z_offset + x_offset

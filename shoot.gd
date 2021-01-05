@@ -109,25 +109,30 @@ func detect_interactable():
 		#print("Colliding with: ", body.get_name())
 
 		# dead AIs
-		if body is KinematicBody and body.dead:
+		# TODO: clean this messy line up!
+		if body is PhysicalBone and \
+		body.get_parent().get_parent().get_parent().get_parent().dead and not 'player' in body.get_parent().get_parent().get_parent().get_parent():
+		#if body is KinematicBody and not 'player' in body and body.dead:
 			if last_interactable:
 				var target = body
-				draw_screen_outline(target.get_child(1).get_node("Character2/Armature/Body"))
+				draw_screen_outline(target.get_parent().get_node("Body"))
+				#draw_screen_outline(target.get_child(1).get_node("Character2/Armature/Body"))
 				if last_interactable != body:
 					# remove outline from previous interactable
 					var lt = last_interactable
 					# AI don't have next pass set up
 					if lt is Area or lt is RigidBody:
 						lt.get_child(1).get_surface_material(0).next_pass.set_shader_param("thickness", 0)
-					last_interactable = body
+					last_interactable = body.get_parent().get_parent().get_parent().get_parent() # the KinematicBody instead
 
 					#target.get_child(1).get_node("Character2/Armature/Body").get_surface_material(0).next_pass.set_shader_param("thickness", 0.1)
 			else:
-				last_interactable = body
+				last_interactable = body.get_parent().get_parent().get_parent().get_parent() # the KinematicBody instead
 				var target = body
+				draw_screen_outline(target.get_parent().get_node("Body"))
 				# AI don't have next pass set up
 				#target.get_child(1).get_node("Character2/Armature/Body").get_surface_material(0).next_pass.set_shader_param("thickness", 0.1)
-				draw_screen_outline(target.get_child(1).get_node("Character2/Armature/Body"))
+				#draw_screen_outline(target.get_child(1).get_node("Character2/Armature/Body"))
 
 		# interactable items
 		elif (body is Area or body is RigidBody) and body.is_in_group("interactable"):

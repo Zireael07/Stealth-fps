@@ -5,6 +5,7 @@ extends KinematicBody
 var possible_tg = null
 
 var dead = false
+var carried = false
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -16,7 +17,9 @@ func _ready():
 #	pass
 
 func _physics_process(delta):
-	if dead:
+	if dead and not carried:
+		# attempt to sync collision with ragdoll
+		global_transform.origin = get_node("RotationHelper/Character2/Armature/HitBoxPelvis/Area/CollisionShape").global_transform.origin
 		return
 		
 	if not possible_tg:
@@ -54,8 +57,12 @@ func die():
 	# ragdoll
 	get_node("RotationHelper/Character2/Armature").physical_bones_start_simulation()
 	
+	get_node("RotationHelper/Character2").rotate_x(deg2rad(-50)) # to arrive at -90
+	#get_node("CollisionShape").rotate_x(deg2rad(-90))
+	get_node("CollisionShape").disabled = true # only the ragdoll should be active
+	
 	#undo tipback (so that interacting later on works better)
-	get_node("RotationHelper/Character2").rotate_x(deg2rad(40))
+	#get_node("RotationHelper/Character2").rotate_x(deg2rad(40))
 
 func _on_Area_body_entered(body):
 	if body.is_in_group("player"):
