@@ -119,16 +119,23 @@ func process_input(delta):
 		if grabbed_object == null:
 			grabbed_object = camera.get_node("Spatial").last_interactable
 			# grab it
-			grabbed_object.mode = RigidBody.MODE_STATIC
+			if grabbed_object is RigidBody:
+				grabbed_object.mode = RigidBody.MODE_STATIC
 
 			grabbed_object.collision_layer = 0
 			grabbed_object.collision_mask = 0
 
 		else:
 			# throw the object
-			grabbed_object.mode = RigidBody.MODE_RIGID
+			if grabbed_object is RigidBody:
+				grabbed_object.mode = RigidBody.MODE_RIGID
 
-			grabbed_object.apply_impulse(Vector3(0, 0, 0), -camera.global_transform.basis.z.normalized() * OBJECT_THROW_FORCE)
+				grabbed_object.apply_impulse(Vector3(0, 0, 0), -camera.global_transform.basis.z.normalized() * OBJECT_THROW_FORCE)
+			if grabbed_object is KinematicBody:
+				# tipback trick again
+				grabbed_object.get_node("RotationHelper/Character2").rotate_x(deg2rad(-40))
+				# restart ragdoll
+				grabbed_object.get_node("RotationHelper/Character2/Armature").physical_bones_start_simulation()
 
 			grabbed_object.collision_layer = 1
 			grabbed_object.collision_mask = 1
@@ -136,8 +143,15 @@ func process_input(delta):
 			grabbed_object = null
 
 	if grabbed_object != null:
+		var x_offset = camera.global_transform.basis.y.normalized() * -0.5
+		
+		if grabbed_object is KinematicBody:
+			x_offset = Vector3(0,-1.5,0) # experimentally determined
+			#stop the ragdoll
+			grabbed_object.get_node("RotationHelper/Character2/Armature").physical_bones_stop_simulation()
+		
 		var z_offset = (-camera.global_transform.basis.z.normalized() * VIS_OBJECT_GRAB_DISTANCE)
-		grabbed_object.global_transform.origin = camera.global_transform.origin + z_offset + camera.global_transform.basis.y.normalized() * -0.5
+		grabbed_object.global_transform.origin = camera.global_transform.origin + z_offset + x_offset
 	
 	# ----------------------------------
 	# Capturing/Freeing the cursor

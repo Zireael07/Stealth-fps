@@ -4,6 +4,8 @@ extends KinematicBody
 # Declare member variables here. Examples:
 var possible_tg = null
 
+var dead = false
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	pass # Replace with function body.
@@ -14,6 +16,9 @@ func _ready():
 #	pass
 
 func _physics_process(delta):
+	if dead:
+		return
+		
 	if not possible_tg:
 		return
 	
@@ -39,6 +44,8 @@ func _physics_process(delta):
 			get_node("RotationHelper/MeshInstance").get_material_override().set_albedo(Color(1,1,0))
 
 func die():
+	dead = true
+	
 	# tip him back
 	get_node("RotationHelper/Character2").rotate_x(deg2rad(-40))
 	# switch off animtree
@@ -46,7 +53,9 @@ func die():
 			
 	# ragdoll
 	get_node("RotationHelper/Character2/Armature").physical_bones_start_simulation()
-
+	
+	#undo tipback (so that interacting later on works better)
+	get_node("RotationHelper/Character2").rotate_x(deg2rad(40))
 
 func _on_Area_body_entered(body):
 	if body.is_in_group("player"):

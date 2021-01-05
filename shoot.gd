@@ -108,14 +108,38 @@ func detect_interactable():
 		var body = ray.get_collider()
 		#print("Colliding with: ", body.get_name())
 
-		if (body is Area or body is RigidBody) and body.is_in_group("interactable"):
+		# dead AIs
+		if body is KinematicBody and body.dead:
+			if last_interactable:
+				var target = body
+				draw_screen_outline(target.get_child(1).get_node("Character2/Armature/Body"))
+				if last_interactable != body:
+					# remove outline from previous interactable
+					var lt = last_interactable
+					# AI don't have next pass set up
+					if lt is Area or lt is RigidBody:
+						lt.get_child(1).get_surface_material(0).next_pass.set_shader_param("thickness", 0)
+					last_interactable = body
+
+					#target.get_child(1).get_node("Character2/Armature/Body").get_surface_material(0).next_pass.set_shader_param("thickness", 0.1)
+			else:
+				last_interactable = body
+				var target = body
+				# AI don't have next pass set up
+				#target.get_child(1).get_node("Character2/Armature/Body").get_surface_material(0).next_pass.set_shader_param("thickness", 0.1)
+				draw_screen_outline(target.get_child(1).get_node("Character2/Armature/Body"))
+
+		# interactable items
+		elif (body is Area or body is RigidBody) and body.is_in_group("interactable"):
 			if last_interactable:
 				var target = body
 				draw_screen_outline(target.get_child(1))
 				if last_interactable != body:
 					# remove outline from previous interactable
 					var lt = last_interactable
-					lt.get_child(1).get_surface_material(0).next_pass.set_shader_param("thickness", 0)
+					# AI don't have next pass set up
+					if lt is Area or lt is RigidBody:
+						lt.get_child(1).get_surface_material(0).next_pass.set_shader_param("thickness", 0)
 					last_interactable = body
 					target.get_child(1).get_surface_material(0).next_pass.set_shader_param("thickness", 0.1)
 
@@ -130,13 +154,17 @@ func detect_interactable():
 			if last_interactable:
 				# remove outline from previous interactable
 				var lt = last_interactable
-				lt.get_child(1).get_surface_material(0).next_pass.set_shader_param("thickness", 0)
+				# AI don't have next pass set up
+				if lt is Area or lt is RigidBody:
+					lt.get_child(1).get_surface_material(0).next_pass.set_shader_param("thickness", 0)
 				last_interactable = null
 				player.get_node("Control/ReferenceRect").hide()
 	else:
 		if last_interactable:
 			# remove outline from previous interactable
 			var lt = last_interactable
-			lt.get_child(1).get_surface_material(0).next_pass.set_shader_param("thickness", 0)
+			# AI don't have next pass set up
+			if lt is Area or lt is RigidBody:
+				lt.get_child(1).get_surface_material(0).next_pass.set_shader_param("thickness", 0)
 			last_interactable = null
 			player.get_node("Control/ReferenceRect").hide()
