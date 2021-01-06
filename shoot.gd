@@ -112,7 +112,10 @@ func draw_screen_outline(mesh, target):
 	player.get_node("Control/ReferenceRect").rect_position = start - margin
 	player.get_node("Control/ReferenceRect").set_size(Vector2(width+2*margin.x, height+2*margin.y))
 	# show item name
-	player.get_node("Control/ReferenceRect/Label").set_text(target.get_name())
+	if target is KinematicBody and target.dead:
+		player.get_node("Control/ReferenceRect/Label").set_text(target.get_name() + " (Dead)")
+	else:
+		player.get_node("Control/ReferenceRect/Label").set_text(target.get_name())
 
 
 func detect_interactable():
