@@ -56,9 +56,27 @@ func fire_weapon():
 func draw_screen_outline(mesh, target):
 	# HUD outline drawing
 	var originalVerticesArray = []
+	
+	var origin = mesh.get_global_transform().origin
+	var point = null
+
 	# both array meshes and primitive meshes have AABB
 	for i in range(7):
-		originalVerticesArray.append(mesh.get_aabb().get_endpoint(i) + mesh.get_global_transform().origin)
+		# use a fake (rotated) aabb instead for AI
+		if target is KinematicBody:
+			# this is global, to take rotation into account
+			point = target.get_node("RotationHelper/Character2/Armature/HitBoxTorso/center").get_child(i).global_transform.origin
+			# so just plug it in
+			originalVerticesArray.append(point)
+#			mesh.get_transformed_aabb().get_endpoint(i)
+			#point = point.rotated(Vector3(1,0,0), deg2rad(45))
+		else:
+			point = mesh.get_aabb().get_endpoint(i) # this is in local space
+			originalVerticesArray.append(point + origin) # AABB are unrotated by design, so we can just add
+		
+		
+
+
 	
 	# transform
 	var unprojectedVerticesArray = []

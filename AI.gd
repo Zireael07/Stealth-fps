@@ -9,14 +9,28 @@ var carried = false
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	pass # Replace with function body.
+	var mesh = get_node("RotationHelper/Character2/Armature/Body")
+	# visualize aabb
+	var debug = $RotationHelper/Character2/Armature/HitBoxTorso/center
+	for i in range(7):
+		var end_point = mesh.get_aabb().get_endpoint(i) # local space
+		 # because we're looking at relative to center
+		var point = to_global(end_point)
+		#var pt = Position3D.new()
+		var msh = CubeMesh.new()
+		msh.size = Vector3(0.25, 0.25, 0.25)
+		var pt = MeshInstance.new()
+		pt.set_mesh(msh)
+		debug.add_child(pt)
+		pt.global_transform.origin =  point
+
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta):
 #	pass
 
-func _physics_process(delta):
+func _physics_process(delta):	
 	if dead and not carried:
 		# attempt to sync collision with ragdoll
 		global_transform.origin = get_node("RotationHelper/Character2/Armature/HitBoxPelvis/Area/CollisionShape").global_transform.origin
@@ -60,6 +74,9 @@ func die():
 	get_node("RotationHelper/Character2").rotate_x(deg2rad(-50)) # to arrive at -90
 	#get_node("CollisionShape").rotate_x(deg2rad(-90))
 	get_node("CollisionShape").disabled = true # only the ragdoll should be active
+	
+	# for AI, rotate the apparent aabb origin by 90 deg to fit the ragdoll
+	#get_node("RotationHelper/Character2/Armature/HitBoxTorso/center").rotate_x(deg2rad(-90))
 	
 	#undo tipback (so that interacting later on works better)
 	#get_node("RotationHelper/Character2").rotate_x(deg2rad(40))
