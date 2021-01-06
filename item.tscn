@@ -2,24 +2,25 @@
 
 [ext_resource path="res://assets/Outline3Dnextpass.tres" type="Material" id=1]
 
-[sub_resource type="SphereShape" id=4]
-radius = 0.6
+[sub_resource type="SphereShape" id=1]
+radius = 0.3
 
-[sub_resource type="SphereMesh" id=5]
-radius = 0.5
-height = 1.0
+[sub_resource type="SphereMesh" id=2]
+radius = 0.24
+height = 0.5
 
 [sub_resource type="SpatialMaterial" id=3]
 next_pass = ExtResource( 1 )
+albedo_color = Color( 0.941176, 0.537255, 0.0627451, 1 )
 
-[node name="item" type="RigidBody" groups=[
+[node name="basketball" type="RigidBody" groups=[
 "interactable",
 ]]
 mode = 1
 
 [node name="CollisionShape" type="CollisionShape" parent="."]
-shape = SubResource( 4 )
+shape = SubResource( 1 )
 
 [node name="MeshInstance" type="MeshInstance" parent="."]
-mesh = SubResource( 5 )
+mesh = SubResource( 2 )
 material/0 = SubResource( 3 )

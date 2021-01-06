@@ -204,10 +204,10 @@ shape = SubResource( 16 )
 [node name="player" parent="." instance=ExtResource( 4 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.231881, 0 )
 
-[node name="item" parent="." instance=ExtResource( 5 )]
+[node name="basketball" parent="." instance=ExtResource( 5 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 5.735, 0.5, 7.399 )
 
-[node name="item2" parent="." instance=ExtResource( 6 )]
+[node name="box" parent="." instance=ExtResource( 6 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -6.87111, 1.06643, 15.0613 )
 
 [node name="AI" parent="." instance=ExtResource( 7 )]

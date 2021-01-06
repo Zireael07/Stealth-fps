@@ -53,12 +53,12 @@ func fire_weapon():
 		
 # -----------------------------------
 # interactables use raycasting, so this code is also here
-func draw_screen_outline(target):
+func draw_screen_outline(mesh, target):
 	# HUD outline drawing
 	var originalVerticesArray = []
 	# both array meshes and primitive meshes have AABB
 	for i in range(7):
-		originalVerticesArray.append(target.get_aabb().get_endpoint(i) + target.get_global_transform().origin)
+		originalVerticesArray.append(mesh.get_aabb().get_endpoint(i) + mesh.get_global_transform().origin)
 	
 	# transform
 	var unprojectedVerticesArray = []
@@ -93,6 +93,8 @@ func draw_screen_outline(target):
 	player.get_node("Control/ReferenceRect").visible = true
 	player.get_node("Control/ReferenceRect").rect_position = start - margin
 	player.get_node("Control/ReferenceRect").set_size(Vector2(width+2*margin.x, height+2*margin.y))
+	# show item name
+	player.get_node("Control/ReferenceRect/Label").set_text(target.get_name())
 
 
 func detect_interactable():
@@ -111,11 +113,11 @@ func detect_interactable():
 		# dead AIs
 		# TODO: clean this messy line up!
 		if body is PhysicalBone and \
-		body.get_parent().get_parent().get_parent().get_parent().dead and not 'player' in body.get_parent().get_parent().get_parent().get_parent():
+		'dead' in body.get_node("../../../..") and body.get_node("../../../..").dead and not 'player' in body.get_node("../../../.."):
 		#if body is KinematicBody and not 'player' in body and body.dead:
 			if last_interactable:
 				var target = body
-				draw_screen_outline(target.get_parent().get_node("Body"))
+				draw_screen_outline(target.get_parent().get_node("Body"), target.get_node("../../../.."))
 				#draw_screen_outline(target.get_child(1).get_node("Character2/Armature/Body"))
 				if last_interactable != body:
 					# remove outline from previous interactable
@@ -129,7 +131,7 @@ func detect_interactable():
 			else:
 				last_interactable = body.get_parent().get_parent().get_parent().get_parent() # the KinematicBody instead
 				var target = body
-				draw_screen_outline(target.get_parent().get_node("Body"))
+				draw_screen_outline(target.get_parent().get_node("Body"), target.get_node("../../../.."))
 				# AI don't have next pass set up
 				#target.get_child(1).get_node("Character2/Armature/Body").get_surface_material(0).next_pass.set_shader_param("thickness", 0.1)
 				#draw_screen_outline(target.get_child(1).get_node("Character2/Armature/Body"))
@@ -138,7 +140,7 @@ func detect_interactable():
 		elif (body is Area or body is RigidBody) and body.is_in_group("interactable"):
 			if last_interactable:
 				var target = body
-				draw_screen_outline(target.get_child(1))
+				draw_screen_outline(target.get_child(1), target)
 				if last_interactable != body:
 					# remove outline from previous interactable
 					var lt = last_interactable
@@ -152,7 +154,7 @@ func detect_interactable():
 				last_interactable = body
 				var target = body
 				target.get_child(1).get_surface_material(0).next_pass.set_shader_param("thickness", 0.1)
-				draw_screen_outline(target.get_child(1))
+				draw_screen_outline(target.get_child(1), target)
 				
 				
 		else:
