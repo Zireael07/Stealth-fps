@@ -36,6 +36,7 @@ func create_bulletimpact(pos, normal, keep = false, bullet_hole = true):
 func fire_weapon():
 	# Get the raycast node
 	var ray = $RayCast
+	ray.cast_to = Vector3(0,0,-50) # range of 50 m
 	# Force the raycast to update. This will force the raycast to detect collisions when we call it.
 	# This means we are getting a frame perfect collision check with the 3D world.
 	ray.force_raycast_update()
@@ -122,6 +123,8 @@ func detect_interactable():
 	#print("Detect interactable...")
 	# Get the raycast node
 	var ray = $RayCast
+	# interactable range is 4 m (to be slightly more generous, 2m range is more realistic but the majority of it is obscured by our arms/weapon)
+	ray.cast_to = Vector3(0,0,-4) 
 	# Force the raycast to update. This will force the raycast to detect collisions when we call it.
 	# This means we are getting a frame perfect collision check with the 3D world.
 	ray.force_raycast_update()
