@@ -24,11 +24,16 @@ var crouched = false
 
 var state_machine
 
+# Bullet impulse values are "artistic" according to a comment on gamedev.net
+const PUSH_FORCE = 2 # has to be lower than OBJECT_THROW_FORCE below to make sense
+
 var grabbed_object = null
 var grabbed_previous_mode = null
 const OBJECT_THROW_FORCE = 5
 const VIS_OBJECT_GRAB_DISTANCE = 1
 #const OBJECT_GRAB_RAY_DISTANCE = 10
+
+
 
 func _ready():
 	camera = $RotationHelper/Character/Armature/CameraBoneAttachment/Camera
@@ -194,7 +199,15 @@ func process_movement(delta):
 	hvel = hvel.linear_interpolate(target, accel * delta)
 	vel.x = hvel.x
 	vel.z = hvel.z
-	vel = move_and_slide(vel, Vector3(0, 1, 0), 0.05, 4, deg2rad(MAX_SLOPE_ANGLE))
+	# infinite inertia is now false for better physics when colliding with objects
+	vel = move_and_slide(vel, Vector3(0, 1, 0), 0.05, 4, deg2rad(MAX_SLOPE_ANGLE), false)
+	
+	# https://kidscancode.org/godot_recipes/physics/kinematic_to_rigidbody/
+	# after calling move_and_slide()
+	for index in get_slide_count():
+		var collision = get_slide_collision(index)
+		if collision.collider.is_in_group("interactable"):
+			collision.collider.apply_central_impulse(-collision.normal * PUSH_FORCE)
 
 func _input(event):
 	if event is InputEventMouseMotion and Input.get_mouse_mode() == Input.MOUSE_MODE_CAPTURED:
