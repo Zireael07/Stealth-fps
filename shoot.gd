@@ -49,6 +49,18 @@ func fire_weapon():
 			#print("hit: ", body.get_parent().get_name().find("target"))
 			create_bulletimpact(ray.get_collision_point(), ray.get_collision_normal(), 
 			body.get_parent().get_name().find("target") != -1, true)
+			
+			# we're a shooting target, do some math magic to figure out the scoring
+			if body.get_parent().get_name().find("target") != -1:
+				var point = body.get_parent().to_local(ray.get_collision_point())
+				var dist = Vector2().distance_to(Vector2(point.x, point.y))
+				#print("Hit dist is ", dist)
+				# max dist is 0.5 (the diameter of the target is 1)
+				# what fraction of max_dist are we away from the edge?
+				var dist_to_edge = lerp(0.5, 0, dist/0.5)
+				#print("Base", base_score)
+				var score = lerp(1, 10, dist_to_edge*2) # dist_to_edge runs from 0.5
+				print("Score is ", round(score)) # 10 rings on a target
 		if body is KinematicBody:
 			body.die()
 		

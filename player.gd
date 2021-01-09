@@ -97,7 +97,7 @@ func process_input(delta):
 
 	# ----------------------------------
 	# Firing the weapons
-	if Input.is_action_pressed("shoot"):
+	if Input.is_action_just_pressed("shoot"):
 		camera.get_node("Spatial").fire_weapon()
 
 	# Crouch
