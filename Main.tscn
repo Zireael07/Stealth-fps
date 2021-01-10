@@ -1,4 +1,4 @@
-[gd_scene load_steps=32 format=2]
+[gd_scene load_steps=33 format=2]
 
 [ext_resource path="res://better_env.tres" type="Environment" id=1]
 [ext_resource path="res://assets/blue.material" type="Material" id=2]
@@ -10,6 +10,7 @@
 [ext_resource path="res://display.gd" type="Script" id=8]
 [ext_resource path="res://cctv_camera.gd" type="Script" id=9]
 [ext_resource path="res://assets/cement.png" type="Texture" id=10]
+[ext_resource path="res://shooting_range.gd" type="Script" id=11]
 
 [sub_resource type="SpatialMaterial" id=1]
 albedo_texture = ExtResource( 10 )
@@ -179,6 +180,7 @@ shape = SubResource( 10 )
 
 [node name="Spatial" type="Spatial" parent="level"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 11.8309 )
+script = ExtResource( 11 )
 
 [node name="target" type="MeshInstance" parent="level/Spatial"]
 transform = Transform( -1, 0, -3.25841e-07, 0, 1, 0, 3.25841e-07, 0, -1, 0, 0.706775, 0 )

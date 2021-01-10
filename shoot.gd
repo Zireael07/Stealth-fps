@@ -60,7 +60,11 @@ func fire_weapon():
 				var dist_to_edge = lerp(0.5, 0, dist/0.5)
 				#print("Base", base_score)
 				var score = lerp(1, 10, dist_to_edge*2) # dist_to_edge runs from 0.5
-				print("Score is ", round(score)) # 10 rings on a target
+				#print("Score is ", round(score)) # 10 rings on a target
+				# count off shots
+				body.get_parent().get_parent().num_shots += 1
+				# score display
+				body.get_parent().get_parent().add_shot(score)
 		if body is KinematicBody:
 			body.die()
 		
