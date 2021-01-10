@@ -33,6 +33,7 @@ const OBJECT_THROW_FORCE = 5
 const VIS_OBJECT_GRAB_DISTANCE = 1
 #const OBJECT_GRAB_RAY_DISTANCE = 10
 
+var armed = true
 
 
 func _ready():
@@ -98,6 +99,9 @@ func process_input(delta):
 	# ----------------------------------
 	# Firing the weapons
 	if Input.is_action_just_pressed("shoot"):
+		if not armed:
+			return
+			
 		camera.get_node("Spatial").fire_weapon()
 
 	# Crouch
@@ -116,10 +120,32 @@ func process_input(delta):
 			$CollisionShape.get_shape().extents = Vector3(0.249, 0.92, 0.757)
 			state_machine["parameters/move_state/playback"].travel("run")
 
+
 	# ----------------------------------
 	if Input.is_action_just_pressed("interact"):
-		# no interactable detected, do nothing
+		# no interactable detected
 		if grabbed_object == null and !camera.get_node("Spatial").last_interactable:
+			# unwield guns
+			if armed:
+				armed = false
+				# unwield current weapon
+				$CollisionShapeGun.disabled = true
+				$RotationHelper/Character/Armature/WeaponHold/Rifle.hide()
+				
+				# proper animation for hands
+				var g_pos = $RotationHelper/Character/Armature/WeaponHold/Rifle/Position3D.get_global_transform().origin #+ Vector3(0,0, 0.5)
+				var lpos = camera_helper.to_local(g_pos)
+				left_ik_tg.set_translation(Vector3(lpos.x, lpos.y-0.5, lpos.z))
+				$RotationHelper/Character/Armature/left_ik.start()
+				
+				camera_helper.get_node("rifle_ik_tg").set_translation(Vector3(0.65, 1, 1.75))
+				camera_helper.get_node("rifle_ik_tg").rotation_degrees = Vector3(25, 90, 0)
+				$RotationHelper/Character/Armature/rifleik.start()
+			else:
+				armed = true
+				# wield current weapon
+				$CollisionShapeGun.disabled = false
+				$RotationHelper/Character/Armature/WeaponHold/Rifle.show()
 			return
 		
 		# Case 1: grabbing items
@@ -211,28 +237,35 @@ func process_movement(delta):
 
 func _input(event):
 	if event is InputEventMouseMotion and Input.get_mouse_mode() == Input.MOUSE_MODE_CAPTURED:
-		# this rotates everything, including our mesh and collision
-		#rotation_helper.rotate_x(deg2rad(event.relative.y * MOUSE_SENSITIVITY))
-		
-		# rotate ik targets
-		var rot = deg2rad(event.relative.y * MOUSE_SENSITIVITY)
-		
-		# rotate_x wants radians
-		camera_helper.get_node("head_ik_tg").rotate_x(rot)
-		camera_helper.get_node("rifle_ik_tg").rotate_x(rot)
-
-		# play ik
-		$RotationHelper/Character/Armature/headik.start()
-		$RotationHelper/Character/Armature/rifleik.start()
-		#$RotationHelper/Character/Armature/left_ik.start()
-		
+				
 		self.rotate_y(deg2rad(event.relative.x * MOUSE_SENSITIVITY * -1))
+		var rot = deg2rad(event.relative.y * MOUSE_SENSITIVITY)
+		camera_helper.get_node("head_ik_tg").rotate_x(rot)
+		$RotationHelper/Character/Armature/headik.start()
 		
 		# clamp now
 		var view_rot = camera_helper.get_node("head_ik_tg").rotation_degrees 
 		view_rot.x = clamp(view_rot.x, -70, 30) # above 30 we'd need special handling to avoid chest mesh clipping
 		#print("Rot: ", view_rot.x)
 		camera_helper.get_node("head_ik_tg").rotation_degrees = view_rot
+		
+		if not armed:
+			return
+			
+		# this rotates everything, including our mesh and collision
+		#rotation_helper.rotate_x(deg2rad(event.relative.y * MOUSE_SENSITIVITY))
+		
+		# rotate ik targets
+		
+		# rotate_x wants radians
+
+		camera_helper.get_node("rifle_ik_tg").rotate_x(rot)
+
+		# play ik
+		$RotationHelper/Character/Armature/rifleik.start()
+		#$RotationHelper/Character/Armature/left_ik.start()
+		
+		
 		camera_helper.get_node("rifle_ik_tg").rotation_degrees = view_rot
 		
 		# this is tricky!
