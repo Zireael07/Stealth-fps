@@ -32,19 +32,19 @@ func _ready():
 	# get points
 	brain.target = get_parent().get_node("nav").get_child(0)
 	
-	# visualize aabb
-#	var debug = $RotationHelper/Character2/Armature/HitBoxTorso/center
-#	for i in range(7):
-#		var end_point = mesh.get_aabb().get_endpoint(i) # local space
-#		 # because we're looking at relative to center
-#		var point = to_global(end_point)
-#		#var pt = Position3D.new()
-#		var msh = CubeMesh.new()
-#		msh.size = Vector3(0.25, 0.25, 0.25)
-#		var pt = MeshInstance.new()
-#		pt.set_mesh(msh)
-#		debug.add_child(pt)
-#		pt.global_transform.origin =  point
+	# fake aabb for outlines
+	var debug = $RotationHelper/Character2/Armature/HitBoxTorso/center
+	for i in range(7):
+		var end_point = mesh.get_aabb().get_endpoint(i) # local space
+		 # because we're looking at relative to center
+		var point = to_global(end_point)
+		var pt = Position3D.new()
+		#var msh = CubeMesh.new()
+		#msh.size = Vector3(0.25, 0.25, 0.25)
+		#var pt = MeshInstance.new()
+		#pt.set_mesh(msh)
+		debug.add_child(pt)
+		pt.global_transform.origin =  point
 
 
 
@@ -98,38 +98,42 @@ func _physics_process(delta):
 		# attempt to sync collision with ragdoll
 		global_transform.origin = get_node("RotationHelper/Character2/Armature/HitBoxPelvis/Area/CollisionShape").global_transform.origin
 		return
+	
+	if not dead:	
+		# movement
+		brain.steer = brain.arrive(brain.target, 5)
 		
-	# movement
-	brain.steer = brain.arrive(brain.target, 5)
-	
-	# Reset dir, so our previous movement does not effect us
-	dir = Vector3()
-	
-	# Create a vector for storing input
-	var input_movement_vector = Vector2()
-	# steer y means forward/backwards
-	if brain.steer.y > 0:
-		input_movement_vector.y += 1
-	if brain.steer.y < 0:
-		input_movement_vector.y += -1
-	#print("input: ", input_movement_vector)
-	
-	# Normalize the input movement vector so we cannot move too fast
-	input_movement_vector = input_movement_vector.normalized()
-	
-	#print("AI input vec:", input_movement_vector)
-	
-	# Basis vectors are already normalized.
-	dir = get_global_transform().basis.z * input_movement_vector.y
-	
-	# rotations if any
-	self.rotate_y(deg2rad(brain.steer.x * STEER_SENSITIVITY))  #* -1))
-	
-	process_movement(delta)
+		# Reset dir, so our previous movement does not effect us
+		dir = Vector3()
+		
+		# Create a vector for storing input
+		var input_movement_vector = Vector2()
+		# steer y means forward/backwards
+		if brain.steer.y > 0:
+			input_movement_vector.y += 1
+		if brain.steer.y < 0:
+			input_movement_vector.y += -1
+		#print("input: ", input_movement_vector)
+		
+		# Normalize the input movement vector so we cannot move too fast
+		input_movement_vector = input_movement_vector.normalized()
+		
+		#print("AI input vec:", input_movement_vector)
+		
+		# Basis vectors are already normalized.
+		dir += get_global_transform().basis.z * input_movement_vector.y
+		
+		# rotations if any
+		self.rotate_y(deg2rad(brain.steer.x * STEER_SENSITIVITY))  #* -1))
+		
+		process_movement(delta)
 		
 	
 		
 	if not possible_tg:
+		return
+		
+	if dead:
 		return
 	
 	# Can we see the player?
