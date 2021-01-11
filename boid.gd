@@ -88,6 +88,6 @@ func arrive(target, slowing_radius):
 
 	# desired minus current vel
 	steering = (desired - velocity).clamped(MAX_FORCE)
-	print("Steering", steering)
+	#print("Steering", steering)
 
 	return (steering)

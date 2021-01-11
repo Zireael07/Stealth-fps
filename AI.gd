@@ -76,10 +76,15 @@ func process_movement(delta):
 	#print("Accel, ", accel)
 	# Interpolate our velocity (without gravity), and then move using move_and_slide
 	hvel = hvel.linear_interpolate(target, accel * delta)
+	#print("Interp: ", accel*delta)
 	vel.x = hvel.x
 	vel.z = hvel.z
 	# infinite inertia is now false for better physics when colliding with objects
 	vel = move_and_slide(vel, Vector3(0, 1, 0), 0.05, 4, deg2rad(MAX_SLOPE_ANGLE), false)
+	
+	#print("V: ", vel, " sp: ", vel.length())
+	# dunno why the need to invert Z?
+	brain.velocity = Vector2(vel.x, -vel.z)
 	
 	# https://kidscancode.org/godot_recipes/physics/kinematic_to_rigidbody/
 	# after calling move_and_slide()
@@ -104,9 +109,9 @@ func _physics_process(delta):
 	var input_movement_vector = Vector2()
 	# steer y means forward/backwards
 	if brain.steer.y > 0:
-		input_movement_vector.y = 1
+		input_movement_vector.y += 1
 	if brain.steer.y < 0:
-		input_movement_vector.y = -1
+		input_movement_vector.y += -1
 	#print("input: ", input_movement_vector)
 	
 	# Normalize the input movement vector so we cannot move too fast
@@ -115,7 +120,7 @@ func _physics_process(delta):
 	#print("AI input vec:", input_movement_vector)
 	
 	# Basis vectors are already normalized.
-	dir += get_global_transform().basis.z * input_movement_vector.y
+	dir = get_global_transform().basis.z * input_movement_vector.y
 	
 	# rotations if any
 	self.rotate_y(deg2rad(brain.steer.x * STEER_SENSITIVITY))  #* -1))

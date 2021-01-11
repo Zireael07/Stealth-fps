@@ -227,6 +227,7 @@ func process_movement(delta):
 	vel.z = hvel.z
 	# infinite inertia is now false for better physics when colliding with objects
 	vel = move_and_slide(vel, Vector3(0, 1, 0), 0.05, 4, deg2rad(MAX_SLOPE_ANGLE), false)
+	#print("Vel: ", vel)
 	
 	# https://kidscancode.org/godot_recipes/physics/kinematic_to_rigidbody/
 	# after calling move_and_slide()
