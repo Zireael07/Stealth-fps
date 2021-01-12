@@ -279,4 +279,3 @@ script = ExtResource( 8 )
 
 [node name="TopDownCamera" type="Camera" parent="."]
 transform = Transform( -1, 3.25841e-07, 5.30863e-14, 0, -1.62921e-07, 1, 3.25841e-07, 1, 1.62921e-07, 0, 20, 19.737 )
-current = true

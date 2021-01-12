@@ -235,6 +235,11 @@ func process_movement(delta):
 		var collision = get_slide_collision(index)
 		if collision.collider.is_in_group("interactable"):
 			collision.collider.apply_central_impulse(-collision.normal * PUSH_FORCE)
+			
+	if vel.length() > 0:
+		state_machine["parameters/move_state/run/blend_position"] = Vector2(0,1) # actually animates leg movement
+	else:
+		state_machine["parameters/move_state/run/blend_position"] = Vector2(0,0) # stop moving
 
 func _input(event):
 	if event is InputEventMouseMotion and Input.get_mouse_mode() == Input.MOUSE_MODE_CAPTURED:

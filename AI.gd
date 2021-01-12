@@ -10,6 +10,8 @@ var carried = false
 var brain
 
 # see player.gd
+var state_machine
+
 const GRAVITY = -24.8
 var vel = Vector3()
 const MAX_SPEED = 2 #10 #20 # in m/s - 4 m/s is a human walking speed
@@ -30,6 +32,7 @@ var prev = 0
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	var mesh = get_node("RotationHelper/Character2/Armature/Body")
+	state_machine = $RotationHelper/Character2/AnimationTree
 	
 	brain = $brain
 	
@@ -117,7 +120,13 @@ func _physics_process(delta):
 		global_transform.origin = get_node("RotationHelper/Character2/Armature/HitBoxPelvis/Area/CollisionShape").global_transform.origin
 		return
 	
-	if not dead:	
+	if not dead:
+		# animate movement
+		if vel.length() > 0:
+			state_machine["parameters/move_state/run/blend_position"] = Vector2(0,1) # actually animates leg movement
+		else:
+			state_machine["parameters/move_state/run/blend_position"] = Vector2(0,0) # stop moving
+		
 		# movement
 		brain.steer = brain.arrive(brain.target, 15)
 		
