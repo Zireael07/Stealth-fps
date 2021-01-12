@@ -12,16 +12,20 @@ var brain
 # see player.gd
 const GRAVITY = -24.8
 var vel = Vector3()
-const MAX_SPEED = 20
+const MAX_SPEED = 2 #10 #20 # in m/s - 4 m/s is a human walking speed
 const JUMP_SPEED = 18
-const ACCEL = 4 #4.5
+const ACCEL = 1 #4 #4.5
 
 var dir = Vector3()
 
-const DEACCEL= 10 #16
+const DEACCEL= 4 #10 #16
 const MAX_SLOPE_ANGLE = 40
 
-var STEER_SENSITIVITY = 0.1 #0.05
+var STEER_SENSITIVITY = 0.5 #0.05
+
+var target_array = []
+var current = 0
+var prev = 0
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -30,7 +34,11 @@ func _ready():
 	brain = $brain
 	
 	# get points
-	brain.target = get_parent().get_node("nav").get_child(0)
+	for c in get_parent().get_node("nav").get_children():
+		target_array.append(c)
+	#brain.target = get_parent().get_node("nav").get_child(0)
+	brain.target = target_array[0]
+	
 	
 	# fake aabb for outlines
 	var debug = $RotationHelper/Character2/Armature/HitBoxTorso/center
@@ -51,6 +59,14 @@ func _ready():
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta):
 #	pass
+
+func is_close_to_target():
+	var ret = false
+	var loc = to_local(target_array[current].get_global_transform().origin)
+	var dist = Vector2(loc.x, loc.z).length()
+	if dist < 1:
+		ret = true
+	return ret
 
 # see player.gd
 func process_movement(delta):
@@ -77,7 +93,8 @@ func process_movement(delta):
 	# Interpolate our velocity (without gravity), and then move using move_and_slide
 	hvel = hvel.linear_interpolate(target, accel * delta)
 	#print("Interp: ", accel*delta)
-	vel.x = hvel.x
+	vel.x = hvel.x 
+	#vel.x = 0 # eliminate drift since AI can't strafe
 	vel.z = hvel.z
 	# infinite inertia is now false for better physics when colliding with objects
 	vel = move_and_slide(vel, Vector3(0, 1, 0), 0.05, 4, deg2rad(MAX_SLOPE_ANGLE), false)
@@ -101,7 +118,10 @@ func _physics_process(delta):
 	
 	if not dead:	
 		# movement
-		brain.steer = brain.arrive(brain.target, 5)
+		brain.steer = brain.arrive(brain.target, 15)
+		
+		# rotations if any
+		self.rotate_y(deg2rad(brain.steer.x * STEER_SENSITIVITY))  #* -1))
 		
 		# Reset dir, so our previous movement does not effect us
 		dir = Vector3()
@@ -121,14 +141,21 @@ func _physics_process(delta):
 		#print("AI input vec:", input_movement_vector)
 		
 		# Basis vectors are already normalized.
-		dir += get_global_transform().basis.z * input_movement_vector.y
-		
-		# rotations if any
-		self.rotate_y(deg2rad(brain.steer.x * STEER_SENSITIVITY))  #* -1))
+		dir = get_global_transform().basis.z * input_movement_vector.y
 		
 		process_movement(delta)
 		
-	
+		if is_close_to_target():
+			##do we have a next point?
+			if (target_array.size() > current+1):
+				prev = current
+				current = current + 1
+			else:
+				# assume all AI paths are loops for now
+				current = 0
+
+			# send to brain
+			brain.target = target_array[current]
 		
 	if not possible_tg:
 		return

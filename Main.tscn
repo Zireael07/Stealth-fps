@@ -58,13 +58,13 @@ albedo_color = Color( 0.501961, 0.364706, 0, 1 )
 [sub_resource type="ConvexPolygonShape" id=16]
 points = PoolVector3Array( -1, 1, 0.5, 1, 1, -0.5, 1, 1, 0.5, -1, 1, -0.5, -1, -1, 0.5, 1, -1, -0.5, 1, -1, 0.5, -1, -1, -0.5, 1, 1, 0.5, -1, 1, -0.5, 1, 1, -0.5, -1, 1, 0.5, 1, -1, 0.5, -1, -1, -0.5, 1, -1, -0.5, -1, -1, 0.5, 1, 1, 0.5, -1, -1, 0.5, -1, 1, 0.5, 1, -1, 0.5, 1, 1, -0.5, -1, -1, -0.5, -1, 1, -0.5, 1, -1, -0.5 )
 
-[sub_resource type="CubeMesh" id=22]
+[sub_resource type="CubeMesh" id=17]
 size = Vector3( 0.5, 0.5, 0.5 )
 
-[sub_resource type="CubeMesh" id=17]
+[sub_resource type="CubeMesh" id=18]
 size = Vector3( 0.25, 0.25, 0.75 )
 
-[sub_resource type="Shader" id=18]
+[sub_resource type="Shader" id=19]
 code = "shader_type spatial;
 render_mode unshaded;
  
@@ -75,13 +75,13 @@ void fragment() {
 	ALBEDO = texture(refl_tx, UV).rgb;
 }"
 
-[sub_resource type="ViewportTexture" id=19]
+[sub_resource type="ViewportTexture" id=20]
 
-[sub_resource type="ShaderMaterial" id=20]
-shader = SubResource( 18 )
-shader_param/refl_tx = SubResource( 19 )
+[sub_resource type="ShaderMaterial" id=21]
+shader = SubResource( 19 )
+shader_param/refl_tx = SubResource( 20 )
 
-[sub_resource type="QuadMesh" id=21]
+[sub_resource type="QuadMesh" id=22]
 size = Vector2( 1, 0.5 )
 
 [node name="Spatial" type="Spatial" groups=[
@@ -212,20 +212,32 @@ shape = SubResource( 16 )
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.90269, 0, 22.605 )
 
 [node name="MeshInstance" type="MeshInstance" parent="nav/Position3D"]
-mesh = SubResource( 22 )
+mesh = SubResource( 17 )
 material/0 = null
 
 [node name="Position3D2" type="Position3D" parent="nav"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.90269, 0, 17.7312 )
 
+[node name="MeshInstance2" type="MeshInstance" parent="nav/Position3D2"]
+mesh = SubResource( 17 )
+material/0 = null
+
 [node name="Position3D3" type="Position3D" parent="nav"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.66558, 0, 17.7312 )
+
+[node name="MeshInstance3" type="MeshInstance" parent="nav/Position3D3"]
+mesh = SubResource( 17 )
+material/0 = null
 
 [node name="Position3D4" type="Position3D" parent="nav"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.66558, 0, 23.5559 )
 
+[node name="MeshInstance4" type="MeshInstance" parent="nav/Position3D4"]
+mesh = SubResource( 17 )
+material/0 = null
+
 [node name="player" parent="." instance=ExtResource( 4 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.231881, 0 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -3.98177, 0.231881, 12.9158 )
 
 [node name="basketball" parent="." instance=ExtResource( 5 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 5.735, 0.5, 7.399 )
@@ -254,14 +266,14 @@ transform = Transform( -1, -5.65818e-08, 3.20891e-07, 0, 0.984808, 0.173648, -3.
 current = true
 
 [node name="MeshInstance" type="MeshInstance" parent="camera"]
-mesh = SubResource( 17 )
+mesh = SubResource( 18 )
 material/0 = null
 
 [node name="display" type="MeshInstance" parent="."]
 transform = Transform( 1, 0, 0, 0, -1, 3.25841e-07, 0, -3.25841e-07, -1, 0, 1.22023, 18.9015 )
-material_override = SubResource( 20 )
+material_override = SubResource( 21 )
 cast_shadow = 0
-mesh = SubResource( 21 )
+mesh = SubResource( 22 )
 material/0 = null
 script = ExtResource( 8 )
 

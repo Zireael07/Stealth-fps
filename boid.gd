@@ -6,17 +6,17 @@ var velocity = Vector2(0,0)
 var steer = Vector2(0,0)
 var desired = Vector2(0,0)
 
-var MAX_FORCE = 4
+var MAX_FORCE = 2 #4
 
 var dist = 0.0
 
 # match the ones in player.gd
 const GRAVITY = -24.8
-const MAX_SPEED = 20
+const MAX_SPEED = 4 #20 # 4 m/s is human walking speed
 const JUMP_SPEED = 18
 const ACCEL = 1 #4.5
 
-export(Vector2) var target = Vector2(800,700) # dummy
+export(Vector3) var target = Vector3(20, 0, 20) # dummy
 
 
 func _ready():
@@ -61,12 +61,14 @@ func seek(target):
 
 func arrive(target, slowing_radius):
 	# make the code universal
-	# can be passed both a vector2 or a node
+	# can be passed both a vector3 or a node
 	if not typeof(target) == TYPE_VECTOR3:
 		if "translation" in target:
 			# steering behaviors operate in local space
 			var tr = to_local(target.get_global_transform().origin)
 			target = Vector2(tr.x, tr.z) #get_global_position())
+	if typeof(target) == TYPE_VECTOR3:
+		target = Vector2(target.x, target.z)
 	
 	var steering = Vector2(0,0)
 	#print("Arrive @: " + str(target) + " " + str(get_translation()))
