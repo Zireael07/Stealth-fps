@@ -72,6 +72,7 @@ func is_close_to_target():
 func process_movement(delta):
 	# Assure our movement direction on the Y axis is zero, and then normalize it.
 	dir.y = 0
+	# dir is global (see line 145)
 	dir = dir.normalized()
 	# Apply gravity
 	vel.y += delta * GRAVITY
@@ -98,10 +99,10 @@ func process_movement(delta):
 	vel.z = hvel.z
 	# infinite inertia is now false for better physics when colliding with objects
 	vel = move_and_slide(vel, Vector3(0, 1, 0), 0.05, 4, deg2rad(MAX_SLOPE_ANGLE), false)
-	
 	#print("V: ", vel, " sp: ", vel.length())
-	# dunno why the need to invert Z?
-	brain.velocity = Vector2(vel.x, -vel.z)
+	
+	# x is turning and y is forward/backwards
+	brain.velocity = Vector2(0, vel.length())
 	
 	# https://kidscancode.org/godot_recipes/physics/kinematic_to_rigidbody/
 	# after calling move_and_slide()
