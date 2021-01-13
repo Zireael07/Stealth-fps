@@ -141,11 +141,20 @@ func process_input(delta):
 				camera_helper.get_node("rifle_ik_tg").set_translation(Vector3(0.65, 1, 1.75))
 				camera_helper.get_node("rifle_ik_tg").rotation_degrees = Vector3(25, 90, 0)
 				$RotationHelper/Character/Armature/rifleik.start()
+				
+				# update HUD
+				get_node("Control/Center/Crosshair").hide()
+				get_node("Control/Center/Control").show()
 			else:
 				armed = true
 				# wield current weapon
 				$CollisionShapeGun.disabled = false
 				$RotationHelper/Character/Armature/WeaponHold/Rifle.show()
+				
+				# update HUD
+				get_node("Control/Center/Crosshair").show()
+				get_node("Control/Center/Control").hide()
+				
 			return
 		
 		# Case 1: grabbing items
