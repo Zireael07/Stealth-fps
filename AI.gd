@@ -9,7 +9,9 @@ var carried = false
 
 var brain
 
-# see player.gd
+var in_sight = false
+
+# see player.gd - this is the anim state machine
 var state_machine
 
 const GRAVITY = -24.8
@@ -127,50 +129,53 @@ func _physics_process(delta):
 		else:
 			state_machine["parameters/move_state/run/blend_position"] = Vector2(0,0) # stop moving
 		
-		# movement
-		brain.steer = brain.arrive(brain.target, 15)
-		
-		# rotations if any
-		self.rotate_y(deg2rad(brain.steer.x * STEER_SENSITIVITY))  #* -1))
-		
-		# Reset dir, so our previous movement does not effect us
-		dir = Vector3()
-		
-		# Create a vector for storing input
-		var input_movement_vector = Vector2()
-		# steer y means forward/backwards
-		if brain.steer.y > 0:
-			input_movement_vector.y += 1
-		if brain.steer.y < 0:
-			input_movement_vector.y += -1
-		#print("input: ", input_movement_vector)
-		
-		# Normalize the input movement vector so we cannot move too fast
-		input_movement_vector = input_movement_vector.normalized()
-		
-		#print("AI input vec:", input_movement_vector)
-		
-		# Basis vectors are already normalized.
-		dir = get_global_transform().basis.z * input_movement_vector.y
-		
-		process_movement(delta)
-		
-		if is_close_to_target():
-			##do we have a next point?
-			if (target_array.size() > current+1):
-				prev = current
-				current = current + 1
-			else:
-				# assume all AI paths are loops for now
-				current = 0
+		if not in_sight:
+			# movement
+			brain.steer = brain.arrive(brain.target, 15)
+			
+			# rotations if any
+			self.rotate_y(deg2rad(brain.steer.x * STEER_SENSITIVITY))  #* -1))
+			
+			# Reset dir, so our previous movement does not effect us
+			dir = Vector3()
+			
+			# Create a vector for storing input
+			var input_movement_vector = Vector2()
+			# steer y means forward/backwards
+			if brain.steer.y > 0:
+				input_movement_vector.y += 1
+			if brain.steer.y < 0:
+				input_movement_vector.y += -1
+			#print("input: ", input_movement_vector)
+			
+			# Normalize the input movement vector so we cannot move too fast
+			input_movement_vector = input_movement_vector.normalized()
+			
+			#print("AI input vec:", input_movement_vector)
+			
+			# Basis vectors are already normalized.
+			dir = get_global_transform().basis.z * input_movement_vector.y
+			
+			process_movement(delta)
+			
+			if is_close_to_target():
+				##do we have a next point?
+				if (target_array.size() > current+1):
+					prev = current
+					current = current + 1
+				else:
+					# assume all AI paths are loops for now
+					current = 0
 
-			# send to brain
-			brain.target = target_array[current]
+				# send to brain
+				brain.target = target_array[current]
 		
 	if not possible_tg:
+		in_sight = false
 		return
 		
 	if dead:
+		in_sight = false
 		return
 	
 	# Can we see the player?
@@ -190,9 +195,17 @@ func _physics_process(delta):
 		#print("Body_r", body_r)
 		if body_r is KinematicBody:
 			get_node("RotationHelper/MeshInstance").get_material_override().set_albedo(Color(1,0,0))
+			
+			# look at player
+			look_at(body_r.global_transform.origin, Vector3(0,1,0))
+			# because this looks the opposite way for some reason
+			rotate_y(deg2rad(180))
+			in_sight = true
+			
 		# can't see the player
 		else:
 			get_node("RotationHelper/MeshInstance").get_material_override().set_albedo(Color(1,1,0))
+			in_sight = false
 
 func die():
 	dead = true
