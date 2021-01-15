@@ -1,4 +1,4 @@
-[gd_scene load_steps=34 format=2]
+[gd_scene load_steps=35 format=2]
 
 [ext_resource path="res://better_env.tres" type="Environment" id=1]
 [ext_resource path="res://assets/blue.material" type="Material" id=2]
@@ -11,6 +11,7 @@
 [ext_resource path="res://cctv_camera.gd" type="Script" id=9]
 [ext_resource path="res://assets/cement.png" type="Texture" id=10]
 [ext_resource path="res://shooting_range.gd" type="Script" id=11]
+[ext_resource path="res://crate_small.tscn" type="PackedScene" id=12]
 
 [sub_resource type="SpatialMaterial" id=1]
 albedo_texture = ExtResource( 10 )
@@ -245,6 +246,9 @@ mass = 10.0
 
 [node name="box" parent="." instance=ExtResource( 6 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -6.87111, 1.06643, 15.0613 )
+
+[node name="crate" parent="." instance=ExtResource( 12 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.617578, 13.9931 )
 
 [node name="AI" parent="." instance=ExtResource( 7 )]
 transform = Transform( -1, 0, -3.25841e-07, 0, 1, 0, 3.25841e-07, 0, -1, 0, 0, 24.861 )
