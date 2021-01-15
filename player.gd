@@ -53,6 +53,27 @@ func _physics_process(delta):
 	process_movement(delta)
 	camera.get_node("Spatial").detect_interactable()
 
+func unwield():
+	armed = false
+	# unwield current weapon
+	$CollisionShapeGun.disabled = true
+	$RotationHelper/Character/Armature/WeaponHold/Rifle.hide()
+	
+	# proper animation for hands
+	var g_pos = $RotationHelper/Character/Armature/WeaponHold/Rifle/Position3D.get_global_transform().origin #+ Vector3(0,0, 0.5)
+	var lpos = camera_helper.to_local(g_pos)
+	left_ik_tg.set_translation(Vector3(lpos.x, lpos.y-0.5, lpos.z))
+	$RotationHelper/Character/Armature/left_ik.start()
+	
+	camera_helper.get_node("rifle_ik_tg").set_translation(Vector3(0.65, 1, 1.75))
+	camera_helper.get_node("rifle_ik_tg").rotation_degrees = Vector3(25, 90, 0)
+	$RotationHelper/Character/Armature/rifleik.start()
+	
+	# update HUD
+	get_node("Control/Center/Crosshair").hide()
+	get_node("Control/Center/Control").show()
+
+
 func process_input(delta):
 
 	# ----------------------------------
@@ -127,24 +148,7 @@ func process_input(delta):
 		if grabbed_object == null and !camera.get_node("Spatial").last_interactable:
 			# unwield guns
 			if armed:
-				armed = false
-				# unwield current weapon
-				$CollisionShapeGun.disabled = true
-				$RotationHelper/Character/Armature/WeaponHold/Rifle.hide()
-				
-				# proper animation for hands
-				var g_pos = $RotationHelper/Character/Armature/WeaponHold/Rifle/Position3D.get_global_transform().origin #+ Vector3(0,0, 0.5)
-				var lpos = camera_helper.to_local(g_pos)
-				left_ik_tg.set_translation(Vector3(lpos.x, lpos.y-0.5, lpos.z))
-				$RotationHelper/Character/Armature/left_ik.start()
-				
-				camera_helper.get_node("rifle_ik_tg").set_translation(Vector3(0.65, 1, 1.75))
-				camera_helper.get_node("rifle_ik_tg").rotation_degrees = Vector3(25, 90, 0)
-				$RotationHelper/Character/Armature/rifleik.start()
-				
-				# update HUD
-				get_node("Control/Center/Crosshair").hide()
-				get_node("Control/Center/Control").show()
+				unwield()
 			else:
 				armed = true
 				# wield current weapon
@@ -160,6 +164,10 @@ func process_input(delta):
 		# Case 1: grabbing items
 		if grabbed_object == null:
 			grabbed_object = camera.get_node("Spatial").last_interactable
+			
+			# unwield any weapons
+			unwield()
+			
 			# grab it
 			if grabbed_object is RigidBody:
 				grabbed_object.mode = RigidBody.MODE_STATIC
