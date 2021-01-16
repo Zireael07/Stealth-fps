@@ -1,0 +1,36 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://assets/outline3D.shader" type="Shader" id=1]
+
+[sub_resource type="BoxShape" id=1]
+extents = Vector3( 1.5, 2, 1.5 )
+
+[sub_resource type="CubeMesh" id=2]
+size = Vector3( 3, 4, 4 )
+
+[sub_resource type="ShaderMaterial" id=3]
+shader = ExtResource( 1 )
+shader_param/thickness = 0.0
+shader_param/outline_color = Color( 0.72549, 0.619608, 0.0352941, 1 )
+
+[sub_resource type="SpatialMaterial" id=4]
+resource_name = "Metal_One"
+next_pass = SubResource( 3 )
+albedo_color = Color( 0.894531, 0.894531, 0.894531, 1 )
+metallic = 0.8
+metallic_specular = 1.0
+roughness = 0.2
+uv1_triplanar = true
+
+[node name="crate" type="RigidBody"]
+mode = 1
+mass = 1000.0
+gravity_scale = 2.0
+angular_damp = 2.0
+
+[node name="CollisionShape" type="CollisionShape" parent="."]
+shape = SubResource( 1 )
+
+[node name="MeshInstance" type="MeshInstance" parent="."]
+mesh = SubResource( 2 )
+material/0 = SubResource( 4 )
