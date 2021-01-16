@@ -1,17 +1,19 @@
-[gd_scene load_steps=35 format=2]
+[gd_scene load_steps=37 format=2]
 
 [ext_resource path="res://better_env.tres" type="Environment" id=1]
 [ext_resource path="res://assets/blue.material" type="Material" id=2]
 [ext_resource path="res://assets/shooting_target.jpg" type="Texture" id=3]
 [ext_resource path="res://kinematic.tscn" type="PackedScene" id=4]
-[ext_resource path="res://item.tscn" type="PackedScene" id=5]
-[ext_resource path="res://item2.tscn" type="PackedScene" id=6]
+[ext_resource path="res://basketball.tscn" type="PackedScene" id=5]
+[ext_resource path="res://box.tscn" type="PackedScene" id=6]
 [ext_resource path="res://AI.tscn" type="PackedScene" id=7]
 [ext_resource path="res://display.gd" type="Script" id=8]
 [ext_resource path="res://cctv_camera.gd" type="Script" id=9]
 [ext_resource path="res://assets/cement.png" type="Texture" id=10]
 [ext_resource path="res://shooting_range.gd" type="Script" id=11]
 [ext_resource path="res://crate_small.tscn" type="PackedScene" id=12]
+[ext_resource path="res://crate_big.tscn" type="PackedScene" id=13]
+[ext_resource path="res://crate_medium.tscn" type="PackedScene" id=14]
 
 [sub_resource type="SpatialMaterial" id=1]
 albedo_texture = ExtResource( 10 )
@@ -76,11 +78,11 @@ void fragment() {
 	//ALBEDO = texture(refl_tx, UV).rgb;
 }"
 
-[sub_resource type="ViewportTexture" id=20]
+[sub_resource type="ViewportTexture" id=23]
 
 [sub_resource type="ShaderMaterial" id=21]
 shader = SubResource( 19 )
-shader_param/refl_tx = SubResource( 20 )
+shader_param/refl_tx = SubResource( 23 )
 
 [sub_resource type="QuadMesh" id=22]
 size = Vector2( 1, 0.5 )
@@ -249,6 +251,12 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -6.87111, 1.06643, 15.0613 )
 
 [node name="crate" parent="." instance=ExtResource( 12 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.617578, 13.9931 )
+
+[node name="crate2" parent="." instance=ExtResource( 13 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 4.57974, 1.14641, 13.9136 )
+
+[node name="crate3" parent="." instance=ExtResource( 14 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2.21589, 1.05686, 16.3546 )
 
 [node name="AI" parent="." instance=ExtResource( 7 )]
 transform = Transform( -1, 0, -3.25841e-07, 0, 1, 0, 3.25841e-07, 0, -1, 0, 0, 24.861 )
