@@ -252,6 +252,10 @@ func process_movement(delta):
 		var collision = get_slide_collision(index)
 		if collision.collider.is_in_group("interactable"):
 			collision.collider.apply_central_impulse(-collision.normal * PUSH_FORCE)
+		if collision.collider.is_in_group("crate"):
+			var cr_imp = -camera.global_transform.basis.z.normalized() * PUSH_FORCE/3
+			print("Collided with crate, imp: ", Vector3(cr_imp.x, 0, cr_imp.z))
+			collision.collider.apply_impulse(Vector3(0,-2,0), Vector3(cr_imp.x, 0, cr_imp.z))
 			
 	if vel.length() > 0:
 		state_machine["parameters/move_state/run/blend_position"] = Vector2(0,1) # actually animates leg movement

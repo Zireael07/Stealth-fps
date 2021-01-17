@@ -256,7 +256,7 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.617578, 13.9931 )
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 4.57974, 1.14641, 13.9136 )
 
 [node name="crate3" parent="." instance=ExtResource( 14 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2.21589, 1.05686, 16.3546 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.580302, 1.05686, 16.3546 )
 
 [node name="AI" parent="." instance=ExtResource( 7 )]
 transform = Transform( -1, 0, -3.25841e-07, 0, 1, 0, 3.25841e-07, 0, -1, 0, 0, 24.861 )
