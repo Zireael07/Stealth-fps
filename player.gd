@@ -5,7 +5,7 @@ var player = true
 const GRAVITY = -24.8
 var vel = Vector3()
 const MAX_SPEED = 20
-const JUMP_SPEED = 18
+const JUMP_SPEED = 10 #18
 const ACCEL = 1 #4.5
 
 var dir = Vector3()
