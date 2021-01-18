@@ -200,13 +200,17 @@ func process_input(delta):
 			grabbed_object = null
 
 	if grabbed_object != null:
+		var rotation = global_transform.basis.get_euler()
+		
 		var x_offset = camera.global_transform.basis.y.normalized() * -0.5
 		
 		if grabbed_object is KinematicBody:
 			x_offset = Vector3(0,-1.5,0) # experimentally determined
 		
 		var z_offset = (-camera.global_transform.basis.z.normalized() * VIS_OBJECT_GRAB_DISTANCE)
+		
 		grabbed_object.global_transform.origin = camera.global_transform.origin + z_offset + x_offset
+		grabbed_object.rotation = rotation
 	
 	# ----------------------------------
 	# Capturing/Freeing the cursor
