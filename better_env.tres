@@ -1,4 +1,6 @@
-[gd_resource type="Environment" load_steps=2 format=2]
+[gd_resource type="Environment" load_steps=3 format=2]
+
+[ext_resource path="res://nightvision_color_correct.tres" type="Texture" id=1]
 
 [sub_resource type="ProceduralSky" id=1]
 sky_top_color = Color( 0.211765, 0.313726, 0.552941, 1 )
@@ -21,3 +23,4 @@ tonemap_mode = 3
 tonemap_white = 8.0
 ssao_quality = 0
 ssao_blur = 2
+adjustment_color_correction = ExtResource( 1 )
