@@ -164,6 +164,8 @@ func process_input(delta):
 		# Case 1: grabbing items
 		if grabbed_object == null:
 			grabbed_object = camera.get_node("Spatial").last_interactable
+			# clear interactable
+			#camera.get_node("Spatial").last_interactable = null
 			
 			# unwield any weapons
 			unwield()
@@ -182,11 +184,31 @@ func process_input(delta):
 				grabbed_object.get_node("RotationHelper/Character2").rotate_x(deg2rad(90))
 
 		else:
-			# throw the object
-			if grabbed_object is RigidBody:
-				grabbed_object.mode = RigidBody.MODE_RIGID
+			# are we aiming at another interactable?
+			if camera.get_node("Spatial").last_interactable:
+				#print("Aiming at interactable...")
+				
+				# get interactable's mesh aabb
+				var mesh = camera.get_node("Spatial").last_interactable.get_child(1)
+				var origin = mesh.get_global_transform().origin
+				var end_point = mesh.get_aabb().end
+				var siz = mesh.get_aabb().size
+				
+				var gl = origin + end_point + Vector3(-siz.x/2,0.2,-siz.y/2) # slightly above the surface
+				grabbed_object.global_transform.origin = gl
+				
+				# reenable physics to prevent weirdness like things clipping into each other
+				if grabbed_object is RigidBody:
+					grabbed_object.mode = RigidBody.MODE_RIGID
+				
+			else:
+				# throw the object
+				if grabbed_object is RigidBody:
+					grabbed_object.mode = RigidBody.MODE_RIGID
 
-				grabbed_object.apply_impulse(Vector3(0, 0, 0), -camera.global_transform.basis.z.normalized() * OBJECT_THROW_FORCE)
+					grabbed_object.apply_impulse(Vector3(0, 0, 0), -camera.global_transform.basis.z.normalized() * OBJECT_THROW_FORCE)
+			
+			# make it collide again
 			if grabbed_object is KinematicBody:
 				grabbed_object.carried = false
 				# tipback trick again
