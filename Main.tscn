@@ -1,4 +1,4 @@
-[gd_scene load_steps=37 format=2]
+[gd_scene load_steps=38 format=2]
 
 [ext_resource path="res://better_env.tres" type="Environment" id=1]
 [ext_resource path="res://assets/blue.material" type="Material" id=2]
@@ -14,6 +14,7 @@
 [ext_resource path="res://crate_small.tscn" type="PackedScene" id=12]
 [ext_resource path="res://crate_big.tscn" type="PackedScene" id=13]
 [ext_resource path="res://crate_medium.tscn" type="PackedScene" id=14]
+[ext_resource path="res://BSP.gd" type="Script" id=15]
 
 [sub_resource type="SpatialMaterial" id=1]
 albedo_texture = ExtResource( 10 )
@@ -44,25 +45,25 @@ points = PoolVector3Array( 0, 1, 1, 0, 1, -1, 0, 1, 1, 0, 1, -1, -1, -1, 1, 1, -
 [sub_resource type="ConvexPolygonShape" id=10]
 points = PoolVector3Array( 0, 1, 1, 0, 1, -1, 0, 1, 1, 0, 1, -1, -1, -1, 1, 1, -1, -1, 1, -1, 1, -1, -1, -1, 0, 1, 1, 0, 1, -1, 0, 1, -1, 0, 1, 1, 1, -1, 1, -1, -1, -1, 1, -1, -1, -1, -1, 1, -1, -1, 1, 1, -1, 1, -1, -1, -1, 1, -1, -1 )
 
-[sub_resource type="QuadMesh" id=11]
+[sub_resource type="CubeMesh" id=11]
+size = Vector3( 0.5, 0.5, 0.5 )
 
-[sub_resource type="SpatialMaterial" id=12]
+[sub_resource type="QuadMesh" id=12]
+
+[sub_resource type="SpatialMaterial" id=13]
 albedo_texture = ExtResource( 3 )
 
-[sub_resource type="BoxShape" id=13]
+[sub_resource type="BoxShape" id=14]
 extents = Vector3( 0.5, 0.5, 0.1 )
 
-[sub_resource type="CubeMesh" id=14]
+[sub_resource type="CubeMesh" id=15]
 size = Vector3( 2, 2, 1 )
 
-[sub_resource type="SpatialMaterial" id=15]
+[sub_resource type="SpatialMaterial" id=16]
 albedo_color = Color( 0.501961, 0.364706, 0, 1 )
 
-[sub_resource type="ConvexPolygonShape" id=16]
+[sub_resource type="ConvexPolygonShape" id=17]
 points = PoolVector3Array( -1, 1, 0.5, 1, 1, -0.5, 1, 1, 0.5, -1, 1, -0.5, -1, -1, 0.5, 1, -1, -0.5, 1, -1, 0.5, -1, -1, -0.5, 1, 1, 0.5, -1, 1, -0.5, 1, 1, -0.5, -1, 1, 0.5, 1, -1, 0.5, -1, -1, -0.5, 1, -1, -0.5, -1, -1, 0.5, 1, 1, 0.5, -1, -1, 0.5, -1, 1, 0.5, 1, -1, 0.5, 1, 1, -0.5, -1, -1, -0.5, -1, 1, -0.5, 1, -1, -0.5 )
-
-[sub_resource type="CubeMesh" id=17]
-size = Vector3( 0.5, 0.5, 0.5 )
 
 [sub_resource type="CubeMesh" id=18]
 size = Vector3( 0.25, 0.25, 0.75 )
@@ -78,11 +79,11 @@ void fragment() {
 	//ALBEDO = texture(refl_tx, UV).rgb;
 }"
 
-[sub_resource type="ViewportTexture" id=23]
+[sub_resource type="ViewportTexture" id=20]
 
 [sub_resource type="ShaderMaterial" id=21]
 shader = SubResource( 19 )
-shader_param/refl_tx = SubResource( 23 )
+shader_param/refl_tx = SubResource( 20 )
 
 [sub_resource type="QuadMesh" id=22]
 size = Vector2( 1, 0.5 )
@@ -184,59 +185,34 @@ material/0 = null
 transform = Transform( 1, 1.72977e-20, 0, 1.72977e-20, 1, 0, 0, 0, 1, 0, 0, 0 )
 shape = SubResource( 10 )
 
-[node name="Spatial" type="Spatial" parent="level"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 11.8309 )
-script = ExtResource( 11 )
-
-[node name="target" type="MeshInstance" parent="level/Spatial"]
-transform = Transform( -1, 0, -3.25841e-07, 0, 1, 0, 3.25841e-07, 0, -1, 0, 0.706775, 0 )
-mesh = SubResource( 11 )
-material/0 = SubResource( 12 )
-
-[node name="StaticBody" type="StaticBody" parent="level/Spatial/target"]
-
-[node name="CollisionShape" type="CollisionShape" parent="level/Spatial/target/StaticBody"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.1 )
-shape = SubResource( 13 )
-
-[node name="MeshInstance" type="MeshInstance" parent="level/Spatial"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -3.91474 )
-mesh = SubResource( 14 )
-material/0 = SubResource( 15 )
-
-[node name="StaticBody" type="StaticBody" parent="level/Spatial/MeshInstance"]
-
-[node name="CollisionShape" type="CollisionShape" parent="level/Spatial/MeshInstance/StaticBody"]
-shape = SubResource( 16 )
-
 [node name="nav" type="Spatial" parent="."]
 
 [node name="Position3D" type="Position3D" parent="nav"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.90269, 0, 22.605 )
 
 [node name="MeshInstance" type="MeshInstance" parent="nav/Position3D"]
-mesh = SubResource( 17 )
+mesh = SubResource( 11 )
 material/0 = null
 
 [node name="Position3D2" type="Position3D" parent="nav"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.90269, 0, 17.7312 )
 
 [node name="MeshInstance2" type="MeshInstance" parent="nav/Position3D2"]
-mesh = SubResource( 17 )
+mesh = SubResource( 11 )
 material/0 = null
 
 [node name="Position3D3" type="Position3D" parent="nav"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.66558, 0, 17.7312 )
 
 [node name="MeshInstance3" type="MeshInstance" parent="nav/Position3D3"]
-mesh = SubResource( 17 )
+mesh = SubResource( 11 )
 material/0 = null
 
 [node name="Position3D4" type="Position3D" parent="nav"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.66558, 0, 23.5559 )
 
 [node name="MeshInstance4" type="MeshInstance" parent="nav/Position3D4"]
-mesh = SubResource( 17 )
+mesh = SubResource( 11 )
 material/0 = null
 
 [node name="player" parent="." instance=ExtResource( 4 )]
@@ -249,13 +225,43 @@ mass = 10.0
 [node name="box" parent="." instance=ExtResource( 6 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -6.87111, 1.06643, 15.0613 )
 
-[node name="crate" parent="." instance=ExtResource( 12 )]
+[node name="map" type="Spatial" parent="."]
+script = ExtResource( 15 )
+
+[node name="target_range" type="Spatial" parent="map"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 11.8309 )
+script = ExtResource( 11 )
+
+[node name="target" type="MeshInstance" parent="map/target_range"]
+transform = Transform( -1, 0, -3.25841e-07, 0, 1, 0, 3.25841e-07, 0, -1, 0, 0.706775, 0 )
+mesh = SubResource( 12 )
+material/0 = SubResource( 13 )
+
+[node name="StaticBody" type="StaticBody" parent="map/target_range/target"]
+
+[node name="CollisionShape" type="CollisionShape" parent="map/target_range/target/StaticBody"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.1 )
+shape = SubResource( 14 )
+
+[node name="MeshInstance" type="MeshInstance" parent="map/target_range"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -3.91474 )
+mesh = SubResource( 15 )
+material/0 = SubResource( 16 )
+
+[node name="StaticBody" type="StaticBody" parent="map/target_range/MeshInstance"]
+
+[node name="CollisionShape" type="CollisionShape" parent="map/target_range/MeshInstance/StaticBody"]
+shape = SubResource( 17 )
+
+[node name="Spatial" type="Spatial" parent="map"]
+
+[node name="crate" parent="map/Spatial" instance=ExtResource( 12 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.617578, 13.9931 )
 
-[node name="crate2" parent="." instance=ExtResource( 13 )]
+[node name="crate2" parent="map/Spatial" instance=ExtResource( 13 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 4.57974, 1.14641, 13.9136 )
 
-[node name="crate3" parent="." instance=ExtResource( 14 )]
+[node name="crate3" parent="map/Spatial" instance=ExtResource( 14 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.580302, 1.05686, 16.3546 )
 
 [node name="AI" parent="." instance=ExtResource( 7 )]
