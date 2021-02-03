@@ -36,7 +36,10 @@ func create_bulletimpact(pos, normal, keep = false, bullet_hole = true):
 func fire_weapon():
 	# Get the raycast node
 	var ray = $RayCast
-	ray.cast_to = Vector3(0,0,-50) # range of 50 m
+	if player.scoping:
+		ray.cast_to = Vector3(3,-1,-50)
+	else:
+		ray.cast_to = Vector3(0,0,-50) # range of 50 m
 	# Force the raycast to update. This will force the raycast to detect collisions when we call it.
 	# This means we are getting a frame perfect collision check with the 3D world.
 	ray.force_raycast_update()
@@ -44,6 +47,7 @@ func fire_weapon():
 	# Did the ray hit something?
 	if ray.is_colliding():
 		var body = ray.get_collider()
+		#print("Body...", body.get_name())
 		
 		if body is StaticBody:
 			#print("hit: ", body.get_parent().get_name().find("target"))

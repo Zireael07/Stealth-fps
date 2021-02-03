@@ -34,7 +34,7 @@ const VIS_OBJECT_GRAB_DISTANCE = 1
 #const OBJECT_GRAB_RAY_DISTANCE = 10
 
 var armed = true
-
+var scoping = false
 
 func _ready():
 	camera = $RotationHelper/Character/Armature/CameraBoneAttachment/Camera
@@ -124,6 +124,17 @@ func process_input(delta):
 			return
 			
 		camera.get_node("Spatial").fire_weapon()
+		
+	if Input.is_action_just_pressed("shoot_alt"):
+		if not armed:
+			return
+			
+		if not scoping:
+			scoping = true
+			$RotationHelper/Character/Armature/WeaponHold/Rifle/Sight/AimCamera.current = true
+		else:
+			camera.current = true
+			scoping = false
 
 	# Crouch
 	if Input.is_action_just_pressed("movement_crouch"):
@@ -144,6 +155,9 @@ func process_input(delta):
 
 	# ----------------------------------
 	if Input.is_action_just_pressed("interact"):
+		# go back to normal cam
+		camera.current = true
+		
 		# no interactable detected
 		if grabbed_object == null and !camera.get_node("Spatial").last_interactable:
 			# unwield guns
