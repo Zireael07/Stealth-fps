@@ -22,5 +22,15 @@ func add_shot(score):
 		total += score
 	
 	# update the HUD
-	player.get_node("Control/Control/ScoreLabel").set_text(str(int(total)))
+	player.get_node("Control/scoring/ScoreLabel").set_text(str(int(total)))
 	
+
+
+func _on_Area_body_entered(body):
+	if body.is_in_group("player"):
+		player.get_node("Control/scoring").show()
+
+
+func _on_Area_body_exited(body):
+	if body.is_in_group("player"):
+		player.get_node("Control/scoring").hide()

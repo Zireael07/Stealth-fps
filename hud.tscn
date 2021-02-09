@@ -78,7 +78,8 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Control" type="Control" parent="."]
+[node name="scoring" type="Control" parent="."]
+visible = false
 anchor_top = 1.0
 anchor_bottom = 1.0
 margin_top = -60.0
@@ -88,7 +89,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="ScoreLabel" type="Label" parent="Control"]
+[node name="ScoreLabel" type="Label" parent="scoring"]
 anchor_top = 1.0
 anchor_bottom = 1.0
 margin_top = -14.0
@@ -99,7 +100,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="TotalLabel" type="Label" parent="Control"]
+[node name="TotalLabel" type="Label" parent="scoring"]
 anchor_top = 1.0
 anchor_bottom = 1.0
 margin_left = 20.0

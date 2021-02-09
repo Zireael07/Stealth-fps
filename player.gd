@@ -47,6 +47,7 @@ func _ready():
 	
 	# FPS input
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+	get_node("Control/scoring").hide()
 
 func _physics_process(delta):
 	process_input(delta)

@@ -1,4 +1,4 @@
-[gd_scene load_steps=38 format=2]
+[gd_scene load_steps=39 format=2]
 
 [ext_resource path="res://better_env.tres" type="Environment" id=1]
 [ext_resource path="res://assets/blue.material" type="Material" id=2]
@@ -65,10 +65,12 @@ albedo_color = Color( 0.501961, 0.364706, 0, 1 )
 [sub_resource type="ConvexPolygonShape" id=17]
 points = PoolVector3Array( -1, 1, 0.5, 1, 1, -0.5, 1, 1, 0.5, -1, 1, -0.5, -1, -1, 0.5, 1, -1, -0.5, 1, -1, 0.5, -1, -1, -0.5, 1, 1, 0.5, -1, 1, -0.5, 1, 1, -0.5, -1, 1, 0.5, 1, -1, 0.5, -1, -1, -0.5, 1, -1, -0.5, -1, -1, 0.5, 1, 1, 0.5, -1, -1, 0.5, -1, 1, 0.5, 1, -1, 0.5, 1, 1, -0.5, -1, -1, -0.5, -1, 1, -0.5, 1, -1, -0.5 )
 
-[sub_resource type="CubeMesh" id=18]
+[sub_resource type="BoxShape" id=18]
+
+[sub_resource type="CubeMesh" id=19]
 size = Vector3( 0.25, 0.25, 0.75 )
 
-[sub_resource type="Shader" id=19]
+[sub_resource type="Shader" id=20]
 code = "shader_type spatial;
 render_mode unshaded;
  
@@ -79,13 +81,13 @@ void fragment() {
 	//ALBEDO = texture(refl_tx, UV).rgb;
 }"
 
-[sub_resource type="ViewportTexture" id=20]
+[sub_resource type="ViewportTexture" id=21]
 
-[sub_resource type="ShaderMaterial" id=21]
-shader = SubResource( 19 )
-shader_param/refl_tx = SubResource( 20 )
+[sub_resource type="ShaderMaterial" id=22]
+shader = SubResource( 20 )
+shader_param/refl_tx = SubResource( 21 )
 
-[sub_resource type="QuadMesh" id=22]
+[sub_resource type="QuadMesh" id=23]
 size = Vector2( 1, 0.5 )
 
 [node name="Spatial" type="Spatial" groups=[
@@ -253,6 +255,12 @@ material/0 = SubResource( 16 )
 [node name="CollisionShape" type="CollisionShape" parent="map/target_range/MeshInstance/StaticBody"]
 shape = SubResource( 17 )
 
+[node name="Area" type="Area" parent="map/target_range"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -4.1137 )
+
+[node name="CollisionShape" type="CollisionShape" parent="map/target_range/Area"]
+shape = SubResource( 18 )
+
 [node name="Spatial" type="Spatial" parent="map"]
 
 [node name="crate" parent="map/Spatial" instance=ExtResource( 12 )]
@@ -284,16 +292,18 @@ transform = Transform( -1, -5.65818e-08, 3.20891e-07, 0, 0.984808, 0.173648, -3.
 current = true
 
 [node name="MeshInstance" type="MeshInstance" parent="camera"]
-mesh = SubResource( 18 )
+mesh = SubResource( 19 )
 material/0 = null
 
 [node name="display" type="MeshInstance" parent="."]
 transform = Transform( 1, 0, 0, 0, -1, 3.25841e-07, 0, -3.25841e-07, -1, 0, 1.22023, 18.9015 )
-material_override = SubResource( 21 )
+material_override = SubResource( 22 )
 cast_shadow = 0
-mesh = SubResource( 22 )
+mesh = SubResource( 23 )
 material/0 = null
 script = ExtResource( 8 )
 
 [node name="TopDownCamera" type="Camera" parent="."]
 transform = Transform( -1, 3.25841e-07, 5.30863e-14, 0, -1.62921e-07, 1, 3.25841e-07, 1, 1.62921e-07, 0, 20, 19.737 )
+[connection signal="body_entered" from="map/target_range/Area" to="map/target_range" method="_on_Area_body_entered"]
+[connection signal="body_exited" from="map/target_range/Area" to="map/target_range" method="_on_Area_body_exited"]
