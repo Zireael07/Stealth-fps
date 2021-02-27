@@ -36,10 +36,12 @@ func create_bulletimpact(pos, normal, keep = false, bullet_hole = true):
 func fire_weapon():
 	# Get the raycast node
 	var ray = $RayCast
+	ray.collision_mask = 2
 	if player.scoping:
 		ray.cast_to = Vector3(3,-1,-50)
 	else:
 		ray.cast_to = Vector3(0,0,-50) # range of 50 m
+		
 	# Force the raycast to update. This will force the raycast to detect collisions when we call it.
 	# This means we are getting a frame perfect collision check with the 3D world.
 	ray.force_raycast_update()
@@ -48,6 +50,14 @@ func fire_weapon():
 	if ray.is_colliding():
 		var body = ray.get_collider()
 		#print("Body...", body.get_name())
+		
+		# body parts support (requires detecting areas!)
+		if body is Area and body.get_parent() is BoneAttachment:
+			var bone = body.get_parent().get_name()
+			print("Bone...", bone)
+			if bone.find("Chest") != -1 or bone.find("Head") != -1 or bone.find("Neck") != -1:
+				body.get_node("../../../../..").die()
+				#print(body.get_node("../../../../..").get_name()) #die()
 		
 		if body is StaticBody:
 			#print("hit: ", body.get_parent().get_name().find("target"))
@@ -71,7 +81,8 @@ func fire_weapon():
 				body.get_parent().get_parent().add_shot(score)
 		if body is KinematicBody:
 			body.die()
-		
+			#pass
+			
 # -----------------------------------
 # interactables use raycasting, so this code is also here
 func draw_screen_outline(mesh, target):
@@ -145,6 +156,7 @@ func detect_interactable():
 	var ray = $RayCast
 	# interactable range is 4 m (to be slightly more generous, 2m range is more realistic but the majority of it is obscured by our arms/weapon)
 	ray.cast_to = Vector3(0,0,-4) 
+	ray.collision_mask = 1
 	# Force the raycast to update. This will force the raycast to detect collisions when we call it.
 	# This means we are getting a frame perfect collision check with the 3D world.
 	ray.force_raycast_update()
