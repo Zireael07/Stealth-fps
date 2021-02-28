@@ -1,8 +1,9 @@
-[gd_scene load_steps=87 format=2]
+[gd_scene load_steps=88 format=2]
 
 [ext_resource path="res://assets/Character.escn" type="PackedScene" id=1]
 [ext_resource path="res://assets/Rifle.escn" type="PackedScene" id=2]
 [ext_resource path="res://assets/camo_triplanar_mat.tres" type="Material" id=3]
+[ext_resource path="res://Rifle.tscn" type="PackedScene" id=4]
 
 [sub_resource type="SpatialMaterial" id=1]
 albedo_color = Color( 1, 0, 0, 1 )
@@ -396,6 +397,9 @@ transform = Transform( 0.998806, -0.0103646, 0.0477328, 0.00911929, 1.00007, 0.0
 bone_name = "HandHold.R"
 
 [node name="Rifle" parent="Armature/WeaponHold" index="0" instance=ExtResource( 2 )]
+visible = false
+
+[node name="Rifle2" parent="Armature/WeaponHold" index="1" instance=ExtResource( 4 )]
 
 [node name="CameraHold" type="BoneAttachment" parent="Armature" index="3"]
 transform = Transform( -0.999016, -0.000578936, -0.0443465, 0.000578745, 0.99966, -0.026088, 0.0443465, -0.0260881, -0.998676, 0.00233999, 1.72895, 0.043952 )

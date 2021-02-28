@@ -1,8 +1,9 @@
-[gd_scene load_steps=88 format=2]
+[gd_scene load_steps=89 format=2]
 
 [ext_resource path="res://shoot.gd" type="Script" id=1]
 [ext_resource path="res://assets/Rifle.escn" type="PackedScene" id=2]
 [ext_resource path="res://assets/Character.escn" type="PackedScene" id=3]
+[ext_resource path="res://Rifle.tscn" type="PackedScene" id=4]
 
 [sub_resource type="SphereShape" id=1]
 radius = 0.146924
@@ -394,6 +395,9 @@ transform = Transform( 0.99862, -0.0219281, 0.0477314, 0.0206852, 0.999894, 0.02
 bone_name = "HandHold.R"
 
 [node name="Rifle" parent="Armature/WeaponHold" index="0" instance=ExtResource( 2 )]
+visible = false
+
+[node name="Rifle2" parent="Armature/WeaponHold" index="1" instance=ExtResource( 4 )]
 
 [node name="Position3D" type="Position3D" parent="Armature/WeaponHold/Rifle" index="4"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.1, 0, 0.4 )

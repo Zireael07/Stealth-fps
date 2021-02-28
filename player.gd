@@ -132,7 +132,7 @@ func process_input(delta):
 			
 		if not scoping:
 			scoping = true
-			$RotationHelper/Character/Armature/WeaponHold/Rifle/Sight/AimCamera.current = true
+			$RotationHelper/Character/Armature/WeaponHold/Rifle2/Sight/AimCamera.current = true
 		else:
 			camera.current = true
 			scoping = false
@@ -337,7 +337,7 @@ func _input(event):
 		camera_helper.get_node("rifle_ik_tg").rotation_degrees = view_rot
 		
 		# this is tricky!
-		var g_pos = $RotationHelper/Character/Armature/WeaponHold/Rifle/Position3D.get_global_transform().origin #+ Vector3(0,0, 0.5)
+		var g_pos = $RotationHelper/Character/Armature/WeaponHold/Rifle2/Position3D.get_global_transform().origin #+ Vector3(0,0, 0.5)
 		var lpos = camera_helper.to_local(g_pos)
 		left_ik_tg.set_translation(lpos)
 		
