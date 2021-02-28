@@ -240,6 +240,7 @@ mesh = SubResource( 12 )
 material/0 = SubResource( 13 )
 
 [node name="StaticBody" type="StaticBody" parent="map/target_range/target"]
+collision_layer = 3
 
 [node name="CollisionShape" type="CollisionShape" parent="map/target_range/target/StaticBody"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.1 )
