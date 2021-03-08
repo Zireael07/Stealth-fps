@@ -228,6 +228,26 @@ func die():
 	#undo tipback (so that interacting later on works better)
 	#get_node("RotationHelper/Character2").rotate_x(deg2rad(40))
 
+func drop_gun():
+	var hold = get_node("RotationHelper/Character2/Armature/WeaponHold")
+	var gun = hold.get_node("Rifle2")
+	var par = get_parent()
+	
+	var gloc = gun.get_global_transform()
+	
+	# reparent
+	hold.remove_child(gun)
+	par.add_child(gun)
+	# keep current pos
+	gun.set_global_transform(gloc)
+	# drop to ground
+	var t = gun.get_translation()
+	gun.set_translation(Vector3(t.x, 0.2, t.z))
+	
+	# visible effect test
+	#gun.rotate_x(deg2rad(-90))
+
+# AI targeting
 func _on_Area_body_entered(body):
 	if body.is_in_group("player"):
 		possible_tg = body

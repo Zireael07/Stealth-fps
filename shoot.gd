@@ -58,6 +58,8 @@ func fire_weapon():
 			if bone.find("Chest") != -1 or bone.find("Head") != -1 or bone.find("Neck") != -1:
 				body.get_node("../../../../..").die()
 				#print(body.get_node("../../../../..").get_name()) #die()
+			if bone.find("Arm") != -1:
+				body.get_node("../../../../..").drop_gun()
 		
 		if body is StaticBody:
 			#print("hit: ", body.get_parent().get_name().find("target"))
