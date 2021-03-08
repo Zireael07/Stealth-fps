@@ -733,10 +733,10 @@ transform = Transform( 0.887347, 0.0125426, 0.460933, -0.461103, 0.022882, 0.887
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 0 )
 
 [node name="rifle_ik_tg" type="Position3D" parent="Armature/HitBoxChest/Spatial" index="1"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.65, 2.2, 1.75 )
+transform = Transform( 1, -8.81205e-15, -2.84217e-14, 3.88451e-18, 1, 0, 0, -8.88178e-16, 1, 0.65, -1.80305, 1.75 )
 
 [node name="left_ik_tg" type="Position3D" parent="Armature/HitBoxChest/Spatial" index="2"]
-transform = Transform( 0.999999, 0, 0, 0, 1, 0, 0, 0, 0.999999, -0.3, 1.502, 0.8 )
+transform = Transform( 0.999999, -8.81205e-15, 0, 3.88473e-18, 1, -1.77636e-15, -3.55271e-15, -8.88178e-16, 0.999999, -0.3, 1.21471, 0.8 )
 
 [node name="MeshInstance2" type="MeshInstance" parent="Armature/HitBoxChest/Spatial/left_ik_tg" index="0"]
 transform = Transform( 1, 2.91038e-09, -3.72529e-09, 4.65661e-10, 1.00045, 0, 7.45058e-09, 1.86265e-09, 1, 0, 0, 0 )
