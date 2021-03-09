@@ -61,7 +61,7 @@ func unwield():
 	$RotationHelper/Character/Armature/WeaponHold/Rifle.hide()
 	
 	# proper animation for hands
-	var g_pos = $RotationHelper/Character/Armature/WeaponHold/Rifle/Position3D.get_global_transform().origin #+ Vector3(0,0, 0.5)
+	var g_pos = $RotationHelper/Character/Armature/WeaponHold/Rifle2/Position3D.get_global_transform().origin #+ Vector3(0,0, 0.5)
 	var lpos = camera_helper.to_local(g_pos)
 	left_ik_tg.set_translation(Vector3(lpos.x, lpos.y-0.5, lpos.z))
 	$RotationHelper/Character/Armature/left_ik.start()
