@@ -33,6 +33,9 @@ var prev = 0
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	#get_node("RotationHelper/Character2/Timer").connect("timeout", self, "ragdoll")
+	
+	
 	var mesh = get_node("RotationHelper/Character2/Armature/Body")
 	state_machine = $RotationHelper/Character2/AnimationTree
 	
@@ -207,20 +210,37 @@ func _physics_process(delta):
 			get_node("RotationHelper/MeshInstance").get_material_override().set_albedo(Color(1,1,0))
 			in_sight = false
 
-func die():
+func ragdoll():
+	get_node("RotationHelper/Character2/Armature").physical_bones_start_simulation()
+	get_node("RotationHelper/Character2").rotate_x(deg2rad(-50)) # to arrive at -90
+	get_node("CollisionShape").disabled = true # only the ragdoll should be active
+	
 	dead = true
+
+func die():
+	#dead = true
 	
 	# tip him back
 	get_node("RotationHelper/Character2").rotate_x(deg2rad(-40))
 	# switch off animtree
 	get_node("RotationHelper/Character2/AnimationTree").active = false
-			
-	# ragdoll
-	get_node("RotationHelper/Character2/Armature").physical_bones_start_simulation()
+	# .. and IK
+	$RotationHelper/Character2/Armature/rifleik.stop()
+	$RotationHelper/Character2/Armature/left_ik.stop()
 	
-	get_node("RotationHelper/Character2").rotate_x(deg2rad(-50)) # to arrive at -90
+	#get_node("RotationHelper/Character2/Timer").start()
+	
+	# ragdoll
+	# NOTE: ragdoll seems to break IF IK was used before, even if ik is stopped above
+	ragdoll()
+	
+	#call_deferred("ragdoll")
+	
+	#get_node("RotationHelper/Character2/Armature").physical_bones_start_simulation()
+	
+	#get_node("RotationHelper/Character2").rotate_x(deg2rad(-50)) # to arrive at -90
 	#get_node("CollisionShape").rotate_x(deg2rad(-90))
-	get_node("CollisionShape").disabled = true # only the ragdoll should be active
+	#get_node("CollisionShape").disabled = true # only the ragdoll should be active
 	
 	# for AI, rotate the apparent aabb origin by 90 deg to fit the ragdoll
 	#get_node("RotationHelper/Character2/Armature/HitBoxTorso/center").rotate_x(deg2rad(-90))
@@ -233,6 +253,9 @@ func drop_gun():
 	var gun = hold.get_node("Rifle2")
 	var par = get_parent()
 	
+	if not gun:
+		return # we already dropped it
+	
 	var gloc = gun.get_global_transform()
 	
 	# reparent
@@ -243,6 +266,10 @@ func drop_gun():
 	# drop to ground
 	var t = gun.get_translation()
 	gun.set_translation(Vector3(t.x, 0.2, t.z))
+	
+	# IK
+	$RotationHelper/Character2/Armature/rifleik.start()
+	$RotationHelper/Character2/Armature/left_ik.start()
 	
 	# visible effect test
 	#gun.rotate_x(deg2rad(-90))
