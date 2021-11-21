@@ -5,3 +5,4 @@
 * camo textures - https://opengameart.org/content/camo-texture-pack-1 (public domain)
 * LCD font - https://github.com/keshikan/DSEG
 * pointer - https://github.com/TheRadMatt/3D-FPP-Interaction-Demo
+* Grenade - LowPoly models by Quaternius https://quaternius.com/packs/scifimodularguns.html (CC0)
