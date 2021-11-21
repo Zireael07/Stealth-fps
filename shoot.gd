@@ -182,7 +182,8 @@ func detect_interactable():
 					var lt = last_interactable
 					# AI don't have next pass set up
 					if lt is Area or lt is RigidBody:
-						lt.get_child(1).get_surface_material(0).next_pass.set_shader_param("thickness", 0)
+						if 'next_pass' in lt.get_child(1).get_surface_material(0):
+							lt.get_child(1).get_surface_material(0).next_pass.set_shader_param("thickness", 0)
 					last_interactable = body.get_parent().get_parent().get_parent().get_parent() # the KinematicBody instead
 
 					#target.get_child(1).get_node("Character2/Armature/Body").get_surface_material(0).next_pass.set_shader_param("thickness", 0.1)
@@ -204,14 +205,17 @@ func detect_interactable():
 					var lt = last_interactable
 					# AI don't have next pass set up
 					if lt is Area or lt is RigidBody:
-						lt.get_child(1).get_surface_material(0).next_pass.set_shader_param("thickness", 0)
+						if lt.get_child(1).get_surface_material(0).get_next_pass() != null:
+							lt.get_child(1).get_surface_material(0).next_pass.set_shader_param("thickness", 0)
 					last_interactable = body
-					target.get_child(1).get_surface_material(0).next_pass.set_shader_param("thickness", 0.1)
+					if target.get_child(1).get_surface_material(0).get_next_pass() != null:
+						target.get_child(1).get_surface_material(0).next_pass.set_shader_param("thickness", 0.1)
 
 			else:
 				last_interactable = body
 				var target = body
-				target.get_child(1).get_surface_material(0).next_pass.set_shader_param("thickness", 0.1)
+				if target.get_child(1).get_surface_material(0).get_next_pass() != null:
+					target.get_child(1).get_surface_material(0).next_pass.set_shader_param("thickness", 0.1)
 				draw_screen_outline(target.get_child(1), target)
 				
 				
@@ -221,7 +225,8 @@ func detect_interactable():
 				var lt = last_interactable
 				# AI don't have next pass set up
 				if lt is Area or lt is RigidBody:
-					lt.get_child(1).get_surface_material(0).next_pass.set_shader_param("thickness", 0)
+					if lt.get_child(1).get_surface_material(0).get_next_pass() != null:
+						lt.get_child(1).get_surface_material(0).next_pass.set_shader_param("thickness", 0)
 				last_interactable = null
 				player.get_node("Control/ReferenceRect").hide()
 	else:
@@ -230,6 +235,7 @@ func detect_interactable():
 			var lt = last_interactable
 			# AI don't have next pass set up
 			if lt is Area or lt is RigidBody:
-				lt.get_child(1).get_surface_material(0).next_pass.set_shader_param("thickness", 0)
+				if lt.get_child(1).get_surface_material(0).get_next_pass() != null:
+					lt.get_child(1).get_surface_material(0).next_pass.set_shader_param("thickness", 0)
 			last_interactable = null
 			player.get_node("Control/ReferenceRect").hide()
