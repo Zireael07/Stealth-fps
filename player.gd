@@ -222,8 +222,15 @@ func process_input(delta):
 					grabbed_object.mode = RigidBody.MODE_RIGID
 
 					grabbed_object.apply_impulse(Vector3(0, 0, 0), -camera.global_transform.basis.z.normalized() * OBJECT_THROW_FORCE)
+					
+					# if it's a grenade, arm it
+					if grabbed_object.is_in_group("grenade"):
+						grabbed_object.armed = true
+						grabbed_object.get_node("Timer").start()
+						grabbed_object.get_node("Area").collision_layer = 1
+						grabbed_object.get_node("Area").collision_mask = 1
 			
-			# make it collide again
+			# make the ragdoll work again
 			if grabbed_object is KinematicBody:
 				grabbed_object.carried = false
 				# tipback trick again
@@ -231,6 +238,7 @@ func process_input(delta):
 				# restart ragdoll
 				grabbed_object.get_node("RotationHelper/Character2/Armature").physical_bones_start_simulation()
 
+			# make it collide again
 			grabbed_object.collision_layer = 1
 			grabbed_object.collision_mask = 1
 
