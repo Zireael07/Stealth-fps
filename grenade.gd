@@ -30,6 +30,11 @@ func flash():
 
 	queue_free()
 
+func gas():
+	get_node("Particles").emitting = true
+	
+	if possible_tg:
+		possible_tg.drop_gun()
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta):
