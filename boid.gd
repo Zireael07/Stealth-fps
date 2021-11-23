@@ -6,7 +6,7 @@ var velocity = Vector2(0,0)
 var steer = Vector2(0,0)
 var desired = Vector2(0,0)
 
-var MAX_FORCE = 2 #4
+var MAX_FORCE = 3 #4
 
 var dist = 0.0
 

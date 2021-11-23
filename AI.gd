@@ -33,6 +33,8 @@ var prev = 0
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	# b/c it's placed in global space
+	get_node("MeshInstance").set_as_toplevel(true)
 	#get_node("RotationHelper/Character2/Timer").connect("timeout", self, "ragdoll")
 	
 	
@@ -109,8 +111,13 @@ func process_movement(delta):
 	vel = move_and_slide(vel, Vector3(0, 1, 0), 0.05, 4, deg2rad(MAX_SLOPE_ANGLE), false)
 	#print("V: ", vel, " sp: ", vel.length())
 	
+	# debug
+	get_node("MeshInstance").set_translation(global_transform.origin+Vector3(vel.x, 0, vel.z))
+	# transform global velocity to local
+	var loc_vel = to_local(global_transform.origin+vel)
+	
 	# x is turning and y is forward/backwards
-	brain.velocity = Vector2(0, vel.length())
+	brain.velocity = Vector2(0, loc_vel.z) #vel.length())
 	
 	# https://kidscancode.org/godot_recipes/physics/kinematic_to_rigidbody/
 	# after calling move_and_slide()
@@ -134,7 +141,7 @@ func _physics_process(delta):
 		
 		if not in_sight:
 			# movement
-			brain.steer = brain.arrive(brain.target, 15)
+			brain.steer = brain.arrive(brain.target, 5)
 			
 			# rotations if any
 			self.rotate_y(deg2rad(brain.steer.x * STEER_SENSITIVITY))  #* -1))
