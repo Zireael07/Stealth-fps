@@ -178,7 +178,14 @@ func process_input(delta):
 		
 		# Case 1: grabbing items
 		if grabbed_object == null:
-			grabbed_object = camera.get_node("Spatial").last_interactable
+			var inter = camera.get_node("Spatial").last_interactable
+			
+			# if it's a static object, run its function instead
+			if inter.is_in_group("static"):
+				inter._on_interact()
+				return 
+					
+			grabbed_object = inter
 			# clear interactable
 			#camera.get_node("Spatial").last_interactable = null
 			

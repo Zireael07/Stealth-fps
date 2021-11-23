@@ -1,0 +1,24 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://assets/Grey.material" type="Material" id=1]
+[ext_resource path="res://assets/White.material" type="Material" id=2]
+[ext_resource path="res://csg_to_mesh.gd" type="Script" id=4]
+
+[node name="Button" type="Spatial"]
+
+[node name="CSGCombiner" type="CSGCombiner" parent="."]
+cast_shadow = 0
+script = ExtResource( 4 )
+
+[node name="CSGBox" type="CSGBox" parent="CSGCombiner"]
+width = 0.25
+height = 0.25
+depth = 0.125
+material = ExtResource( 2 )
+
+[node name="CSGBox2" type="CSGBox" parent="CSGCombiner"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.0736361 )
+width = 0.125
+height = 0.125
+depth = 0.125
+material = ExtResource( 1 )

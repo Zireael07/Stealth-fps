@@ -1,4 +1,4 @@
-[gd_scene load_steps=41 format=2]
+[gd_scene load_steps=42 format=2]
 
 [ext_resource path="res://better_env.tres" type="Environment" id=1]
 [ext_resource path="res://assets/blue.material" type="Material" id=2]
@@ -17,6 +17,7 @@
 [ext_resource path="res://BSP.gd" type="Script" id=15]
 [ext_resource path="res://grenade.tscn" type="PackedScene" id=16]
 [ext_resource path="res://grenade_flash.tscn" type="PackedScene" id=17]
+[ext_resource path="res://Button.tscn" type="PackedScene" id=18]
 
 [sub_resource type="SpatialMaterial" id=1]
 albedo_texture = ExtResource( 10 )
@@ -216,6 +217,11 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.66558, 0, 23.5559 )
 [node name="MeshInstance4" type="MeshInstance" parent="nav/Position3D4"]
 mesh = SubResource( 11 )
 material/0 = null
+
+[node name="Position3D5" type="Position3D" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.185213, 0.799986, 21.1238 )
+
+[node name="Button" parent="Position3D5" instance=ExtResource( 18 )]
 
 [node name="player" parent="." instance=ExtResource( 4 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -3.98177, 0.231881, 12.9158 )
