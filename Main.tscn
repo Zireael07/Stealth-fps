@@ -218,7 +218,7 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.66558, 0, 23.5559 )
 mesh = SubResource( 11 )
 material/0 = null
 
-[node name="Position3D5" type="Position3D" parent="."]
+[node name="Position3D5" type="Position3D" parent="." groups=["alarm"]]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.185213, 0.799986, 21.1238 )
 
 [node name="Button" parent="Position3D5" instance=ExtResource( 18 )]

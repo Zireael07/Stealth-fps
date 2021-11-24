@@ -31,6 +31,8 @@ var target_array = []
 var current = 0
 var prev = 0
 
+var alarmed = false
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	# b/c it's placed in global space
@@ -72,7 +74,7 @@ func _ready():
 
 func is_close_to_target():
 	var ret = false
-	var loc = to_local(target_array[current].get_global_transform().origin)
+	var loc = to_local(brain.target.get_global_transform().origin)
 	var dist = Vector2(loc.x, loc.z).length()
 	if dist < 1:
 		ret = true
@@ -126,6 +128,35 @@ func process_movement(delta):
 		if collision.collider.is_in_group("interactable"):
 			collision.collider.apply_central_impulse(-collision.normal * 2)
 
+func move(delta):
+	brain.steer = brain.arrive(brain.target, 5)
+	
+	# rotations if any
+	self.rotate_y(deg2rad(brain.steer.x * STEER_SENSITIVITY))  #* -1))
+	
+	# Reset dir, so our previous movement does not effect us
+	dir = Vector3()
+	
+	# Create a vector for storing input
+	var input_movement_vector = Vector2()
+	# steer y means forward/backwards
+	if brain.steer.y > 0:
+		input_movement_vector.y += 1
+	if brain.steer.y < 0:
+		input_movement_vector.y += -1
+	#print("input: ", input_movement_vector)
+	
+	# Normalize the input movement vector so we cannot move too fast
+	input_movement_vector = input_movement_vector.normalized()
+	
+	#print("AI input vec:", input_movement_vector)
+	
+	# Basis vectors are already normalized.
+	dir = get_global_transform().basis.z * input_movement_vector.y
+	
+	process_movement(delta)
+
+
 func _physics_process(delta):	
 	if dead and not carried:
 		# attempt to sync collision with ragdoll
@@ -141,34 +172,9 @@ func _physics_process(delta):
 		
 		if not in_sight:
 			# movement
-			brain.steer = brain.arrive(brain.target, 5)
+			move(delta)
 			
-			# rotations if any
-			self.rotate_y(deg2rad(brain.steer.x * STEER_SENSITIVITY))  #* -1))
-			
-			# Reset dir, so our previous movement does not effect us
-			dir = Vector3()
-			
-			# Create a vector for storing input
-			var input_movement_vector = Vector2()
-			# steer y means forward/backwards
-			if brain.steer.y > 0:
-				input_movement_vector.y += 1
-			if brain.steer.y < 0:
-				input_movement_vector.y += -1
-			#print("input: ", input_movement_vector)
-			
-			# Normalize the input movement vector so we cannot move too fast
-			input_movement_vector = input_movement_vector.normalized()
-			
-			#print("AI input vec:", input_movement_vector)
-			
-			# Basis vectors are already normalized.
-			dir = get_global_transform().basis.z * input_movement_vector.y
-			
-			process_movement(delta)
-			
-			if is_close_to_target():
+			if is_close_to_target() and not alarmed:
 				##do we have a next point?
 				if (target_array.size() > current+1):
 					prev = current
@@ -180,12 +186,25 @@ func _physics_process(delta):
 				# send to brain
 				brain.target = target_array[current]
 		
+		if alarmed:
+			brain.target = get_tree().get_nodes_in_group("alarm")[0]
+			
+			move(delta)
+			
+			if alarmed and is_close_to_target():
+				print("Reached button")
+				#interact with it
+				get_tree().get_nodes_in_group("alarm")[0].get_child(0)._on_interact()
+				alarmed = false
+		
 	if not possible_tg:
 		in_sight = false
+		alarmed = false
 		return
 		
 	if dead:
 		in_sight = false
+		alarmed = false
 		return
 	
 	# Can we see the player?
@@ -204,6 +223,11 @@ func _physics_process(delta):
 		var body_r = ray.get_collider()
 		#print("Body_r", body_r)
 		if body_r is KinematicBody:
+			# if we see the player for the first time:
+			if not in_sight and not alarmed:
+				print("ALARM!!!")
+				alarmed = true
+				
 			get_node("RotationHelper/MeshInstance").get_material_override().set_albedo(Color(1,0,0))
 			
 			# look at player
