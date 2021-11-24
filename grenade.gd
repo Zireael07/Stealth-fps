@@ -33,6 +33,11 @@ func flash():
 func gas():
 	get_node("Particles").emitting = true
 	
+	# UI effects for the player
+	player.get_node("Control/flashbang").show()
+	player.get_node("Control/gas_overlay").show()
+	player.get_node("Control/AnimationPlayer").play("gas")
+	
 	if possible_tg:
 		possible_tg.drop_gun()
 

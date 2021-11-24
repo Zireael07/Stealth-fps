@@ -1,0 +1,32 @@
+[gd_resource type="Shader" format=2]
+
+[resource]
+code = "shader_type canvas_item;
+
+uniform float size_x = 0.01;
+uniform float size_y = 0.01;
+uniform float intensity = 1;
+
+uniform sampler2D noise;
+
+void fragment() {
+	float alpha = COLOR.a * intensity;
+
+	vec2 uv = SCREEN_UV;
+
+	uv -= mod(uv,vec2(size_x,size_y))*alpha;
+
+	vec2 noise_uv = UV;
+	//vec2 noise_uv = SCREEN_UV;
+	//noise_uv.x *= 0.05;
+	noise_uv.x += TIME/4.0;
+	noise_uv.y += TIME/4.0;
+	
+	vec4 clr = vec4(0.5, 0.5, 0.5, 1.0);
+	
+	if (texture(noise, noise_uv).r > 0.5) {
+		clr.a = 0.0;
+	}
+	
+	COLOR = clr;
+}"
