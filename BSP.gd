@@ -38,8 +38,9 @@ func _ready():
 	sel = contain[i]
 	# crates
 	get_child(1).set_translation(Vector3(center(sel).x, 0, center(sel).y))
-	
-	#pass # Replace with function body.
+	# move the crate nav to match
+	get_node("/root/Spatial/nav2").set_translation(Vector3(center(sel).x, 0, center(sel).y))
+
 
 # --------------------------
 # 2d bsp

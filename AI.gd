@@ -2,6 +2,7 @@ extends KinematicBody
 
 
 # Declare member variables here. Examples:
+export var nav: NodePath = "/root/Spatial/nav"
 var possible_tg = null
 
 var dead = false
@@ -46,7 +47,7 @@ func _ready():
 	brain = $brain
 	
 	# get points
-	for c in get_parent().get_node("nav").get_children():
+	for c in get_node(nav).get_children():
 		target_array.append(c)
 	#brain.target = get_parent().get_node("nav").get_child(0)
 	brain.target = target_array[0]

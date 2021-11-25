@@ -219,6 +219,36 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.66558, 0, 23.5559 )
 mesh = SubResource( 11 )
 material/0 = null
 
+[node name="nav2" type="Spatial" parent="."]
+
+[node name="Position3D" type="Position3D" parent="nav2"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 6.73092, 0, 17.7406 )
+
+[node name="MeshInstance" type="MeshInstance" parent="nav2/Position3D"]
+mesh = SubResource( 11 )
+material/0 = null
+
+[node name="Position3D2" type="Position3D" parent="nav2"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 3.32138, 0, 17.7312 )
+
+[node name="MeshInstance2" type="MeshInstance" parent="nav2/Position3D2"]
+mesh = SubResource( 11 )
+material/0 = null
+
+[node name="Position3D3" type="Position3D" parent="nav2"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.66558, 0, 11.3134 )
+
+[node name="MeshInstance3" type="MeshInstance" parent="nav2/Position3D3"]
+mesh = SubResource( 11 )
+material/0 = null
+
+[node name="Position3D4" type="Position3D" parent="nav2"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 6.83245, 0, 11.4295 )
+
+[node name="MeshInstance4" type="MeshInstance" parent="nav2/Position3D4"]
+mesh = SubResource( 11 )
+material/0 = null
+
 [node name="Position3D5" type="Position3D" parent="." groups=["alarm"]]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.185213, 0.799986, 21.1238 )
 
@@ -291,6 +321,10 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.580302, 1.05686, 16.3546 )
 
 [node name="AI" parent="." instance=ExtResource( 7 )]
 transform = Transform( -1, 0, -3.25841e-07, 0, 1, 0, 3.25841e-07, 0, -1, 0, 0, 24.861 )
+
+[node name="AI2" parent="." instance=ExtResource( 7 )]
+transform = Transform( -1, 0, -3.25841e-07, 0, 1, 0, 3.25841e-07, 0, -1, 12.488, 0, 22.0317 )
+nav = NodePath("../nav2")
 
 [node name="camera" type="Spatial" parent="." groups=["cctv"]]
 transform = Transform( 1, 0, 0, 0, 0.984808, -0.173648, 0, 0.173648, 0.984808, 0, 1.74188, 21.4057 )
