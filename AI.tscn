@@ -7,9 +7,10 @@
 [ext_resource path="res://boid.gd" type="Script" id=5]
 [ext_resource path="res://assets/Main.material" type="Material" id=6]
 
-[sub_resource type="SpatialMaterial" id=1]
+[sub_resource type="SpatialMaterial" id=4]
+resource_local_to_scene = true
 
-[sub_resource type="CubeMesh" id=2]
+[sub_resource type="CubeMesh" id=5]
 size = Vector3( 0.25, 0.25, 0.25 )
 
 [sub_resource type="PrismMesh" id=3]
@@ -40,9 +41,9 @@ enabled = true
 
 [node name="MeshInstance" type="MeshInstance" parent="RotationHelper"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.28297, 0 )
-material_override = SubResource( 1 )
+material_override = SubResource( 4 )
 cast_shadow = 0
-mesh = SubResource( 2 )
+mesh = SubResource( 5 )
 material/0 = null
 
 [node name="brain" type="Spatial" parent="."]
