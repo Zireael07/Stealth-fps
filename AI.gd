@@ -34,6 +34,8 @@ var prev = 0
 
 var alarmed = false
 
+var face_pos = Vector3()
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	# b/c it's placed in global space
@@ -171,7 +173,39 @@ func _physics_process(delta):
 		else:
 			state_machine["parameters/move_state/run/blend_position"] = Vector2(0,0) # stop moving
 		
-		if not in_sight:
+		# do we want to rotate? do it!
+		if face_pos and not in_sight:
+			#print("Turning to face: ", face_pos)
+			
+			var rel_loc = to_local(face_pos)
+			# we use this simple solution cribbed from my other projects
+			# since lerp() or angle_to() between two angles like to produce rotations the long way around....
+			
+			#2D angle to target (local coords)
+			var angle = atan2(rel_loc.x, rel_loc.z)
+			#print("Local position of hit: ", rel_loc, "angle: ", angle)
+			
+			if abs(angle) > deg2rad(5): 
+				var ro = angle*STEER_SENSITIVITY*STEER_SENSITIVITY
+				#print("Rotating by: ", ro)
+				self.rotate_y(ro)
+			#else:
+			#	face_pos = Vector3()
+			
+			
+			
+			#brain.steer = brain.arrive(face_pos, 5)
+			# rotation
+			#self.rotate_y(deg2rad(brain.steer.x * STEER_SENSITIVITY))  #* -1))
+			
+			# note to self: looking_at, interpolate_with or lerp don't work since we're a KinematicBody
+			
+			#var tg = self.transform.looking_at(face_pos, Vector3(0,1,0))
+			#transform = transform.interpolate_with(tg, 0.002*delta) #.rotated(Vector3(0,1,0), deg2rad(180))
+			# see line 255, because this looks the opposite way for some reason
+			#rotate_y(deg2rad(180))
+		
+		if not in_sight and not face_pos:
 			# movement
 			move(delta)
 			
@@ -224,6 +258,9 @@ func _physics_process(delta):
 		var body_r = ray.get_collider()
 		#print("Body_r", body_r)
 		if body_r is KinematicBody:
+			# if we see an enemy, no longer need to turn to face a shot
+			face_pos = Vector3()
+			
 			# if we see the player for the first time:
 			if not in_sight and not alarmed:
 				print("ALARM!!!")
@@ -310,10 +347,9 @@ func drop_gun():
 func _on_hurt(pos):
 	if dead:
 		return
-		
-	var loc = to_local(pos)
-	#var dir = direction_to(pos)
-	print("Local position of hit: ", loc)
+	
+	face_pos = pos
+
 # AI targeting
 func _on_Area_body_entered(body):
 	if body.is_in_group("player"):
