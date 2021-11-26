@@ -13,6 +13,7 @@ var last_interactable = null
 func _ready():
 	world_node = get_tree().get_nodes_in_group("root")[0]
 	bullet_impact = preload("res://bullet_impact.tscn")
+	# player is so far up our tree that it's easier to go by group
 	player = get_tree().get_nodes_in_group("player")[0]
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -58,8 +59,11 @@ func fire_weapon():
 			if bone.find("Chest") != -1 or bone.find("Head") != -1 or bone.find("Neck") != -1:
 				body.get_node("../../../../..").die()
 				#print(body.get_node("../../../../..").get_name()) #die()
-			if bone.find("Arm") != -1:
+			elif bone.find("Arm") != -1:
 				body.get_node("../../../../..").drop_gun()
+				body.get_node("../../../../..")._on_hurt(get_global_transform().origin)
+			else:
+				body.get_node("../../../../..")._on_hurt(get_global_transform().origin)
 		
 		if body is StaticBody:
 			#print("hit: ", body.get_parent().get_name().find("target"))

@@ -306,6 +306,14 @@ func drop_gun():
 	# visible effect test
 	#gun.rotate_x(deg2rad(-90))
 
+# the position passed here is global
+func _on_hurt(pos):
+	if dead:
+		return
+		
+	var loc = to_local(pos)
+	#var dir = direction_to(pos)
+	print("Local position of hit: ", loc)
 # AI targeting
 func _on_Area_body_entered(body):
 	if body.is_in_group("player"):
