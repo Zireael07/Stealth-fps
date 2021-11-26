@@ -189,7 +189,10 @@ func _physics_process(delta):
 				var ro = angle*STEER_SENSITIVITY*STEER_SENSITIVITY
 				#print("Rotating by: ", ro)
 				self.rotate_y(ro)
-			#else:
+			else:
+				# reached our target facing... look this way for some time only
+				if get_node("Timer").is_stopped():
+					get_node("Timer").start()
 			#	face_pos = Vector3()
 			
 			
@@ -360,3 +363,8 @@ func _on_Area_body_exited(body):
 	if body.is_in_group("player"):
 		possible_tg = null
 		get_node("RotationHelper/MeshInstance").get_material_override().set_albedo(Color(1,1,1))
+
+
+func _on_Timer_timeout():
+	# haven't seen anyone, go back to normal
+	face_pos = Vector3()
