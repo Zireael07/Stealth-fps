@@ -1,10 +1,11 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=14 format=2]
 
-[ext_resource path="res://grenade.gd" type="Script" id=1]
-[ext_resource path="res://assets/White.material" type="Material" id=2]
-[ext_resource path="res://assets/Grey.material" type="Material" id=3]
+[ext_resource path="res://weapons/grenade.gd" type="Script" id=1]
+[ext_resource path="res://assets/Grey.material" type="Material" id=2]
+[ext_resource path="res://assets/White.material" type="Material" id=3]
 [ext_resource path="res://assets/Main.material" type="Material" id=4]
 [ext_resource path="res://assets/Black.material" type="Material" id=5]
+[ext_resource path="res://assets/gas_mat.tres" type="Material" id=6]
 
 [sub_resource type="SphereShape" id=1]
 radius = 0.3
@@ -42,7 +43,7 @@ surfaces/2 = {
 "blend_shape_data": [  ],
 "format": 2194691,
 "index_count": 630,
-"material": ExtResource( 2 ),
+"material": ExtResource( 3 ),
 "primitive": 4,
 "skeleton_aabb": [  ],
 "vertex_count": 193
@@ -54,15 +55,35 @@ surfaces/3 = {
 "blend_shape_data": [  ],
 "format": 2194691,
 "index_count": 1242,
-"material": ExtResource( 3 ),
+"material": ExtResource( 2 ),
 "primitive": 4,
 "skeleton_aabb": [  ],
 "vertex_count": 433
 }
 
+[sub_resource type="SpatialMaterial" id=4]
+albedo_color = Color( 0, 0.431373, 0.0470588, 1 )
+
+[sub_resource type="SpatialMaterial" id=5]
+albedo_color = Color( 0, 0.431373, 0.0470588, 1 )
+
 [sub_resource type="SphereShape" id=3]
 
-[node name="flash grenade" type="RigidBody" groups=["grenade", "interactable"]]
+[sub_resource type="ParticlesMaterial" id=6]
+gravity = Vector3( 0, 9.8, 0 )
+initial_velocity = 1.0
+radial_accel = 1.0
+radial_accel_random = 1.0
+scale_random = 0.2
+
+[sub_resource type="SphereMesh" id=7]
+material = ExtResource( 6 )
+radius = 0.2
+height = 0.5
+radial_segments = 6
+rings = 3
+
+[node name="gas grenade" type="RigidBody" groups=["grenade", "interactable"]]
 mode = 1
 script = ExtResource( 1 )
 
@@ -71,10 +92,10 @@ shape = SubResource( 1 )
 
 [node name="Grenade2" type="MeshInstance" parent="."]
 mesh = SubResource( 2 )
-material/0 = ExtResource( 2 )
+material/0 = SubResource( 4 )
 material/1 = null
 material/2 = null
-material/3 = ExtResource( 2 )
+material/3 = SubResource( 5 )
 
 [node name="Timer" type="Timer" parent="."]
 wait_time = 3.0
@@ -87,6 +108,12 @@ collision_mask = 0
 [node name="CollisionShape" type="CollisionShape" parent="Area"]
 shape = SubResource( 3 )
 
-[connection signal="timeout" from="Timer" to="." method="flash"]
+[node name="Particles" type="Particles" parent="."]
+emitting = false
+amount = 32
+process_material = SubResource( 6 )
+draw_pass_1 = SubResource( 7 )
+
+[connection signal="timeout" from="Timer" to="." method="gas"]
 [connection signal="body_entered" from="Area" to="." method="_on_Area_body_entered"]
 [connection signal="body_exited" from="Area" to="." method="_on_Area_body_exited"]

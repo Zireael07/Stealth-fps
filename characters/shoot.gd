@@ -89,8 +89,9 @@ func fire_weapon():
 			body.die()
 			#pass
 			
-# -----------------------------------
+# --------------------------------------------------
 # interactables use raycasting, so this code is also here
+# TODO: move this out since this is player-specific
 func draw_screen_outline(mesh, target):
 	# HUD outline drawing
 	var originalVerticesArray = []

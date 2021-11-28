@@ -1,8 +1,8 @@
 [gd_scene load_steps=6 format=2]
 
-[ext_resource path="res://player.gd" type="Script" id=1]
-[ext_resource path="res://Character_ik.tscn" type="PackedScene" id=2]
-[ext_resource path="res://hud.tscn" type="PackedScene" id=4]
+[ext_resource path="res://characters/player.gd" type="Script" id=1]
+[ext_resource path="res://characters/Character_ik.tscn" type="PackedScene" id=2]
+[ext_resource path="res://hud/hud.tscn" type="PackedScene" id=4]
 
 [sub_resource type="BoxShape" id=1]
 extents = Vector3( 0.249, 0.92, 0.48 )

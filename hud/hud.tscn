@@ -1,6 +1,6 @@
 [gd_scene load_steps=12 format=2]
 
-[ext_resource path="res://Crosshair.tscn" type="PackedScene" id=1]
+[ext_resource path="res://hud/Crosshair.tscn" type="PackedScene" id=1]
 [ext_resource path="res://assets/pointer.png" type="Texture" id=2]
 [ext_resource path="res://assets/texture (1).png" type="Texture" id=3]
 
