@@ -7,6 +7,7 @@ var possible_tg = null
 
 var dead = false
 var carried = false
+var unconscious = false
 
 var brain
 
@@ -161,12 +162,12 @@ func move(delta):
 
 
 func _physics_process(delta):	
-	if dead and not carried:
+	if not carried and (dead or unconscious):
 		# attempt to sync collision with ragdoll
 		global_transform.origin = get_node("RotationHelper/Character2/Armature/HitBoxPelvis/Area/CollisionShape").global_transform.origin
 		return
 	
-	if not dead:
+	if not dead and not unconscious:
 		# animate movement
 		if vel.length() > 0:
 			state_machine["parameters/move_state/run/blend_position"] = Vector2(0,1) # actually animates leg movement
@@ -240,7 +241,7 @@ func _physics_process(delta):
 		alarmed = false
 		return
 		
-	if dead:
+	if dead or unconscious:
 		in_sight = false
 		alarmed = false
 		return
@@ -287,11 +288,9 @@ func ragdoll():
 	get_node("RotationHelper/Character2").rotate_x(deg2rad(-50)) # to arrive at -90
 	get_node("CollisionShape").disabled = true # only the ragdoll should be active
 	
-	dead = true
+	#dead = true
 
 func die():
-	#dead = true
-	
 	# tip him back
 	get_node("RotationHelper/Character2").rotate_x(deg2rad(-40))
 	# switch off animtree
@@ -305,6 +304,8 @@ func die():
 	# ragdoll
 	# NOTE: ragdoll seems to break IF IK was used before, even if ik is stopped above
 	ragdoll()
+	
+	dead = true
 	
 	#call_deferred("ragdoll")
 	
@@ -345,6 +346,21 @@ func drop_gun():
 	
 	# visible effect test
 	#gun.rotate_x(deg2rad(-90))
+
+func knock_out():
+	# tip him back
+	get_node("RotationHelper/Character2").rotate_x(deg2rad(-40))
+	# switch off animtree
+	get_node("RotationHelper/Character2/AnimationTree").active = false
+	# .. and IK
+	$RotationHelper/Character2/Armature/rifleik.stop()
+	$RotationHelper/Character2/Armature/left_ik.stop()
+	
+	# ragdoll
+	# NOTE: ragdoll seems to break IF IK was used before, even if ik is stopped above
+	ragdoll()
+
+	unconscious = true
 
 # the position passed here is global
 func _on_hurt(pos):

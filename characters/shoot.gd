@@ -88,7 +88,30 @@ func fire_weapon():
 		if body is KinematicBody:
 			body.die()
 			#pass
-			
+
+func melee_weapon():
+	# copied from interacting below
+	# Get the raycast node
+	var ray = $RayCast
+	# interactable range is 4 m (to be slightly more generous, 2m range is more realistic but the majority of it is obscured by our arms/weapon)
+	ray.cast_to = Vector3(0,0,-4) 
+	ray.collision_mask = 2
+	# Force the raycast to update. This will force the raycast to detect collisions when we call it.
+	# This means we are getting a frame perfect collision check with the 3D world.
+	ray.force_raycast_update()
+
+	# Did the ray hit something?
+	if ray.is_colliding():
+		var body = ray.get_collider()
+		#print("Colliding with: ", body.get_name())
+		# body parts support (requires detecting areas!)
+		if body is Area and body.get_parent() is BoneAttachment:
+			var bone = body.get_parent().get_name()
+			print("Bone...", bone)
+			# from player experience in DX, only neck/head and pelvis work
+			if bone.find("Pelvis") != -1 or bone.find("Head") != -1 or bone.find("Neck") != -1:
+				body.get_node("../../../../..").knock_out()
+
 # --------------------------------------------------
 # interactables use raycasting, so this code is also here
 # TODO: move this out since this is player-specific
@@ -153,6 +176,8 @@ func draw_screen_outline(mesh, target):
 	# show item name
 	if target is KinematicBody and target.dead:
 		player.get_node("Control/ReferenceRect/Label").set_text(target.get_name() + " (Dead)")
+	elif target is KinematicBody and target.unconscious:
+		player.get_node("Control/ReferenceRect/Label").set_text(target.get_name() + " (Unconscious)")
 	else:
 		player.get_node("Control/ReferenceRect/Label").set_text(target.get_name())
 
@@ -175,30 +200,31 @@ func detect_interactable():
 
 		# dead AIs
 		# TODO: clean this messy line up!
-		if body is PhysicalBone and \
-		'dead' in body.get_node("../../../..") and body.get_node("../../../..").dead and not 'player' in body.get_node("../../../.."):
-		#if body is KinematicBody and not 'player' in body and body.dead:
-			if last_interactable:
-				var target = body
-				draw_screen_outline(target.get_parent().get_node("Body"), target.get_node("../../../.."))
-				#draw_screen_outline(target.get_child(1).get_node("Character2/Armature/Body"))
-				if last_interactable != body:
-					# remove outline from previous interactable
-					var lt = last_interactable
-					# AI don't have next pass set up
-					if lt is Area or lt is RigidBody:
-						if 'next_pass' in lt.get_child(1).get_surface_material(0):
-							lt.get_child(1).get_surface_material(0).next_pass.set_shader_param("thickness", 0)
-					last_interactable = body.get_parent().get_parent().get_parent().get_parent() # the KinematicBody instead
+		if body is PhysicalBone:
+			var character = body.get_node("../../../..") 
+			if 'dead' in character and character.dead or 'unconscious' in character and character.unconscious and not 'player' in character:
 
+				if last_interactable:
+					var target = body
+					draw_screen_outline(target.get_parent().get_node("Body"), target.get_node("../../../.."))
+					#draw_screen_outline(target.get_child(1).get_node("Character2/Armature/Body"))
+					if last_interactable != body:
+						# remove outline from previous interactable
+						var lt = last_interactable
+						# AI don't have next pass set up
+						if lt is Area or lt is RigidBody:
+							if 'next_pass' in lt.get_child(1).get_surface_material(0):
+								lt.get_child(1).get_surface_material(0).next_pass.set_shader_param("thickness", 0)
+						last_interactable = body.get_parent().get_parent().get_parent().get_parent() # the KinematicBody instead
+
+						#target.get_child(1).get_node("Character2/Armature/Body").get_surface_material(0).next_pass.set_shader_param("thickness", 0.1)
+				else:
+					last_interactable = body.get_parent().get_parent().get_parent().get_parent() # the KinematicBody instead
+					var target = body
+					draw_screen_outline(target.get_parent().get_node("Body"), target.get_node("../../../.."))
+					# AI don't have next pass set up
 					#target.get_child(1).get_node("Character2/Armature/Body").get_surface_material(0).next_pass.set_shader_param("thickness", 0.1)
-			else:
-				last_interactable = body.get_parent().get_parent().get_parent().get_parent() # the KinematicBody instead
-				var target = body
-				draw_screen_outline(target.get_parent().get_node("Body"), target.get_node("../../../.."))
-				# AI don't have next pass set up
-				#target.get_child(1).get_node("Character2/Armature/Body").get_surface_material(0).next_pass.set_shader_param("thickness", 0.1)
-				#draw_screen_outline(target.get_child(1).get_node("Character2/Armature/Body"))
+					#draw_screen_outline(target.get_child(1).get_node("Character2/Armature/Body"))
 
 		# interactable items
 		elif (body is Area or body is RigidBody) and body.is_in_group("interactable"):
