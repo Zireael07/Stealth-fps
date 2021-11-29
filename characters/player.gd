@@ -16,6 +16,7 @@ const MAX_SLOPE_ANGLE = 40
 var camera
 var camera_helper
 var rotation_helper
+var weapon_hold
 var left_ik_tg
 
 var MOUSE_SENSITIVITY = 0.05
@@ -35,9 +36,11 @@ const VIS_OBJECT_GRAB_DISTANCE = 1
 
 var armed = true
 var scoping = false
+var melee = false
 
 func _ready():
 	camera = $RotationHelper/Character/Armature/CameraBoneAttachment/Camera
+	weapon_hold = $RotationHelper/Character/Armature/WeaponHold/
 	camera_helper = $RotationHelper/Character/Armature/HitBoxChest/Spatial # for ik targets
 	rotation_helper = $RotationHelper
 	
@@ -123,8 +126,11 @@ func process_input(delta):
 	if Input.is_action_just_pressed("shoot"):
 		if not armed:
 			return
-			
-		camera.get_node("Spatial").fire_weapon()
+		
+		if melee:
+			camera.get_node("Spatial").melee_weapon()
+		else:
+			camera.get_node("Spatial").fire_weapon()
 		
 	if Input.is_action_just_pressed("shoot_alt"):
 		if not armed:
@@ -153,6 +159,17 @@ func process_input(delta):
 			$CollisionShape.get_shape().extents = Vector3(0.249, 0.92, 0.757)
 			state_machine["parameters/move_state/playback"].travel("run")
 
+	# --------------------------------------
+	# weapon switching
+	if Input.is_action_just_pressed("weapon_1"):
+		armed = true
+		melee = false
+		weapon_hold.get_node("Rifle2").show()
+		weapon_hold.get_node("Baton").hide()
+	if Input.is_action_just_pressed("weapon_2"):
+		melee = true
+		weapon_hold.get_node("Rifle2").hide()
+		weapon_hold.get_node("Baton").show()
 
 	# ----------------------------------
 	if Input.is_action_just_pressed("interact"):
@@ -332,7 +349,7 @@ func _input(event):
 		#print("Rot: ", view_rot.x)
 		camera_helper.get_node("head_ik_tg").rotation_degrees = view_rot
 		
-		if not armed:
+		if melee or not armed:
 			return
 			
 		# this rotates everything, including our mesh and collision
