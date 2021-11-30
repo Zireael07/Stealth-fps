@@ -1,10 +1,11 @@
-[gd_scene load_steps=90 format=2]
+[gd_scene load_steps=91 format=2]
 
 [ext_resource path="res://characters/shoot.gd" type="Script" id=1]
 [ext_resource path="res://assets/Rifle.escn" type="PackedScene" id=2]
 [ext_resource path="res://assets/Character.escn" type="PackedScene" id=3]
 [ext_resource path="res://weapons/Rifle.tscn" type="PackedScene" id=4]
 [ext_resource path="res://weapons/baton.tscn" type="PackedScene" id=5]
+[ext_resource path="res://weapons/Knife.tscn" type="PackedScene" id=6]
 
 [sub_resource type="SphereShape" id=1]
 radius = 0.146924
@@ -406,8 +407,11 @@ transform = Transform( 1, 0, -3.72529e-09, 2.32831e-10, 1, 0, -3.72529e-09, 1.86
 [node name="Baton" parent="Armature/WeaponHold" index="2" instance=ExtResource( 5 )]
 visible = false
 
+[node name="Knife" parent="Armature/WeaponHold" index="3" instance=ExtResource( 6 )]
+visible = false
+
 [node name="CameraHold" type="BoneAttachment" parent="Armature" index="3"]
-transform = Transform( -0.999016, -0.000578936, -0.0443465, 0.000578745, 0.99966, -0.026088, 0.0443465, -0.0260881, -0.998676, 0.00233999, 1.73973, 0.043952 )
+transform = Transform( -0.999016, -0.000578936, -0.0443465, 0.000578745, 0.99966, -0.026088, 0.0443465, -0.0260881, -0.998676, 0.00233999, 1.74028, 0.043952 )
 bone_name = "Camera"
 
 [node name="Physical Bone Head" type="PhysicalBone" parent="Armature" index="4"]
