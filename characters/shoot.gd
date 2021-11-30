@@ -89,7 +89,7 @@ func fire_weapon():
 			body.die()
 			#pass
 
-func melee_weapon():
+func melee_weapon(knockout):
 	# copied from interacting below
 	# Get the raycast node
 	var ray = $RayCast
@@ -108,9 +108,15 @@ func melee_weapon():
 		if body is Area and body.get_parent() is BoneAttachment:
 			var bone = body.get_parent().get_name()
 			print("Bone...", bone)
-			# from player experience in DX, only neck/head and pelvis work
-			if bone.find("Pelvis") != -1 or bone.find("Head") != -1 or bone.find("Neck") != -1:
-				body.get_node("../../../../..").knock_out()
+			if knockout:
+				# from player experience in DX, only neck/head and pelvis work
+				if bone.find("Pelvis") != -1 or bone.find("Head") != -1 or bone.find("Neck") != -1:
+					body.get_node("../../../../..").knock_out()
+			else:
+				if bone.find("Head") != -1 or bone.find("Chest") != -1 or bone.find("Neck") != -1:
+					body.get_node("../../../../..").die()
+				elif bone.find("Arm") != -1:
+					body.get_node("../../../../..").drop_gun()
 
 # --------------------------------------------------
 # interactables use raycasting, so this code is also here

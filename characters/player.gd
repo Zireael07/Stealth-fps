@@ -23,7 +23,7 @@ var MOUSE_SENSITIVITY = 0.05
 
 var crouched = false
 
-var state_machine
+var state_machine # anim state machine
 
 # Bullet impulse values are "artistic" according to a comment on gamedev.net
 const PUSH_FORCE = 2 # has to be lower than OBJECT_THROW_FORCE below to make sense
@@ -34,9 +34,15 @@ const OBJECT_THROW_FORCE = 5
 const VIS_OBJECT_GRAB_DISTANCE = 1
 #const OBJECT_GRAB_RAY_DISTANCE = 10
 
-var armed = true
 var scoping = false
-var melee = false
+
+# states (weapons)
+const UNARMED = 0
+const RIFLE = 1
+const BATON = 2
+const KNIFE = 3
+var state = RIFLE
+var prev_state = RIFLE
 
 func _ready():
 	camera = $RotationHelper/Character/Armature/CameraBoneAttachment/Camera
@@ -58,10 +64,10 @@ func _physics_process(delta):
 	camera.get_node("Spatial").detect_interactable()
 
 func unwield():
-	armed = false
 	# unwield current weapon
-	$CollisionShapeGun.disabled = true
-	$RotationHelper/Character/Armature/WeaponHold/Rifle.hide()
+	$CollisionShapeGun.disabled = true	
+	prev_state = state
+	state = UNARMED
 	
 	# proper animation for hands
 	var g_pos = $RotationHelper/Character/Armature/WeaponHold/Rifle2/Position3D.get_global_transform().origin #+ Vector3(0,0, 0.5)
@@ -76,6 +82,28 @@ func unwield():
 	# update HUD
 	get_node("Control/Center/Crosshair").hide()
 	get_node("Control/Center/Control").show()
+
+
+func wield_again():
+	state = prev_state
+	# wield current weapon
+	$CollisionShapeGun.disabled = false
+	if state == RIFLE:
+		weapon_hold.get_node("Rifle2").show()
+		weapon_hold.get_node("Baton").hide()
+		weapon_hold.get_node("Knife").hide()
+	elif state == BATON:
+		weapon_hold.get_node("Rifle2").hide()
+		weapon_hold.get_node("Baton").show()
+		weapon_hold.get_node("Knife").hide()
+	elif state == KNIFE:
+		weapon_hold.get_node("Rifle2").hide()
+		weapon_hold.get_node("Knife").show()
+		weapon_hold.get_node("Baton").hide()
+	
+	# update HUD
+	get_node("Control/Center/Crosshair").show()
+	get_node("Control/Center/Control").hide()
 
 
 func process_input(delta):
@@ -124,16 +152,19 @@ func process_input(delta):
 	# ----------------------------------
 	# Firing the weapons
 	if Input.is_action_just_pressed("shoot"):
-		if not armed:
+		if state == UNARMED:
+			wield_again()
 			return
 		
-		if melee:
-			camera.get_node("Spatial").melee_weapon()
+		if state == BATON:
+			camera.get_node("Spatial").melee_weapon(true)
+		elif state == KNIFE:
+			camera.get_node("Spatial").melee_weapon(false)
 		else:
 			camera.get_node("Spatial").fire_weapon()
 		
 	if Input.is_action_just_pressed("shoot_alt"):
-		if not armed:
+		if not state == RIFLE:
 			return
 			
 		if not scoping:
@@ -162,14 +193,20 @@ func process_input(delta):
 	# --------------------------------------
 	# weapon switching
 	if Input.is_action_just_pressed("weapon_1"):
-		armed = true
-		melee = false
+		state = RIFLE
 		weapon_hold.get_node("Rifle2").show()
 		weapon_hold.get_node("Baton").hide()
+		weapon_hold.get_node("Knife").hide()
 	if Input.is_action_just_pressed("weapon_2"):
-		melee = true
+		state = BATON
 		weapon_hold.get_node("Rifle2").hide()
 		weapon_hold.get_node("Baton").show()
+		weapon_hold.get_node("Knife").hide()
+	if Input.is_action_just_pressed("weapon_3"):
+		state = KNIFE
+		weapon_hold.get_node("Rifle2").hide()
+		weapon_hold.get_node("Baton").hide()
+		weapon_hold.get_node("Knife").show()
 
 	# ----------------------------------
 	if Input.is_action_just_pressed("interact"):
@@ -179,17 +216,10 @@ func process_input(delta):
 		# no interactable detected
 		if grabbed_object == null and !camera.get_node("Spatial").last_interactable:
 			# unwield guns
-			if armed:
+			if state != UNARMED:
 				unwield()
 			else:
-				armed = true
-				# wield current weapon
-				$CollisionShapeGun.disabled = false
-				$RotationHelper/Character/Armature/WeaponHold/Rifle.show()
-				
-				# update HUD
-				get_node("Control/Center/Crosshair").show()
-				get_node("Control/Center/Control").hide()
+				wield_again()
 				
 			return
 		
@@ -349,16 +379,14 @@ func _input(event):
 		#print("Rot: ", view_rot.x)
 		camera_helper.get_node("head_ik_tg").rotation_degrees = view_rot
 		
-		if melee or not armed:
+		if state != RIFLE:
 			return
 			
 		# this rotates everything, including our mesh and collision
 		#rotation_helper.rotate_x(deg2rad(event.relative.y * MOUSE_SENSITIVITY))
 		
 		# rotate ik targets
-		
 		# rotate_x wants radians
-
 		camera_helper.get_node("rifle_ik_tg").rotate_x(rot)
 
 		# play ik
