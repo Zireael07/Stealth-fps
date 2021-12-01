@@ -63,6 +63,13 @@ func _physics_process(delta):
 	process_movement(delta)
 	camera.get_node("Spatial").detect_interactable()
 
+func left_hand_empty_ik():
+	var g_pos = $RotationHelper/Character/Armature/WeaponHold/Rifle2/Position3D.get_global_transform().origin #+ Vector3(0,0, 0.5)
+	var lpos = camera_helper.to_local(g_pos)
+	left_ik_tg.set_translation(Vector3(lpos.x, lpos.y-0.5, lpos.z))
+	$RotationHelper/Character/Armature/left_ik.start()
+
+
 func unwield():
 	# unwield current weapon
 	$CollisionShapeGun.disabled = true	
@@ -70,10 +77,7 @@ func unwield():
 	state = UNARMED
 	
 	# proper animation for hands
-	var g_pos = $RotationHelper/Character/Armature/WeaponHold/Rifle2/Position3D.get_global_transform().origin #+ Vector3(0,0, 0.5)
-	var lpos = camera_helper.to_local(g_pos)
-	left_ik_tg.set_translation(Vector3(lpos.x, lpos.y-0.5, lpos.z))
-	$RotationHelper/Character/Armature/left_ik.start()
+	left_hand_empty_ik()
 	
 	camera_helper.get_node("rifle_ik_tg").set_translation(Vector3(0.65, 1, 1.75))
 	camera_helper.get_node("rifle_ik_tg").rotation_degrees = Vector3(25, 90, 0)
@@ -96,10 +100,19 @@ func wield_again():
 		weapon_hold.get_node("Rifle2").hide()
 		weapon_hold.get_node("Baton").show()
 		weapon_hold.get_node("Knife").hide()
+		left_hand_empty_ik()
 	elif state == KNIFE:
 		weapon_hold.get_node("Rifle2").hide()
 		weapon_hold.get_node("Knife").show()
 		weapon_hold.get_node("Baton").hide()
+		left_hand_empty_ik()
+	
+	# restore the previous right hand IK
+	# these are the initial values upon game start
+	camera_helper.get_node("rifle_ik_tg").set_translation(Vector3(0.65, 2.2, 1.75))
+	camera_helper.get_node("rifle_ik_tg").rotation_degrees = Vector3(0, 0, 0)
+	$RotationHelper/Character/Armature/rifleik.start()
+	
 	
 	# update HUD
 	get_node("Control/Center/Crosshair").show()
@@ -202,11 +215,13 @@ func process_input(delta):
 		weapon_hold.get_node("Rifle2").hide()
 		weapon_hold.get_node("Baton").show()
 		weapon_hold.get_node("Knife").hide()
+		left_hand_empty_ik()
 	if Input.is_action_just_pressed("weapon_3"):
 		state = KNIFE
 		weapon_hold.get_node("Rifle2").hide()
 		weapon_hold.get_node("Baton").hide()
 		weapon_hold.get_node("Knife").show()
+		left_hand_empty_ik()
 
 	# ----------------------------------
 	if Input.is_action_just_pressed("interact"):
