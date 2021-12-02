@@ -21,7 +21,11 @@ var left_ik_tg
 
 var MOUSE_SENSITIVITY = 0.05
 
-var crouched = false
+# stances
+const STANDING = 0
+const CROUCHED = 1
+const PRONE = 2
+var stance = 0
 
 var state_machine # anim state machine
 
@@ -189,19 +193,54 @@ func process_input(delta):
 
 	# Crouch
 	if Input.is_action_just_pressed("movement_crouch"):
-		# toggle
-		crouched = not crouched
-		if crouched:
+		if stance == PRONE:
+			print("Back to standing")
+			stance = 0
+		else:
+			# toggle
+			stance += 1
+
+		if stance == CROUCHED:
 			# crouching character is roughly 0.4 (1.7 to 1.3) lower
 			$CollisionShape.set_translation(Vector3(0,0.527,0.324))
 			$CollisionShape.get_shape().extents = Vector3(0.249, 0.52, 0.757)
 			# change anim
 			state_machine["parameters/move_state/playback"].travel("crouch")
-		else:
-			# restore original values
+		elif stance == STANDING:
+			# restore original values that prone changes
+			$RotationHelper/Character.set_rotation_degrees(Vector3(0, 0, 0))
+			camera_helper.get_node("head_ik_tg").rotation_degrees = Vector3(0, 0, 0)
+			camera_helper.set_translation(Vector3(-0.014, -0.026, 1.244))
+			camera_helper.get_node("rifle_ik_tg").translate(Vector3(0.5, 0,0))
+			$RotationHelper/Character/Armature/rifleik.root_bone = "LowerArm.R"
+			$RotationHelper/Character/Armature/left_ik.root_bone = "LowerArm.R"
+			
+			# standing
 			$CollisionShape.set_translation(Vector3(0,0.927, 0.324))
 			$CollisionShape.get_shape().extents = Vector3(0.249, 0.92, 0.757)
 			state_machine["parameters/move_state/playback"].travel("run")
+		elif stance == PRONE:
+			$RotationHelper/Character.set_rotation_degrees(Vector3(90, 0, 0))
+			$RotationHelper/Character.set_translation(Vector3(1, 0, -1))
+			# no animations yet
+			
+			# adjust IK targets
+			camera_helper.set_translation(Vector3(-1.66, -1.7, -0.8))
+			camera_helper.get_node("head_ik_tg").rotation_degrees = Vector3(-85, 0, 0)
+			$RotationHelper/Character/Armature/headik.start()
+			# hackfix to stop arm obscuring our view
+			camera_helper.get_node("rifle_ik_tg").translate(Vector3(-0.5, 0,0))
+			camera_helper.get_node("rifle_ik_tg").rotation_degrees = Vector3(-90,0,0)
+			# we need to move the upper arms in prone position, too
+			$RotationHelper/Character/Armature/rifleik.root_bone = "UpperArm.R"
+			$RotationHelper/Character/Armature/rifleik.start()
+#			# this is tricky!
+#			var g_pos = $RotationHelper/Character/Armature/WeaponHold/Rifle2/Position3D.get_global_transform().origin #+ Vector3(0,0, 0.5)
+#			var lpos = camera_helper.to_local(g_pos)
+#			left_ik_tg.set_translation(lpos)
+#			#left_ik_tg.translate(Vector3(0.5,0,0))
+			$RotationHelper/Character/Armature/left_ik.root_bone = "UpperArm.L"
+			$RotationHelper/Character/Armature/left_ik.start()
 
 	# --------------------------------------
 	# weapon switching
@@ -390,8 +429,12 @@ func _input(event):
 		
 		# clamp now
 		var view_rot = camera_helper.get_node("head_ik_tg").rotation_degrees 
-		view_rot.x = clamp(view_rot.x, -70, 30) # above 30 we'd need special handling to avoid chest mesh clipping
-		#print("Rot: ", view_rot.x)
+		
+		if stance != PRONE:
+			view_rot.x = clamp(view_rot.x, -70, 30) # above 30 we'd need special handling to avoid chest mesh clipping
+		else:
+			view_rot.x = clamp(view_rot.x, -100, -70)
+			#print("Rot: ", view_rot.x)
 		camera_helper.get_node("head_ik_tg").rotation_degrees = view_rot
 		
 		if state != RIFLE:
@@ -402,22 +445,21 @@ func _input(event):
 		
 		# rotate ik targets
 		# rotate_x wants radians
-		camera_helper.get_node("rifle_ik_tg").rotate_x(rot)
+		if stance != PRONE:
+			camera_helper.get_node("rifle_ik_tg").rotate_x(rot)
 
+			camera_helper.get_node("rifle_ik_tg").rotation_degrees = view_rot
+		#else:
+		#	camera_helper.get_node("rifle_ik_tg").rotation_degrees = Vector3(-90,0,0)
 		# play ik
 		$RotationHelper/Character/Armature/rifleik.start()
-		#$RotationHelper/Character/Armature/left_ik.start()
-		
-		
-		camera_helper.get_node("rifle_ik_tg").rotation_degrees = view_rot
-		
+	
 		# this is tricky!
 		var g_pos = $RotationHelper/Character/Armature/WeaponHold/Rifle2/Position3D.get_global_transform().origin #+ Vector3(0,0, 0.5)
 		var lpos = camera_helper.to_local(g_pos)
 		left_ik_tg.set_translation(lpos)
-		
+	
+		if stance == PRONE:
+			left_ik_tg.translate(Vector3(0.75, 0,0))
+			
 		$RotationHelper/Character/Armature/left_ik.start()
-
-#		var camera_rot = rotation_helper.rotation_degrees
-#		camera_rot.x = clamp(camera_rot.x, -70, 50)
-#		rotation_helper.rotation_degrees = camera_rot

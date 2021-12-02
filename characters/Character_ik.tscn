@@ -1,4 +1,4 @@
-[gd_scene load_steps=91 format=2]
+[gd_scene load_steps=92 format=2]
 
 [ext_resource path="res://characters/shoot.gd" type="Script" id=1]
 [ext_resource path="res://assets/Rifle.escn" type="PackedScene" id=2]
@@ -42,6 +42,9 @@ extents = Vector3( 0.128555, 0.0800747, 0.215458 )
 
 [sub_resource type="BoxShape" id=11]
 extents = Vector3( 0.0858896, 0.0723719, 0.257933 )
+
+[sub_resource type="CubeMesh" id=85]
+size = Vector3( 0.25, 0.25, 0.25 )
 
 [sub_resource type="CubeMesh" id=12]
 size = Vector3( 0.25, 0.25, 0.25 )
@@ -740,6 +743,11 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 0 )
 
 [node name="rifle_ik_tg" type="Position3D" parent="Armature/HitBoxChest/Spatial" index="1"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.65, 2.2, 1.75 )
+
+[node name="MeshInstance" type="MeshInstance" parent="Armature/HitBoxChest/Spatial/rifle_ik_tg" index="0"]
+visible = false
+mesh = SubResource( 85 )
+material/0 = null
 
 [node name="left_ik_tg" type="Position3D" parent="Armature/HitBoxChest/Spatial" index="2"]
 transform = Transform( 0.999999, 0, 0, 0, 1, 0, 0, 0, 0.999999, -0.3, 1.502, 0.8 )
