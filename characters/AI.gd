@@ -265,9 +265,9 @@ func _physics_process(delta):
 			# if we see an enemy, no longer need to turn to face a shot
 			face_pos = Vector3()
 			
-			# if we see the player for the first time:
-			if not in_sight and not alarmed:
-				print("ALARM!!!")
+			# if we see the player for the first time and alarm hasn't been raised
+			if not in_sight and not alarmed and !get_tree().get_nodes_in_group("alarm")[0].get_child(0).alarmed:
+				#print("ALARM!!!")
 				alarmed = true
 				
 			get_node("RotationHelper/MeshInstance").get_material_override().set_albedo(Color(1,0,0))
