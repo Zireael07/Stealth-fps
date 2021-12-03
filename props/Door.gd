@@ -12,7 +12,20 @@ var state = CLOSED
 func _ready():
 	# Called every time the node is added to the scene.
 	# Initialization here
-	pass
+	
+	# fake aabb for outlines
+	var debug = get_node("Position3D")
+	for i in range(7):
+		var end_point = get_node("MeshInstance").get_aabb().get_endpoint(i) # local space
+		 # because we're looking at relative to center of the mesh itself
+		var point = get_node("MeshInstance").to_global(end_point)
+		var pt = Position3D.new()
+#		var msh = CubeMesh.new()
+#		msh.size = Vector3(0.25, 0.25, 0.25)
+#		var pt = MeshInstance.new()
+#		pt.set_mesh(msh)
+		debug.add_child(pt)
+		pt.global_transform.origin =  point
 
 func _on_interact():
 	if !animating:

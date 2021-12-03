@@ -138,10 +138,15 @@ func draw_screen_outline(mesh, target):
 			originalVerticesArray.append(point)
 #			mesh.get_transformed_aabb().get_endpoint(i)
 			#point = point.rotated(Vector3(1,0,0), deg2rad(45))
+		elif target is StaticBody: # the door
+			# this is global, to take rotation into account
+			point = target.get_node("Position3D").get_child(i).global_transform.origin
+			# so just plug it in
+			originalVerticesArray.append(point)
 		else:
 			point = mesh.get_aabb().get_endpoint(i) # this is in local space
 			originalVerticesArray.append(point + origin) # AABB are unrotated by design, so we can just add
-			# FIXME: this means that rotated meshes such as the door show bad bounds
+			# FIXME: this means that rotated meshes show bad bounds
 		
 	# transform
 	var unprojectedVerticesArray = []

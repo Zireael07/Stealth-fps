@@ -54,5 +54,8 @@ material/0 = SubResource( 4 )
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Door"]
 anims/open = SubResource( 5 )
 
+[node name="Position3D" type="Position3D" parent="Door"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, 1, 0 )
+
 [connection signal="animation_finished" from="Door/AnimationPlayer" to="Door" method="_on_AnimationPlayer_animation_finished"]
 [connection signal="animation_started" from="Door/AnimationPlayer" to="Door" method="_on_AnimationPlayer_animation_started"]
