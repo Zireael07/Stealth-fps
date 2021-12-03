@@ -24,7 +24,7 @@ shader_param/refl_tx = SubResource( 4 )
 [sub_resource type="QuadMesh" id=1]
 size = Vector2( 0.125, 0.063 )
 
-[node name="Spatial" type="Spatial"]
+[node name="keypad" type="Spatial"]
 
 [node name="Viewport" type="Viewport" parent="."]
 size = Vector2( 40, 15 )
