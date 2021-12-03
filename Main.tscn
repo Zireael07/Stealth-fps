@@ -1,4 +1,4 @@
-[gd_scene load_steps=43 format=2]
+[gd_scene load_steps=44 format=2]
 
 [ext_resource path="res://better_env.tres" type="Environment" id=1]
 [ext_resource path="res://assets/blue.material" type="Material" id=2]
@@ -19,6 +19,7 @@
 [ext_resource path="res://weapons/grenade_flash.tscn" type="PackedScene" id=17]
 [ext_resource path="res://props/Button.tscn" type="PackedScene" id=18]
 [ext_resource path="res://weapons/grenade_gas.tscn" type="PackedScene" id=19]
+[ext_resource path="res://shack.tscn" type="PackedScene" id=20]
 
 [sub_resource type="SpatialMaterial" id=1]
 albedo_texture = ExtResource( 10 )
@@ -188,6 +189,9 @@ material/0 = null
 [node name="CollisionShape" type="CollisionShape" parent="level/MeshInstance6/StaticBody"]
 transform = Transform( 1, 1.72977e-20, 0, 1.72977e-20, 1, 0, 0, 0, 1, 0, 0, 0 )
 shape = SubResource( 10 )
+
+[node name="Spatial" parent="level" instance=ExtResource( 20 )]
+transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -8.68424, 1.25124, 22.5075 )
 
 [node name="nav" type="Spatial" parent="."]
 

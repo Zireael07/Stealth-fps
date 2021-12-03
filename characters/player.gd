@@ -407,7 +407,7 @@ func process_movement(delta):
 	# after calling move_and_slide()
 	for index in get_slide_count():
 		var collision = get_slide_collision(index)
-		if collision.collider.is_in_group("interactable"):
+		if collision.collider.is_in_group("interactable") and collision.collider is RigidBody:
 			collision.collider.apply_central_impulse(-collision.normal * PUSH_FORCE)
 		if collision.collider.is_in_group("crate"):
 			var cr_imp = -camera.global_transform.basis.z.normalized() * PUSH_FORCE/3

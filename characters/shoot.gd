@@ -141,11 +141,8 @@ func draw_screen_outline(mesh, target):
 		else:
 			point = mesh.get_aabb().get_endpoint(i) # this is in local space
 			originalVerticesArray.append(point + origin) # AABB are unrotated by design, so we can just add
+			# FIXME: this means that rotated meshes such as the door show bad bounds
 		
-		
-
-
-	
 	# transform
 	var unprojectedVerticesArray = []
 	for p in originalVerticesArray:
@@ -233,7 +230,8 @@ func detect_interactable():
 					#draw_screen_outline(target.get_child(1).get_node("Character2/Armature/Body"))
 
 		# interactable items
-		elif (body is Area or body is RigidBody) and body.is_in_group("interactable"):
+		# doors are StaticBodies ;)
+		elif (body is Area or body is RigidBody or body is StaticBody) and body.is_in_group("interactable"):
 			if last_interactable:
 				var target = body
 				draw_screen_outline(target.get_child(1), target)

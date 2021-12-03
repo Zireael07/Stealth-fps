@@ -14,7 +14,7 @@ func _ready():
 	# Initialization here
 	pass
 
-func interact(relate):
+func _on_interact():
 	if !animating:
 		if state == CLOSED:
 			$AnimationPlayer.play("open")
