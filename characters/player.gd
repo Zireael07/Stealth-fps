@@ -463,3 +463,13 @@ func _input(event):
 			left_ik_tg.translate(Vector3(0.75, 0,0))
 			
 		$RotationHelper/Character/Armature/left_ik.start()
+
+# ---------------------------------------------
+func _on_gadget_mode(index):
+	if index == 0:
+		get_tree().get_nodes_in_group("root")[0].get_node("WorldEnvironment").environment.adjustment_enabled = false
+	elif index == 1:
+		# turn nightvision on
+		get_tree().get_nodes_in_group("root")[0].get_node("WorldEnvironment").environment.adjustment_enabled = true
+	elif index == 2:
+		get_tree().get_nodes_in_group("root")[0].get_node("WorldEnvironment").environment.adjustment_enabled = false

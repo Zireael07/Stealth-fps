@@ -1,8 +1,9 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://hud/Crosshair.tscn" type="PackedScene" id=1]
 [ext_resource path="res://assets/pointer.png" type="Texture" id=2]
 [ext_resource path="res://assets/texture (1).png" type="Texture" id=3]
+[ext_resource path="res://hud/hud.gd" type="Script" id=4]
 
 [sub_resource type="DynamicFontData" id=1]
 font_path = "res://assets/DSEG7ClassicMini-Bold.ttf"
@@ -141,6 +142,7 @@ tracks/1/keys = {
 [node name="Control" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
+script = ExtResource( 4 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -254,6 +256,28 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="Control" type="Control" parent="."]
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -120.0
+margin_top = -40.0
+margin_right = -80.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="OptionButton" type="OptionButton" parent="Control"]
+margin_right = 101.0
+margin_bottom = 20.0
+text = "Off"
+items = [ "Off", null, false, 0, null, "Nightvision", null, false, 1, null ]
+selected = 0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="gas_overlay" type="TextureRect" parent="."]
 visible = false
 material = SubResource( 7 )
@@ -278,3 +302,5 @@ __meta__ = {
 anims/RESET = SubResource( 3 )
 anims/flash = SubResource( 4 )
 anims/gas = SubResource( 10 )
+
+[connection signal="item_selected" from="Control/OptionButton" to="." method="_on_OptionButton_item_selected"]
