@@ -304,7 +304,7 @@ func process_input(delta):
 				grabbed_object.carried = true
 				#stop the ragdoll
 				grabbed_object.get_node("RotationHelper/Character2/Armature").physical_bones_stop_simulation()
-				grabbed_object.get_node("RotationHelper/Character2").rotate_x(deg2rad(90))
+				grabbed_object.get_node("RotationHelper/Character2").set_rotation(Vector3(deg2rad(0), 0, 0))
 
 		else:
 			# are we aiming at another interactable?
@@ -341,8 +341,13 @@ func process_input(delta):
 			# make the ragdoll work again
 			if grabbed_object is KinematicBody:
 				grabbed_object.carried = false
+				
+				grabbed_object.get_node("RotationHelper/Character2/Armature/Physical Bone Torso").apply_impulse(Vector3(0,0,0), -camera.global_transform.basis.z.normalized() * 1.5)
+
 				# tipback trick again
-				grabbed_object.get_node("RotationHelper/Character2").rotate_x(deg2rad(-90))
+				#grabbed_object.get_node("RotationHelper/Character2").set_rotation(Vector3(deg2rad(-90), 0, 0))
+				#grabbed_object.get_node("RotationHelper/Character2").rotate_x(deg2rad(-90))
+				
 				# restart ragdoll
 				grabbed_object.get_node("RotationHelper/Character2/Armature").physical_bones_start_simulation()
 

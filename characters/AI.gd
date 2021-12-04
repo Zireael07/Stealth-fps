@@ -296,7 +296,7 @@ func ragdoll():
 
 func die():
 	# tip him back
-	get_node("RotationHelper/Character2").rotate_x(deg2rad(-40))
+	get_node("RotationHelper/Character2").set_rotation(Vector3(deg2rad(-40), 0, 0))
 	# switch off animtree
 	get_node("RotationHelper/Character2/AnimationTree").active = false
 	# .. and IK
@@ -353,7 +353,7 @@ func drop_gun():
 
 func knock_out():
 	# tip him back
-	get_node("RotationHelper/Character2").rotate_x(deg2rad(-40))
+	get_node("RotationHelper/Character2").set_rotation(Vector3(deg2rad(-40), 0, 0))
 	# switch off animtree
 	get_node("RotationHelper/Character2/AnimationTree").active = false
 	# .. and IK
