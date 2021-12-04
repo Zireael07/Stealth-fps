@@ -16,7 +16,7 @@ size = Vector3( 0.25, 0.25, 0.25 )
 [sub_resource type="PrismMesh" id=3]
 size = Vector3( 1, 1, 1 )
 
-[node name="Spatial" type="KinematicBody"]
+[node name="Spatial" type="KinematicBody" groups=["AI"]]
 script = ExtResource( 3 )
 
 [node name="CollisionShape" type="CollisionShape" parent="."]

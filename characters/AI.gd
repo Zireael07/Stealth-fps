@@ -37,6 +37,10 @@ var alarmed = false
 
 var face_pos = Vector3()
 
+# material
+var camo = preload("res://assets/camo_triplanar_mat.tres")
+var thermal = preload("res://assets/thermal_vis_material.tres")
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	# b/c it's placed in global space
@@ -384,3 +388,11 @@ func _on_Area_body_exited(body):
 func _on_Timer_timeout():
 	# haven't seen anyone, go back to normal
 	face_pos = Vector3()
+
+func _on_thermal_vision(on):
+	# visual effect
+	var mesh = get_node("RotationHelper/Character2/Armature/Body")
+	if on:
+		mesh.set_surface_material(1, thermal)
+	else:
+		mesh.set_surface_material(1, camo)

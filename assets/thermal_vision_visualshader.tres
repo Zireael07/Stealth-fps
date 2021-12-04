@@ -1,0 +1,53 @@
+[gd_resource type="VisualShader" load_steps=5 format=2]
+
+[sub_resource type="VisualShaderNodeFresnel" id=1]
+default_input_values = [ 2, false, 3, 10.0 ]
+
+[sub_resource type="Gradient" id=2]
+offsets = PoolRealArray( 0, 0.110204, 0.763265, 1 )
+colors = PoolColorArray( 1, 0, 0, 1, 1, 0.890196, 0.00392157, 1, 0.0920687, 0.0350077, 0.960828, 1, 0.054902, 0, 1, 1 )
+
+[sub_resource type="GradientTexture" id=3]
+gradient = SubResource( 2 )
+
+[sub_resource type="VisualShaderNodeTexture" id=4]
+texture = SubResource( 3 )
+
+[resource]
+code = "shader_type spatial;
+render_mode specular_schlick_ggx;
+
+uniform sampler2D tex_frg_3;
+
+
+
+void vertex() {
+// Output:0
+
+}
+
+void fragment() {
+// Fresnel:2
+	float n_in2p3 = 10.00000;
+	float n_out2p0 = pow(1.0 - clamp(dot(NORMAL, VIEW), 0.0, 1.0), n_in2p3);
+
+// Texture:3
+	vec4 tex_frg_3_read = texture(tex_frg_3, vec3(n_out2p0).xy);
+	vec3 n_out3p0 = tex_frg_3_read.rgb;
+	float n_out3p1 = tex_frg_3_read.a;
+
+// Output:0
+	ALBEDO = n_out3p0;
+
+}
+
+void light() {
+// Output:0
+
+}
+"
+nodes/fragment/2/node = SubResource( 1 )
+nodes/fragment/2/position = Vector2( 0, 200 )
+nodes/fragment/3/node = SubResource( 4 )
+nodes/fragment/3/position = Vector2( 100, 340 )
+nodes/fragment/connections = PoolIntArray( 2, 0, 3, 0, 3, 0, 0, 0 )

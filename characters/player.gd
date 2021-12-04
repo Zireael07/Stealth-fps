@@ -466,6 +466,10 @@ func _input(event):
 
 # ---------------------------------------------
 func _on_gadget_mode(index):
+	if index < 2:
+		for c in get_tree().get_nodes_in_group("AI"):
+			c._on_thermal_vision(false)
+	
 	if index == 0:
 		get_tree().get_nodes_in_group("root")[0].get_node("WorldEnvironment").environment.adjustment_enabled = false
 	elif index == 1:
@@ -473,3 +477,6 @@ func _on_gadget_mode(index):
 		get_tree().get_nodes_in_group("root")[0].get_node("WorldEnvironment").environment.adjustment_enabled = true
 	elif index == 2:
 		get_tree().get_nodes_in_group("root")[0].get_node("WorldEnvironment").environment.adjustment_enabled = false
+		# thermal effect
+		for c in get_tree().get_nodes_in_group("AI"):
+			c._on_thermal_vision(true)
