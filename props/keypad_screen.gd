@@ -14,6 +14,3 @@ func _ready():
 	
 	#get_material_override().albedo_texture = t
 	get_material_override().set_shader_param("refl_tx", t)
-
-func _on_interact():
-	pass

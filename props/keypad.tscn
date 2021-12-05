@@ -1,8 +1,9 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://props/keypad_mesh.tres" type="ArrayMesh" id=1]
 [ext_resource path="res://props/keypad_screen.gd" type="Script" id=2]
 [ext_resource path="res://assets/White.material" type="Material" id=3]
+[ext_resource path="res://props/keypad.gd" type="Script" id=4]
 
 [sub_resource type="Shader" id=2]
 code = "shader_type spatial;
@@ -16,11 +17,11 @@ void fragment() {
 	ALPHA = texture(refl_tx, UV).a;
 }"
 
-[sub_resource type="ViewportTexture" id=4]
+[sub_resource type="ViewportTexture" id=9]
 
 [sub_resource type="ShaderMaterial" id=3]
 shader = SubResource( 2 )
-shader_param/refl_tx = SubResource( 4 )
+shader_param/refl_tx = SubResource( 9 )
 
 [sub_resource type="QuadMesh" id=1]
 size = Vector2( 0.125, 0.063 )
@@ -28,7 +29,14 @@ size = Vector2( 0.125, 0.063 )
 [sub_resource type="BoxShape" id=5]
 extents = Vector3( 0.12, 0.25, 0.1 )
 
+[sub_resource type="SpatialMaterial" id=7]
+albedo_color = Color( 1, 1, 0.00392157, 1 )
+
+[sub_resource type="CubeMesh" id=8]
+size = Vector3( 0.063, 0.063, 0.05 )
+
 [node name="keypad" type="StaticBody" groups=["interactable", "static"]]
+script = ExtResource( 4 )
 
 [node name="Viewport" type="Viewport" parent="."]
 size = Vector2( 40, 15 )
@@ -59,3 +67,14 @@ script = ExtResource( 2 )
 
 [node name="CollisionShape" type="CollisionShape" parent="."]
 shape = SubResource( 5 )
+
+[node name="overlay_Position3D" type="Position3D" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.007, 0.005, 0.07 )
+
+[node name="overlay" type="MeshInstance" parent="overlay_Position3D"]
+visible = false
+material_override = SubResource( 7 )
+cast_shadow = 0
+mesh = SubResource( 8 )
+skeleton = NodePath("../..")
+material/0 = null
