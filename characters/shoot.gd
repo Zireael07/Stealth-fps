@@ -138,7 +138,7 @@ func draw_screen_outline(mesh, target):
 			originalVerticesArray.append(point)
 #			mesh.get_transformed_aabb().get_endpoint(i)
 			#point = point.rotated(Vector3(1,0,0), deg2rad(45))
-		elif target is StaticBody: # the door
+		elif target is StaticBody and target.has_node("Position3D"): # the door
 			# this is global, to take rotation into account
 			point = target.get_node("Position3D").get_child(i).global_transform.origin
 			# so just plug it in
