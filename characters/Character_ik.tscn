@@ -926,9 +926,23 @@ root_bone = "LowerArm.R"
 tip_bone = "HandHold.R"
 target_node = NodePath("../HitBoxChest/Spatial/rifle_ik_tg")
 
-[node name="left_ik" type="SkeletonIK" parent="Armature" index="35"]
+[node name="rifleik2" type="SkeletonIK" parent="Armature" index="35"]
+process_priority = 1
+root_bone = "UpperArm.R"
+tip_bone = "HandHold.R"
+target_node = NodePath("../HitBoxChest/Spatial/rifle_ik_tg")
+
+[node name="left_ik" type="SkeletonIK" parent="Armature" index="36"]
 process_priority = 1
 root_bone = "LowerArm.L"
+tip_bone = "LowerHand.L"
+override_tip_basis = false
+target_node = NodePath("../HitBoxChest/Spatial/left_ik_tg")
+min_distance = 1.0
+
+[node name="left_ik2" type="SkeletonIK" parent="Armature" index="37"]
+process_priority = 1
+root_bone = "UpperArm.L"
 tip_bone = "LowerHand.L"
 override_tip_basis = false
 target_node = NodePath("../HitBoxChest/Spatial/left_ik_tg")
