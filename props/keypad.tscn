@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://props/keypad_mesh.tres" type="ArrayMesh" id=1]
 [ext_resource path="res://props/keypad_screen.gd" type="Script" id=2]
@@ -17,11 +17,11 @@ void fragment() {
 	ALPHA = texture(refl_tx, UV).a;
 }"
 
-[sub_resource type="ViewportTexture" id=9]
+[sub_resource type="ViewportTexture" id=11]
 
 [sub_resource type="ShaderMaterial" id=3]
 shader = SubResource( 2 )
-shader_param/refl_tx = SubResource( 9 )
+shader_param/refl_tx = SubResource( 11 )
 
 [sub_resource type="QuadMesh" id=1]
 size = Vector2( 0.125, 0.063 )
@@ -35,6 +35,27 @@ albedo_color = Color( 1, 1, 0.00392157, 1 )
 [sub_resource type="CubeMesh" id=8]
 size = Vector3( 0.063, 0.063, 0.05 )
 
+[sub_resource type="Animation" id=10]
+resource_name = "New Anim"
+length = 1.5
+tracks/0/type = "method"
+tracks/0/path = NodePath(".")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 1, 1.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"values": [ {
+"args": [  ],
+"method": "update_screen"
+}, {
+"args": [  ],
+"method": "clear"
+} ]
+}
+
 [node name="keypad" type="StaticBody" groups=["interactable", "static"]]
 script = ExtResource( 4 )
 
@@ -47,7 +68,6 @@ render_target_v_flip = true
 [node name="Label" type="Label" parent="Viewport"]
 margin_right = 40.0
 margin_bottom = 14.0
-text = "0451"
 align = 1
 
 [node name="MeshInstance" type="MeshInstance" parent="."]
@@ -78,3 +98,6 @@ cast_shadow = 0
 mesh = SubResource( 8 )
 skeleton = NodePath("../..")
 material/0 = null
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+"anims/New Anim" = SubResource( 10 )

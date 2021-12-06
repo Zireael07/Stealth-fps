@@ -15,4 +15,4 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1, -1.2, 0 )
 transform = Transform( 1.19249e-08, 0, -1, 0, 1, 0, 1, 0, 1.19249e-08, 0, 0, 0.500062 )
 
 [node name="keypad" parent="Spatial2" instance=ExtResource( 2 )]
-transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0.0595229, 1.2, -0.760996 )
+transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0.06, 1.5, -0.761 )

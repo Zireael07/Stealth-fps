@@ -4,6 +4,8 @@ extends StaticBody
 # Declare member variables here. Examples:
 var button = ""
 var display
+var input = ""
+export var code = "0451"
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -61,18 +63,38 @@ func _on_interact():
 						loc = Vector2(0.075, -0.1)
 						button = "9"
 					else:
-						loc = Vector2(0, -0.1)
-						button = "8"
+						if point.y > -0.15:
+							loc = Vector2(0, -0.1)
+							button = "8"
+						else:
+							loc = Vector2(0, -0.175)
+							button = "0"
 			elif dist < 0.05:
 				loc = Vector2()
 				button = "5"
 			
-			display.text = button
-			#print("BUTTON ", button)
+			# display or check
+			if input.length() < 4:
+				input = input+button
+				display.text = input
+				
+				# show the overlay
+				body.get_node("overlay_Position3D/overlay").set_translation(Vector3(loc.x, loc.y, 0))
+				body.get_node("overlay_Position3D/overlay").show()
+				
+			if input.length() == 4:
+				if !get_node("AnimationPlayer").is_playing():
+					get_node("AnimationPlayer").play("New Anim")
 			
-			
-			# show the overlay
-			body.get_node("overlay_Position3D/overlay").set_translation(Vector3(loc.x, loc.y, 0))
-			body.get_node("overlay_Position3D/overlay").show()
-			
-	#pass
+
+# called by the anim player
+func update_screen():
+	get_node("overlay_Position3D/overlay").hide()
+	if input == code:
+		display.text = "PASS"
+	else:
+		display.text = "DENY"
+
+func clear():
+	input = ""
+	display.text = ""
