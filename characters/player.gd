@@ -223,6 +223,8 @@ func process_input(delta):
 			# restore original values that prone changes
 			$RotationHelper/Character.set_rotation_degrees(Vector3(0, 0, 0))
 			$RotationHelper/Character.set_translation(Vector3(0, 0, 0))
+			$CollisionShape.set_rotation_degrees(Vector3(0,0,0))
+			#$CollisionShape.set_translation(Vector3(0,0.927,0.15))
 			camera_helper.get_node("head_ik_tg").rotation_degrees = Vector3(0, 0, 0)
 			camera_helper.set_translation(Vector3(-0.014, -0.026, 1.244))
 			# these are the original values
@@ -243,6 +245,9 @@ func process_input(delta):
 			ACCEL = 0.25
 			$RotationHelper/Character.set_rotation_degrees(Vector3(90, 0, 0))
 			$RotationHelper/Character.set_translation(Vector3(1, 0, -1))
+			$CollisionShape.set_rotation_degrees(Vector3(90,0,0))
+			$CollisionShape.set_translation(Vector3(1, 0, 0))
+			$CollisionShape.get_shape().extents = Vector3(0.249, 0.95, 0.757)
 			# no animations yet
 			
 			$RotationHelper/Character/Armature/left_ik.stop()
