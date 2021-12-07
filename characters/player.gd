@@ -62,6 +62,11 @@ func _ready():
 	# FPS input
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	get_node("Control/scoring").hide()
+	
+	# enable IK
+	$RotationHelper/Character/Armature/left_ik.start()
+	$RotationHelper/Character/Armature/rifleik.start()
+	$RotationHelper/Character/Armature/headik.start()
 
 func _physics_process(delta):
 	process_input(delta)
@@ -72,7 +77,7 @@ func left_hand_empty_ik():
 	var g_pos = $RotationHelper/Character/Armature/WeaponHold/Rifle2/Position3D.get_global_transform().origin #+ Vector3(0,0, 0.5)
 	var lpos = camera_helper.to_local(g_pos)
 	left_ik_tg.set_translation(Vector3(lpos.x, lpos.y-0.5, lpos.z))
-	$RotationHelper/Character/Armature/left_ik.start()
+	#$RotationHelper/Character/Armature/left_ik.start()
 
 
 func unwield():
@@ -86,7 +91,7 @@ func unwield():
 	
 	camera_helper.get_node("rifle_ik_tg").set_translation(Vector3(0.65, 1, 1.75))
 	camera_helper.get_node("rifle_ik_tg").rotation_degrees = Vector3(25, 90, 0)
-	$RotationHelper/Character/Armature/rifleik.start()
+	#$RotationHelper/Character/Armature/rifleik.start()
 	
 	# update HUD
 	get_node("Control/Center/Crosshair").hide()
@@ -116,7 +121,7 @@ func wield_again():
 	# these are the initial values upon game start
 	camera_helper.get_node("rifle_ik_tg").set_translation(Vector3(0.65, 2.2, 1.75))
 	camera_helper.get_node("rifle_ik_tg").rotation_degrees = Vector3(0, 0, 0)
-	$RotationHelper/Character/Armature/rifleik.start()
+	#$RotationHelper/Character/Armature/rifleik.start()
 	
 	
 	# update HUD
@@ -200,7 +205,7 @@ func process_input(delta):
 		else:
 			# toggle
 			stance += 1
-			print("Stance ", stance)
+			#print("Stance ", stance)
 
 		if stance == CROUCHED:
 			MAX_SPEED = 15
@@ -240,6 +245,8 @@ func process_input(delta):
 			$RotationHelper/Character.set_translation(Vector3(1, 0, -1))
 			# no animations yet
 			
+			$RotationHelper/Character/Armature/left_ik.stop()
+			$RotationHelper/Character/Armature/rifleik.stop()
 			# adjust IK targets
 			camera_helper.set_translation(Vector3(-1.66, -1.7, -0.8))
 			camera_helper.get_node("head_ik_tg").rotation_degrees = Vector3(-85, 0, 0)
@@ -250,12 +257,6 @@ func process_input(delta):
 			# we need to move the upper arms in prone position, too
 			#$RotationHelper/Character/Armature/rifleik.root_bone = "UpperArm.R"
 			$RotationHelper/Character/Armature/rifleik2.start()
-#			# this is tricky!
-#			var g_pos = $RotationHelper/Character/Armature/WeaponHold/Rifle2/Position3D.get_global_transform().origin #+ Vector3(0,0, 0.5)
-#			var lpos = camera_helper.to_local(g_pos)
-#			left_ik_tg.set_translation(lpos)
-#			#left_ik_tg.translate(Vector3(0.5,0,0))
-			#$RotationHelper/Character/Armature/left_ik.root_bone = "UpperArm.L"
 			$RotationHelper/Character/Armature/left_ik2.start()
 
 	# --------------------------------------
@@ -449,7 +450,7 @@ func _input(event):
 		self.rotate_y(deg2rad(event.relative.x * MOUSE_SENSITIVITY * -1))
 		var rot = deg2rad(event.relative.y * MOUSE_SENSITIVITY)
 		camera_helper.get_node("head_ik_tg").rotate_x(rot)
-		$RotationHelper/Character/Armature/headik.start()
+		#$RotationHelper/Character/Armature/headik.start()
 		
 		# clamp now
 		var view_rot = camera_helper.get_node("head_ik_tg").rotation_degrees 
@@ -474,10 +475,10 @@ func _input(event):
 
 			camera_helper.get_node("rifle_ik_tg").rotation_degrees = view_rot
 			# play ik
-			$RotationHelper/Character/Armature/rifleik.start()
-		else:
-		#	camera_helper.get_node("rifle_ik_tg").rotation_degrees = Vector3(-90,0,0)
-			$RotationHelper/Character/Armature/rifleik2.start()
+#			$RotationHelper/Character/Armature/rifleik.start()
+#		else:
+#		#	camera_helper.get_node("rifle_ik_tg").rotation_degrees = Vector3(-90,0,0)
+#			$RotationHelper/Character/Armature/rifleik2.start()
 	
 		# this is tricky!
 		var g_pos = $RotationHelper/Character/Armature/WeaponHold/Rifle2/Position3D.get_global_transform().origin #+ Vector3(0,0, 0.5)
@@ -486,9 +487,10 @@ func _input(event):
 	
 		if stance == PRONE:
 			left_ik_tg.translate(Vector3(0.75, 0,0))
-			$RotationHelper/Character/Armature/left_ik2.start()
-		else:	
-			$RotationHelper/Character/Armature/left_ik.start()
+		
+#			$RotationHelper/Character/Armature/left_ik2.start()
+#		else:	
+#			$RotationHelper/Character/Armature/left_ik.start()
 
 # ---------------------------------------------
 func _on_gadget_mode(index):
