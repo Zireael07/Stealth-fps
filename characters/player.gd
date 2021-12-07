@@ -4,9 +4,10 @@ var player = true
 
 const GRAVITY = -24.8
 var vel = Vector3()
-const MAX_SPEED = 20
+var MAX_SPEED = 20 # depends on stance
+var ACCEL = 1 #4.5
 const JUMP_SPEED = 10 #18
-const ACCEL = 1 #4.5
+
 
 var dir = Vector3()
 
@@ -202,12 +203,16 @@ func process_input(delta):
 			print("Stance ", stance)
 
 		if stance == CROUCHED:
+			MAX_SPEED = 15
+			ACCEL = 0.5
 			# crouching character is roughly 0.4 (1.7 to 1.3) lower
 			$CollisionShape.set_translation(Vector3(0,0.527,0.324))
 			$CollisionShape.get_shape().extents = Vector3(0.249, 0.52, 0.757)
 			# change anim
 			state_machine["parameters/move_state/playback"].start("crouch")
 		elif stance == STANDING:
+			MAX_SPEED = 20
+			ACCEL = 1
 			$RotationHelper/Character/Armature/rifleik2.stop()
 			$RotationHelper/Character/Armature/left_ik2.stop()
 			# restore original values that prone changes
@@ -229,6 +234,8 @@ func process_input(delta):
 			$CollisionShape.get_shape().extents = Vector3(0.249, 0.92, 0.757)
 			state_machine["parameters/move_state/playback"].start("run")
 		elif stance == PRONE:
+			MAX_SPEED = 10
+			ACCEL = 0.25
 			$RotationHelper/Character.set_rotation_degrees(Vector3(90, 0, 0))
 			$RotationHelper/Character.set_translation(Vector3(1, 0, -1))
 			# no animations yet
