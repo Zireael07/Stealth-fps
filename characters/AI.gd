@@ -287,16 +287,28 @@ func _physics_process(delta):
 			get_node("RotationHelper/MeshInstance").get_material_override().set_albedo(Color(1,1,0))
 			in_sight = false
 
-func ragdoll():
+func ragdoll(knock):
+	var rot = deg2rad(-90)
+	if knock > 0:
+		rot = deg2rad(90)
 	get_node("RotationHelper/Character2/Armature").physical_bones_start_simulation()
-	get_node("RotationHelper/Character2").rotate_x(deg2rad(-50)) # to arrive at -90
+	get_node("RotationHelper/Character2").set_rotation(Vector3(rot, 0, 0))
 	get_node("CollisionShape").disabled = true # only the ragdoll should be active
 	
 	#dead = true
 
-func die():
+# the position passed here is global
+func die(pos):
+	var rel_loc = to_local(face_pos)
+	#2D angle to target (local coords)
+	var angle = atan2(rel_loc.x, rel_loc.z)
+	print("Local position of hit: ", rel_loc, "angle: ", angle)
+	
+	var knock = deg2rad(-40)
+	if rel_loc.z < 0:
+		knock = deg2rad(40)
 	# tip him back
-	get_node("RotationHelper/Character2").set_rotation(Vector3(deg2rad(-40), 0, 0))
+	get_node("RotationHelper/Character2").set_rotation(Vector3(knock, 0, 0))
 	# switch off animtree
 	get_node("RotationHelper/Character2/AnimationTree").active = false
 	# .. and IK
@@ -307,7 +319,7 @@ func die():
 	
 	# ragdoll
 	# NOTE: ragdoll seems to break IF IK was used before, even if ik is stopped above
-	ragdoll()
+	ragdoll(knock)
 	
 	dead = true
 	
@@ -347,13 +359,19 @@ func drop_gun():
 	# IK
 	$RotationHelper/Character2/Armature/rifleik.start()
 	$RotationHelper/Character2/Armature/left_ik.start()
-	
-	# visible effect test
-	#gun.rotate_x(deg2rad(-90))
 
-func knock_out():
+# the position passed here is global
+func knock_out(pos):
+	var rel_loc = to_local(face_pos)
+	#2D angle to target (local coords)
+	var angle = atan2(rel_loc.x, rel_loc.z)
+	print("Local position of hit: ", rel_loc, "angle: ", angle)
+	
+	var knock = deg2rad(-40)
+	if rel_loc.z < 0:
+		knock = deg2rad(40)
 	# tip him back
-	get_node("RotationHelper/Character2").set_rotation(Vector3(deg2rad(-40), 0, 0))
+	get_node("RotationHelper/Character2").set_rotation(Vector3(knock, 0, 0))
 	# switch off animtree
 	get_node("RotationHelper/Character2/AnimationTree").active = false
 	# .. and IK
@@ -361,8 +379,7 @@ func knock_out():
 	$RotationHelper/Character2/Armature/left_ik.stop()
 	
 	# ragdoll
-	# NOTE: ragdoll seems to break IF IK was used before, even if ik is stopped above
-	ragdoll()
+	ragdoll(knock)
 
 	unconscious = true
 

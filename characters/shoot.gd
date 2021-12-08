@@ -57,7 +57,7 @@ func fire_weapon():
 			var bone = body.get_parent().get_name()
 			print("Bone...", bone)
 			if bone.find("Chest") != -1 or bone.find("Head") != -1 or bone.find("Neck") != -1:
-				body.get_node("../../../../..").die()
+				body.get_node("../../../../..").die(get_global_transform().origin)
 				#print(body.get_node("../../../../..").get_name()) #die()
 			elif bone.find("Arm") != -1:
 				body.get_node("../../../../..").drop_gun()
@@ -111,10 +111,10 @@ func melee_weapon(knockout):
 			if knockout:
 				# from player experience in DX, only neck/head and pelvis work
 				if bone.find("Pelvis") != -1 or bone.find("Head") != -1 or bone.find("Neck") != -1:
-					body.get_node("../../../../..").knock_out()
+					body.get_node("../../../../..").knock_out(get_global_transform().origin)
 			else:
 				if bone.find("Head") != -1 or bone.find("Chest") != -1 or bone.find("Neck") != -1:
-					body.get_node("../../../../..").die()
+					body.get_node("../../../../..").die(get_global_transform().origin)
 				elif bone.find("Arm") != -1:
 					body.get_node("../../../../..").drop_gun()
 
