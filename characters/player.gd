@@ -86,12 +86,13 @@ func unwield():
 	prev_state = state
 	state = UNARMED
 	
-	# proper animation for hands
-	left_hand_empty_ik()
-	
-	camera_helper.get_node("rifle_ik_tg").set_translation(Vector3(0.65, 1, 1.75))
-	camera_helper.get_node("rifle_ik_tg").rotation_degrees = Vector3(25, 90, 0)
-	#$RotationHelper/Character/Armature/rifleik.start()
+	if stance != PRONE:
+		# proper animation for hands
+		left_hand_empty_ik()
+		
+		camera_helper.get_node("rifle_ik_tg").set_translation(Vector3(0.65, 1, 1.75))
+		camera_helper.get_node("rifle_ik_tg").rotation_degrees = Vector3(25, 90, 0)
+		#$RotationHelper/Character/Armature/rifleik.start()
 	
 	# update HUD
 	get_node("Control/Center/Crosshair").hide()
@@ -110,18 +111,21 @@ func wield_again():
 		weapon_hold.get_node("Rifle2").hide()
 		weapon_hold.get_node("Baton").show()
 		weapon_hold.get_node("Knife").hide()
-		left_hand_empty_ik()
+		if stance != PRONE:
+			left_hand_empty_ik()
 	elif state == KNIFE:
 		weapon_hold.get_node("Rifle2").hide()
 		weapon_hold.get_node("Knife").show()
 		weapon_hold.get_node("Baton").hide()
-		left_hand_empty_ik()
+		if stance != PRONE:
+			left_hand_empty_ik()
 	
-	# restore the previous right hand IK
-	# these are the initial values upon game start
-	camera_helper.get_node("rifle_ik_tg").set_translation(Vector3(0.65, 2.2, 1.75))
-	camera_helper.get_node("rifle_ik_tg").rotation_degrees = Vector3(0, 0, 0)
-	#$RotationHelper/Character/Armature/rifleik.start()
+	if stance != PRONE:
+		# restore the previous right hand IK
+		# these are the initial values upon game start
+		camera_helper.get_node("rifle_ik_tg").set_translation(Vector3(0.65, 2.2, 1.75))
+		camera_helper.get_node("rifle_ik_tg").rotation_degrees = Vector3(0, 0, 0)
+		#$RotationHelper/Character/Armature/rifleik.start()
 	
 	
 	# update HUD
