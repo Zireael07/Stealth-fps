@@ -46,6 +46,7 @@ const UNARMED = 0
 const RIFLE = 1
 const BATON = 2
 const KNIFE = 3
+const XBOW = 4
 var state = RIFLE
 var prev_state = RIFLE
 
@@ -107,18 +108,28 @@ func wield_again():
 		weapon_hold.get_node("Rifle2").show()
 		weapon_hold.get_node("Baton").hide()
 		weapon_hold.get_node("Knife").hide()
+		weapon_hold.get_node("Crossbow").hide()
 	elif state == BATON:
 		weapon_hold.get_node("Rifle2").hide()
 		weapon_hold.get_node("Baton").show()
 		weapon_hold.get_node("Knife").hide()
+		weapon_hold.get_node("Crossbow").hide()
 		if stance != PRONE:
 			left_hand_empty_ik()
 	elif state == KNIFE:
 		weapon_hold.get_node("Rifle2").hide()
 		weapon_hold.get_node("Knife").show()
 		weapon_hold.get_node("Baton").hide()
+		weapon_hold.get_node("Crossbow").hide()
 		if stance != PRONE:
 			left_hand_empty_ik()
+	elif state == XBOW:
+		weapon_hold.get_node("Rifle2").hide()
+		weapon_hold.get_node("Knife").hide()
+		weapon_hold.get_node("Baton").hide()
+		weapon_hold.get_node("Crossbow").show()
+		if stance != PRONE:
+			left_hand_empty_ik()	
 	
 	if stance != PRONE:
 		# restore the previous right hand IK
@@ -187,6 +198,8 @@ func process_input(delta):
 			camera.get_node("Spatial").melee_weapon(true)
 		elif state == KNIFE:
 			camera.get_node("Spatial").melee_weapon(false)
+		elif state == XBOW:
+			camera.get_node("Spatial").fire_darts()
 		else:
 			camera.get_node("Spatial").fire_weapon()
 		
@@ -270,22 +283,36 @@ func process_input(delta):
 
 	# --------------------------------------
 	# weapon switching
+	# main gun
 	if Input.is_action_just_pressed("weapon_1"):
 		state = RIFLE
 		weapon_hold.get_node("Rifle2").show()
 		weapon_hold.get_node("Baton").hide()
 		weapon_hold.get_node("Knife").hide()
+		weapon_hold.get_node("Crossbow").hide()
+	# secondary gun
 	if Input.is_action_just_pressed("weapon_2"):
-		state = BATON
+		state = XBOW
 		weapon_hold.get_node("Rifle2").hide()
-		weapon_hold.get_node("Baton").show()
+		weapon_hold.get_node("Baton").hide()
 		weapon_hold.get_node("Knife").hide()
+		weapon_hold.get_node("Crossbow").show()
 		left_hand_empty_ik()
+	# melee wp on belt
 	if Input.is_action_just_pressed("weapon_3"):
 		state = KNIFE
 		weapon_hold.get_node("Rifle2").hide()
 		weapon_hold.get_node("Baton").hide()
 		weapon_hold.get_node("Knife").show()
+		weapon_hold.get_node("Crossbow").hide()
+		left_hand_empty_ik()
+	# 4-9 other assorted stuff
+	if Input.is_action_just_pressed("weapon_4"):
+		state = BATON
+		weapon_hold.get_node("Rifle2").hide()
+		weapon_hold.get_node("Baton").show()
+		weapon_hold.get_node("Knife").hide()
+		weapon_hold.get_node("Crossbow").hide()
 		left_hand_empty_ik()
 
 	# ----------------------------------

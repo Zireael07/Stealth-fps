@@ -413,3 +413,8 @@ func _on_thermal_vision(on):
 		mesh.set_surface_material(1, thermal)
 	else:
 		mesh.set_surface_material(1, camo)
+
+
+func _on_knockout_timer_timeout():
+	knock_out(to_global(Vector3(0,0,-1)))
+	#pass # Replace with function body.

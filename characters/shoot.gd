@@ -89,6 +89,33 @@ func fire_weapon():
 			body.die()
 			#pass
 
+# so-called 'hitscan' weapon
+func fire_darts():
+	# Get the raycast node
+	var ray = $RayCast
+	ray.collision_mask = 2
+	if player.scoping:
+		ray.cast_to = Vector3(3,-1,-50)
+	else:
+		ray.cast_to = Vector3(0,0,-50) # range of 50 m
+		
+	# Force the raycast to update. This will force the raycast to detect collisions when we call it.
+	# This means we are getting a frame perfect collision check with the 3D world.
+	ray.force_raycast_update()
+
+	# Did the ray hit something?
+	if ray.is_colliding():
+		var body = ray.get_collider()
+		#print("Body...", body.get_name())
+		
+		# body parts support (requires detecting areas!)
+		if body is Area and body.get_parent() is BoneAttachment:
+			var bone = body.get_parent().get_name()
+			print("Bone...", bone)
+			body.get_node("../../../../..").get_node("knockout_timer").start()
+			body.get_node("../../../../..").drop_gun()
+			
+
 func melee_weapon(knockout):
 	# copied from interacting below
 	# Get the raycast node

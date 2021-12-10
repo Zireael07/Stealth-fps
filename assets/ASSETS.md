@@ -5,5 +5,6 @@
 * camo textures - https://opengameart.org/content/camo-texture-pack-1 (public domain)
 * LCD font - https://github.com/keshikan/DSEG
 * pointer - https://github.com/TheRadMatt/3D-FPP-Interaction-Demo
-* Grenade - LowPoly models by Quaternius https://quaternius.com/packs/scifimodularguns.html (CC0)
+* Grenade and Crossbow - LowPoly models by Quaternius https://quaternius.com/packs/scifimodularguns.html (CC0)
 * knife - from Kenney's low poly weapons pack https://opengameart.org/content/weapon-pack (CC0)
+* smoke - from Godot docs FPS demo tutorial

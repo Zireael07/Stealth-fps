@@ -1,4 +1,4 @@
-[gd_scene load_steps=92 format=2]
+[gd_scene load_steps=93 format=2]
 
 [ext_resource path="res://characters/shoot.gd" type="Script" id=1]
 [ext_resource path="res://assets/Rifle.escn" type="PackedScene" id=2]
@@ -6,6 +6,7 @@
 [ext_resource path="res://weapons/Rifle.tscn" type="PackedScene" id=4]
 [ext_resource path="res://weapons/baton.tscn" type="PackedScene" id=5]
 [ext_resource path="res://weapons/Knife.tscn" type="PackedScene" id=6]
+[ext_resource path="res://weapons/Crossbow.tscn" type="PackedScene" id=7]
 
 [sub_resource type="SphereShape" id=1]
 radius = 0.146924
@@ -411,6 +412,10 @@ transform = Transform( 1, 0, -3.72529e-09, 2.32831e-10, 1, 0, -3.72529e-09, 1.86
 visible = false
 
 [node name="Knife" parent="Armature/WeaponHold" index="3" instance=ExtResource( 6 )]
+visible = false
+
+[node name="Crossbow" parent="Armature/WeaponHold" index="4" instance=ExtResource( 7 )]
+transform = Transform( -2.18557e-08, 0, -0.5, 0, 0.5, 0, 0.5, 0, -2.18557e-08, 0, 0, 0 )
 visible = false
 
 [node name="CameraHold" type="BoneAttachment" parent="Armature" index="3"]
