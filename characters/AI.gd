@@ -394,6 +394,14 @@ func _on_hurt(pos):
 func _on_Area_body_entered(body):
 	if body.is_in_group("player"):
 		possible_tg = body
+	# detecting bodies
+	elif body is PhysicalBone:
+		var ch = body.get_node("../../../..") 
+		if ch != self and ch.is_in_group("AI") and (ch.unconscious or ch.dead):
+#	if body.is_in_group("AI"):
+#		if body.unconscious or body.dead:
+			print("I saw a body")
+			alarmed = true
 
 
 func _on_Area_body_exited(body):
