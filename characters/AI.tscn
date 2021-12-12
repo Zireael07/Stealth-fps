@@ -71,8 +71,13 @@ one_shot = true
 wait_time = 3.0
 one_shot = true
 
+[node name="wake_timer" type="Timer" parent="."]
+wait_time = 5.0
+one_shot = true
+
 [connection signal="body_entered" from="RotationHelper/Area" to="." method="_on_Area_body_entered"]
 [connection signal="body_exited" from="RotationHelper/Area" to="." method="_on_Area_body_exited"]
 [connection signal="body_entered" from="RotationHelper/Area2" to="." method="_on_Area_body_entered"]
 [connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]
 [connection signal="timeout" from="knockout_timer" to="." method="_on_knockout_timer_timeout"]
+[connection signal="timeout" from="wake_timer" to="." method="_on_wake_timer_timeout"]

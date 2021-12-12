@@ -294,8 +294,6 @@ func ragdoll(knock):
 	get_node("RotationHelper/Character2/Armature").physical_bones_start_simulation()
 	get_node("RotationHelper/Character2").set_rotation(Vector3(rot, 0, 0))
 	get_node("CollisionShape").disabled = true # only the ragdoll should be active
-	
-	#dead = true
 
 # the position passed here is global
 func die(pos):
@@ -318,24 +316,9 @@ func die(pos):
 	#get_node("RotationHelper/Character2/Timer").start()
 	
 	# ragdoll
-	# NOTE: ragdoll seems to break IF IK was used before, even if ik is stopped above
 	ragdoll(knock)
 	
 	dead = true
-	
-	#call_deferred("ragdoll")
-	
-	#get_node("RotationHelper/Character2/Armature").physical_bones_start_simulation()
-	
-	#get_node("RotationHelper/Character2").rotate_x(deg2rad(-50)) # to arrive at -90
-	#get_node("CollisionShape").rotate_x(deg2rad(-90))
-	#get_node("CollisionShape").disabled = true # only the ragdoll should be active
-	
-	# for AI, rotate the apparent aabb origin by 90 deg to fit the ragdoll
-	#get_node("RotationHelper/Character2/Armature/HitBoxTorso/center").rotate_x(deg2rad(-90))
-	
-	#undo tipback (so that interacting later on works better)
-	#get_node("RotationHelper/Character2").rotate_x(deg2rad(40))
 
 func drop_gun():
 	var hold = get_node("RotationHelper/Character2/Armature/WeaponHold")
@@ -382,6 +365,7 @@ func knock_out(pos):
 	ragdoll(knock)
 
 	unconscious = true
+	get_node("wake_timer").start()
 
 # the position passed here is global
 func _on_hurt(pos):
@@ -424,5 +408,22 @@ func _on_thermal_vision(on):
 
 
 func _on_knockout_timer_timeout():
+	# tranqs are silent and don't hurt much (just a pinch) so they can't tell the direction...
 	knock_out(to_global(Vector3(0,0,-1)))
-	#pass # Replace with function body.
+
+func _on_wake_timer_timeout():
+	print("Woke up!!!")
+
+	get_node("RotationHelper/Character2").set_rotation(Vector3(0, 0, 0))
+	
+	# no more ragdoll
+	get_node("CollisionShape").disabled = false
+	get_node("RotationHelper/Character2/Armature").physical_bones_stop_simulation()
+	
+	# reenable animtree
+	get_node("RotationHelper/Character2/AnimationTree").active = true
+	# .. and IK
+	$RotationHelper/Character2/Armature/rifleik.start()
+	$RotationHelper/Character2/Armature/left_ik.start()
+	
+	unconscious = false
