@@ -924,6 +924,7 @@ animation_path = NodePath("..")
 
 [node name="CollisionShape" type="CollisionShape" parent="." index="2"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.926618, 0.254346 )
+visible = false
 shape = SubResource( 84 )
 disabled = true
 

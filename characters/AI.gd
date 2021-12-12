@@ -244,6 +244,8 @@ func _physics_process(delta):
 		in_sight = false
 		alarmed = false
 		return
+	#else:
+	#	print("We have a possible tg!", possible_tg.get_global_transform().origin)
 		
 	if dead or unconscious:
 		in_sight = false
@@ -255,7 +257,7 @@ func _physics_process(delta):
 	var ray = $RotationHelper/Area/RayCast
 	
 	# set the proper cast_to
-	ray.cast_to = ray.to_local(possible_tg.get_global_transform().origin)
+	ray.cast_to = ray.to_local(possible_tg.get_global_transform().origin) #*1.5
 	
 	# Force the raycast to update. This will force the raycast to detect collisions when we call it.
 	# This means we are getting a frame perfect collision check with the 3D world.
@@ -284,8 +286,11 @@ func _physics_process(delta):
 			
 		# can't see the player
 		else:
+			# yellow
 			get_node("RotationHelper/MeshInstance").get_material_override().set_albedo(Color(1,1,0))
 			in_sight = false
+			# straighten out
+			set_rotation(Vector3(0,get_rotation().y,0))
 
 func ragdoll(knock):
 	var rot = deg2rad(-90)
@@ -377,7 +382,8 @@ func _on_hurt(pos):
 # AI targeting
 func _on_Area_body_entered(body):
 	if body.is_in_group("player"):
-		possible_tg = body
+		possible_tg = body.get_node("see_tg")
+		print("Possible tg: ", body.get_node("see_tg").get_global_transform().origin)
 	# detecting bodies
 	elif body is PhysicalBone:
 		var ch = body.get_node("../../../..") 
@@ -390,9 +396,11 @@ func _on_Area_body_entered(body):
 
 func _on_Area_body_exited(body):
 	if body.is_in_group("player"):
+		print("Player left the viewcone")
 		possible_tg = null
 		get_node("RotationHelper/MeshInstance").get_material_override().set_albedo(Color(1,1,1))
-
+		# straighten out
+		set_rotation(Vector3(0,get_rotation().y,0))
 
 func _on_Timer_timeout():
 	# haven't seen anyone, go back to normal

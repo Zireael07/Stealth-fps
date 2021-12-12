@@ -229,6 +229,7 @@ func process_input(delta):
 			ACCEL = 0.5
 			# crouching character is roughly 0.4 (1.7 to 1.3) lower
 			$CollisionShape.set_translation(Vector3(0,0.527,0.324))
+			$see_tg.set_translation(Vector3(0, 0.527, 0.324))
 			$CollisionShape.get_shape().extents = Vector3(0.249, 0.52, 0.757)
 			# change anim
 			state_machine["parameters/move_state/playback"].start("crouch")
@@ -241,6 +242,7 @@ func process_input(delta):
 			$RotationHelper/Character.set_rotation_degrees(Vector3(0, 0, 0))
 			$RotationHelper/Character.set_translation(Vector3(0, 0, 0))
 			$CollisionShape.set_rotation_degrees(Vector3(0,0,0))
+			$see_tg.set_translation(Vector3(0,0.927, 0.15))
 			#$CollisionShape.set_translation(Vector3(0,0.927,0.15))
 			camera_helper.get_node("head_ik_tg").rotation_degrees = Vector3(0, 0, 0)
 			camera_helper.set_translation(Vector3(-0.014, -0.026, 1.244))
@@ -264,6 +266,7 @@ func process_input(delta):
 			$RotationHelper/Character.set_translation(Vector3(1, 0, -1))
 			$CollisionShape.set_rotation_degrees(Vector3(90,0,0))
 			$CollisionShape.set_translation(Vector3(1, 0, 0))
+			$see_tg.set_translation(Vector3(1, 0, 0))
 			$CollisionShape.get_shape().extents = Vector3(0.249, 0.95, 0.757)
 			# no animations yet
 			
