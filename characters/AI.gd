@@ -137,10 +137,12 @@ func process_movement(delta):
 			collision.collider.apply_central_impulse(-collision.normal * 2)
 
 func move(delta):
-	brain.steer = brain.arrive(brain.target, 5)
+	# state sets the steer/rotations used below
+	brain.state.update(delta)
+	#brain.steer = brain.arrive(brain.target, 5)
 	
 	# rotations if any
-	self.rotate_y(deg2rad(brain.steer.x * STEER_SENSITIVITY))  #* -1))
+	#self.rotate_y(deg2rad(brain.steer.x * STEER_SENSITIVITY))  #* -1))
 	
 	# Reset dir, so our previous movement does not effect us
 	dir = Vector3()
