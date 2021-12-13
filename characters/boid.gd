@@ -93,3 +93,21 @@ func arrive(target, slowing_radius):
 	#print("Steering", steering)
 
 	return (steering)
+
+func get_steering_flee(target):
+	# make the code universal
+	# can be passed both a vector3 or a node
+	if not typeof(target) == TYPE_VECTOR3:
+		if "translation" in target:
+			# steering behaviors operate in local space
+			var tr = to_local(target.get_global_transform().origin)
+			target = Vector2(tr.x, tr.z) #get_global_position())
+	if typeof(target) == TYPE_VECTOR3:
+		target = Vector2(target.x, target.z)
+		
+	var steering = Vector2(0,0)
+	desired = Vector2(get_translation().x, get_translation().z) - target
+	
+	desired = desired.normalized() * MAX_SPEED
+	steering = (desired - velocity).clamped(MAX_FORCE)
+	return (steering)

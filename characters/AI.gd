@@ -180,6 +180,11 @@ func _physics_process(delta):
 		else:
 			state_machine["parameters/move_state/run/blend_position"] = Vector2(0,0) # stop moving
 		
+		# if we're unarmed, disengage
+		if !is_armed() and in_sight:
+			brain.set_state(brain.STATE_DISENGAGE)
+			brain.target = possible_tg
+		
 		# do we want to rotate? do it!
 		if face_pos and not in_sight:
 			#print("Turning to face: ", face_pos)
@@ -327,7 +332,7 @@ func die(pos):
 	
 	dead = true
 
-func drop_gun():
+func drop_gun(enemy):
 	var hold = get_node("RotationHelper/Character2/Armature/WeaponHold")
 	var gun = hold.get_node("Rifle2")
 	var par = get_parent()
@@ -349,6 +354,10 @@ func drop_gun():
 	# IK
 	$RotationHelper/Character2/Armature/rifleik.start()
 	$RotationHelper/Character2/Armature/left_ik.start()
+	
+	# withdraw
+	brain.set_state(brain.STATE_DISENGAGE)
+	brain.target = enemy
 
 # the position passed here is global
 func knock_out(pos):
@@ -380,6 +389,13 @@ func _on_hurt(pos):
 		return
 	
 	face_pos = pos
+
+
+func is_armed():
+	var hold = get_node("RotationHelper/Character2/Armature/WeaponHold")
+	# for now, AI can only have rifles
+	return hold.has_node("Rifle2")
+
 
 # AI targeting
 func _on_Area_body_entered(body):

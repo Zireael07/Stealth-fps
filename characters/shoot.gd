@@ -60,7 +60,7 @@ func fire_weapon():
 				body.get_node("../../../../..").die(get_global_transform().origin)
 				#print(body.get_node("../../../../..").get_name()) #die()
 			elif bone.find("Arm") != -1:
-				body.get_node("../../../../..").drop_gun()
+				body.get_node("../../../../..").drop_gun(player)
 				body.get_node("../../../../..")._on_hurt(get_global_transform().origin)
 			else:
 				body.get_node("../../../../..")._on_hurt(get_global_transform().origin)
@@ -113,7 +113,7 @@ func fire_darts():
 			var bone = body.get_parent().get_name()
 			print("Bone...", bone)
 			body.get_node("../../../../..").get_node("knockout_timer").start()
-			body.get_node("../../../../..").drop_gun()
+			body.get_node("../../../../..").drop_gun(player)
 			
 
 func melee_weapon(knockout):
@@ -143,7 +143,7 @@ func melee_weapon(knockout):
 				if bone.find("Head") != -1 or bone.find("Chest") != -1 or bone.find("Neck") != -1:
 					body.get_node("../../../../..").die(get_global_transform().origin)
 				elif bone.find("Arm") != -1:
-					body.get_node("../../../../..").drop_gun()
+					body.get_node("../../../../..").drop_gun(player)
 
 # --------------------------------------------------
 # interactables use raycasting, so this code is also here

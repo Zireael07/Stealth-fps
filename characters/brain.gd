@@ -6,6 +6,7 @@ onready var state = PatrolState.new(get_parent())
 var prev_state
 
 const STATE_PATROL = 1
+const STATE_DISENGAGE = 2
 
 signal state_changed
 
@@ -26,11 +27,16 @@ func set_state(new_state, param=null):
 	
 	if new_state == STATE_PATROL:
 		state = PatrolState.new(get_parent())
+	if new_state == STATE_DISENGAGE:
+		state = DisengageState.new(get_parent())
+	
 	emit_signal("state_changed", self)
 
 func get_state():
 	if state is PatrolState:
 		return STATE_PATROL
+	if state is DisengageState:
+		return STATE_DISENGAGE
 
 # just call the state
 #func _physics_process(delta):
@@ -51,3 +57,15 @@ class PatrolState:
 	
 		# rotations if any
 		ch.rotate_y(deg2rad(ch.brain.steer.x * ch.STEER_SENSITIVITY))  #* -1))
+
+class DisengageState:
+	var ch
+	
+	func _init(cha):
+		self.ch = cha
+		
+	func update(delta):
+		if ch.in_sight:
+			ch.brain.steer = ch.brain.get_steering_flee(ch.brain.target)
+		else:
+			ch.brain.set_state(ch.brain.STATE_PATROL)
