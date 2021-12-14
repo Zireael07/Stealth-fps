@@ -80,6 +80,11 @@ func _ready():
 #func _process(delta):
 #	pass
 
+func dist_to_target():
+	var loc = to_local(brain.target.get_global_transform().origin)
+	var dist = Vector2(loc.x, loc.z).length()
+	return dist
+
 func is_close_to_target():
 	var ret = false
 	var loc = to_local(brain.target.get_global_transform().origin)
@@ -224,7 +229,7 @@ func _physics_process(delta):
 			# movement
 			move(delta)
 			
-			if is_close_to_target() and not alarmed:
+			if is_close_to_target() and not alarmed and not brain.get_state() == brain.STATE_DISENGAGE:
 				##do we have a next point?
 				if (target_array.size() > current+1):
 					prev = current

@@ -65,7 +65,9 @@ class DisengageState:
 		self.ch = cha
 		
 	func update(delta):
-		if ch.in_sight:
+		if ch.in_sight and ch.dist_to_target() < 5:
 			ch.brain.steer = ch.brain.get_steering_flee(ch.brain.target)
+			#TODO: mix in some wander
+			#TODO 2: find cover/break line of sight
 		else:
 			ch.brain.set_state(ch.brain.STATE_PATROL)
