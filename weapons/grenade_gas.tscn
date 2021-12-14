@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://weapons/grenade.gd" type="Script" id=1]
 [ext_resource path="res://assets/Grey.material" type="Material" id=2]
@@ -83,6 +83,9 @@ height = 0.5
 radial_segments = 6
 rings = 3
 
+[sub_resource type="SphereShape" id=8]
+radius = 0.3
+
 [node name="gas grenade" type="RigidBody" groups=["grenade", "interactable"]]
 mode = 1
 script = ExtResource( 1 )
@@ -114,6 +117,13 @@ amount = 32
 process_material = SubResource( 6 )
 draw_pass_1 = SubResource( 7 )
 
+[node name="StickyArea" type="Area" parent="."]
+
+[node name="CollisionShape2" type="CollisionShape" parent="StickyArea"]
+shape = SubResource( 8 )
+disabled = true
+
 [connection signal="timeout" from="Timer" to="." method="gas"]
 [connection signal="body_entered" from="Area" to="." method="_on_Area_body_entered"]
 [connection signal="body_exited" from="Area" to="." method="_on_Area_body_exited"]
+[connection signal="body_entered" from="StickyArea" to="." method="_on_StickyArea_body_entered"]

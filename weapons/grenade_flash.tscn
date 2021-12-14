@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://weapons/grenade.gd" type="Script" id=1]
 [ext_resource path="res://assets/White.material" type="Material" id=2]
@@ -62,6 +62,9 @@ surfaces/3 = {
 
 [sub_resource type="SphereShape" id=3]
 
+[sub_resource type="SphereShape" id=4]
+radius = 0.3
+
 [node name="flash grenade" type="RigidBody" groups=["grenade", "interactable"]]
 mode = 1
 script = ExtResource( 1 )
@@ -87,6 +90,13 @@ collision_mask = 0
 [node name="CollisionShape" type="CollisionShape" parent="Area"]
 shape = SubResource( 3 )
 
+[node name="StickyArea" type="Area" parent="."]
+
+[node name="CollisionShape2" type="CollisionShape" parent="StickyArea"]
+shape = SubResource( 4 )
+disabled = true
+
 [connection signal="timeout" from="Timer" to="." method="flash"]
 [connection signal="body_entered" from="Area" to="." method="_on_Area_body_entered"]
 [connection signal="body_exited" from="Area" to="." method="_on_Area_body_exited"]
+[connection signal="body_entered" from="StickyArea" to="." method="_on_StickyArea_body_entered"]

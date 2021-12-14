@@ -390,6 +390,9 @@ func process_input(delta):
 					# if it's a grenade, arm it
 					if grabbed_object.is_in_group("grenade"):
 						grabbed_object.armed = true
+						# reenable stickiness
+						grabbed_object.get_node("StickyArea/CollisionShape2").disabled = false
+						
 						grabbed_object.get_node("Timer").start()
 						grabbed_object.get_node("Area").collision_layer = 1
 						grabbed_object.get_node("Area").collision_mask = 1
