@@ -29,7 +29,7 @@ func flash():
 	player.get_node("Control/AnimationPlayer").play("flash")
 
 	if possible_tg:
-		possible_tg.drop_gun()
+		possible_tg.drop_gun(player)
 
 	queue_free()
 
@@ -42,7 +42,7 @@ func gas():
 	player.get_node("Control/AnimationPlayer").play("gas")
 	
 	if possible_tg:
-		possible_tg.drop_gun()
+		possible_tg.drop_gun(player)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
@@ -75,12 +75,20 @@ func _on_StickyArea_body_entered(body):
 
 # based on Godot FPS tutorial	
 func stick_to_body(body):
+	# only stick to Static or Rigidbodies
+	if body is KinematicBody:
+		return
+	
 	# Make sure we are not colliding with ourself
 	if body == self:
 		return
 	
 	# We do not want to collide with the player that's thrown this grenade
 	if body == player:
+		return
+		
+	# Don't want to stick to floor or other grenades
+	if body.is_in_group("floor") or body.is_in_group("grenade"):
 		return
 	
 	if attached == false:
