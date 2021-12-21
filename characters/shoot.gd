@@ -239,7 +239,7 @@ func detect_interactable():
 			var character = body.get_node("../../../..") 
 			if 'dead' in character and character.dead or 'unconscious' in character and character.unconscious and not 'player' in character:
 
-				if last_interactable:
+				if last_interactable and is_instance_valid(last_interactable):
 					var target = body
 					draw_screen_outline(target.get_parent().get_node("Body"), target.get_node("../../../.."))
 					#draw_screen_outline(target.get_child(1).get_node("Character2/Armature/Body"))
@@ -264,7 +264,7 @@ func detect_interactable():
 		# interactable items
 		# doors are StaticBodies ;)
 		elif (body is Area or body is RigidBody or body is StaticBody) and body.is_in_group("interactable"):
-			if last_interactable:
+			if last_interactable and is_instance_valid(last_interactable):
 				var target = body
 				draw_screen_outline(target.get_child(1), target)
 				if last_interactable != body:
@@ -287,7 +287,7 @@ func detect_interactable():
 				
 				
 		else:
-			if last_interactable:
+			if last_interactable and is_instance_valid(last_interactable):
 				# remove outline from previous interactable
 				var lt = last_interactable
 				# AI don't have next pass set up
@@ -297,7 +297,7 @@ func detect_interactable():
 				last_interactable = null
 				player.get_node("Control/ReferenceRect").hide()
 	else:
-		if last_interactable:
+		if last_interactable and is_instance_valid(last_interactable):
 			# remove outline from previous interactable
 			var lt = last_interactable
 			# AI don't have next pass set up

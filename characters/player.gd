@@ -50,6 +50,8 @@ const XBOW = 4
 var state = RIFLE
 var prev_state = RIFLE
 
+var inventory = {}
+
 func _ready():
 	camera = $RotationHelper/Character/Armature/CameraBoneAttachment/Camera
 	weapon_hold = $RotationHelper/Character/Armature/WeaponHold/
@@ -143,6 +145,35 @@ func wield_again():
 	get_node("Control/Center/Crosshair").show()
 	get_node("Control/Center/Control").hide()
 
+func place_grabbed_object(grabbed_object):
+	var rotation = global_transform.basis.get_euler()
+	
+	var x_offset = camera.global_transform.basis.y.normalized() * -0.5
+	
+	if grabbed_object is KinematicBody:
+		x_offset = Vector3(0,-1.5,0) # experimentally determined
+	
+	var z_offset = (-camera.global_transform.basis.z.normalized() * VIS_OBJECT_GRAB_DISTANCE)
+	
+	grabbed_object.global_transform.origin = camera.global_transform.origin + z_offset + x_offset
+	grabbed_object.rotation = rotation
+
+func add_to_inventory(item):
+	# interactable cleanup
+	camera.get_node("Spatial").last_interactable = null
+	get_node("Control/ReferenceRect").hide()
+	
+	# remove from world (pick up)
+	#inter.queue_free()
+	item.add_to_group("inventory")
+	
+	# assumes all pickable items are RigidBodies
+	item.mode = RigidBody.MODE_STATIC
+
+	item.collision_layer = 0
+	item.collision_mask = 0
+	
+	item.hide()
 
 func process_input(delta):
 
@@ -317,6 +348,25 @@ func process_input(delta):
 		weapon_hold.get_node("Knife").hide()
 		weapon_hold.get_node("Crossbow").hide()
 		left_hand_empty_ik()
+	if Input.is_action_just_pressed("weapon_5"):
+		print("Trying to access inventory slot..")
+		if inventory.has("GRENADE"):
+			#inventory["GRENADE"].remove_from_group("inventory")
+			# unwield any weapons
+			unwield()
+			# hack
+			grabbed_object = inventory["GRENADE"]
+			place_grabbed_object(grabbed_object)
+			grabbed_object.show()
+	if Input.is_action_just_pressed("weapon_6"):
+		if inventory.has("GRENADE2"):
+			#inventory["GRENADE2"].remove_from_group("inventory")
+			# unwield any weapons
+			unwield()
+			# hack
+			grabbed_object = inventory["GRENADE2"]
+			place_grabbed_object(grabbed_object)
+			grabbed_object.show()
 
 	# ----------------------------------
 	if Input.is_action_just_pressed("interact"):
@@ -341,6 +391,26 @@ func process_input(delta):
 			if inter.is_in_group("static"):
 				inter._on_interact()
 				return 
+			
+			# put items in inventory
+			if inter.is_in_group("grenade"):
+				# put in first grenade slot if empty
+				if !inventory.has("GRENADE"):
+					inventory["GRENADE"] = inter
+					inter.slot = "GRENADE"
+					print("Put " + inter.get_name() + " in grenade slot")
+					add_to_inventory(inter)
+					return
+				# ... or in 2nd if not and 2nd is empty
+				elif inventory.has("GRENADE") and !inventory.has("GRENADE2"):
+					inventory["GRENADE2"] = inter
+					inter.slot = "GRENADE2"
+					add_to_inventory(inter)
+					return
+				# TODO: feedback for both slots taken
+				else:
+					return
+
 					
 			grabbed_object = inter
 			# clear interactable
@@ -389,6 +459,11 @@ func process_input(delta):
 					
 					# if it's a grenade, arm it
 					if grabbed_object.is_in_group("grenade"):
+						# remove from inventory
+						grabbed_object.remove_from_group("inventory")
+						inventory[grabbed_object.slot] = null
+						grabbed_object.slot = null
+						
 						grabbed_object.armed = true
 						# reenable stickiness
 						grabbed_object.get_node("StickyArea/CollisionShape2").disabled = false
@@ -417,17 +492,7 @@ func process_input(delta):
 			grabbed_object = null
 
 	if grabbed_object != null:
-		var rotation = global_transform.basis.get_euler()
-		
-		var x_offset = camera.global_transform.basis.y.normalized() * -0.5
-		
-		if grabbed_object is KinematicBody:
-			x_offset = Vector3(0,-1.5,0) # experimentally determined
-		
-		var z_offset = (-camera.global_transform.basis.z.normalized() * VIS_OBJECT_GRAB_DISTANCE)
-		
-		grabbed_object.global_transform.origin = camera.global_transform.origin + z_offset + x_offset
-		grabbed_object.rotation = rotation
+		place_grabbed_object(grabbed_object)
 	
 	# ----------------------------------
 	# Capturing/Freeing the cursor
