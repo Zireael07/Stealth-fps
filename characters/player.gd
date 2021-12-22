@@ -71,6 +71,17 @@ func _ready():
 	$RotationHelper/Character/Armature/rifleik.start()
 	$RotationHelper/Character/Armature/headik.start()
 
+# these things don't need physics
+func _process(delta):
+	if Input.is_action_just_pressed("menu"):
+		if !get_node("Control/inventory").visible:
+			get_node("Control/inventory").show()
+			Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+		else:
+			get_node("Control/inventory").hide()
+			Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+
+
 func _physics_process(delta):
 	process_input(delta)
 	process_movement(delta)
@@ -166,6 +177,8 @@ func add_to_inventory(item):
 	# remove from world (pick up)
 	#inter.queue_free()
 	item.add_to_group("inventory")
+	# show in inventory menu
+	get_node("Control/inventory").update_slot(item)
 	
 	# assumes all pickable items are RigidBodies
 	item.mode = RigidBody.MODE_STATIC

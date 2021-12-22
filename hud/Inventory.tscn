@@ -1,0 +1,72 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://hud/inventory.gd" type="Script" id=1]
+
+[node name="Control" type="Control"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -450.0
+margin_top = -250.0
+margin_right = 450.0
+margin_bottom = 250.0
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Panel" type="Panel" parent="."]
+self_modulate = Color( 1, 1, 1, 0.611765 )
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+margin_left = 20.0
+margin_top = 50.0
+margin_right = 119.0
+margin_bottom = 94.0
+alignment = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HBoxGrenade1" type="HBoxContainer" parent="VBoxContainer"]
+margin_right = 99.0
+margin_bottom = 20.0
+
+[node name="Label" type="Label" parent="VBoxContainer/HBoxGrenade1"]
+margin_top = 3.0
+margin_right = 66.0
+margin_bottom = 17.0
+text = "Grenade 1"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="OptionButton" type="OptionButton" parent="VBoxContainer/HBoxGrenade1"]
+margin_left = 70.0
+margin_right = 99.0
+margin_bottom = 20.0
+
+[node name="HBoxGrenade2" type="HBoxContainer" parent="VBoxContainer"]
+margin_top = 24.0
+margin_right = 99.0
+margin_bottom = 44.0
+
+[node name="Label2" type="Label" parent="VBoxContainer/HBoxGrenade2"]
+margin_top = 3.0
+margin_right = 66.0
+margin_bottom = 17.0
+text = "Grenade 2"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="OptionButton2" type="OptionButton" parent="VBoxContainer/HBoxGrenade2"]
+margin_left = 70.0
+margin_right = 99.0
+margin_bottom = 20.0
