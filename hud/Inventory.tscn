@@ -70,3 +70,6 @@ __meta__ = {
 margin_left = 70.0
 margin_right = 99.0
 margin_bottom = 20.0
+
+[connection signal="item_selected" from="VBoxContainer/HBoxGrenade1/OptionButton" to="." method="_on_OptionButton_item_selected"]
+[connection signal="item_selected" from="VBoxContainer/HBoxGrenade2/OptionButton2" to="." method="_on_OptionButton2_item_selected"]

@@ -179,6 +179,8 @@ func add_to_inventory(item):
 	item.add_to_group("inventory")
 	# show in inventory menu
 	get_node("Control/inventory").update_slot(item)
+	get_node("Control/inventory").update_others(item)
+	get_node("Control/inventory").select_item(item)
 	
 	# assumes all pickable items are RigidBodies
 	item.mode = RigidBody.MODE_STATIC
@@ -362,7 +364,7 @@ func process_input(delta):
 		weapon_hold.get_node("Crossbow").hide()
 		left_hand_empty_ik()
 	if Input.is_action_just_pressed("weapon_5"):
-		print("Trying to access inventory slot..")
+		print("Trying to access inventory slot grenade 1..")
 		if inventory.has("GRENADE"):
 			#inventory["GRENADE"].remove_from_group("inventory")
 			# unwield any weapons
@@ -372,6 +374,7 @@ func process_input(delta):
 			place_grabbed_object(grabbed_object)
 			grabbed_object.show()
 	if Input.is_action_just_pressed("weapon_6"):
+		print("Trying to access inventory slot grenade 2..")
 		if inventory.has("GRENADE2"):
 			#inventory["GRENADE2"].remove_from_group("inventory")
 			# unwield any weapons
