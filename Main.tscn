@@ -109,6 +109,7 @@ mesh = SubResource( 2 )
 material/0 = null
 
 [node name="StaticBody" type="StaticBody" parent="level" groups=["floor"]]
+collision_layer = 5
 
 [node name="CollisionShape" type="CollisionShape" parent="level/StaticBody"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.25, 0 )
@@ -141,6 +142,7 @@ mesh = SubResource( 5 )
 material/0 = null
 
 [node name="StaticBody" type="StaticBody" parent="level/MeshInstance2"]
+collision_layer = 5
 
 [node name="CollisionShape" type="CollisionShape" parent="level/MeshInstance2/StaticBody"]
 shape = SubResource( 6 )
@@ -152,6 +154,7 @@ mesh = SubResource( 7 )
 material/0 = null
 
 [node name="StaticBody" type="StaticBody" parent="level/MeshInstance3"]
+collision_layer = 5
 
 [node name="CollisionShape" type="CollisionShape" parent="level/MeshInstance3/StaticBody"]
 shape = SubResource( 8 )
@@ -163,6 +166,7 @@ mesh = SubResource( 7 )
 material/0 = null
 
 [node name="StaticBody2" type="StaticBody" parent="level/MeshInstance4"]
+collision_layer = 5
 
 [node name="CollisionShape" type="CollisionShape" parent="level/MeshInstance4/StaticBody2"]
 shape = SubResource( 8 )
@@ -174,6 +178,7 @@ mesh = SubResource( 7 )
 material/0 = null
 
 [node name="StaticBody" type="StaticBody" parent="level/MeshInstance5"]
+collision_layer = 5
 
 [node name="CollisionShape" type="CollisionShape" parent="level/MeshInstance5/StaticBody"]
 shape = SubResource( 9 )
@@ -185,6 +190,7 @@ mesh = SubResource( 7 )
 material/0 = null
 
 [node name="StaticBody" type="StaticBody" parent="level/MeshInstance6"]
+collision_layer = 5
 
 [node name="CollisionShape" type="CollisionShape" parent="level/MeshInstance6/StaticBody"]
 transform = Transform( 1, 1.72977e-20, 0, 1.72977e-20, 1, 0, 0, 0, 1, 0, 0, 0 )
@@ -302,6 +308,7 @@ mesh = SubResource( 15 )
 material/0 = SubResource( 16 )
 
 [node name="StaticBody" type="StaticBody" parent="map/target_range/MeshInstance"]
+collision_layer = 5
 
 [node name="CollisionShape" type="CollisionShape" parent="map/target_range/MeshInstance/StaticBody"]
 shape = SubResource( 17 )

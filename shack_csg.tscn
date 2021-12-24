@@ -7,6 +7,7 @@
 
 [node name="CSGCombiner" type="CSGCombiner" parent="."]
 use_collision = true
+collision_layer = 5
 
 [node name="CSGBox" type="CSGBox" parent="CSGCombiner"]
 cast_shadow = 0
