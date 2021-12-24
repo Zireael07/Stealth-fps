@@ -56,6 +56,11 @@ var inventory = {}
 var default = preload("res://assets/blue_principled_bsdf.tres")
 var camo = preload("res://assets/camo_triplanar_mat.tres")
 
+# hiding
+const DEFAULT = 0
+const CAMO = 1
+var uniform = DEFAULT
+
 var backdrop = null
 
 func _ready():
@@ -621,6 +626,23 @@ func _input(event):
 #		else:	
 #			$RotationHelper/Character/Armature/left_ik.start()
 
+# ----------------------------------------------
+func is_hiding():
+	var hidden = false
+	# if no backdrop, assume the floor (concrete)
+	if not backdrop:
+		if uniform == CAMO:
+			hidden = true
+	else:
+		if backdrop != "Spatial":
+			if uniform == DEFAULT:
+				hidden = true
+		else:
+			if uniform == CAMO:
+				hidden = true
+	#print("Hidden: ", hidden)
+	return hidden
+
 # ---------------------------------------------
 func _on_gadget_mode(index):
 	if index < 2:
@@ -642,5 +664,7 @@ func _on_uniform_change(index):
 	var msh = $RotationHelper/Character/Armature/Body
 	if index == 0:
 		msh.set_surface_material(1, default)
+		uniform = DEFAULT
 	elif index == 1:
 		msh.set_surface_material(1, camo)
+		uniform = CAMO

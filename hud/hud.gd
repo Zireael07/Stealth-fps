@@ -12,9 +12,16 @@ func _ready():
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-#func _process(delta):
+func _process(delta):
+	var clr = update_hiding()
+	$HidingRect.color = clr
 #	pass
 
+func update_hiding():
+	if get_parent().is_hiding():
+		return Color(0,0,0) # black
+	else:
+		return Color(1,1,1) # white
 
 func _on_OptionButton_item_selected(index):
 	get_parent()._on_gadget_mode(index)
