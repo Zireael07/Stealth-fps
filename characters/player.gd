@@ -56,6 +56,8 @@ var inventory = {}
 var default = preload("res://assets/blue_principled_bsdf.tres")
 var camo = preload("res://assets/camo_triplanar_mat.tres")
 
+var backdrop = null
+
 func _ready():
 	camera = $RotationHelper/Character/Armature/CameraBoneAttachment/Camera
 	weapon_hold = $RotationHelper/Character/Armature/WeaponHold/
