@@ -104,3 +104,8 @@ func _on_OptionButton2_item_selected(index):
 			
 		other_it.slot = "GRENADE"
 		player.inventory["GRENADE"] = other_it
+
+
+func _on_OptionButtonU_item_selected(index):
+	player._on_uniform_change(index)
+	#pass # Replace with function body.

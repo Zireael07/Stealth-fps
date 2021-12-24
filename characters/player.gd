@@ -52,6 +52,10 @@ var prev_state = RIFLE
 
 var inventory = {}
 
+# material
+var default = preload("res://assets/blue_principled_bsdf.tres")
+var camo = preload("res://assets/camo_triplanar_mat.tres")
+
 func _ready():
 	camera = $RotationHelper/Character/Armature/CameraBoneAttachment/Camera
 	weapon_hold = $RotationHelper/Character/Armature/WeaponHold/
@@ -631,3 +635,10 @@ func _on_gadget_mode(index):
 		# thermal effect
 		for c in get_tree().get_nodes_in_group("AI"):
 			c._on_thermal_vision(true)
+
+func _on_uniform_change(index):
+	var msh = $RotationHelper/Character/Armature/Body
+	if index == 0:
+		msh.set_surface_material(1, default)
+	elif index == 1:
+		msh.set_surface_material(1, camo)
