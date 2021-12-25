@@ -629,8 +629,10 @@ func _input(event):
 # ----------------------------------------------
 func is_hiding():
 	var hidden = false
+	
 	# if no backdrop, assume the floor (concrete)
-	if not backdrop:
+	# same if we're lying down
+	if not backdrop or stance == PRONE:
 		if uniform == CAMO:
 			hidden = true
 	else:

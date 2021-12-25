@@ -280,27 +280,31 @@ func _physics_process(delta):
 		var body_r = ray.get_collider()
 		#print("Body_r", body_r)
 		if body_r is KinematicBody:
-			# assume only player is a possible_tg
-			possible_tg.get_parent().backdrop = null
-			# detect the backdrop
-			var ray2 = $RotationHelper/Area/RayCast2
-			ray2.cast_to = ray.to_local(possible_tg.get_global_transform().origin) *2
-	
-			# Force the raycast to update. This will force the raycast to detect collisions when we call it.
-			# This means we are getting a frame perfect collision check with the 3D world.
-			ray2.force_raycast_update()
+			# no need to do backdrop detection if player is prone
+			if !possible_tg.get_parent().stance == 2:
+				# assume only player is a possible_tg
+				possible_tg.get_parent().backdrop = null
+				# detect the backdrop
+				var ray2 = $RotationHelper/Area/RayCast2
+				ray2.cast_to = ray.to_local(possible_tg.get_global_transform().origin) *2
+		
+				# Force the raycast to update. This will force the raycast to detect collisions when we call it.
+				# This means we are getting a frame perfect collision check with the 3D world.
+				ray2.force_raycast_update()
 
-			# Did the ray hit something?
-			if ray2.is_colliding():
-				var body_bg = ray2.get_collider()
-				#print(body_bg)
-				if body_bg is StaticBody or body_bg is CSGCombiner:
-					print("Backdrop is " + str(body_bg.get_parent().get_name()))
-					possible_tg.get_parent().backdrop = body_bg.get_parent().get_name()
+				# Did the ray hit something?
+				if ray2.is_colliding():
+					var body_bg = ray2.get_collider()
+					#print(body_bg)
+					if body_bg is StaticBody or body_bg is CSGCombiner:
+						print("Backdrop is " + str(body_bg.get_parent().get_name()))
+						possible_tg.get_parent().backdrop = body_bg.get_parent().get_name()
+					#else:
+					#	print("No backdrop detected, assuming floor")
 				#else:
 				#	print("No backdrop detected, assuming floor")
 			#else:
-			#	print("No backdrop detected, assuming floor")
+			#	print("Player prone, no backdrop detection")
 			
 			# if we see an enemy, no longer need to turn to face a shot
 			face_pos = Vector3()
