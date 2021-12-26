@@ -39,8 +39,10 @@ func select_item(item):
 		opt = $"VBoxContainer/HBoxGrenade1/OptionButton"
 	if item.slot == "GRENADE2":
 		opt = $"VBoxContainer/HBoxGrenade2/OptionButton2"
-	# because index and id don't necessarily match up
-	opt.select(opt.get_item_index(0))
+	
+	if opt != "":
+		# because index and id don't necessarily match up
+		opt.select(opt.get_item_index(0))
 
 func update_others(item):
 	if item.slot == "GRENADE":

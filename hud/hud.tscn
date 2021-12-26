@@ -265,7 +265,8 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Control" type="Control" parent="."]
+[node name="UtilityItems" type="Control" parent="."]
+visible = false
 anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
@@ -277,7 +278,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="OptionButton" type="OptionButton" parent="Control"]
+[node name="OptionButton" type="OptionButton" parent="UtilityItems"]
 margin_right = 101.0
 margin_bottom = 20.0
 text = "Off"
@@ -315,4 +316,4 @@ anims/RESET = SubResource( 3 )
 anims/flash = SubResource( 4 )
 anims/gas = SubResource( 10 )
 
-[connection signal="item_selected" from="Control/OptionButton" to="." method="_on_OptionButton_item_selected"]
+[connection signal="item_selected" from="UtilityItems/OptionButton" to="." method="_on_OptionButton_item_selected"]

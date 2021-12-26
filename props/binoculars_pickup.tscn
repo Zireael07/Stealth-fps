@@ -1,0 +1,28 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://assets/outline3D.shader" type="Shader" id=1]
+[ext_resource path="res://props/binoculars_pickup.gd" type="Script" id=2]
+
+[sub_resource type="BoxShape" id=5]
+extents = Vector3( 0.25, 0.125, 0.125 )
+
+[sub_resource type="CubeMesh" id=6]
+size = Vector3( 0.5, 0.2, 0.25 )
+
+[sub_resource type="ShaderMaterial" id=3]
+shader = ExtResource( 1 )
+shader_param/thickness = 0.0
+shader_param/outline_color = Color( 0.72549, 0.619608, 0.0352941, 1 )
+
+[sub_resource type="SpatialMaterial" id=4]
+next_pass = SubResource( 3 )
+
+[node name="binocs" type="RigidBody" groups=["interactable", "pickup"]]
+script = ExtResource( 2 )
+
+[node name="CollisionShape" type="CollisionShape" parent="."]
+shape = SubResource( 5 )
+
+[node name="MeshInstance" type="MeshInstance" parent="."]
+mesh = SubResource( 6 )
+material/0 = SubResource( 4 )

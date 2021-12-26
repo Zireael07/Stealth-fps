@@ -1,4 +1,4 @@
-[gd_scene load_steps=44 format=2]
+[gd_scene load_steps=45 format=2]
 
 [ext_resource path="res://better_env.tres" type="Environment" id=1]
 [ext_resource path="res://assets/blue.material" type="Material" id=2]
@@ -20,6 +20,7 @@
 [ext_resource path="res://props/Button.tscn" type="PackedScene" id=18]
 [ext_resource path="res://weapons/grenade_gas.tscn" type="PackedScene" id=19]
 [ext_resource path="res://shack.tscn" type="PackedScene" id=20]
+[ext_resource path="res://props/binoculars_pickup.tscn" type="PackedScene" id=21]
 
 [sub_resource type="SpatialMaterial" id=1]
 albedo_texture = ExtResource( 10 )
@@ -282,6 +283,9 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -8.838, 0.17793, 23.0277 )
 
 [node name="box" parent="." instance=ExtResource( 6 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -6.87111, 1.06643, 15.0613 )
+
+[node name="binocs" parent="." instance=ExtResource( 21 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -9.0939, 0.264855, -2.85991 )
 
 [node name="map" type="Spatial" parent="."]
 script = ExtResource( 15 )

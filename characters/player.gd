@@ -437,7 +437,17 @@ func process_input(delta):
 				# TODO: feedback for both slots taken
 				else:
 					return
-
+			elif inter.is_in_group("pickup"):
+				if inter.get_name() == "binocs":
+					if !inventory.has("UTILITY"):
+						inventory["UTILITY"] = inter
+						inter.slot = "UTILITY"
+						print("Put " + inter.get_name() + " in utility")
+						add_to_inventory(inter)
+						inter._on_add_to_inventory(self)
+					else:
+						# TODO feedback for slot taken
+						return
 					
 			grabbed_object = inter
 			# clear interactable
@@ -646,6 +656,9 @@ func is_hiding():
 	return hidden
 
 # ---------------------------------------------
+func show_binocs_menu():
+	get_node("Control/UtilityItems").show()
+	
 func _on_gadget_mode(index):
 	if index < 2:
 		for c in get_tree().get_nodes_in_group("AI"):
@@ -661,7 +674,7 @@ func _on_gadget_mode(index):
 		# thermal effect
 		for c in get_tree().get_nodes_in_group("AI"):
 			c._on_thermal_vision(true)
-
+			
 func _on_uniform_change(index):
 	var msh = $RotationHelper/Character/Armature/Body
 	if index == 0:
