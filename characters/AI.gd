@@ -306,21 +306,32 @@ func _physics_process(delta):
 			#else:
 			#	print("Player prone, no backdrop detection")
 			
-			# if we see an enemy, no longer need to turn to face a shot
-			face_pos = Vector3()
-			
-			# if we see the player for the first time and alarm hasn't been raised
-			if not in_sight and not alarmed and !get_tree().get_nodes_in_group("alarm")[0].get_child(0).alarmed:
-				#print("ALARM!!!")
-				alarmed = true
+			# ----------------------------------
+			# we can see the player because he's not hidden
+			if !possible_tg.get_parent().is_hiding():
+				# if we see an enemy, no longer need to turn to face a shot
+				face_pos = Vector3()
 				
-			get_node("RotationHelper/MeshInstance").get_material_override().set_albedo(Color(1,0,0))
+				# if we see the player for the first time and alarm hasn't been raised
+				if not in_sight and not alarmed and !get_tree().get_nodes_in_group("alarm")[0].get_child(0).alarmed:
+					#print("ALARM!!!")
+					alarmed = true
+					
+				get_node("RotationHelper/MeshInstance").get_material_override().set_albedo(Color(1,0,0))
+				
+				# look at player
+				look_at(body_r.global_transform.origin, Vector3(0,1,0))
+				# because this looks the opposite way for some reason
+				rotate_y(deg2rad(180))
+				in_sight = true
 			
-			# look at player
-			look_at(body_r.global_transform.origin, Vector3(0,1,0))
-			# because this looks the opposite way for some reason
-			rotate_y(deg2rad(180))
-			in_sight = true
+			# hidden, can't see
+			else:
+				# yellow
+				get_node("RotationHelper/MeshInstance").get_material_override().set_albedo(Color(1,1,0))
+				in_sight = false
+				# straighten out
+				set_rotation(Vector3(0,get_rotation().y,0))
 			
 		# can't see the player
 		else:
