@@ -85,11 +85,11 @@ func dist_to_target():
 	var dist = Vector2(loc.x, loc.z).length()
 	return dist
 
-func is_close_to_target():
+func is_close_to_target(rang=1):
 	var ret = false
 	var loc = to_local(brain.target.get_global_transform().origin)
 	var dist = Vector2(loc.x, loc.z).length()
-	if dist < 1:
+	if dist <= rang:
 		ret = true
 	return ret
 
@@ -242,19 +242,26 @@ func _physics_process(delta):
 				brain.target = target_array[current]
 		
 		if alarmed:
+			# yellow
+			get_node("RotationHelper/MeshInstance").get_material_override().set_albedo(Color(1,1,0))
+			
 			brain.target = get_tree().get_nodes_in_group("alarm")[0]
+			#print("Brain tg is alarm")
 			
 			move(delta)
 			
-			if alarmed and is_close_to_target():
+			if is_close_to_target(1.5):
 				print("Reached button")
 				#interact with it
 				get_tree().get_nodes_in_group("alarm")[0].get_child(0)._on_interact()
 				alarmed = false
+		else:
+			#white
+			get_node("RotationHelper/MeshInstance").get_material_override().set_albedo(Color(1,1,1))
 		
 	if not possible_tg:
 		in_sight = false
-		alarmed = false
+		#alarmed = false
 		return
 	#else:
 	#	print("We have a possible tg!", possible_tg.get_global_transform().origin)
@@ -297,7 +304,7 @@ func _physics_process(delta):
 					var body_bg = ray2.get_collider()
 					#print(body_bg)
 					if body_bg is StaticBody or body_bg is CSGCombiner:
-						print("Backdrop is " + str(body_bg.get_parent().get_name()))
+						#print("Backdrop is " + str(body_bg.get_parent().get_name()))
 						possible_tg.get_parent().backdrop = body_bg.get_parent().get_name()
 					#else:
 					#	print("No backdrop detected, assuming floor")
@@ -316,8 +323,11 @@ func _physics_process(delta):
 				if not in_sight and not alarmed and !get_tree().get_nodes_in_group("alarm")[0].get_child(0).alarmed:
 					#print("ALARM!!!")
 					alarmed = true
-					
-				get_node("RotationHelper/MeshInstance").get_material_override().set_albedo(Color(1,0,0))
+					# yellow
+					get_node("RotationHelper/MeshInstance").get_material_override().set_albedo(Color(1,1,0))
+				else:
+					# red
+					get_node("RotationHelper/MeshInstance").get_material_override().set_albedo(Color(1,0,0))
 				
 				# look at player
 				look_at(body_r.global_transform.origin, Vector3(0,1,0))
@@ -327,16 +337,18 @@ func _physics_process(delta):
 			
 			# hidden, can't see
 			else:
-				# yellow
-				get_node("RotationHelper/MeshInstance").get_material_override().set_albedo(Color(1,1,0))
+				if not alarmed:
+					# cyan
+					get_node("RotationHelper/MeshInstance").get_material_override().set_albedo(Color(0,1,1))
 				in_sight = false
 				# straighten out
 				set_rotation(Vector3(0,get_rotation().y,0))
 			
 		# can't see the player
 		else:
-			# yellow
-			get_node("RotationHelper/MeshInstance").get_material_override().set_albedo(Color(1,1,0))
+			if not alarmed:
+				# white
+				get_node("RotationHelper/MeshInstance").get_material_override().set_albedo(Color(1,1,1))
 			in_sight = false
 			# straighten out
 			set_rotation(Vector3(0,get_rotation().y,0))
@@ -443,7 +455,7 @@ func is_armed():
 func _on_Area_body_entered(body):
 	if body.is_in_group("player"):
 		possible_tg = body.get_node("see_tg")
-		print("Possible tg: ", body.get_node("see_tg").get_global_transform().origin)
+		#print("Possible tg: ", body.get_node("see_tg").get_global_transform().origin)
 	# detecting bodies
 	elif body is PhysicalBone:
 		var ch = body.get_node("../../../..") 
