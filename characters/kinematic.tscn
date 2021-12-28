@@ -32,3 +32,9 @@ shape = SubResource( 2 )
 
 [node name="see_tg" type="Position3D" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.927, 0.15 )
+
+[node name="ActionTimer" type="Timer" parent="."]
+wait_time = 5.0
+one_shot = true
+
+[connection signal="timeout" from="ActionTimer" to="." method="_on_ActionTimer_timeout"]

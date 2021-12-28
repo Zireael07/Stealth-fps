@@ -15,6 +15,10 @@ func _ready():
 func _process(delta):
 	var clr = update_hiding()
 	$HidingRect.color = clr
+	
+	# update action bar
+	if $Center/ActionProgress.visible:
+		$Center/ActionProgress/VBoxContainer/ProgressBar.value = get_parent().get_node("ActionTimer").get_time_left()
 #	pass
 
 func update_hiding():

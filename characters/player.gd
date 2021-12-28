@@ -63,6 +63,9 @@ var uniform = DEFAULT
 
 var backdrop = null
 
+# long actions
+var action = null
+
 func _ready():
 	camera = $RotationHelper/Character/Armature/CameraBoneAttachment/Camera
 	weapon_hold = $RotationHelper/Character/Armature/WeaponHold/
@@ -94,6 +97,10 @@ func _process(delta):
 
 
 func _physics_process(delta):
+	# prevent doing things manually while doing long actions
+	if action != null:
+		return
+		
 	process_input(delta)
 	process_movement(delta)
 	camera.get_node("Spatial").detect_interactable()
@@ -676,6 +683,13 @@ func _on_gadget_mode(index):
 			c._on_thermal_vision(true)
 			
 func _on_uniform_change(index):
+	# close inventory screen
+	get_node("Control/inventory").hide()
+	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+	# queue up a long action
+	long_action("Dressing", 5, index)
+
+func uniform_change(index):
 	var msh = $RotationHelper/Character/Armature/Body
 	if index == 0:
 		msh.set_surface_material(1, default)
@@ -683,3 +697,20 @@ func _on_uniform_change(index):
 	elif index == 1:
 		msh.set_surface_material(1, camo)
 		uniform = CAMO
+
+func long_action(kind, time, data=null):
+	action = [kind, data]
+	# actually run stuff
+	get_node("ActionTimer").start(time)
+	get_node("Control/Center/ActionProgress").show()
+	get_node("Control/Center/ActionProgress/VBoxContainer/Label").text = kind + "..."
+
+func _on_action_finished(act):
+	print("Action finished: ", act)
+	if act[0] == "Dressing":
+		uniform_change(act[1])
+
+func _on_ActionTimer_timeout():
+	get_node("Control/Center/ActionProgress").hide()
+	_on_action_finished(action)
+	action = null
