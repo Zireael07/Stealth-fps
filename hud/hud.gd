@@ -16,6 +16,9 @@ func _process(delta):
 	var clr = update_hiding()
 	$HidingRect.color = clr
 	
+	# update crosshair
+	$"Center/Crosshair".set_spread(get_parent())
+	
 	# update action bar
 	if $Center/ActionProgress.visible:
 		$Center/ActionProgress/VBoxContainer/ProgressBar.value = get_parent().get_node("ActionTimer").get_time_left()

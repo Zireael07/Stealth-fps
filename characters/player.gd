@@ -40,6 +40,8 @@ const VIS_OBJECT_GRAB_DISTANCE = 1
 #const OBJECT_GRAB_RAY_DISTANCE = 10
 
 var scoping = false
+var wpn_spread = 1.2
+var cur_spread = 0
 
 # states (weapons)
 const UNARMED = 0
@@ -97,6 +99,13 @@ func _process(delta):
 
 
 func _physics_process(delta):
+	# adjust current spread
+	# do first so that taking long actions also lowers your spread
+	if !is_moving():
+		cur_spread = clamp(cur_spread-0.1, 0, wpn_spread)
+	else:
+		cur_spread = wpn_spread
+	
 	# prevent doing things manually while doing long actions
 	if action != null:
 		return
@@ -661,6 +670,10 @@ func is_hiding():
 				hidden = true
 	#print("Hidden: ", hidden)
 	return hidden
+
+func is_moving():
+	var move = vel.length() > 0.5 and stance != PRONE
+	return move
 
 # ---------------------------------------------
 func show_binocs_menu():

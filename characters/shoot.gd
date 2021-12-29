@@ -39,9 +39,18 @@ func fire_weapon():
 	var ray = $RayCast
 	ray.collision_mask = 2
 	if player.scoping:
+		# offset due to weapon model not being exactly centered
 		ray.cast_to = Vector3(3,-1,-50)
 	else:
-		ray.cast_to = Vector3(0,0,-50) # range of 50 m
+		# introduce spread
+		var x = 0
+		var y = 0
+		if player.is_moving():
+			x = rand_range(-1.0, 1.0) * player.cur_spread
+			y = rand_range(-1.0, 1.0) * player.cur_spread
+		ray.cast_to = Vector3(x,y,-50) # range of 50 m
+		print("Ray: ", Vector3(x,y, -50))
+		$DebugAimPoint.set_translation(Vector3(x,y, -20))
 		
 	# Force the raycast to update. This will force the raycast to detect collisions when we call it.
 	# This means we are getting a frame perfect collision check with the 3D world.

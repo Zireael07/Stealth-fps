@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://assets/32-32_white.png" type="Texture" id=1]
+[ext_resource path="res://hud/Crosshair.gd" type="Script" id=2]
 
 [node name="Crosshair" type="Control"]
 modulate = Color( 1, 1, 1, 0.705882 )
@@ -12,6 +13,10 @@ margin_left = -21.0
 margin_top = -21.0
 margin_right = 21.0
 margin_bottom = 21.0
+script = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="Bottom_IMG" type="TextureRect" parent="."]
 self_modulate = Color( 1, 0, 0, 1 )
