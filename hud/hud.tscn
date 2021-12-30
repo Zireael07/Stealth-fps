@@ -1,22 +1,15 @@
-[gd_scene load_steps=16 format=2]
+[gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://hud/Crosshair.tscn" type="PackedScene" id=1]
 [ext_resource path="res://assets/pointer.png" type="Texture" id=2]
 [ext_resource path="res://assets/texture (1).png" type="Texture" id=3]
 [ext_resource path="res://hud/hud.gd" type="Script" id=4]
 [ext_resource path="res://hud/Inventory.tscn" type="PackedScene" id=5]
+[ext_resource path="res://hud/font.tres" type="DynamicFont" id=6]
 
 [sub_resource type="StyleBoxFlat" id=12]
 bg_color = Color( 0, 1, 0.976471, 1 )
 anti_aliasing = false
-
-[sub_resource type="DynamicFontData" id=1]
-font_path = "res://assets/DSEG7ClassicMini-Bold.ttf"
-
-[sub_resource type="DynamicFont" id=2]
-outline_size = 1
-outline_color = Color( 0.0156863, 0.870588, 0.984314, 1 )
-font_data = SubResource( 1 )
 
 [sub_resource type="StyleBoxFlat" id=11]
 
@@ -271,7 +264,7 @@ anchor_top = 1.0
 anchor_bottom = 1.0
 margin_top = -14.0
 margin_right = 40.0
-custom_fonts/font = SubResource( 2 )
+custom_fonts/font = ExtResource( 6 )
 text = "0"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -284,7 +277,7 @@ margin_left = 20.0
 margin_top = -4.0
 margin_right = 60.0
 margin_bottom = 10.0
-custom_fonts/font = SubResource( 2 )
+custom_fonts/font = ExtResource( 6 )
 text = "100"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -297,6 +290,7 @@ anchor_right = 0.5
 margin_left = -20.0
 margin_right = 22.0
 margin_bottom = 14.0
+rect_scale = Vector2( 2, 2 )
 custom_colors/font_color = Color( 1, 0, 0, 1 )
 custom_styles/normal = SubResource( 11 )
 text = "ALERT!"

@@ -1,0 +1,8 @@
+[gd_resource type="DynamicFont" load_steps=2 format=2]
+
+[sub_resource type="DynamicFontData" id=1]
+font_path = "res://assets/DSEG7ClassicMini-Bold.ttf"
+
+[resource]
+outline_color = Color( 0.0156863, 0.870588, 0.984314, 1 )
+font_data = SubResource( 1 )
