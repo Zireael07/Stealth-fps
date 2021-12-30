@@ -70,4 +70,5 @@ class DisengageState:
 			#TODO: mix in some wander
 			#TODO 2: find cover/break line of sight
 		else:
+			ch.brain.target = ch.target_array[ch.current]
 			ch.brain.set_state(ch.brain.STATE_PATROL)

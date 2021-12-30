@@ -16,6 +16,9 @@ func _ready():
 	pass # Replace with function body.
 
 func set_spread(player):
+	if !player.is_gun():
+		return
+	
 	var spread = player.cur_spread
 	if spread != 0:
 		$Bottom_IMG.rect_position = Vector2(bottom.x, bottom.y+(spread*size.y))

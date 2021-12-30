@@ -87,6 +87,10 @@ func _ready():
 	$RotationHelper/Character/Armature/rifleik.start()
 	$RotationHelper/Character/Armature/headik.start()
 
+func is_gun():
+	return state == RIFLE or state == XBOW
+
+
 # these things don't need physics
 func _process(delta):
 	if Input.is_action_just_pressed("menu"):
@@ -103,6 +107,9 @@ func _physics_process(delta):
 	# do first so that taking long actions also lowers your spread
 	if !is_moving():
 		cur_spread = clamp(cur_spread-0.1, 0, wpn_spread)
+	elif !is_gun():
+		cur_spread = 0
+		wpn_spread = 0 
 	else:
 		cur_spread = wpn_spread
 	
@@ -272,6 +279,7 @@ func process_input(delta):
 		elif state == KNIFE:
 			camera.get_node("Spatial").melee_weapon(false)
 		elif state == XBOW:
+			wpn_spread = 1.5
 			camera.get_node("Spatial").fire_darts()
 		else:
 			camera.get_node("Spatial").fire_weapon()
