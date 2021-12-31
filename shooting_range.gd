@@ -24,6 +24,10 @@ func add_shot(score):
 	# update the HUD
 	player.get_node("Control/scoring/ScoreLabel").set_text(str(int(total)))
 	
+	# tell the player he's done
+	if num_shots == 10:
+		player.get_node("Control/scoring/FinishedScoring").set_text("Finished! Total: " + str(int(total)) + "/100")
+	
 
 
 func _on_Area_body_entered(body):
