@@ -86,6 +86,14 @@ margin_left = 70.0
 margin_right = 99.0
 margin_bottom = 20.0
 
+[node name="Button" type="Button" parent="VBoxContainer/HBoxGrenade1"]
+visible = false
+margin_left = 103.0
+margin_right = 146.0
+margin_bottom = 20.0
+disabled = true
+text = "Drop"
+
 [node name="HBoxGrenade2" type="HBoxContainer" parent="VBoxContainer"]
 margin_top = 48.0
 margin_right = 131.0
@@ -104,6 +112,14 @@ __meta__ = {
 margin_left = 70.0
 margin_right = 99.0
 margin_bottom = 20.0
+
+[node name="Button" type="Button" parent="VBoxContainer/HBoxGrenade2"]
+visible = false
+margin_left = 103.0
+margin_right = 146.0
+margin_bottom = 20.0
+disabled = true
+text = "Drop"
 
 [connection signal="item_selected" from="VBoxContainer/HBoxUniform/OptionButtonU" to="." method="_on_OptionButtonU_item_selected"]
 [connection signal="item_selected" from="VBoxContainer/HBoxGrenade1/OptionButton" to="." method="_on_OptionButton_item_selected"]

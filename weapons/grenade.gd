@@ -10,6 +10,7 @@ var attached = false
 var attach_point = null
 
 var slot # for inventory
+var droppable = true
 
 # Called when the node enters the scene tree for the first time.
 func _ready():

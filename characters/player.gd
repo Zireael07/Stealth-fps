@@ -223,6 +223,28 @@ func add_to_inventory(item):
 	item.collision_mask = 0
 	
 	item.hide()
+	
+func drop_item(item):
+	item.remove_from_group("inventory")
+	
+	# hack
+	place_grabbed_object(item)
+	
+	inventory[item.slot] = null
+	item.slot = null
+	
+	item.mode = RigidBody.MODE_RIGID
+	# make it collide again
+	item.collision_layer = 1
+	item.collision_mask = 1
+	
+	item.apply_impulse(Vector3(0, 0, 0), -camera.global_transform.basis.z.normalized() * OBJECT_THROW_FORCE/4)
+	item.show()
+	
+	
+	# close inventory screen
+	get_node("Control/inventory").hide()
+	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 
 func process_input(delta):
 
@@ -446,14 +468,14 @@ func process_input(delta):
 			# put items in inventory
 			if inter.is_in_group("grenade"):
 				# put in first grenade slot if empty
-				if !inventory.has("GRENADE"):
+				if !inventory.has("GRENADE") or inventory["GRENADE"] == null:
 					inventory["GRENADE"] = inter
 					inter.slot = "GRENADE"
 					print("Put " + inter.get_name() + " in grenade slot")
 					add_to_inventory(inter)
 					return
 				# ... or in 2nd if not and 2nd is empty
-				elif inventory.has("GRENADE") and !inventory.has("GRENADE2"):
+				elif inventory.has("GRENADE") and (!inventory.has("GRENADE2") or inventory["GRENADE2"] == null):
 					inventory["GRENADE2"] = inter
 					inter.slot = "GRENADE2"
 					add_to_inventory(inter)

@@ -9,7 +9,11 @@ var player
 func _ready():
 	player = get_parent().get_parent()
 	
-	pass # Replace with function body.
+	# unfortunately this kind of additional parameter can't be done through editor UI
+	get_node("VBoxContainer/HBoxGrenade1/Button").connect("pressed", self, "_on_Button_pressed", [get_node("VBoxContainer/HBoxGrenade1/Button")])
+	get_node("VBoxContainer/HBoxGrenade2/Button").connect("pressed", self, "_on_Button_pressed", [get_node("VBoxContainer/HBoxGrenade2/Button")])
+	
+	#pass # Replace with function body.
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -23,6 +27,9 @@ func update_slot(item):
 		opt.add_item(item.get_name(), 0)
 		# because index and id don't necessarily match up
 		opt.set_item_metadata(opt.get_item_index(0), item)
+		if 'droppable' in item:
+			opt.get_parent().get_node("Button").show()
+			opt.get_parent().get_node("Button").disabled = false
 		
 	if item.slot == "GRENADE2":
 		opt = $"VBoxContainer/HBoxGrenade2/OptionButton2"
@@ -31,16 +38,19 @@ func update_slot(item):
 		opt.set_item_metadata(opt.get_item_index(0), item)
 		
 		#$"VBoxContainer/HBoxGrenade1/OptionButton".select($"VBoxContainer/HBoxGrenade1/OptionButton".get_item_index(0))
+		if 'droppable' in item:
+			opt.get_parent().get_node("Button").show()
+			opt.get_parent().get_node("Button").disabled = false
 
 # has to be done last to avoid mismatches
 func select_item(item):
-	var opt = ""
+	var opt = null
 	if item.slot == "GRENADE":
 		opt = $"VBoxContainer/HBoxGrenade1/OptionButton"
 	if item.slot == "GRENADE2":
 		opt = $"VBoxContainer/HBoxGrenade2/OptionButton2"
 	
-	if opt != "":
+	if opt != null:
 		# because index and id don't necessarily match up
 		opt.select(opt.get_item_index(0))
 
@@ -111,3 +121,11 @@ func _on_OptionButton2_item_selected(index):
 func _on_OptionButtonU_item_selected(index):
 	player._on_uniform_change(index)
 	#pass # Replace with function body.
+
+
+func _on_Button_pressed(src):
+	var opt = src.get_parent().get_child(1)
+	var item = opt.get_selected_metadata()
+	if 'droppable' in item:
+		player.drop_item(item)
+	
