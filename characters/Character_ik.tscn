@@ -52,6 +52,9 @@ size = Vector3( 0.25, 0.25, 0.25 )
 
 [sub_resource type="SphereMesh" id=13]
 
+[sub_resource type="SpatialMaterial" id=86]
+albedo_color = Color( 1, 0.0196078, 0.0196078, 1 )
+
 [sub_resource type="AnimationNodeAnimation" id=14]
 animation = "LookUp"
 
@@ -910,7 +913,15 @@ visible = false
 mesh = SubResource( 13 )
 material/0 = null
 
-[node name="RayCast" type="RayCast" parent="Armature/CameraBoneAttachment/Camera/Spatial" index="1"]
+[node name="DebugAimPoint2" type="MeshInstance" parent="Armature/CameraBoneAttachment/Camera/Spatial" index="1"]
+transform = Transform( 0.25, 2.91038e-11, 0, -2.91038e-11, 0.25, 0, 0, 0, 0.25, 0, 0, -10 )
+visible = false
+material_override = SubResource( 86 )
+cast_shadow = 0
+mesh = SubResource( 13 )
+material/0 = null
+
+[node name="RayCast" type="RayCast" parent="Armature/CameraBoneAttachment/Camera/Spatial" index="2"]
 transform = Transform( 1, 0, 0, -1.16415e-10, 1, 0, 0, 0, 1, 0, 0, 0 )
 enabled = true
 cast_to = Vector3( 0, 0, -50 )

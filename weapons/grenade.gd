@@ -112,3 +112,6 @@ func stick_to_body(body):
 		
 		# Longer timer
 		get_node("Timer").start(5.0)
+
+func armed_flash():
+	$AnimationPlayer.play("armed_flash")

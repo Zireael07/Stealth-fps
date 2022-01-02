@@ -1,10 +1,11 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://weapons/grenade.gd" type="Script" id=1]
 [ext_resource path="res://assets/White.material" type="Material" id=2]
 [ext_resource path="res://assets/Grey.material" type="Material" id=3]
 [ext_resource path="res://assets/Main.material" type="Material" id=4]
 [ext_resource path="res://assets/Black.material" type="Material" id=5]
+[ext_resource path="res://assets/red.material" type="Material" id=6]
 
 [sub_resource type="SphereShape" id=1]
 radius = 0.3
@@ -65,6 +66,61 @@ surfaces/3 = {
 [sub_resource type="SphereShape" id=4]
 radius = 0.3
 
+[sub_resource type="Animation" id=9]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("Grenade2:material/1")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ null ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Grenade2:material/3")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ null ]
+}
+
+[sub_resource type="Animation" id=10]
+resource_name = "armed_flash"
+length = 2.0
+tracks/0/type = "value"
+tracks/0/path = NodePath("Grenade2:material/1")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1, 2 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 1,
+"values": [ null, ExtResource( 6 ), null ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Grenade2:material/3")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 1, 2 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 1,
+"values": [ null, ExtResource( 6 ), null ]
+}
+
 [node name="flash grenade" type="RigidBody" groups=["grenade", "interactable"]]
 mode = 1
 script = ExtResource( 1 )
@@ -77,7 +133,7 @@ mesh = SubResource( 2 )
 material/0 = ExtResource( 2 )
 material/1 = null
 material/2 = null
-material/3 = ExtResource( 2 )
+material/3 = null
 
 [node name="Timer" type="Timer" parent="."]
 wait_time = 3.0
@@ -95,6 +151,10 @@ shape = SubResource( 3 )
 [node name="CollisionShape2" type="CollisionShape" parent="StickyArea"]
 shape = SubResource( 4 )
 disabled = true
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/RESET = SubResource( 9 )
+anims/armed_flash = SubResource( 10 )
 
 [connection signal="timeout" from="Timer" to="." method="flash"]
 [connection signal="body_entered" from="Area" to="." method="_on_Area_body_entered"]

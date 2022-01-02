@@ -548,6 +548,7 @@ func process_input(delta):
 						grabbed_object.slot = null
 						
 						grabbed_object.armed = true
+						grabbed_object.armed_flash()
 						# reenable stickiness
 						grabbed_object.get_node("StickyArea/CollisionShape2").disabled = false
 						
