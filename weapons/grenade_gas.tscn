@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=2]
+[gd_scene load_steps=18 format=2]
 
 [ext_resource path="res://weapons/grenade.gd" type="Script" id=1]
 [ext_resource path="res://assets/Grey.material" type="Material" id=2]
@@ -117,6 +117,7 @@ tracks/1/keys = {
 [sub_resource type="Animation" id=10]
 resource_name = "armed_flash"
 length = 2.0
+loop = true
 tracks/0/type = "value"
 tracks/0/path = NodePath("Grenade2:material/1")
 tracks/0/interp = 1

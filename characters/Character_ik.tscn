@@ -1,4 +1,4 @@
-[gd_scene load_steps=93 format=2]
+[gd_scene load_steps=94 format=2]
 
 [ext_resource path="res://characters/shoot.gd" type="Script" id=1]
 [ext_resource path="res://assets/Rifle.escn" type="PackedScene" id=2]

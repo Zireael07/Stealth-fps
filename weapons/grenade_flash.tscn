@@ -96,6 +96,7 @@ tracks/1/keys = {
 [sub_resource type="Animation" id=10]
 resource_name = "armed_flash"
 length = 2.0
+loop = true
 tracks/0/type = "value"
 tracks/0/path = NodePath("Grenade2:material/1")
 tracks/0/interp = 1
