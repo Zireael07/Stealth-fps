@@ -7,6 +7,7 @@
 [ext_resource path="res://assets/Black.material" type="Material" id=5]
 [ext_resource path="res://assets/gas_mat.tres" type="Material" id=6]
 [ext_resource path="res://assets/red.material" type="Material" id=7]
+[ext_resource path="res://assets/green.tres" type="Material" id=8]
 
 [sub_resource type="SphereShape" id=1]
 radius = 0.3
@@ -63,9 +64,6 @@ surfaces/3 = {
 }
 
 [sub_resource type="SpatialMaterial" id=4]
-albedo_color = Color( 0, 0.431373, 0.0470588, 1 )
-
-[sub_resource type="SpatialMaterial" id=5]
 albedo_color = Color( 0, 0.431373, 0.0470588, 1 )
 
 [sub_resource type="SphereShape" id=3]
@@ -140,7 +138,7 @@ tracks/1/keys = {
 "times": PoolRealArray( 0, 1, 2 ),
 "transitions": PoolRealArray( 1, 1, 1 ),
 "update": 1,
-"values": [ null, ExtResource( 7 ), null ]
+"values": [ ExtResource( 8 ), ExtResource( 7 ), ExtResource( 8 ) ]
 }
 
 [node name="gas grenade" type="RigidBody" groups=["grenade", "interactable"]]
@@ -155,7 +153,7 @@ mesh = SubResource( 2 )
 material/0 = SubResource( 4 )
 material/1 = null
 material/2 = null
-material/3 = SubResource( 5 )
+material/3 = ExtResource( 8 )
 
 [node name="Timer" type="Timer" parent="."]
 wait_time = 3.0
