@@ -1,4 +1,4 @@
-[gd_scene load_steps=57 format=2]
+[gd_scene load_steps=46 format=2]
 
 [ext_resource path="res://better_env.tres" type="Environment" id=1]
 [ext_resource path="res://assets/blue.material" type="Material" id=2]
@@ -21,6 +21,7 @@
 [ext_resource path="res://weapons/grenade_gas.tscn" type="PackedScene" id=19]
 [ext_resource path="res://shack.tscn" type="PackedScene" id=20]
 [ext_resource path="res://props/binoculars_pickup.tscn" type="PackedScene" id=21]
+[ext_resource path="res://props/laser_alarm.tscn" type="PackedScene" id=22]
 
 [sub_resource type="SpatialMaterial" id=1]
 albedo_texture = ExtResource( 10 )
@@ -50,108 +51,6 @@ points = PoolVector3Array( 0, 1, 1, 0, 1, -1, 0, 1, 1, 0, 1, -1, -1, -1, 1, 1, -
 
 [sub_resource type="ConvexPolygonShape" id=10]
 points = PoolVector3Array( 0, 1, 1, 0, 1, -1, 0, 1, 1, 0, 1, -1, -1, -1, 1, 1, -1, -1, 1, -1, 1, -1, -1, -1, 0, 1, 1, 0, 1, -1, 0, 1, -1, 0, 1, 1, 1, -1, 1, -1, -1, -1, 1, -1, -1, -1, -1, 1, -1, -1, 1, 1, -1, 1, -1, -1, -1, 1, -1, -1 )
-
-[sub_resource type="VisualShaderNodeInput" id=26]
-input_name = "uv"
-
-[sub_resource type="VisualShaderNodeVectorDecompose" id=27]
-
-[sub_resource type="Gradient" id=28]
-offsets = PoolRealArray( 0.0653061, 0.163265, 0.322449 )
-colors = PoolColorArray( 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 1 )
-
-[sub_resource type="GradientTexture" id=29]
-gradient = SubResource( 28 )
-
-[sub_resource type="VisualShaderNodeTexture" id=30]
-texture = SubResource( 29 )
-
-[sub_resource type="VisualShaderNodeVectorOp" id=31]
-operator = 3
-
-[sub_resource type="VisualShaderNodeScalarUniform" id=32]
-uniform_name = "Emission"
-
-[sub_resource type="VisualShaderNodeColorUniform" id=33]
-uniform_name = "ColorUniform"
-
-[sub_resource type="VisualShaderNodeVectorLen" id=34]
-
-[sub_resource type="VisualShader" id=35]
-code = "shader_type spatial;
-render_mode specular_schlick_ggx;
-
-uniform vec4 ColorUniform : hint_color;
-uniform sampler2D tex_frg_4;
-uniform float Emission;
-
-
-
-void vertex() {
-// Output:0
-
-}
-
-void fragment() {
-// ColorUniform:7
-	vec3 n_out7p0 = ColorUniform.rgb;
-	float n_out7p1 = ColorUniform.a;
-
-// Input:2
-	vec3 n_out2p0 = vec3(UV, 0.0);
-
-// VectorDecompose:3
-	float n_out3p0 = n_out2p0.x;
-	float n_out3p1 = n_out2p0.y;
-	float n_out3p2 = n_out2p0.z;
-
-// Texture:4
-	vec4 tex_frg_4_read = texture(tex_frg_4, vec3(n_out3p1).xy);
-	vec3 n_out4p0 = tex_frg_4_read.rgb;
-	float n_out4p1 = tex_frg_4_read.a;
-
-// ScalarUniform:6
-	float n_out6p0 = Emission;
-
-// VectorOp:5
-	vec3 n_out5p0 = n_out4p0 / vec3(n_out6p0);
-
-// Output:0
-	ALBEDO = n_out7p0;
-	ALPHA = dot(n_out5p0, vec3(0.333333, 0.333333, 0.333333));
-	EMISSION = n_out7p0;
-
-}
-
-void light() {
-// Output:0
-
-}
-"
-graph_offset = Vector2( -341.11, 136.804 )
-nodes/fragment/2/node = SubResource( 26 )
-nodes/fragment/2/position = Vector2( -200, 180 )
-nodes/fragment/3/node = SubResource( 27 )
-nodes/fragment/3/position = Vector2( -40, 180 )
-nodes/fragment/4/node = SubResource( 30 )
-nodes/fragment/4/position = Vector2( -240, 300 )
-nodes/fragment/5/node = SubResource( 31 )
-nodes/fragment/5/position = Vector2( 20, 340 )
-nodes/fragment/6/node = SubResource( 32 )
-nodes/fragment/6/position = Vector2( -20, 500 )
-nodes/fragment/7/node = SubResource( 33 )
-nodes/fragment/7/position = Vector2( 220, 340 )
-nodes/fragment/8/node = SubResource( 34 )
-nodes/fragment/8/position = Vector2( 200, 260 )
-nodes/fragment/connections = PoolIntArray( 2, 0, 3, 0, 4, 0, 5, 0, 6, 0, 5, 1, 7, 0, 0, 5, 5, 0, 8, 0, 3, 1, 4, 0, 5, 0, 0, 1, 7, 0, 0, 0 )
-
-[sub_resource type="ShaderMaterial" id=36]
-shader = SubResource( 35 )
-shader_param/ColorUniform = Color( 1, 0, 0, 1 )
-shader_param/Emission = 2.0
-
-[sub_resource type="CubeMesh" id=37]
-size = Vector3( 7, 0.2, 0.01 )
 
 [sub_resource type="CubeMesh" id=11]
 size = Vector3( 0.5, 0.5, 0.5 )
@@ -189,11 +88,11 @@ void fragment() {
 	//ALBEDO = texture(refl_tx, UV).rgb;
 }"
 
-[sub_resource type="ViewportTexture" id=25]
+[sub_resource type="ViewportTexture" id=24]
 
 [sub_resource type="ShaderMaterial" id=22]
 shader = SubResource( 20 )
-shader_param/refl_tx = SubResource( 25 )
+shader_param/refl_tx = SubResource( 24 )
 
 [sub_resource type="QuadMesh" id=23]
 size = Vector2( 1, 0.5 )
@@ -302,12 +201,7 @@ shape = SubResource( 10 )
 [node name="Spatial" parent="level" instance=ExtResource( 20 )]
 transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -8.68424, 1.25124, 22.5075 )
 
-[node name="laser_alarm" type="MeshInstance" parent="level"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -4.15402, 0.540855, 20.8241 )
-material_override = SubResource( 36 )
-cast_shadow = 0
-mesh = SubResource( 37 )
-material/0 = null
+[node name="laser_alarm" parent="level" instance=ExtResource( 22 )]
 
 [node name="nav" type="Spatial" parent="."]
 
