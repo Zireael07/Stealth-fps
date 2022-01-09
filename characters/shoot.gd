@@ -49,7 +49,7 @@ func fire_weapon():
 			x = rand_range(-1.0, 1.0) * player.cur_spread
 			y = rand_range(-1.0, 1.0) * player.cur_spread
 		ray.cast_to = Vector3(x,y,-50) # range of 50 m
-		print("Ray: ", Vector3(x,y, -50))
+		#print("Ray: ", Vector3(x,y, -50))
 		$DebugAimPoint.set_translation(Vector3(x,y, -20))
 		
 	# Force the raycast to update. This will force the raycast to detect collisions when we call it.
@@ -96,9 +96,12 @@ func fire_weapon():
 				body.get_parent().get_parent().add_shot(score)
 		if body is KinematicBody:
 			body.die()
-			#pass
+		if body is RigidBody:
+			if body.is_in_group("explosive"):
+				body.explode()
 
 # so-called 'hitscan' weapon
+# wasn't hitscan in DX, but instead used projectile physics (gravity pulling down)
 func fire_darts():
 	# Get the raycast node
 	var ray = $RayCast
@@ -153,6 +156,9 @@ func melee_weapon(knockout):
 					body.get_node("../../../../..").die(get_global_transform().origin)
 				elif bone.find("Arm") != -1:
 					body.get_node("../../../../..").drop_gun(player)
+		if body is RigidBody:
+			if body.is_in_group("explosive"):
+				body.explode()
 
 # --------------------------------------------------
 # interactables use raycasting, so this code is also here
