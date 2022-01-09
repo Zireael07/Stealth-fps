@@ -35,6 +35,7 @@ const PUSH_FORCE = 2 # has to be lower than OBJECT_THROW_FORCE below to make sen
 
 var grabbed_object = null
 var grabbed_previous_mode = null
+var grabbed_previous_layers = null # because some items might be on more than one layer
 const OBJECT_THROW_FORCE = 5
 const VIS_OBJECT_GRAB_DISTANCE = 1
 #const OBJECT_GRAB_RAY_DISTANCE = 10
@@ -505,6 +506,8 @@ func process_input(delta):
 			# grab it
 			if grabbed_object is RigidBody:
 				grabbed_object.mode = RigidBody.MODE_STATIC
+			
+			grabbed_previous_layers = grabbed_object.collision_layer
 
 			grabbed_object.collision_layer = 0
 			grabbed_object.collision_mask = 0
@@ -570,7 +573,7 @@ func process_input(delta):
 				grabbed_object.get_node("RotationHelper/Character2/Armature").physical_bones_start_simulation()
 
 			# make it collide again
-			grabbed_object.collision_layer = 1
+			grabbed_object.collision_layer = grabbed_previous_layers if grabbed_previous_layers != null else 1
 			grabbed_object.collision_mask = 1
 
 			grabbed_object = null
