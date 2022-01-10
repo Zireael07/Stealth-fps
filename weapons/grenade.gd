@@ -3,7 +3,7 @@ extends RigidBody
 
 # Declare member variables here. Examples:
 var armed
-var possible_tg
+var possible_tg = []
 var player = null
 
 var attached = false
@@ -19,33 +19,36 @@ func _ready():
 func explode():
 	print("Explode!")
 	# deal damage
-	if possible_tg:
-		possible_tg.die(get_global_transform().origin)
+	for b in possible_tg:
+		if b.is_in_group("AI"):
+			b.die(get_global_transform().origin)
 
 	queue_free()
 
 func flash():
 	print("Timer over!!!")
 
-	# flash the player
-	player.get_node("Control/flashbang").show()
-	player.get_node("Control/AnimationPlayer").play("flash")
-
-	if possible_tg:
-		possible_tg.drop_gun(player)
+	for b in possible_tg:
+		if b.is_in_group("AI"):
+			b.drop_gun(player)
+		if b.is_in_group("player"):
+			# flash the player
+			player.get_node("Control/flashbang").show()
+			player.get_node("Control/AnimationPlayer").play("flash")
 
 	queue_free()
 
 func gas():
 	get_node("Particles").emitting = true
 	
-	# UI effects for the player
-	player.get_node("Control/flashbang").show()
-	player.get_node("Control/gas_overlay").show()
-	player.get_node("Control/AnimationPlayer").play("gas")
-	
-	if possible_tg:
-		possible_tg.drop_gun(player)
+	for b in possible_tg:
+		if b.is_in_group("AI"):
+			b.drop_gun(player)
+		if b.is_in_group("player"):
+			# UI effects for the player
+			player.get_node("Control/flashbang").show()
+			player.get_node("Control/gas_overlay").show()
+			player.get_node("Control/AnimationPlayer").play("gas")
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
@@ -64,13 +67,13 @@ func _process(delta):
 
 func _on_Area_body_entered(body):
 	if body is KinematicBody and self.armed:
-		possible_tg = body
+		possible_tg.append(body)
 		print("Possible grenade tg: ", body)
 
 
 func _on_Area_body_exited(body):
-	if body == possible_tg:
-		possible_tg = null
+	if body is KinematicBody:
+		possible_tg.remove(possible_tg.find(body))
 
 
 func _on_StickyArea_body_entered(body):
