@@ -423,7 +423,7 @@ func process_input(delta):
 		left_hand_empty_ik()
 	if Input.is_action_just_pressed("weapon_5"):
 		print("Trying to access inventory slot grenade 1..")
-		if inventory.has("GRENADE"):
+		if inventory.has("GRENADE") and inventory["GRENADE"] != null:
 			#inventory["GRENADE"].remove_from_group("inventory")
 			# unwield any weapons
 			unwield()
@@ -433,7 +433,7 @@ func process_input(delta):
 			grabbed_object.show()
 	if Input.is_action_just_pressed("weapon_6"):
 		print("Trying to access inventory slot grenade 2..")
-		if inventory.has("GRENADE2"):
+		if inventory.has("GRENADE2") and inventory["GRENADE2"] != null:
 			#inventory["GRENADE2"].remove_from_group("inventory")
 			# unwield any weapons
 			unwield()
