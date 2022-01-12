@@ -1,4 +1,4 @@
-[gd_scene load_steps=47 format=2]
+[gd_scene load_steps=48 format=2]
 
 [ext_resource path="res://better_env.tres" type="Environment" id=1]
 [ext_resource path="res://assets/blue.material" type="Material" id=2]
@@ -23,6 +23,7 @@
 [ext_resource path="res://props/binoculars_pickup.tscn" type="PackedScene" id=21]
 [ext_resource path="res://props/laser_alarm.tscn" type="PackedScene" id=22]
 [ext_resource path="res://props/crate_boom.tscn" type="PackedScene" id=23]
+[ext_resource path="res://characters/AI_civillian.tscn" type="PackedScene" id=24]
 
 [sub_resource type="SpatialMaterial" id=1]
 albedo_texture = ExtResource( 10 )
@@ -306,6 +307,10 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -9.0939, 0.264855, -2.85991 )
 
 [node name="crate" parent="." instance=ExtResource( 23 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -6.9105, 0.478119, 20.1347 )
+
+[node name="Man" parent="." instance=ExtResource( 24 )]
+transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -11.0582, 0.000285149, 19.2523 )
+nav = NodePath("")
 
 [node name="map" type="Spatial" parent="."]
 script = ExtResource( 15 )

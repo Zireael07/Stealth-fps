@@ -52,7 +52,6 @@ func _ready():
 	if is_in_group("civilian"):
 		mesh = get_node("RotationHelper/model/Human Armature/Skeleton/Human_Mesh")
 	
-	
 	state_machine = $RotationHelper/Character2/AnimationTree
 	
 	brain = $brain
@@ -67,11 +66,13 @@ func _ready():
 	
 	# fake aabb for outlines
 	var debug = $RotationHelper/Character2/Armature/HitBoxTorso/center
+	var scale = Vector3(1,1,1)
 	if is_in_group("civilian"):
 		debug = $"RotationHelper/model/Position3D"
+		scale = Vector3(0.35, 0.35, 0.35)
 	
 	for i in range(7):
-		var end_point = mesh.get_aabb().get_endpoint(i) # local space
+		var end_point = mesh.get_aabb().get_endpoint(i) * scale # local space
 		 # because we're looking at relative to center
 		var point = to_global(end_point)
 		var pt = Position3D.new()

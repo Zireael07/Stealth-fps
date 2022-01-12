@@ -461,6 +461,11 @@ func process_input(delta):
 		if grabbed_object == null:
 			var inter = camera.get_node("Spatial").last_interactable
 			
+			# if it's an NPC, try to interact
+			if inter.is_in_group("civilian"):
+				print("You try to talk to ", inter.get_name(), " but he has nothing to say")
+				return
+			
 			# if it's a static object, run its function instead
 			if inter.is_in_group("static"):
 				inter._on_interact()

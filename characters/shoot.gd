@@ -175,7 +175,10 @@ func draw_screen_outline(mesh, target):
 		# use a fake (rotated) aabb instead for AI
 		if target is KinematicBody:
 			# this is global, to take rotation into account
-			point = target.get_node("RotationHelper/Character2/Armature/HitBoxTorso/center").get_child(i).global_transform.origin
+			if target.is_in_group("civilian"):
+				point = target.get_node("RotationHelper/model/Position3D").get_child(i).global_transform.origin
+			else:
+				point = target.get_node("RotationHelper/Character2/Armature/HitBoxTorso/center").get_child(i).global_transform.origin
 			# so just plug it in
 			originalVerticesArray.append(point)
 #			mesh.get_transformed_aabb().get_endpoint(i)
@@ -276,6 +279,25 @@ func detect_interactable():
 					#target.get_child(1).get_node("Character2/Armature/Body").get_surface_material(0).next_pass.set_shader_param("thickness", 0.1)
 					#draw_screen_outline(target.get_child(1).get_node("Character2/Armature/Body"))
 
+		# live NPCs
+		elif body is KinematicBody and body.is_in_group("civilian"):
+			if last_interactable and is_instance_valid(last_interactable):
+				var target = body
+				draw_screen_outline(target.get_node("RotationHelper/model/Human Armature/Skeleton/Human_Mesh"), body)
+				if last_interactable != body:
+					# remove outline from previous interactable
+					var lt = last_interactable
+					# AI don't have next pass set up
+					if lt is Area or lt is RigidBody:
+						if 'next_pass' in lt.get_child(1).get_surface_material(0):
+							lt.get_child(1).get_surface_material(0).next_pass.set_shader_param("thickness", 0)
+					last_interactable = body
+			else:
+				last_interactable = body
+				var target = body
+				draw_screen_outline(target.get_node("RotationHelper/model/Human Armature/Skeleton/Human_Mesh"), body)
+					
+					
 		# interactable items
 		# doors are StaticBodies ;)
 		elif (body is Area or body is RigidBody or body is StaticBody) and body.is_in_group("interactable"):
