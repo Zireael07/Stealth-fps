@@ -11,3 +11,6 @@ albedo_texture = ExtResource( 2 )
 [node name="Human_Mesh" parent="Human Armature/Skeleton" index="0"]
 material_override = SubResource( 1 )
 cast_shadow = 0
+
+[node name="Position3D" type="Position3D" parent="." index="2"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.17564, 0 )

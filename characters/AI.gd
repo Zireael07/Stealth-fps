@@ -49,19 +49,27 @@ func _ready():
 	
 	
 	var mesh = get_node("RotationHelper/Character2/Armature/Body")
+	if is_in_group("civilian"):
+		mesh = get_node("RotationHelper/model/Human Armature/Skeleton/Human_Mesh")
+	
+	
 	state_machine = $RotationHelper/Character2/AnimationTree
 	
 	brain = $brain
 	
 	# get points
-	for c in get_node(nav).get_children():
-		target_array.append(c)
-	#brain.target = get_parent().get_node("nav").get_child(0)
-	brain.target = target_array[0]
+	if get_node(nav):
+		for c in get_node(nav).get_children():
+			target_array.append(c)
+		#brain.target = get_parent().get_node("nav").get_child(0)
+		brain.target = target_array[0]
 	
 	
 	# fake aabb for outlines
 	var debug = $RotationHelper/Character2/Armature/HitBoxTorso/center
+	if is_in_group("civilian"):
+		debug = $"RotationHelper/model/Position3D"
+	
 	for i in range(7):
 		var end_point = mesh.get_aabb().get_endpoint(i) # local space
 		 # because we're looking at relative to center
@@ -87,7 +95,9 @@ func dist_to_target():
 
 func is_close_to_target(rang=1):
 	var ret = false
-	var loc = to_local(brain.target.get_global_transform().origin)
+	var loc = brain.target
+	if not typeof(brain.target) == TYPE_VECTOR3:
+		loc = to_local(brain.target.get_global_transform().origin)
 	var dist = Vector2(loc.x, loc.z).length()
 	if dist <= rang:
 		ret = true
@@ -180,10 +190,15 @@ func _physics_process(delta):
 	
 	if not dead and not unconscious:
 		# animate movement
-		if vel.length() > 0:
-			state_machine["parameters/move_state/run/blend_position"] = Vector2(0,1) # actually animates leg movement
-		else:
-			state_machine["parameters/move_state/run/blend_position"] = Vector2(0,0) # stop moving
+		if state_machine:
+			if vel.length() > 0:
+				state_machine["parameters/move_state/run/blend_position"] = Vector2(0,1) # actually animates leg movement
+			else:
+				state_machine["parameters/move_state/run/blend_position"] = Vector2(0,0) # stop moving
+		
+		if is_in_group("civilian"):
+			brain.set_state(brain.STATE_IDLE)
+			return
 		
 		# if we're unarmed, disengage
 		if !is_armed() and in_sight:
@@ -446,6 +461,10 @@ func _on_hurt(pos):
 
 
 func is_armed():
+	if is_in_group("civilian"):
+		return false
+	
+	
 	var hold = get_node("RotationHelper/Character2/Armature/WeaponHold")
 	# for now, AI can only have rifles
 	return hold.has_node("Rifle2")

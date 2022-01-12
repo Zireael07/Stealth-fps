@@ -7,6 +7,7 @@ var prev_state
 
 const STATE_PATROL = 1
 const STATE_DISENGAGE = 2
+const STATE_IDLE = 3
 
 signal state_changed
 
@@ -29,6 +30,8 @@ func set_state(new_state, param=null):
 		state = PatrolState.new(get_parent())
 	if new_state == STATE_DISENGAGE:
 		state = DisengageState.new(get_parent())
+	if new_state == STATE_IDLE:
+		state = IdleState.new(get_parent())
 	
 	emit_signal("state_changed", self)
 
@@ -37,6 +40,8 @@ func get_state():
 		return STATE_PATROL
 	if state is DisengageState:
 		return STATE_DISENGAGE
+	if state is IdleState:
+		return STATE_IDLE
 
 # just call the state
 #func _physics_process(delta):
@@ -72,3 +77,13 @@ class DisengageState:
 		else:
 			ch.brain.target = ch.target_array[ch.current]
 			ch.brain.set_state(ch.brain.STATE_PATROL)
+
+class IdleState:
+	var ch
+	
+	func _init(cha):
+		self.ch = cha
+	
+	func update(delta):
+		# dummy
+		ch.brain.target = ch.get_global_transform().origin
