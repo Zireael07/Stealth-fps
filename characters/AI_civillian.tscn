@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://characters/AI.gd" type="Script" id=1]
 [ext_resource path="res://characters/brain.gd" type="Script" id=2]
@@ -6,6 +6,7 @@
 [ext_resource path="res://assets/civilian/model.tscn" type="PackedScene" id=4]
 [ext_resource path="res://characters/vision_cone_shape.tres" type="Shape" id=5]
 [ext_resource path="res://characters/soldier_collision.tres" type="Shape" id=6]
+[ext_resource path="res://characters/dialogue.gd" type="Script" id=7]
 
 [sub_resource type="SpatialMaterial" id=4]
 resource_local_to_scene = true
@@ -83,6 +84,9 @@ one_shot = true
 [node name="wake_timer" type="Timer" parent="."]
 wait_time = 5.0
 one_shot = true
+
+[node name="dialogue" type="Node" parent="."]
+script = ExtResource( 7 )
 
 [connection signal="body_entered" from="RotationHelper/Area" to="." method="_on_Area_body_entered"]
 [connection signal="body_exited" from="RotationHelper/Area" to="." method="_on_Area_body_exited"]

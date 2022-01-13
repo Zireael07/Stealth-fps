@@ -463,7 +463,18 @@ func process_input(delta):
 			
 			# if it's an NPC, try to interact
 			if inter.is_in_group("civilian"):
-				print("You try to talk to ", inter.get_name(), " but he has nothing to say")
+				var d = inter.get_node("dialogue")
+				if d:
+					Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+					var conv = preload("res://hud/conversation.tscn")
+					var c = conv.instance()
+					get_node("Control").add_child(c)
+					c.set_answers(d.answers)
+					c.show_line(d.line)
+					
+					
+				else:
+					print("You try to talk to ", inter.get_name(), " but he has nothing to say")
 				return
 			
 			# if it's a static object, run its function instead
