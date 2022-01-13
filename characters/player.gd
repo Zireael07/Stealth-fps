@@ -69,6 +69,8 @@ var backdrop = null
 # long actions
 var action = null
 
+var talking = false
+
 func _ready():
 	camera = $RotationHelper/Character/Armature/CameraBoneAttachment/Camera
 	weapon_hold = $RotationHelper/Character/Armature/WeaponHold/
@@ -115,7 +117,7 @@ func _physics_process(delta):
 		cur_spread = wpn_spread
 	
 	# prevent doing things manually while doing long actions
-	if action != null:
+	if action != null or talking:
 		return
 		
 	process_input(delta)
@@ -463,9 +465,21 @@ func process_input(delta):
 			
 			# if it's an NPC, try to interact
 			if inter.is_in_group("civilian"):
+				# unwield guns
+				if state != UNARMED:
+					unwield()
+				
 				var d = inter.get_node("dialogue")
 				if d:
+					# hide HUD
+					get_node("Control/ReferenceRect").hide()
+					get_node("Control/Center/Control").hide()
+					
+					# allow moving mouse
 					Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+					# prevent some other things
+					talking = true
+					# show conversation
 					var conv = preload("res://hud/conversation.tscn")
 					var c = conv.instance()
 					get_node("Control").add_child(c)
@@ -599,7 +613,7 @@ func process_input(delta):
 	
 	# ----------------------------------
 	# Capturing/Freeing the cursor
-	if Input.is_action_just_pressed("ui_cancel"):
+	if Input.is_action_just_pressed("ui_cancel") and not talking:
 		if Input.get_mouse_mode() == Input.MOUSE_MODE_VISIBLE:
 			Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 		else:

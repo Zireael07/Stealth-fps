@@ -164,6 +164,10 @@ func melee_weapon(knockout):
 # interactables use raycasting, so this code is also here
 # TODO: move this out since this is player-specific
 func draw_screen_outline(mesh, target):
+	# bail early if in conversation mode
+	if player.talking:
+		return
+	
 	# HUD outline drawing
 	var originalVerticesArray = []
 	

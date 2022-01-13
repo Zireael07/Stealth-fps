@@ -47,4 +47,5 @@ func _on_answer_gui_input(event, node):
 		# end convo
 		queue_free()
 		
+		get_parent().get_parent().talking = false
 		Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
