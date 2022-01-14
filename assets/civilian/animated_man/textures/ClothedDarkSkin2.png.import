@@ -2,8 +2,8 @@
 
 importer="texture"
 type="StreamTexture"
-path.s3tc="res://.import/ClothedLightSkin.png-991b44d331b4165e7afa9c16e251a52e.s3tc.stex"
-path.etc2="res://.import/ClothedLightSkin.png-991b44d331b4165e7afa9c16e251a52e.etc2.stex"
+path.s3tc="res://.import/ClothedDarkSkin2.png-d1b9077c926ed4d3aee361e9655d4116.s3tc.stex"
+path.etc2="res://.import/ClothedDarkSkin2.png-d1b9077c926ed4d3aee361e9655d4116.etc2.stex"
 metadata={
 "imported_formats": [ "s3tc", "etc2" ],
 "vram_texture": true
@@ -11,8 +11,8 @@ metadata={
 
 [deps]
 
-source_file="res://assets/civilian/ClothedLightSkin.png"
-dest_files=[ "res://.import/ClothedLightSkin.png-991b44d331b4165e7afa9c16e251a52e.s3tc.stex", "res://.import/ClothedLightSkin.png-991b44d331b4165e7afa9c16e251a52e.etc2.stex" ]
+source_file="res://assets/civilian/animated_man/textures/ClothedDarkSkin2.png"
+dest_files=[ "res://.import/ClothedDarkSkin2.png-d1b9077c926ed4d3aee361e9655d4116.s3tc.stex", "res://.import/ClothedDarkSkin2.png-d1b9077c926ed4d3aee361e9655d4116.etc2.stex" ]
 
 [params]
 

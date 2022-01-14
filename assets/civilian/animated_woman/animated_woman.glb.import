@@ -2,12 +2,12 @@
 
 importer="scene"
 type="PackedScene"
-path="res://.import/model.glb-9ce3ce0364c8c113f875e3268f796302.scn"
+path="res://.import/animated_woman.glb-5cbec893cadd37f43fbd10080d71733b.scn"
 
 [deps]
 
-source_file="res://assets/civilian/model.glb"
-dest_files=[ "res://.import/model.glb-9ce3ce0364c8c113f875e3268f796302.scn" ]
+source_file="res://assets/civilian/animated_woman/animated_woman.glb"
+dest_files=[ "res://.import/animated_woman.glb-5cbec893cadd37f43fbd10080d71733b.scn" ]
 
 [params]
 
