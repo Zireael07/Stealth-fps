@@ -30,7 +30,12 @@ func set_spread(player):
 		$Top_IMG.rect_position = top
 		$Left_IMG.rect_position = left
 		$Right_IMG.rect_position = right
-	
+
+func set_color(clr):
+	$Bottom_IMG.set_self_modulate(clr)
+	$Top_IMG.set_self_modulate(clr)
+	$Left_IMG.set_self_modulate(clr)
+	$Right_IMG.set_self_modulate(clr)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta):

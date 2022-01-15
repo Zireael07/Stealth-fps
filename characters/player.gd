@@ -122,6 +122,7 @@ func _physics_process(delta):
 		
 	process_input(delta)
 	process_movement(delta)
+	camera.get_node("Spatial").iff()
 	camera.get_node("Spatial").detect_interactable()
 
 func left_hand_empty_ik():

@@ -347,3 +347,33 @@ func detect_interactable():
 					lt.get_child(1).get_surface_material(0).next_pass.set_shader_param("thickness", 0)
 			last_interactable = null
 			player.get_node("Control/ReferenceRect").hide()
+
+func iff():
+	# Get the raycast node
+	var ray = $RayCast
+	# same range as ranged weapons
+	ray.cast_to = Vector3(0,0,-50)
+	# we want to detect AIs 
+	ray.collision_mask = 1
+	# Force the raycast to update. This will force the raycast to detect collisions when we call it.
+	# This means we are getting a frame perfect collision check with the 3D world.
+	ray.force_raycast_update()
+
+	# Did the ray hit something?
+	if ray.is_colliding():
+		var body = ray.get_collider()
+		if body is KinematicBody:
+			if body.is_in_group("civilian"):
+				# neutral
+				# white
+				player.get_node("Control/Center/Crosshair").set_color(Color(1,1,1))
+				player.get_node("Control/Center/Control").set_self_modulate(Color(1,1,1))
+			# TODO: green for allies/friendlies
+			else:
+				# hostile
+				player.get_node("Control/Center/Crosshair").set_color(Color(1,0,0))
+				player.get_node("Control/Center/Control").set_self_modulate(Color(1,0,0))
+		else:
+			# we detected something else, default to red (visible on both normal and NV vision)
+			player.get_node("Control/Center/Crosshair").set_color(Color(1,0,0))
+			player.get_node("Control/Center/Control").set_self_modulate(Color(1,0,0))
