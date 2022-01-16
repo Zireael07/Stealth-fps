@@ -200,6 +200,10 @@ func _physics_process(delta):
 		if is_in_group("civilian"):
 			brain.set_state(brain.STATE_IDLE)
 			return
+			
+		if is_in_group("ally"):
+			brain.set_state(brain.STATE_IDLE)
+			return
 		
 		# if we're unarmed, disengage
 		if !is_armed() and in_sight:

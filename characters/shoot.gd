@@ -368,7 +368,18 @@ func iff():
 				# white
 				player.get_node("Control/Center/Crosshair").set_color(Color(1,1,1))
 				player.get_node("Control/Center/Control").set_self_modulate(Color(1,1,1))
-			# TODO: green for allies/friendlies
+			elif body.is_in_group("ally"):
+				# friendly
+				var env = get_tree().get_nodes_in_group("root")[0].get_node("WorldEnvironment").environment
+				if !env.is_adjustment_enabled():
+					player.get_node("Control/Center/Crosshair").set_color(Color(0,1,0))
+					player.get_node("Control/Center/Control").set_self_modulate(Color(0,1,0))
+				else:
+					# shades of green are invisible when NV is on, so....
+					# blue/cyan is a common equivalent of green in colorblind palettes
+					# plus the MC and allies have a blue visor
+					player.get_node("Control/Center/Crosshair").set_color(Color(0,1,1))
+					player.get_node("Control/Center/Control").set_self_modulate(Color(0,1,1))
 			else:
 				# hostile
 				player.get_node("Control/Center/Crosshair").set_color(Color(1,0,0))
