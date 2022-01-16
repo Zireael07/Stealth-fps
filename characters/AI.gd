@@ -36,6 +36,7 @@ var prev = 0
 var alarmed = false
 
 var face_pos = Vector3()
+var player = null
 
 # material
 var camo = preload("res://assets/camo_triplanar_mat.tres")
@@ -47,6 +48,7 @@ func _ready():
 	get_node("MeshInstance").set_as_toplevel(true)
 	#get_node("RotationHelper/Character2/Timer").connect("timeout", self, "ragdoll")
 	
+	player = get_tree().get_nodes_in_group("player")[0]
 	
 	var mesh = get_node("RotationHelper/Character2/Armature/Body")
 	if is_in_group("civilian"):
@@ -202,8 +204,10 @@ func _physics_process(delta):
 			return
 			
 		if is_in_group("ally"):
-			brain.set_state(brain.STATE_IDLE)
-			return
+			# stay "a step behind" the player
+			brain.target = player.get_global_transform().xform(Vector3(0, 0, -3))
+			#brain.set_state(brain.STATE_IDLE)
+			#return
 		
 		# if we're unarmed, disengage
 		if !is_armed() and in_sight:
@@ -307,64 +311,83 @@ func _physics_process(delta):
 		var body_r = ray.get_collider()
 		#print("Body_r", body_r)
 		if body_r is KinematicBody:
-			# no need to do backdrop detection if player is prone
-			if !possible_tg.get_parent().stance == 2:
-				# assume only player is a possible_tg
-				possible_tg.get_parent().backdrop = null
-				# detect the backdrop
-				var ray2 = $RotationHelper/Area/RayCast2
-				ray2.cast_to = ray.to_local(possible_tg.get_global_transform().origin) *2
-		
-				# Force the raycast to update. This will force the raycast to detect collisions when we call it.
-				# This means we are getting a frame perfect collision check with the 3D world.
-				ray2.force_raycast_update()
-
-				# Did the ray hit something?
-				if ray2.is_colliding():
-					var body_bg = ray2.get_collider()
-					#print(body_bg)
-					if body_bg is StaticBody or body_bg is CSGCombiner:
-						#print("Backdrop is " + str(body_bg.get_parent().get_name()))
-						possible_tg.get_parent().backdrop = body_bg.get_parent().get_name()
-					#else:
-					#	print("No backdrop detected, assuming floor")
-				#else:
-				#	print("No backdrop detected, assuming floor")
-			#else:
-			#	print("Player prone, no backdrop detection")
-			
-			# ----------------------------------
-			# we can see the player because he's not hidden
-			if !possible_tg.get_parent().is_hiding():
-				# if we see an enemy, no longer need to turn to face a shot
-				face_pos = Vector3()
+			if body_r.is_in_group("player"):
+				if possible_tg.get_parent() == body_r:
+					# no need to do backdrop detection if player is prone
+					if !possible_tg.get_parent().stance == 2:
+						# assume only player is a possible_tg
+						possible_tg.get_parent().backdrop = null
+						# detect the backdrop
+						var ray2 = $RotationHelper/Area/RayCast2
+						ray2.cast_to = ray.to_local(possible_tg.get_global_transform().origin) *2
 				
-				# if we see the player for the first time and alarm hasn't been raised
-				if not in_sight and not alarmed and !get_tree().get_nodes_in_group("alarm")[0].get_child(0).alarmed:
-					#print("ALARM!!!")
-					alarmed = true
-					# yellow
-					get_node("RotationHelper/MeshInstance").get_material_override().set_albedo(Color(1,1,0))
-				else:
+						# Force the raycast to update. This will force the raycast to detect collisions when we call it.
+						# This means we are getting a frame perfect collision check with the 3D world.
+						ray2.force_raycast_update()
+
+						# Did the ray hit something?
+						if ray2.is_colliding():
+							var body_bg = ray2.get_collider()
+							#print(body_bg)
+							if body_bg is StaticBody or body_bg is CSGCombiner:
+								#print("Backdrop is " + str(body_bg.get_parent().get_name()))
+								possible_tg.get_parent().backdrop = body_bg.get_parent().get_name()
+							#else:
+							#	print("No backdrop detected, assuming floor")
+						#else:
+						#	print("No backdrop detected, assuming floor")
+					#else:
+					#	print("Player prone, no backdrop detection")
+			
+					# ----------------------------------
+					# we can see the player because he's not hidden
+					if !possible_tg.get_parent().is_hiding():
+						# if we see an enemy, no longer need to turn to face a shot
+						face_pos = Vector3()
+						
+						# if we see the player for the first time and alarm hasn't been raised
+						if not in_sight and not alarmed and !get_tree().get_nodes_in_group("alarm")[0].get_child(0).alarmed:
+							#print("ALARM!!!")
+							alarmed = true
+							# yellow
+							get_node("RotationHelper/MeshInstance").get_material_override().set_albedo(Color(1,1,0))
+						else:
+							# red
+							get_node("RotationHelper/MeshInstance").get_material_override().set_albedo(Color(1,0,0))
+						
+						# look at player
+						look_at(body_r.global_transform.origin, Vector3(0,1,0))
+						# because this looks the opposite way for some reason
+						rotate_y(deg2rad(180))
+						in_sight = true
+					
+					# hidden, can't see
+					else:
+						if not alarmed:
+							# cyan
+							get_node("RotationHelper/MeshInstance").get_material_override().set_albedo(Color(0,1,1))
+						in_sight = false
+						# straighten out
+						set_rotation(Vector3(0,get_rotation().y,0))
+			
+			# kinematic body detected that isn't player 
+			else:
+				# assume it is our possible_tg
+				if body_r == possible_tg:
+					# if we see an enemy, no longer need to turn to face a shot
+					face_pos = Vector3()
+					
 					# red
 					get_node("RotationHelper/MeshInstance").get_material_override().set_albedo(Color(1,0,0))
-				
-				# look at player
-				look_at(body_r.global_transform.origin, Vector3(0,1,0))
-				# because this looks the opposite way for some reason
-				rotate_y(deg2rad(180))
-				in_sight = true
+					
+					
+					# look at target
+					look_at(body_r.global_transform.origin, Vector3(0,1,0))
+					# because this looks the opposite way for some reason
+					rotate_y(deg2rad(180))
+					in_sight = true
 			
-			# hidden, can't see
-			else:
-				if not alarmed:
-					# cyan
-					get_node("RotationHelper/MeshInstance").get_material_override().set_albedo(Color(0,1,1))
-				in_sight = false
-				# straighten out
-				set_rotation(Vector3(0,get_rotation().y,0))
-			
-		# can't see the player
+		# no body detected means can't see the player
 		else:
 			if not alarmed:
 				# white
@@ -498,6 +521,22 @@ func _on_Area_body_exited(body):
 		# straighten out
 		set_rotation(Vector3(0,get_rotation().y,0))
 
+# ally versions
+func _on_Area_body_entered2(body):
+	if !body.is_in_group("ally") and !body.is_in_group("civilian") and body.is_in_group("AI"):
+		possible_tg = body
+		
+	pass # Replace with function body.
+
+func _on_Area_body_exited2(body):
+	if !body.is_in_group("ally") and !body.is_in_group("civilian") and body.is_in_group("AI"):
+		print("Enemy left view")
+		possible_tg = null
+		get_node("RotationHelper/MeshInstance").get_material_override().set_albedo(Color(1,1,1))
+		# straighten out
+		set_rotation(Vector3(0,get_rotation().y,0))
+
+# -------------------------------------------------------
 func _on_Timer_timeout():
 	# haven't seen anyone, go back to normal
 	face_pos = Vector3()
@@ -535,3 +574,4 @@ func _on_wake_timer_timeout():
 	$RotationHelper/Character2/Armature/left_ik.start()
 	
 	unconscious = false
+

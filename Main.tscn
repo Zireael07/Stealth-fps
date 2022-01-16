@@ -373,7 +373,8 @@ transform = Transform( -1, 0, -3.25841e-07, 0, 1, 0, 3.25841e-07, 0, -1, 12.488,
 nav = NodePath("../nav2")
 
 [node name="ally" parent="." instance=ExtResource( 26 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -4.97241, 0.000332832, 11.2953 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.62936, 0.000332832, 11.2953 )
+nav = NodePath("")
 
 [node name="camera" type="Spatial" parent="." groups=["cctv"]]
 transform = Transform( 1, 0, 0, 0, 0.984808, -0.173648, 0, 0.173648, 0.984808, 0, 1.74188, 21.4057 )
