@@ -46,6 +46,8 @@ var thermal = preload("res://assets/thermal_vis_material.tres")
 func _ready():
 	# b/c it's placed in global space
 	get_node("MeshInstance").set_as_toplevel(true)
+	if is_in_group("ally"):
+		get_node("MeshInstance2").set_as_toplevel(true)
 	#get_node("RotationHelper/Character2/Timer").connect("timeout", self, "ragdoll")
 	
 	player = get_tree().get_nodes_in_group("player")[0]
@@ -101,6 +103,8 @@ func is_close_to_target(rang=1):
 	var loc = brain.target
 	if not typeof(brain.target) == TYPE_VECTOR3:
 		loc = to_local(brain.target.get_global_transform().origin)
+	else: 
+		loc = to_local(brain.target)
 	var dist = Vector2(loc.x, loc.z).length()
 	if dist <= rang:
 		ret = true
@@ -206,6 +210,8 @@ func _physics_process(delta):
 		if is_in_group("ally"):
 			# stay "a step behind" the player
 			brain.target = player.get_global_transform().xform(Vector3(0, 0, -3))
+			# debug
+			get_node("MeshInstance2").set_translation(brain.target)
 			#brain.set_state(brain.STATE_IDLE)
 			#return
 		
@@ -253,17 +259,24 @@ func _physics_process(delta):
 			# movement
 			move(delta)
 			
-			if is_close_to_target() and not alarmed and not brain.get_state() == brain.STATE_DISENGAGE:
-				##do we have a next point?
-				if (target_array.size() > current+1):
-					prev = current
-					current = current + 1
-				else:
-					# assume all AI paths are loops for now
-					current = 0
+			if is_in_group("ally"):
+				if is_close_to_target(2):
+					print("Ally close to target")
+					# hack
+					face_pos = player.get_global_transform().origin
+			
+			else:
+				if is_close_to_target() and not alarmed and not brain.get_state() == brain.STATE_DISENGAGE:
+					##do we have a next point?
+					if (target_array.size() > current+1):
+						prev = current
+						current = current + 1
+					else:
+						# assume all AI paths are loops for now
+						current = 0
 
-				# send to brain
-				brain.target = target_array[current]
+					# send to brain
+					brain.target = target_array[current]
 		
 		if alarmed:
 			# yellow
