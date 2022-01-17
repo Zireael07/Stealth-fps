@@ -385,6 +385,6 @@ func iff():
 				player.get_node("Control/Center/Crosshair").set_color(Color(1,0,0))
 				player.get_node("Control/Center/Control").set_self_modulate(Color(1,0,0))
 		else:
-			# we detected something else, default to red (visible on both normal and NV vision)
-			player.get_node("Control/Center/Crosshair").set_color(Color(1,0,0))
-			player.get_node("Control/Center/Control").set_self_modulate(Color(1,0,0))
+			# we detected something else, default to orange (visible on both normal and NV vision)
+			player.get_node("Control/Center/Crosshair").set_color(Color(1,0.5,0))
+			player.get_node("Control/Center/Control").set_self_modulate(Color(1,0.5,0))

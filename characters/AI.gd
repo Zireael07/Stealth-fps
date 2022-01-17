@@ -261,7 +261,7 @@ func _physics_process(delta):
 			
 			if is_in_group("ally"):
 				if is_close_to_target(2):
-					print("Ally close to target")
+					#print("Ally close to target")
 					# hack
 					face_pos = player.get_global_transform().origin
 			
@@ -543,7 +543,7 @@ func _on_Area_body_entered2(body):
 
 func _on_Area_body_exited2(body):
 	if !body.is_in_group("ally") and !body.is_in_group("civilian") and body.is_in_group("AI"):
-		print("Enemy left view")
+		#print("Enemy left view")
 		possible_tg = null
 		get_node("RotationHelper/MeshInstance").get_material_override().set_albedo(Color(1,1,1))
 		# straighten out
