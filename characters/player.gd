@@ -81,14 +81,22 @@ func _ready():
 	
 	state_machine = $RotationHelper/Character/AnimationTree
 	
+	# mission setup
+	get_node("Control/troop selection").show()
+	get_tree().set_pause(true)
+	get_node("Control/scoring").hide()
+
+func game_start(data):
 	# FPS input
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
-	get_node("Control/scoring").hide()
 	
 	# enable IK
 	$RotationHelper/Character/Armature/left_ik.start()
 	$RotationHelper/Character/Armature/rifleik.start()
 	$RotationHelper/Character/Armature/headik.start()
+
+	# set correct ally name
+	get_tree().get_nodes_in_group("ally")[0].set_name(data[0])
 
 func is_gun():
 	return state == RIFLE or state == XBOW

@@ -362,6 +362,7 @@ func iff():
 	# Did the ray hit something?
 	if ray.is_colliding():
 		var body = ray.get_collider()
+		#print("body:", body)
 		if body is KinematicBody:
 			if body.is_in_group("civilian"):
 				# neutral

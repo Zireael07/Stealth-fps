@@ -1,0 +1,95 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://hud/troop select.gd" type="Script" id=1]
+
+[node name="troop selection" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Panel" type="Panel" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="."]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -20.0
+margin_right = 98.0
+margin_bottom = 14.0
+text = "TROOP SELECTION"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = 40.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer"]
+margin_right = 141.0
+margin_bottom = 560.0
+
+[node name="Label" type="Label" parent="HBoxContainer/VBoxContainer"]
+margin_right = 141.0
+margin_bottom = 14.0
+text = "Ana Navarro"
+
+[node name="Label3" type="Label" parent="HBoxContainer/VBoxContainer"]
+margin_top = 18.0
+margin_right = 141.0
+margin_bottom = 32.0
+text = "Small arms: Advanced"
+
+[node name="Label2" type="Label" parent="HBoxContainer/VBoxContainer"]
+margin_top = 36.0
+margin_right = 141.0
+margin_bottom = 50.0
+text = "Stealth: Master"
+
+[node name="Button" type="Button" parent="HBoxContainer/VBoxContainer"]
+pause_mode = 2
+margin_top = 54.0
+margin_right = 141.0
+margin_bottom = 74.0
+text = "SELECT"
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="HBoxContainer"]
+margin_left = 145.0
+margin_right = 319.0
+margin_bottom = 560.0
+
+[node name="Label" type="Label" parent="HBoxContainer/VBoxContainer2"]
+margin_right = 174.0
+margin_bottom = 14.0
+text = "Herman Gunther"
+
+[node name="Label2" type="Label" parent="HBoxContainer/VBoxContainer2"]
+margin_top = 18.0
+margin_right = 174.0
+margin_bottom = 32.0
+text = "Heavy weaponry: Advanced"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label3" type="Label" parent="HBoxContainer/VBoxContainer2"]
+margin_top = 36.0
+margin_right = 174.0
+margin_bottom = 50.0
+text = "Sniper: Advanced"
+
+[node name="Button" type="Button" parent="HBoxContainer/VBoxContainer2"]
+pause_mode = 2
+margin_top = 54.0
+margin_right = 174.0
+margin_bottom = 74.0
+text = "SELECT"

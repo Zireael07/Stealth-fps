@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=2]
+[gd_scene load_steps=16 format=2]
 
 [ext_resource path="res://hud/Crosshair.tscn" type="PackedScene" id=1]
 [ext_resource path="res://assets/pointer.png" type="Texture" id=2]
@@ -6,6 +6,7 @@
 [ext_resource path="res://hud/hud.gd" type="Script" id=4]
 [ext_resource path="res://hud/Inventory.tscn" type="PackedScene" id=5]
 [ext_resource path="res://hud/font.tres" type="DynamicFont" id=6]
+[ext_resource path="res://hud/troop select.tscn" type="PackedScene" id=7]
 
 [sub_resource type="StyleBoxFlat" id=12]
 bg_color = Color( 0, 1, 0.976471, 1 )
@@ -369,5 +370,8 @@ __meta__ = {
 anims/RESET = SubResource( 3 )
 anims/flash = SubResource( 4 )
 anims/gas = SubResource( 10 )
+
+[node name="troop selection" parent="." instance=ExtResource( 7 )]
+visible = false
 
 [connection signal="item_selected" from="UtilityItems/OptionButton" to="." method="_on_OptionButton_item_selected"]
