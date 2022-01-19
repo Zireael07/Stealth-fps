@@ -1,4 +1,4 @@
-[gd_scene load_steps=50 format=2]
+[gd_scene load_steps=51 format=2]
 
 [ext_resource path="res://better_env.tres" type="Environment" id=1]
 [ext_resource path="res://assets/blue.material" type="Material" id=2]
@@ -76,6 +76,9 @@ albedo_color = Color( 0.501961, 0.364706, 0, 1 )
 [sub_resource type="ConvexPolygonShape" id=17]
 points = PoolVector3Array( -1, 1, 0.5, 1, 1, -0.5, 1, 1, 0.5, -1, 1, -0.5, -1, -1, 0.5, 1, -1, -0.5, 1, -1, 0.5, -1, -1, -0.5, 1, 1, 0.5, -1, 1, -0.5, 1, 1, -0.5, -1, 1, 0.5, 1, -1, 0.5, -1, -1, -0.5, 1, -1, -0.5, -1, -1, 0.5, 1, 1, 0.5, -1, -1, 0.5, -1, 1, 0.5, 1, -1, 0.5, 1, 1, -0.5, -1, -1, -0.5, -1, 1, -0.5, 1, -1, -0.5 )
 
+[sub_resource type="CubeMesh" id=24]
+size = Vector3( 5, 2, 1 )
+
 [sub_resource type="BoxShape" id=18]
 
 [sub_resource type="CubeMesh" id=19]
@@ -92,11 +95,11 @@ void fragment() {
 	//ALBEDO = texture(refl_tx, UV).rgb;
 }"
 
-[sub_resource type="ViewportTexture" id=24]
+[sub_resource type="ViewportTexture" id=25]
 
 [sub_resource type="ShaderMaterial" id=22]
 shader = SubResource( 20 )
-shader_param/refl_tx = SubResource( 24 )
+shader_param/refl_tx = SubResource( 25 )
 
 [sub_resource type="QuadMesh" id=23]
 size = Vector2( 1, 0.5 )
@@ -348,6 +351,28 @@ collision_layer = 5
 [node name="CollisionShape" type="CollisionShape" parent="map/target_range/MeshInstance/StaticBody"]
 shape = SubResource( 17 )
 
+[node name="MeshInstance2" type="MeshInstance" parent="map/target_range"]
+transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 1.50174, 0, -1.94541 )
+mesh = SubResource( 24 )
+material/0 = SubResource( 16 )
+
+[node name="StaticBody" type="StaticBody" parent="map/target_range/MeshInstance2"]
+collision_layer = 5
+
+[node name="CollisionShape" type="CollisionShape" parent="map/target_range/MeshInstance2/StaticBody"]
+shape = SubResource( 17 )
+
+[node name="MeshInstance3" type="MeshInstance" parent="map/target_range"]
+transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -1.45589, 0, -1.94541 )
+mesh = SubResource( 24 )
+material/0 = SubResource( 16 )
+
+[node name="StaticBody" type="StaticBody" parent="map/target_range/MeshInstance3"]
+collision_layer = 5
+
+[node name="CollisionShape" type="CollisionShape" parent="map/target_range/MeshInstance3/StaticBody"]
+shape = SubResource( 17 )
+
 [node name="Area" type="Area" parent="map/target_range"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -4.1137 )
 
@@ -373,7 +398,7 @@ transform = Transform( -1, 0, -3.25841e-07, 0, 1, 0, 3.25841e-07, 0, -1, 12.488,
 nav = NodePath("../nav2")
 
 [node name="ally" parent="." instance=ExtResource( 26 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.62936, 0.000332832, 11.2953 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -2.78489, 0.000332832, 10.8948 )
 nav = NodePath("")
 
 [node name="camera" type="Spatial" parent="." groups=["cctv"]]
