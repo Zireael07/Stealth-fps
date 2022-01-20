@@ -298,6 +298,20 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="ToBeat" type="Label" parent="scoring"]
+visible = false
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = 422.0
+margin_top = -265.0
+margin_right = 462.0
+margin_bottom = -251.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="AlertLabel" type="Label" parent="."]
 visible = false
 anchor_left = 0.5
