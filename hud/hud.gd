@@ -13,6 +13,8 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
+	$"bottom_panel/Compass".set_text(get_parent().get_compass_heading())
+	
 	var clr = update_hiding()
 	$HidingRect.color = clr
 	

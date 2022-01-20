@@ -106,6 +106,9 @@ size = Vector2( 1, 0.5 )
 
 [node name="Spatial" type="Spatial" groups=["root"]]
 
+[node name="marker_North" type="Spatial" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 200, 0, 0 )
+
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = ExtResource( 1 )
 

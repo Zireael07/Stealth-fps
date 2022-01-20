@@ -334,8 +334,20 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="bottom_panel" type="Control" parent="."]
+margin_top = 500.0
+margin_right = 40.0
+margin_bottom = 540.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Compass" type="Label" parent="bottom_panel"]
+margin_left = 900.0
+margin_right = 940.0
+margin_bottom = 14.0
+
 [node name="UtilityItems" type="Control" parent="."]
-visible = false
 anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0

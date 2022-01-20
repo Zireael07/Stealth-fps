@@ -727,6 +727,36 @@ func _input(event):
 #			$RotationHelper/Character/Armature/left_ik.start()
 
 # ----------------------------------------------
+func get_compass_heading():
+	# because E and W were easiest to identify (the sun)
+	# this relies on angle to marker
+	var ang_to_dir = {180: "S", -180: "S", 0: "N", 90: "W", -90: "E"}
+
+	# -180 -90 0 90 180 are the possible angles
+	var num_to_dir = {0:"S", 1: "SE", 2:"E", 3: "NE", 4:"N", 5: "NW", 6:"W", 7: "SW", 8:"S"}
+	# map from -180-180 to 0-4
+	var rot = rad2deg(get_heading())
+	var num_mapping = range_lerp(rot, -180, 180, 0, 8)
+	var disp = num_to_dir[int(round(num_mapping))]
+	
+	return disp
+
+func get_heading():
+	var forward_global = get_global_transform().xform(Vector3(0, 0, -2))
+	var forward_vec = forward_global-get_global_transform().origin
+
+	if !has_node("/root/Spatial/marker_North"):
+		return 0
+	
+	var North = get_node("/root/Spatial/marker_North")
+
+	var rel_loc = get_global_transform().xform_inv(North.get_global_transform().origin)
+	#2D angle to target (local coords)
+	var angle = atan2(rel_loc.x, rel_loc.z)
+	#print("Heading: ", rad2deg(angle))
+	return angle
+
+# ----------------------------------------------
 func is_hiding():
 	var hidden = false
 	
