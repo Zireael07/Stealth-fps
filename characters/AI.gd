@@ -37,6 +37,8 @@ var alarmed = false
 
 var face_pos = Vector3()
 var player = null
+var draw = null
+var elapsed_sec = 0
 
 # material
 var camo = preload("res://assets/camo_triplanar_mat.tres")
@@ -67,6 +69,11 @@ func _ready():
 		#brain.target = get_parent().get_node("nav").get_child(0)
 		brain.target = target_array[0]
 	
+	# debug helpers
+	draw = player.get_node("Control/DebugDraw")
+	if is_in_group("ally"):
+		register_debugging_lines()
+	
 	
 	# fake aabb for outlines
 	var debug = $RotationHelper/Character2/Armature/HitBoxTorso/center
@@ -88,10 +95,34 @@ func _ready():
 		pt.global_transform.origin =  point
 
 
+#- ----------------------------
+# debugging
+func register_debugging_lines():
+	if draw != null:
+		var pos = get_global_transform().origin
+		var end = brain.target
+		draw.add_line(self, pos, end, 3, Color(0,0,1)) # blue
+		
+		draw.add_line(self, pos, to_global(Vector3(brain.velocity.x, 0, brain.velocity.y)), 3, Color(1,1,0)) # yellow
+		draw.add_line(self, pos, to_global(Vector3(brain.steer.x, 0, brain.steer.y)), 3, Color(1,0,0)) # red
+		draw.add_line(self, pos, to_global(Vector3(brain.desired.x, 0, brain.desired.y)), 3, Color(1,0,1)) # purple
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-#func _process(delta):
-#	pass
+func _process(delta):
+	#elapsed_sec = elapsed_sec + delta
+#	#if elapsed_sec > 2.0:
+#		if is_in_group("ally"):
+#			register_debugging_lines()
+		if !is_in_group("ally"):
+			return
+			
+		# debugging
+		if get_viewport().get_camera().get_name() == "TopDownCamera":
+			draw.update_line(self, 0, get_global_transform().origin, brain.target)
+			draw.update_line(self, 1, get_global_transform().origin, to_global(Vector3(brain.velocity.x, 0, brain.velocity.y)))
+			draw.update_line(self, 2, get_global_transform().origin, to_global(Vector3(brain.steer.x, 0, brain.steer.y)))
+			draw.update_line(self, 3, get_global_transform().origin, to_global(Vector3(brain.desired.x, 0, brain.desired.y)))
+	#	pass
 
 func dist_to_target():
 	var loc = to_local(brain.target.get_global_transform().origin)

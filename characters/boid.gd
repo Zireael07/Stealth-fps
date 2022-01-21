@@ -68,7 +68,9 @@ func arrive(target, slowing_radius):
 			var tr = to_local(target.get_global_transform().origin)
 			target = Vector2(tr.x, tr.z) #get_global_position())
 	if typeof(target) == TYPE_VECTOR3:
-		target = Vector2(target.x, target.z)
+		# steering behaviors operate in local space
+		var tr = to_local(target)
+		target = Vector2(tr.x, tr.z)
 	
 	var steering = Vector2(0,0)
 	#print("Arrive @: " + str(target) + " " + str(get_translation()))
@@ -103,6 +105,8 @@ func get_steering_flee(target):
 			var tr = to_local(target.get_global_transform().origin)
 			target = Vector2(tr.x, tr.z) #get_global_position())
 	if typeof(target) == TYPE_VECTOR3:
+		# steering behaviors operate in local space
+		var tr = to_local(target)
 		target = Vector2(target.x, target.z)
 		
 	var steering = Vector2(0,0)

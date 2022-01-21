@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=2]
+[gd_scene load_steps=17 format=2]
 
 [ext_resource path="res://hud/Crosshair.tscn" type="PackedScene" id=1]
 [ext_resource path="res://assets/pointer.png" type="Texture" id=2]
@@ -7,6 +7,7 @@
 [ext_resource path="res://hud/Inventory.tscn" type="PackedScene" id=5]
 [ext_resource path="res://hud/font.tres" type="DynamicFont" id=6]
 [ext_resource path="res://hud/troop select.tscn" type="PackedScene" id=7]
+[ext_resource path="res://hud/debugdraw3d.gd" type="Script" id=8]
 
 [sub_resource type="StyleBoxFlat" id=12]
 bg_color = Color( 0, 1, 0.976471, 1 )
@@ -396,6 +397,14 @@ __meta__ = {
 anims/RESET = SubResource( 3 )
 anims/flash = SubResource( 4 )
 anims/gas = SubResource( 10 )
+
+[node name="DebugDraw" type="Control" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 8 )
+__meta__ = {
+"_editor_description_": "Based on http://kidscancode.org/godot_recipes/3d/debug_overlay/"
+}
 
 [node name="troop selection" parent="." instance=ExtResource( 7 )]
 visible = false
