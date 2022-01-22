@@ -97,6 +97,8 @@ func game_start(data):
 
 	# set correct ally name
 	get_tree().get_nodes_in_group("ally")[0].set_name(data[0])
+	get_node("Control/bottom_panel/AllyPanel/ColorRect/Label").set_text(data[0])
+	
 	get_node("Control/scoring/ToBeat").set_text("To Beat: " + data[0] + " 80/100")
 
 func is_gun():
