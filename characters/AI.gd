@@ -43,6 +43,7 @@ var elapsed_sec = 0
 # material
 var camo = preload("res://assets/camo_triplanar_mat.tres")
 var thermal = preload("res://assets/thermal_vis_material.tres")
+var optic_camo = preload("res://assets/optic_camo_material.tres")
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -619,3 +620,7 @@ func _on_wake_timer_timeout():
 	
 	unconscious = false
 
+func optic_camo_effect():
+	var mesh = get_node("RotationHelper/Character2/Armature/Body")
+	mesh.set_surface_material(0, optic_camo)
+	mesh.set_surface_material(1, optic_camo)

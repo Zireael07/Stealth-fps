@@ -101,6 +101,10 @@ func game_start(data):
 	
 	get_node("Control/scoring/ToBeat").set_text("To Beat: " + data[0] + " 80/100")
 
+	# if we picked Ana, she comes with an optic camo
+	if data[0] == "Ana Navarro":
+		get_tree().get_nodes_in_group("ally")[0].optic_camo_effect()
+
 func is_gun():
 	return state == RIFLE or state == XBOW
 

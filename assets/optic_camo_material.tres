@@ -1,0 +1,18 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=2]
+
+[ext_resource path="res://assets/optic_camo_shader.tres" type="Shader" id=1]
+
+[resource]
+shader = ExtResource( 1 )
+shader_param/line_color = Color( 0.14902, 0, 1, 1 )
+shader_param/line_width = 0.003
+shader_param/line_blur = 0.5
+shader_param/line_speed = 0.02
+shader_param/straight_lines = false
+shader_param/interrupt_width = 0.75
+shader_param/interrupt_blur = 0.25
+shader_param/interrupt_speed = 0.2
+shader_param/glow_color = Color( 0.5, 0.75, 1, 1 )
+shader_param/glow_itensity = 4.5
+shader_param/glow_amount = 4.5
+shader_param/flickering = 0.55
