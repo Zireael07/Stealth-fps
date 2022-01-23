@@ -837,3 +837,8 @@ func _on_ActionTimer_timeout():
 	get_node("Control/Center/ActionProgress").hide()
 	_on_action_finished(action)
 	action = null
+
+func on_enemy_seen():
+	get_node("Control/bottom_panel/AllyPanel/ColorRect/radio_indicator").show()
+	get_node("Control/bottom_panel/CommsLabel").set_text("Enemy spotted!")
+	get_node("Control/AnimationPlayer2").play("New Anim")

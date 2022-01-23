@@ -45,6 +45,9 @@ var camo = preload("res://assets/camo_triplanar_mat.tres")
 var thermal = preload("res://assets/thermal_vis_material.tres")
 var optic_camo = preload("res://assets/optic_camo_material.tres")
 
+# allies
+signal enemy_seen
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	# b/c it's placed in global space
@@ -54,6 +57,9 @@ func _ready():
 	#get_node("RotationHelper/Character2/Timer").connect("timeout", self, "ragdoll")
 	
 	player = get_tree().get_nodes_in_group("player")[0]
+	
+	connect("enemy_seen", self, "_on_enemy_seen")
+	connect("enemy_seen", player, "on_enemy_seen")
 	
 	var mesh = get_node("RotationHelper/Character2/Armature/Body")
 	if is_in_group("civilian"):
@@ -431,6 +437,10 @@ func _physics_process(delta):
 					# because this looks the opposite way for some reason
 					rotate_y(deg2rad(180))
 					in_sight = true
+					
+					if not alarmed:
+						emit_signal("enemy_seen")
+						alarmed = true
 			
 		# no body detected means can't see the player
 		else:
@@ -619,6 +629,9 @@ func _on_wake_timer_timeout():
 	$RotationHelper/Character2/Armature/left_ik.start()
 	
 	unconscious = false
+
+func _on_enemy_seen():
+	print("Enemy seen!")
 
 func optic_camo_effect():
 	var mesh = get_node("RotationHelper/Character2/Armature/Body")

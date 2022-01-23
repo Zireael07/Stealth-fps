@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=2]
+[gd_scene load_steps=21 format=2]
 
 [ext_resource path="res://hud/Crosshair.tscn" type="PackedScene" id=1]
 [ext_resource path="res://assets/pointer.png" type="Texture" id=2]
@@ -157,6 +157,61 @@ tracks/1/keys = {
 "transitions": PoolRealArray( 1 ),
 "update": 1,
 "values": [ false ]
+}
+
+[sub_resource type="Animation" id=15]
+resource_name = "New Anim"
+length = 2.0
+tracks/0/type = "value"
+tracks/0/path = NodePath("bottom_panel/AllyPanel/ColorRect/radio_indicator:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 2 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ true, false ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("bottom_panel/CommsLabel:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 2 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ true, false ]
+}
+
+[sub_resource type="Animation" id=16]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("bottom_panel/AllyPanel/ColorRect/radio_indicator:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ false ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("bottom_panel/CommsLabel:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ true ]
 }
 
 [node name="Control" type="Control"]
@@ -400,6 +455,7 @@ __meta__ = {
 }
 
 [node name="radio_indicator" type="ColorRect" parent="bottom_panel/AllyPanel/ColorRect"]
+visible = false
 material = SubResource( 14 )
 margin_left = 70.0
 margin_top = 5.0
@@ -420,6 +476,15 @@ autowrap = true
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="CommsLabel" type="Label" parent="bottom_panel"]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -30.0
+margin_top = -30.0
+margin_right = 10.0
+margin_bottom = -16.0
+rect_scale = Vector2( 1.5, 1.5 )
 
 [node name="UtilityItems" type="Control" parent="."]
 anchor_left = 1.0
@@ -481,5 +546,9 @@ __meta__ = {
 
 [node name="troop selection" parent="." instance=ExtResource( 7 )]
 visible = false
+
+[node name="AnimationPlayer2" type="AnimationPlayer" parent="."]
+"anims/New Anim" = SubResource( 15 )
+anims/RESET = SubResource( 16 )
 
 [connection signal="item_selected" from="UtilityItems/OptionButton" to="." method="_on_OptionButton_item_selected"]
