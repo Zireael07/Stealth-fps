@@ -9,6 +9,7 @@ var contain
 var bak = []
 var start_rect
 
+var avail
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -25,17 +26,18 @@ func _ready():
 		print(c, center(c))
 	
 	# random selection
+	avail = contain.duplicate()
 	randomize()
 	var i = randi() % 3 # between 0 and 3
-	var sel = contain[i]
+	var sel = avail[i]
 
 	# target range
 	get_child(0).set_translation(Vector3(center(sel).x, 0, center(sel).y))
 	
-	contain.remove(i)
+	avail.remove(i)
 	
 	i = randi() % 2
-	sel = contain[i]
+	sel = avail[i]
 	# crates
 	get_child(1).set_translation(Vector3(center(sel).x, 0, center(sel).y))
 	# move the crate nav to match
