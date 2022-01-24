@@ -118,6 +118,11 @@ func _process(delta):
 		else:
 			get_node("Control/inventory").hide()
 			Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+	if Input.is_action_just_pressed("map"):
+		if !get_node("Control/map_screen").visible:
+			get_node("Control/map_screen").show()
+		else:
+			get_node("Control/map_screen").hide()
 
 
 func _physics_process(delta):

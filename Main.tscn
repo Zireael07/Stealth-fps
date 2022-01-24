@@ -1,4 +1,4 @@
-[gd_scene load_steps=51 format=2]
+[gd_scene load_steps=52 format=2]
 
 [ext_resource path="res://better_env.tres" type="Environment" id=1]
 [ext_resource path="res://assets/blue.material" type="Material" id=2]
@@ -26,6 +26,7 @@
 [ext_resource path="res://characters/AI_civillian.tscn" type="PackedScene" id=24]
 [ext_resource path="res://characters/AI_civillian_woman.tscn" type="PackedScene" id=25]
 [ext_resource path="res://characters/AI_ally.tscn" type="PackedScene" id=26]
+[ext_resource path="res://Main.gd" type="Script" id=27]
 
 [sub_resource type="SpatialMaterial" id=1]
 albedo_texture = ExtResource( 10 )
@@ -105,6 +106,7 @@ shader_param/refl_tx = SubResource( 25 )
 size = Vector2( 1, 0.5 )
 
 [node name="Spatial" type="Spatial" groups=["root"]]
+script = ExtResource( 27 )
 
 [node name="marker_North" type="Spatial" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 200, 0, 0 )
