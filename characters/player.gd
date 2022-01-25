@@ -845,5 +845,13 @@ func _on_ActionTimer_timeout():
 
 func on_enemy_seen():
 	get_node("Control/bottom_panel/AllyPanel/ColorRect/radio_indicator").show()
+	get_node("Control/bottom_panel/CommsLabel").show()
 	get_node("Control/bottom_panel/CommsLabel").set_text("Enemy spotted!")
-	get_node("Control/AnimationPlayer2").play("New Anim")
+	
+	yield(get_tree().create_timer(2), "timeout")
+	get_node("Control/bottom_panel/AllyPanel/ColorRect/radio_indicator").hide()
+	get_node("Control/bottom_panel/CommsLabel").hide()
+	
+	# this causes weird flickering of the Alert label
+	#if not get_node("Control/AnimationPlayer2").is_playing(): 
+	#	get_node("Control/AnimationPlayer2").play("New Anim")

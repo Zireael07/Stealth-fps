@@ -316,7 +316,7 @@ func _physics_process(delta):
 					# send to brain
 					brain.target = target_array[current]
 		
-		if alarmed:
+		if alarmed and !is_in_group("ally"):
 			# yellow
 			get_node("RotationHelper/MeshInstance").get_material_override().set_albedo(Color(1,1,0))
 			
