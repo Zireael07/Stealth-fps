@@ -247,7 +247,8 @@ func _physics_process(delta):
 			
 		if is_in_group("ally"):
 			# stay "a step behind" the player
-			brain.target = player.get_global_transform().xform(Vector3(0, 0, -3))
+			# TODO: the x offset could be randomized or depend on direction to obstacles/enemies
+			brain.target = player.get_global_transform().xform(Vector3(1, 0, -3))
 			# debug
 			get_node("MeshInstance2").set_translation(brain.target)
 			#brain.set_state(brain.STATE_IDLE)
@@ -300,8 +301,8 @@ func _physics_process(delta):
 			if is_in_group("ally"):
 				if is_close_to_target(2):
 					#print("Ally close to target")
-					# hack
-					face_pos = player.get_global_transform().origin
+					# face where the player is looking
+					face_pos = player.get_global_transform().xform(Vector3(0, 0, 5))
 			
 			else:
 				if is_close_to_target() and not alarmed and not brain.get_state() == brain.STATE_DISENGAGE:
@@ -336,7 +337,9 @@ func _physics_process(delta):
 		
 	if not possible_tg:
 		in_sight = false
-		#alarmed = false
+		# reset ally's alarmed flag
+		if is_in_group("ally"):
+			alarmed = false
 		return
 	#else:
 	#	print("We have a possible tg!", possible_tg.get_global_transform().origin)
