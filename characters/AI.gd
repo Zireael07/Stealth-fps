@@ -251,7 +251,7 @@ func _physics_process(delta):
 			brain.target = player.get_global_transform().xform(Vector3(1, 0, -3))
 			# debug
 			get_node("MeshInstance2").set_translation(brain.target)
-			#brain.set_state(brain.STATE_IDLE)
+			brain.set_state(brain.STATE_FOLLOW)
 			#return
 		
 		# if we're unarmed, disengage

@@ -8,6 +8,7 @@ var prev_state
 const STATE_PATROL = 1
 const STATE_DISENGAGE = 2
 const STATE_IDLE = 3
+const STATE_FOLLOW = 4
 
 signal state_changed
 
@@ -32,6 +33,8 @@ func set_state(new_state, param=null):
 		state = DisengageState.new(get_parent())
 	if new_state == STATE_IDLE:
 		state = IdleState.new(get_parent())
+	if new_state == STATE_FOLLOW:
+		state = FollowState.new(get_parent())
 	
 	emit_signal("state_changed", self)
 
@@ -42,6 +45,8 @@ func get_state():
 		return STATE_DISENGAGE
 	if state is IdleState:
 		return STATE_IDLE
+	if state is FollowState:
+		return STATE_FOLLOW
 
 # just call the state
 #func _physics_process(delta):
@@ -59,7 +64,7 @@ class PatrolState:
 			return
 			
 		ch.brain.steer = ch.brain.arrive(ch.brain.target, 5)
-	
+		
 		# rotations if any
 		ch.rotate_y(deg2rad(ch.brain.steer.x * ch.STEER_SENSITIVITY))  #* -1))
 
@@ -87,3 +92,21 @@ class IdleState:
 	func update(delta):
 		# dummy
 		ch.brain.target = ch.get_global_transform().origin
+
+class FollowState:
+	var ch # Character
+	
+	func _init(cha):
+		self.ch = cha
+	
+	func update(delta):
+		if not ch.brain or not is_instance_valid(ch.brain):
+			return
+			
+		ch.brain.steer = ch.brain.arrive(ch.brain.target, 3)
+		
+		# don't rotate if we're going backwards
+		var rel_loc = ch.to_local(ch.brain.target)
+		if rel_loc.z > 0:
+			# rotations if any
+			ch.rotate_y(deg2rad(ch.brain.steer.x * ch.STEER_SENSITIVITY))  #* -1))
