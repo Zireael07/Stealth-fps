@@ -149,7 +149,7 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 50, 50, 0, 0 )
 mesh = SubResource( 4 )
 material/0 = null
 
-[node name="MeshInstance2" type="MeshInstance" parent="level"]
+[node name="MeshInstance2" type="MeshInstance" parent="level" groups=["obstacle"]]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 20 )
 material_override = ExtResource( 2 )
 mesh = SubResource( 5 )

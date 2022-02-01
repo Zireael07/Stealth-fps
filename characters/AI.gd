@@ -52,7 +52,7 @@ signal enemy_seen
 func _ready():
 	# b/c it's placed in global space
 	get_node("MeshInstance").set_as_toplevel(true)
-	if is_in_group("ally"):
+	if has_node("MeshInstance2"):
 		get_node("MeshInstance2").set_as_toplevel(true)
 	#get_node("RotationHelper/Character2/Timer").connect("timeout", self, "ragdoll")
 	
@@ -255,9 +255,12 @@ func _physics_process(delta):
 			#return
 		
 		# if we're unarmed, disengage
-		if !is_armed() and in_sight:
+		if !is_armed() and in_sight and possible_tg != null:
 			brain.set_state(brain.STATE_DISENGAGE)
 			brain.target = possible_tg
+			# movement
+			move(delta)
+			return
 		
 		# do we want to rotate? do it!
 		if face_pos and not in_sight:
@@ -634,7 +637,8 @@ func _on_wake_timer_timeout():
 	unconscious = false
 
 func _on_enemy_seen():
-	print("Enemy seen!")
+	pass
+	#print("Enemy seen!")
 
 func optic_camo_effect():
 	var mesh = get_node("RotationHelper/Character2/Armature/Body")
