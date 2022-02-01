@@ -256,8 +256,11 @@ func _physics_process(delta):
 		
 		# if we're unarmed, disengage
 		if !is_armed() and in_sight and possible_tg != null:
-			brain.set_state(brain.STATE_DISENGAGE)
-			brain.target = possible_tg
+			if brain.get_state() != brain.STATE_DISENGAGE:
+				brain.set_state(brain.STATE_DISENGAGE)
+				brain.target = possible_tg
+		
+		if !is_armed() and in_sight: # not in_sight is handled further down
 			# movement
 			move(delta)
 			return

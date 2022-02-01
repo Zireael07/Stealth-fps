@@ -95,16 +95,27 @@ class DisengageState:
 	func update(delta):
 		ch.get_node("MeshInstance2").show()
 		
-		if ch.in_sight and ch.dist_to_target() < 5:
-			#find cover/break line of sight
-			self.closest_hide = 9999
-			self.best_spot = null
-			for o in ch.get_tree().get_nodes_in_group("obstacle"):
-				var hide = get_hiding(o, ch.brain.target)
-				
-				if ch.get_global_transform().origin.distance_to(hide) < self.closest_hide:
-					self.closest_hide = ch.get_global_transform().origin.distance_to(hide)
-					self.best_spot = hide
+		# if we have a hiding spot, go to it
+		if self.closest_hide != 9999:
+			# debug
+			#print("Best spot: ", self.best_spot)
+			ch.get_node("MeshInstance2").set_translation(self.best_spot)
+			
+			# arrive to the spot w/o rotations
+			ch.brain.steer = ch.brain.arrive(self.best_spot, 2)
+		
+		elif ch.in_sight and ch.dist_to_target() < 5:
+			# if we haven't done it yet
+			if self.closest_hide == 9999:
+				#find cover/break line of sight
+				self.closest_hide = 9999
+				self.best_spot = null
+				for o in ch.get_tree().get_nodes_in_group("obstacle"):
+					var hide = get_hiding(o, ch.brain.target)
+					
+					if ch.get_global_transform().origin.distance_to(hide) < self.closest_hide:
+						self.closest_hide = ch.get_global_transform().origin.distance_to(hide)
+						self.best_spot = hide
 			
 			# if no hiding spot found, just flee
 			if self.closest_hide == 9999:
@@ -112,15 +123,15 @@ class DisengageState:
 				ch.brain.steer = ch.brain.get_steering_flee(ch.brain.target)
 			else:
 				# debug
-				print("Best spot: ", self.best_spot)
+				print("Best spot found: ", self.best_spot)
 				ch.get_node("MeshInstance2").set_translation(self.best_spot)
 				
 				# arrive to the spot w/o rotations
 				ch.brain.steer = ch.brain.arrive(self.best_spot, 2)
 
 		else:
-			ch.get_node("MeshInstance2").hide()
-			# no enemy in sight, go back to patrol
+			#ch.get_node("MeshInstance2").hide()
+			# no enemy in sight, no hiding spot, go back to patrol
 			ch.brain.target = ch.target_array[ch.current]
 			ch.brain.set_state(ch.brain.STATE_PATROL)
 
