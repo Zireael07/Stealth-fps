@@ -65,6 +65,8 @@ class PatrolState:
 			
 		ch.brain.steer = ch.brain.arrive(ch.brain.target, 5)
 		
+		ch.strafe = false
+		
 		# rotations if any
 		ch.rotate_y(deg2rad(ch.brain.steer.x * ch.STEER_SENSITIVITY))  #* -1))
 
@@ -103,6 +105,15 @@ class DisengageState:
 			
 			# arrive to the spot w/o rotations
 			ch.brain.steer = ch.brain.arrive(self.best_spot, 2)
+			ch.strafe = true
+			
+			if ch.get_global_transform().origin.distance_to(self.best_spot) < 1.5:
+				print("Reached the hiding spot")
+				# test
+				ch.brain.target = ch.target_array[ch.current]
+				ch.brain.set_state(ch.brain.STATE_PATROL)
+				ch.strafe = false
+				return
 		
 		elif ch.in_sight and ch.dist_to_target() < 5:
 			# if we haven't done it yet
@@ -128,12 +139,14 @@ class DisengageState:
 				
 				# arrive to the spot w/o rotations
 				ch.brain.steer = ch.brain.arrive(self.best_spot, 2)
+				ch.strafe = true
 
 		else:
 			#ch.get_node("MeshInstance2").hide()
 			# no enemy in sight, no hiding spot, go back to patrol
 			ch.brain.target = ch.target_array[ch.current]
 			ch.brain.set_state(ch.brain.STATE_PATROL)
+			ch.strafe = false
 
 class IdleState:
 	var ch

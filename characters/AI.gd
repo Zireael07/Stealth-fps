@@ -28,6 +28,7 @@ const DEACCEL= 4 #10 #16
 const MAX_SLOPE_ANGLE = 40
 
 var STEER_SENSITIVITY = 0.5 #0.05
+var strafe = false
 
 var target_array = []
 var current = 0
@@ -187,7 +188,10 @@ func process_movement(delta):
 	var loc_vel = to_local(global_transform.origin+vel)
 	
 	# x is turning and y is forward/backwards
-	brain.velocity = Vector2(0, loc_vel.z) #vel.length())
+	var _vel_x = 0
+	if strafe:
+		_vel_x = loc_vel.x
+	brain.velocity = Vector2(_vel_x, loc_vel.z) #vel.length())
 	
 	# https://kidscancode.org/godot_recipes/physics/kinematic_to_rigidbody/
 	# after calling move_and_slide()
@@ -214,6 +218,12 @@ func move(delta):
 		input_movement_vector.y += 1
 	if brain.steer.y < 0:
 		input_movement_vector.y += -1
+		
+	if strafe:
+		if brain.steer.x < 0:
+			input_movement_vector.x -= 1
+		if brain.steer.x > 0:
+			input_movement_vector.x += 1
 	#print("input: ", input_movement_vector)
 	
 	# Normalize the input movement vector so we cannot move too fast
@@ -223,6 +233,10 @@ func move(delta):
 	
 	# Basis vectors are already normalized.
 	dir = get_global_transform().basis.z * input_movement_vector.y
+	if strafe:
+		var _dir = dir + get_global_transform().basis.x * input_movement_vector.x
+		dir = Vector3(_dir.x, dir.y, dir.z) 
+		#print("dir after strafe")
 	
 	process_movement(delta)
 
