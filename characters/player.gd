@@ -855,3 +855,11 @@ func on_enemy_seen():
 	# this causes weird flickering of the Alert label
 	#if not get_node("Control/AnimationPlayer2").is_playing(): 
 	#	get_node("Control/AnimationPlayer2").play("New Anim")
+
+func _on_emit_bark(who, msg):
+	print("Bark emitted: ", msg)
+	get_node("Control/bottom_panel/AIBarksPanel").show()
+	get_node("Control/bottom_panel/AIBarksPanel/Label").set_text(msg)
+	
+	yield(get_tree().create_timer(2), "timeout")
+	get_node("Control/bottom_panel/AIBarksPanel").hide()

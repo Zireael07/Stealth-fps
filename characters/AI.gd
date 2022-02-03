@@ -46,6 +46,8 @@ var camo = preload("res://assets/camo_triplanar_mat.tres")
 var thermal = preload("res://assets/thermal_vis_material.tres")
 var optic_camo = preload("res://assets/optic_camo_material.tres")
 
+signal emit_bark
+
 # allies
 signal enemy_seen
 
@@ -59,6 +61,7 @@ func _ready():
 	
 	player = get_tree().get_nodes_in_group("player")[0]
 	
+	connect("emit_bark", player, "_on_emit_bark")
 	connect("enemy_seen", self, "_on_enemy_seen")
 	connect("enemy_seen", player, "on_enemy_seen")
 	
@@ -271,13 +274,13 @@ func _physics_process(delta):
 		# if we're unarmed, disengage
 		if !is_armed() and in_sight and possible_tg != null:
 			if brain.get_state() != brain.STATE_DISENGAGE:
+				emit_signal("emit_bark", self, "Discretion is the better part of valor!")
 				brain.set_state(brain.STATE_DISENGAGE)
 				brain.target = possible_tg
 		
 		if !is_armed() and in_sight: # not in_sight is handled further down
 			# movement
 			move(delta)
-			return
 		
 		# do we want to rotate? do it!
 		if face_pos and not in_sight:

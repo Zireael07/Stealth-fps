@@ -108,7 +108,8 @@ class DisengageState:
 			ch.strafe = true
 			
 			if ch.get_global_transform().origin.distance_to(self.best_spot) < 1.5:
-				print("Reached the hiding spot")
+				#print("Reached the hiding spot")
+				ch.emit_signal("emit_bark", ch, "Now you can't see me!")
 				# test
 				ch.brain.target = ch.target_array[ch.current]
 				ch.brain.set_state(ch.brain.STATE_PATROL)
