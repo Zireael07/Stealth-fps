@@ -12,6 +12,13 @@ const STATE_FOLLOW = 4
 
 signal state_changed
 
+# human-readable states
+var pretty_states = {
+	1 : "patrol",
+	2 : "disengage",
+	3 : "idle",
+	4 : "following",
+}
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -107,7 +114,7 @@ class DisengageState:
 			ch.brain.steer = ch.brain.arrive(self.best_spot, 2)
 			ch.strafe = true
 			
-			if ch.get_global_transform().origin.distance_to(self.best_spot) < 1.5:
+			if ch.get_global_transform().origin.distance_to(Vector3(self.best_spot.x, 0, self.best_spot.z)) < 1.5:
 				#print("Reached the hiding spot")
 				ch.emit_signal("emit_bark", ch, "Now you can't see me!")
 				# test
@@ -142,12 +149,18 @@ class DisengageState:
 				ch.brain.steer = ch.brain.arrive(self.best_spot, 2)
 				ch.strafe = true
 
+		elif ch.in_sight:
+			print("Player in sight, be wary...")
+			ch.strafe = true
+			ch.brain.steer = Vector2(0,0.2)
+			#ch.brain.steer = ch.brain.get_steering_arrive(get_global_position().origin-Vector3(0,0,1))
 		else:
-			#ch.get_node("MeshInstance2").hide()
+			ch.get_node("MeshInstance2").hide()
 			# no enemy in sight, no hiding spot, go back to patrol
 			ch.brain.target = ch.target_array[ch.current]
 			ch.brain.set_state(ch.brain.STATE_PATROL)
 			ch.strafe = false
+			ch.emit_signal("emit_bark", ch, "Can't see the guy! Going back to my patrol...")
 
 class IdleState:
 	var ch

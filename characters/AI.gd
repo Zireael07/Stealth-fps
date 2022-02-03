@@ -273,10 +273,12 @@ func _physics_process(delta):
 		
 		# if we're unarmed, disengage
 		if !is_armed() and in_sight and possible_tg != null:
+			#print(get_name() + " state is: " + str(brain.pretty_states[brain.get_state()]))
 			if brain.get_state() != brain.STATE_DISENGAGE:
 				emit_signal("emit_bark", self, "Discretion is the better part of valor!")
 				brain.set_state(brain.STATE_DISENGAGE)
 				brain.target = possible_tg
+				return
 		
 		if !is_armed() and in_sight: # not in_sight is handled further down
 			# movement
