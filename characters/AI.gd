@@ -216,17 +216,25 @@ func move(delta):
 	
 	# Create a vector for storing input
 	var input_movement_vector = Vector2()
-	# steer y means forward/backwards
-	if brain.steer.y > 0:
-		input_movement_vector.y += 1
-	if brain.steer.y < 0:
-		input_movement_vector.y += -1
+	if not strafe:
+		# steer y means forward/backwards
+		if brain.steer.y > 0:
+			input_movement_vector.y += 1
+		if brain.steer.y < 0:
+			input_movement_vector.y += -1
 		
 	if strafe:
+		# actual movement
 		if brain.steer.x < 0:
-			input_movement_vector.x -= 1
+			input_movement_vector.x -= clamp(abs(brain.steer.x), 0, 1)
 		if brain.steer.x > 0:
-			input_movement_vector.x += 1
+			input_movement_vector.x += clamp(abs(brain.steer.x), 0, 1)
+		
+		if brain.steer.y > 0:
+			input_movement_vector.y += clamp(abs(brain.steer.y), 0, 1)
+		if brain.steer.y < 0:
+			input_movement_vector.y += -clamp(abs(brain.steer.y), 0, 1)
+			
 	#print("input: ", input_movement_vector)
 	
 	# Normalize the input movement vector so we cannot move too fast
