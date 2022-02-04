@@ -81,6 +81,7 @@ class DisengageState:
 	var ch
 	var closest_hide
 	var best_spot
+	var enemy
 	
 	func _init(cha):
 		self.ch = cha
@@ -123,14 +124,16 @@ class DisengageState:
 				ch.strafe = false
 				return
 		
+		#TODO: the minimum distance needs some noise and/or parameter
 		elif ch.in_sight and ch.dist_to_target() < 5:
+			self.enemy = ch.possible_tg
 			# if we haven't done it yet
 			if self.closest_hide == 9999:
 				#find cover/break line of sight
 				self.closest_hide = 9999
 				self.best_spot = null
 				for o in ch.get_tree().get_nodes_in_group("obstacle"):
-					var hide = get_hiding(o, ch.brain.target)
+					var hide = get_hiding(o, self.enemy)
 					
 					if ch.get_global_transform().origin.distance_to(hide) < self.closest_hide:
 						self.closest_hide = ch.get_global_transform().origin.distance_to(hide)
