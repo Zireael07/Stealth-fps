@@ -38,6 +38,10 @@ func seek(target):
 			# steering behaviors operate in local space
 			var tr = to_local(target.get_global_transform().origin)
 			target = Vector2(tr.x, tr.z) #get_global_position())
+	if typeof(target) == TYPE_VECTOR3:
+		# steering behaviors operate in local space
+		var tr = to_local(target)
+		target = Vector2(tr.x, tr.z)
 	
 #	print("tg: " + str(target))
 #	print("position: " + str(get_global_position()))

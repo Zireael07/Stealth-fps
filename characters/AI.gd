@@ -20,9 +20,10 @@ const GRAVITY = -24.8
 var vel = Vector3()
 const MAX_SPEED = 2 #10 #20 # in m/s - 4 m/s is a human walking speed
 const JUMP_SPEED = 18
-const ACCEL = 1 #4 #4.5
+const ACCEL = 2 #4 #4.5
 
 var dir = Vector3()
+var prev_dirs = []
 var _brain_st = Vector2()
 
 const DEACCEL= 4 #10 #16
@@ -194,7 +195,31 @@ func process_movement(delta):
 	# Set our velocity to a new variable (hvel) and remove the Y velocity.
 	var hvel = vel
 	hvel.y = 0
+	
+	# hackfix for getting stuck
+	# keep a rolling window of previous three steers
+	# inspired by https://markdownpastebin.com/?id=d9d61e67f9d64db2bd215f165b931449 which uses something similar for on_floor()
+	if prev_dirs.size() < 3:
+		prev_dirs.append(dir)
+	else:
+		# remove the first entry
+		prev_dirs.remove(0)
+		prev_dirs.append(dir)
+	
+	# check
+	var flipping = false
+	if prev_dirs.size() == 3:
+		flipping = prev_dirs[0].dot(prev_dirs[1]) < 0 and prev_dirs[1].dot(prev_dirs[2]) < 0
+		if flipping:
+			#print("Flipping!")
+			if chosen_dir == Vector3.ZERO:
+				# fix? take the middle one
+				dir = prev_dirs[1] 
+#			else:
+#				# if we have a chosen_dir, we want to avoid obstacles... so it's most important
+#				dir = chosen_dir
 
+	# determine where we want to go
 	var target = dir
 	target *= MAX_SPEED
 
@@ -205,10 +230,18 @@ func process_movement(delta):
 		accel = ACCEL
 	else:
 		accel = DEACCEL
-	#print("Accel, ", accel)
+		#print("Accel, ", accel)
+	
+	if flipping:
+		accel = DEACCEL*2
+		
 	# Interpolate our velocity (without gravity), and then move using move_and_slide
 	hvel = hvel.linear_interpolate(target, accel * delta)
 	#print("Interp: ", accel*delta)
+	# Boost for very low speeds
+	if hvel.length() < 0.5:
+		hvel = hvel*1.25
+	
 	vel.x = hvel.x 
 	#vel.x = 0 # eliminate drift since AI can't strafe
 	vel.z = hvel.z
