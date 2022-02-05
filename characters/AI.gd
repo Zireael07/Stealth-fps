@@ -23,6 +23,7 @@ const JUMP_SPEED = 18
 const ACCEL = 1 #4 #4.5
 
 var dir = Vector3()
+var _brain_st = Vector2()
 
 const DEACCEL= 4 #10 #16
 const MAX_SLOPE_ANGLE = 40
@@ -40,6 +41,13 @@ var face_pos = Vector3()
 var player = null
 var draw = null
 var elapsed_sec = 0
+
+# context steering
+export var num_rays = 16
+var interest = []
+var danger = []
+var chosen_dir = Vector3.ZERO
+var context_has_danger = false
 
 # material
 var camo = preload("res://assets/camo_triplanar_mat.tres")
@@ -64,6 +72,11 @@ func _ready():
 	connect("emit_bark", player, "_on_emit_bark")
 	connect("enemy_seen", self, "_on_enemy_seen")
 	connect("enemy_seen", player, "on_enemy_seen")
+	
+	# context steering
+	interest.resize(num_rays)
+	danger.resize(num_rays)
+	add_rays()
 	
 	var mesh = get_node("RotationHelper/Character2/Armature/Body")
 	if is_in_group("civilian"):
@@ -107,6 +120,23 @@ func _ready():
 
 
 #- ----------------------------
+func add_rays():
+	var angle = 2 * PI / num_rays
+	for i in num_rays:
+		var r = RayCast.new()
+		$ContextRays.add_child(r)
+		if i == 0 or i == 1 or i == num_rays-1:
+			r.cast_to = Vector3.FORWARD * 1
+		else:
+			r.cast_to = Vector3.FORWARD * 1
+		r.rotation.y = -angle * i
+		r.add_exception(self)
+		r.enabled = true
+		# debug
+		#rays[i] = (r.cast_to.normalized()*4).rotated(Vector3(0,1,0), r.rotation.y)
+	#forward_ray = $ContextRays.get_child(0)
+
+
 # debugging
 func register_debugging_lines():
 	if draw != null:
@@ -135,6 +165,7 @@ func _process(delta):
 			draw.update_line(self, 3, get_global_transform().origin, to_global(Vector3(brain.desired.x, 0, brain.desired.y)))
 	#	pass
 
+# ---------------------------------------------
 func dist_to_target():
 	var loc = to_local(brain.target.get_global_transform().origin)
 	var dist = Vector2(loc.x, loc.z).length()
@@ -206,8 +237,29 @@ func process_movement(delta):
 func move(delta):
 	# state sets the steer/rotations used below
 	brain.state.update(delta)
-	#brain.steer = brain.arrive(brain.target, 5)
+	_brain_st = brain.steer
 	
+	# context steering
+	context_has_danger = false
+	chosen_dir = Vector3.ZERO
+	set_danger()
+	# only do stuff if we need to (if we detected danger)
+	if context_has_danger:
+		set_interest()
+		merge_direction()
+		choose_direction()
+		
+		#debug
+		#get_node("MeshInstance").set_translation(global_transform.origin+Vector3(chosen_dir.x, 0, chosen_dir.z))
+		
+		#print("Steer: ", brain.steer, ", chosen_dir: ", chosen_dir)
+		# chosen_dir is GLOBAL!!!
+		brain.steer = brain.seek(global_transform.origin + Vector3(chosen_dir.x, 0, chosen_dir.z))
+		# chosen_dir is our desired vel then
+		#brain.steer = ((Vector2(chosen_dir.x, chosen_dir.z)*MAX_SPEED)-brain.velocity).clamped(brain.MAX_FORCE)
+		#print("Steer post adjustment ", brain.steer)
+	
+	#brain.steer = brain.arrive(brain.target, 5)
 	# rotations if any
 	#self.rotate_y(deg2rad(brain.steer.x * STEER_SENSITIVITY))  #* -1))
 	
@@ -251,7 +303,80 @@ func move(delta):
 	
 	process_movement(delta)
 
+# ------------------------------------------------------------
+# based on Kidscancode's https://kidscancode.org/godot_recipes/ai/context_map/
+func set_interest():
+	# Go forward unless we have somewhere to steer
+	var path_direction = transform.basis.z
+	
+	# see line 313
+	if _brain_st != Vector2.ZERO:
+		# convert steer to global direction
+		# Basis vectors are already normalized.
+		var global_steer_dir = get_global_transform().basis.z * _brain_st.y
+		if strafe:
+			global_steer_dir += get_global_transform().basis.x * _brain_st.x
+			
+		path_direction = global_steer_dir
+		
+		#path_direction = to_local(global_transform.origin+Vector3(brain.steer.x, 0, brain.steer.y))
+		get_node("MeshInstance2").set_translation(global_transform.origin+path_direction)
+		#path_direction = brain.steer.normalized()
+		#path_direction = steer.normalized()
+		
+	for i in num_rays:
+		var d = -$ContextRays.get_child(i).global_transform.basis.z
+		d = d.dot(path_direction)
+		interest[i] = max(0, d)
 
+
+func set_danger():
+	for i in num_rays:
+		var ray = $ContextRays.get_child(i)
+		danger[i] = 1.0 if ray.is_colliding() else 0.0
+		if danger[i] > 0.0:
+			context_has_danger = true
+
+func merge_direction():
+	for i in num_rays:
+		if danger[i] > 0.0:
+			# danger "poisons" neighboring directions
+			if i-1 > 0:
+				interest[i-1] = 0.05
+			if i+1 < num_rays:
+				interest[i+1] = 0.05
+			
+			# zero any interest in dangerous directions
+			interest[i] = 0.0
+			
+			# front rays add interest to the side
+			if i == 0 or i == 1 or i == 2:
+				# x-(x/4) is to the left
+				# adding means we won't get stuck if all or most front rays encounter something
+				interest[num_rays-(num_rays/4)] += 2.0*danger[i]
+			if i == num_rays-1 or i == num_rays-2:
+				# num_rays/4 is to the right
+				# see above
+				interest[num_rays/4] += 2.0*danger[i]
+				
+				
+			
+			# add interest in opposite direction
+			if i < num_rays/2:
+				interest[i+num_rays/2] = 5
+			else:
+				interest[i-num_rays/2] = 5
+			
+			
+func choose_direction():
+	chosen_dir = Vector3.ZERO
+	for i in num_rays:
+		# this is GLOBAL!!!!
+		chosen_dir += -$ContextRays.get_child(i).global_transform.basis.z * interest[i]
+	chosen_dir = chosen_dir.normalized()
+
+# ------------------------------------------------
+# this is where most of the AI action takes place
 func _physics_process(delta):	
 	if not carried and (dead or unconscious):
 		# attempt to sync collision with ragdoll
