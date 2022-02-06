@@ -397,6 +397,7 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.580302, 1.05686, 16.3546 )
 
 [node name="AI" parent="." instance=ExtResource( 7 )]
 transform = Transform( -1, 0, -3.25841e-07, 0, 1, 0, 3.25841e-07, 0, -1, 0, 0, 24.861 )
+debug = true
 
 [node name="AI2" parent="." instance=ExtResource( 7 )]
 transform = Transform( -1, 0, -3.25841e-07, 0, 1, 0, 3.25841e-07, 0, -1, 12.488, 0, 22.0317 )

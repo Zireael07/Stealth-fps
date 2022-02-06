@@ -60,6 +60,8 @@ signal emit_bark
 # allies
 signal enemy_seen
 
+export var debug = false
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	# b/c it's placed in global space
@@ -96,15 +98,15 @@ func _ready():
 	
 	# debug helpers
 	draw = player.get_node("Control/DebugDraw")
-	if is_in_group("ally"):
+	if debug:
 		register_debugging_lines()
 	
 	
 	# fake aabb for outlines
-	var debug = $RotationHelper/Character2/Armature/HitBoxTorso/center
+	var aabb_center = $RotationHelper/Character2/Armature/HitBoxTorso/center
 	var scale = Vector3(1,1,1)
 	if is_in_group("civilian"):
-		debug = $"RotationHelper/model/Position3D"
+		aabb_center = $"RotationHelper/model/Position3D"
 		scale = Vector3(0.35, 0.35, 0.35)
 	
 	for i in range(7):
@@ -116,7 +118,7 @@ func _ready():
 		#msh.size = Vector3(0.25, 0.25, 0.25)
 		#var pt = MeshInstance.new()
 		#pt.set_mesh(msh)
-		debug.add_child(pt)
+		aabb_center.add_child(pt)
 		pt.global_transform.origin =  point
 
 
@@ -155,12 +157,16 @@ func _process(delta):
 #	#if elapsed_sec > 2.0:
 #		if is_in_group("ally"):
 #			register_debugging_lines()
-		if !is_in_group("ally"):
+		if !debug:
 			return
+			
+		var _tg = brain.target
+		if not typeof(brain.target) == TYPE_VECTOR3:
+			_tg = brain.target.global_transform.origin
 			
 		# debugging
 		if get_viewport().get_camera().get_name() == "TopDownCamera":
-			draw.update_line(self, 0, get_global_transform().origin, brain.target)
+			draw.update_line(self, 0, get_global_transform().origin, _tg)
 			draw.update_line(self, 1, get_global_transform().origin, to_global(Vector3(brain.velocity.x, 0, brain.velocity.y)))
 			draw.update_line(self, 2, get_global_transform().origin, to_global(Vector3(brain.steer.x, 0, brain.steer.y)))
 			draw.update_line(self, 3, get_global_transform().origin, to_global(Vector3(brain.desired.x, 0, brain.desired.y)))
@@ -237,7 +243,7 @@ func process_movement(delta):
 		
 	# Interpolate our velocity (without gravity), and then move using move_and_slide
 	hvel = hvel.linear_interpolate(target, accel * delta)
-	#print("Interp: ", accel*delta)
+	#if debug: print("Interp: ", accel*delta)
 	# Boost for very low speeds
 	if hvel.length() < 0.5:
 		hvel = hvel*1.25
@@ -247,7 +253,7 @@ func process_movement(delta):
 	vel.z = hvel.z
 	# infinite inertia is now false for better physics when colliding with objects
 	vel = move_and_slide(vel, Vector3(0, 1, 0), 0.05, 4, deg2rad(MAX_SLOPE_ANGLE), false)
-	#print("V: ", vel, " sp: ", vel.length())
+	#if debug: print("V: ", vel, " sp: ", vel.length())
 	
 	# debug
 	get_node("MeshInstance").set_translation(global_transform.origin+Vector3(vel.x, 0, vel.z))
@@ -268,6 +274,7 @@ func process_movement(delta):
 			collision.collider.apply_central_impulse(-collision.normal * 2)
 
 func move(delta):
+	#if debug: print("Moving!")
 	# state sets the steer/rotations used below
 	brain.state.update(delta)
 	_brain_st = brain.steer
@@ -288,8 +295,6 @@ func move(delta):
 		#print("Steer: ", brain.steer, ", chosen_dir: ", chosen_dir)
 		# chosen_dir is GLOBAL!!!
 		brain.steer = brain.seek(global_transform.origin + Vector3(chosen_dir.x, 0, chosen_dir.z))
-		# chosen_dir is our desired vel then
-		#brain.steer = ((Vector2(chosen_dir.x, chosen_dir.z)*MAX_SPEED)-brain.velocity).clamped(brain.MAX_FORCE)
 		#print("Steer post adjustment ", brain.steer)
 	
 	#brain.steer = brain.arrive(brain.target, 5)
@@ -353,10 +358,7 @@ func set_interest():
 			
 		path_direction = global_steer_dir
 		
-		#path_direction = to_local(global_transform.origin+Vector3(brain.steer.x, 0, brain.steer.y))
-		get_node("MeshInstance2").set_translation(global_transform.origin+path_direction)
-		#path_direction = brain.steer.normalized()
-		#path_direction = steer.normalized()
+		#get_node("MeshInstance2").set_translation(global_transform.origin+path_direction)
 		
 	for i in num_rays:
 		var d = -$ContextRays.get_child(i).global_transform.basis.z
@@ -517,6 +519,12 @@ func _physics_process(delta):
 		else:
 			#white
 			get_node("RotationHelper/MeshInstance").get_material_override().set_albedo(Color(1,1,1))
+	
+	# debug
+	if typeof(brain.target) == TYPE_VECTOR3:
+		get_node("MeshInstance2").set_translation(brain.target)
+	else:
+		get_node("MeshInstance2").set_translation(brain.target.get_global_transform().origin)
 		
 	if not possible_tg:
 		in_sight = false
