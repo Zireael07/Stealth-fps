@@ -9,6 +9,7 @@ const STATE_PATROL = 1
 const STATE_DISENGAGE = 2
 const STATE_IDLE = 3
 const STATE_FOLLOW = 4
+const STATE_ALARMED = 5
 
 signal state_changed
 
@@ -18,6 +19,7 @@ var pretty_states = {
 	2 : "disengage",
 	3 : "idle",
 	4 : "following",
+	5 : "alarmed",
 }
 
 # Called when the node enters the scene tree for the first time.
@@ -42,6 +44,8 @@ func set_state(new_state, param=null):
 		state = IdleState.new(get_parent())
 	if new_state == STATE_FOLLOW:
 		state = FollowState.new(get_parent())
+	if new_state == STATE_ALARMED:
+		state = AlarmedState.new(get_parent())
 	
 	emit_signal("state_changed", self)
 
@@ -54,6 +58,8 @@ func get_state():
 		return STATE_IDLE
 	if state is FollowState:
 		return STATE_FOLLOW
+	if state is AlarmedState:
+		return STATE_ALARMED
 
 # just call the state
 #func _physics_process(delta):
@@ -103,13 +109,13 @@ class DisengageState:
 	
 		
 	func update(delta):
-		ch.get_node("MeshInstance2").show()
+		#ch.get_node("MeshInstance2").show()
 		
 		# if we have a hiding spot, go to it
 		if self.closest_hide != 9999:
 			# debug
 			#print("Best spot: ", self.best_spot)
-			ch.get_node("MeshInstance2").set_translation(self.best_spot)
+			#ch.get_node("MeshInstance2").set_translation(self.best_spot)
 			
 			# arrive to the spot w/o rotations
 			ch.brain.steer = ch.brain.arrive(self.best_spot, 2)
@@ -145,20 +151,20 @@ class DisengageState:
 				ch.brain.steer = ch.brain.get_steering_flee(ch.brain.target)
 			else:
 				# debug
-				print("Best spot found: ", self.best_spot)
-				ch.get_node("MeshInstance2").set_translation(self.best_spot)
+				#print("Best spot found: ", self.best_spot)
+				#ch.get_node("MeshInstance2").set_translation(self.best_spot)
 				
 				# arrive to the spot w/o rotations
 				ch.brain.steer = ch.brain.arrive(self.best_spot, 2)
 				ch.strafe = true
 
 		elif ch.in_sight:
-			print("Player in sight, be wary...")
+			#print("Player in sight, be wary...")
 			ch.strafe = true
 			ch.brain.steer = Vector2(0,0.2)
 			#ch.brain.steer = ch.brain.get_steering_arrive(get_global_position().origin-Vector3(0,0,1))
 		else:
-			ch.get_node("MeshInstance2").hide()
+			#ch.get_node("MeshInstance2").hide()
 			# no enemy in sight, no hiding spot, go back to patrol
 			ch.brain.target = ch.target_array[ch.current]
 			ch.brain.set_state(ch.brain.STATE_PATROL)
@@ -192,3 +198,31 @@ class FollowState:
 		if rel_loc.z > 0:
 			# rotations if any
 			ch.rotate_y(deg2rad(ch.brain.steer.x * ch.STEER_SENSITIVITY))  #* -1))
+
+class AlarmedState:
+	var ch
+	
+	func _init(cha):
+		self.ch = cha
+	
+	func update(delta):
+		# yellow indicator
+		ch.get_node("RotationHelper/MeshInstance").get_material_override().set_albedo(Color(1,1,0))
+		
+		ch.brain.steer = ch.brain.arrive(ch.brain.target, 3)
+		ch.strafe = false
+		
+		# rotations if any
+		ch.rotate_y(deg2rad(ch.brain.steer.x * ch.STEER_SENSITIVITY))  #* -1))
+		
+		
+		if ch.is_close_to_target(1.5):
+			print("Reached button")
+			#interact with it
+			ch.get_tree().get_nodes_in_group("alarm")[0].get_child(0)._on_interact()
+
+			emit_signal("emit_bark", self, "Alarm raised! Going back to patrol...")
+			ch.brain.target = ch.target_array[ch.current]
+			ch.brain.set_state(ch.brain.STATE_PATROL)
+			ch.strafe = false
+			

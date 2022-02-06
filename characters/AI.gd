@@ -296,7 +296,8 @@ func move(delta):
 	# rotations if any
 	#self.rotate_y(deg2rad(brain.steer.x * STEER_SENSITIVITY))  #* -1))
 	
-	# Reset dir, so our previous movement does not effect us
+	
+	# Reset dir, so our previous movement does not affect us
 	dir = Vector3()
 	
 	# Create a vector for storing input
@@ -446,6 +447,8 @@ func _physics_process(delta):
 				brain.target = possible_tg
 				return
 		
+		# AI behaviors start here
+		# TODO: move some/most of this to brain.gd?
 		if !is_armed() and in_sight: # not in_sight is handled further down
 			# movement
 			move(delta)
@@ -496,7 +499,7 @@ func _physics_process(delta):
 					face_pos = player.get_global_transform().xform(Vector3(0, 0, 5))
 			
 			else:
-				if is_close_to_target() and not alarmed and not brain.get_state() == brain.STATE_DISENGAGE:
+				if is_close_to_target() and not brain.get_state() == brain.STATE_ALARMED and not brain.get_state() == brain.STATE_DISENGAGE:
 					##do we have a next point?
 					if (target_array.size() > current+1):
 						prev = current
@@ -508,20 +511,9 @@ func _physics_process(delta):
 					# send to brain
 					brain.target = target_array[current]
 		
-		if alarmed and !is_in_group("ally"):
-			# yellow
-			get_node("RotationHelper/MeshInstance").get_material_override().set_albedo(Color(1,1,0))
-			
-			brain.target = get_tree().get_nodes_in_group("alarm")[0]
-			#print("Brain tg is alarm")
-			
+		if brain.get_state() == brain.STATE_ALARMED and !is_in_group("ally"):
 			move(delta)
 			
-			if is_close_to_target(1.5):
-				print("Reached button")
-				#interact with it
-				get_tree().get_nodes_in_group("alarm")[0].get_child(0)._on_interact()
-				alarmed = false
 		else:
 			#white
 			get_node("RotationHelper/MeshInstance").get_material_override().set_albedo(Color(1,1,1))
@@ -591,24 +583,30 @@ func _physics_process(delta):
 						face_pos = Vector3()
 						
 						# if we see the player for the first time and alarm hasn't been raised
-						if not in_sight and not alarmed and !get_tree().get_nodes_in_group("alarm")[0].get_child(0).alarmed:
-							#print("ALARM!!!")
+						if not in_sight and !get_tree().get_nodes_in_group("alarm")[0].get_child(0).alarmed \
+						and not alarmed:
+							brain.set_state(brain.STATE_ALARMED)
+							brain.target = get_tree().get_nodes_in_group("alarm")[0]
+							print("ALARM!!!")
+							# AI can only be alarmed by you once
 							alarmed = true
+							emit_signal("emit_bark", self, "Raising an alarm!")
 							# yellow
 							get_node("RotationHelper/MeshInstance").get_material_override().set_albedo(Color(1,1,0))
 						else:
-							# red
-							get_node("RotationHelper/MeshInstance").get_material_override().set_albedo(Color(1,0,0))
-						
-						# look at player
-						look_at(body_r.global_transform.origin, Vector3(0,1,0))
-						# because this looks the opposite way for some reason
-						rotate_y(deg2rad(180))
-						in_sight = true
+							if not brain.get_state() == brain.STATE_ALARMED:
+								# red
+								get_node("RotationHelper/MeshInstance").get_material_override().set_albedo(Color(1,0,0))
+							
+								# look at player
+								look_at(body_r.global_transform.origin, Vector3(0,1,0))
+								# because this looks the opposite way for some reason
+								rotate_y(deg2rad(180))
+								in_sight = true
 					
 					# hidden, can't see
 					else:
-						if not alarmed:
+						if not brain.get_state() == brain.STATE_ALARMED:
 							# cyan
 							get_node("RotationHelper/MeshInstance").get_material_override().set_albedo(Color(0,1,1))
 						in_sight = false
@@ -638,12 +636,13 @@ func _physics_process(delta):
 			
 		# no body detected means can't see the player
 		else:
-			if not alarmed:
+			if not brain.get_state() == brain.STATE_ALARMED:
 				# white
 				get_node("RotationHelper/MeshInstance").get_material_override().set_albedo(Color(1,1,1))
 			in_sight = false
 			# straighten out
 			set_rotation(Vector3(0,get_rotation().y,0))
+
 
 func ragdoll(knock):
 	var rot = deg2rad(-90)
