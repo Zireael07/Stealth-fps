@@ -123,6 +123,11 @@ func _process(delta):
 			get_node("Control/map_screen").show()
 		else:
 			get_node("Control/map_screen").hide()
+	if Input.is_action_just_pressed("topdown"):
+		var top_down = get_tree().get_nodes_in_group("root")[0].get_node("TopDownCamera")
+		top_down.set_current(!top_down.is_current())
+		if !top_down.is_current():
+			camera.set_current(true)
 
 
 func _physics_process(delta):
