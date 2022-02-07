@@ -258,7 +258,11 @@ func detect_interactable():
 		# dead AIs
 		# TODO: clean this messy line up!
 		if body is PhysicalBone:
-			var character = body.get_node("../../../..") 
+			var character = body.get_node("../../../..")
+			# bail early if we somehow detected the body we're carrying
+			if 'carried' in character and character.carried:
+				return
+			
 			if 'dead' in character and character.dead or 'unconscious' in character and character.unconscious and not 'player' in character:
 
 				if last_interactable and is_instance_valid(last_interactable):

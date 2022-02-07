@@ -651,11 +651,18 @@ func _physics_process(delta):
 			# straighten out
 			set_rotation(Vector3(0,get_rotation().y,0))
 
+# ------------------------------------------------------------
+func physical_bones_set_collision(boo):
+	var layer = int(boo) # we only toggle 0 or 1
+	for c in get_node("RotationHelper/Character2/Armature").get_children():
+		if c is PhysicalBone:
+			c.collision_layer = layer
 
 func ragdoll(knock):
 	var rot = deg2rad(-90)
 	if knock > 0:
 		rot = deg2rad(90)
+	physical_bones_set_collision(true)
 	get_node("RotationHelper/Character2/Armature").physical_bones_start_simulation()
 	get_node("RotationHelper/Character2").set_rotation(Vector3(rot, 0, 0))
 	get_node("CollisionShape").disabled = true # only the ragdoll should be active
