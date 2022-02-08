@@ -805,6 +805,14 @@ func show_binocs_menu():
 	get_node("Control/UtilityItems").show()
 	
 func _on_gadget_mode(index):
+	# visual: show binocs in hand
+	weapon_hold.get_node("binocs_hand").show()
+	weapon_hold.get_node("Rifle2").hide()
+	weapon_hold.get_node("Baton").hide()
+	weapon_hold.get_node("Knife").hide()
+	weapon_hold.get_node("Crossbow").hide()
+	#left_hand_empty_ik()
+	
 	if index < 2:
 		for c in get_tree().get_nodes_in_group("AI"):
 			c._on_thermal_vision(false)
@@ -819,6 +827,20 @@ func _on_gadget_mode(index):
 		# thermal effect
 		for c in get_tree().get_nodes_in_group("AI"):
 			c._on_thermal_vision(true)
+			
+	# wait a bit
+	yield(get_tree().create_timer(1), "timeout")
+	# put binocs away
+	weapon_hold.get_node("binocs_hand").hide()
+	# show the current weapon again
+	if state == RIFLE:
+		weapon_hold.get_node("Rifle2").show()
+	if state == BATON:
+		weapon_hold.get_node("Baton").show()
+	if state == KNIFE:
+		weapon_hold.get_node("Knife").show()
+	if state == XBOW:
+		weapon_hold.get_node("Crossbow").show()
 			
 func _on_uniform_change(index):
 	# close inventory screen

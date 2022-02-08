@@ -560,6 +560,7 @@ anims/gas = SubResource( 10 )
 [node name="DebugDraw" type="Control" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
+mouse_filter = 2
 script = ExtResource( 8 )
 __meta__ = {
 "_editor_description_": "Based on http://kidscancode.org/godot_recipes/3d/debug_overlay/"

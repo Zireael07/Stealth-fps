@@ -1,4 +1,4 @@
-[gd_scene load_steps=94 format=2]
+[gd_scene load_steps=95 format=2]
 
 [ext_resource path="res://characters/shoot.gd" type="Script" id=1]
 [ext_resource path="res://assets/Rifle.escn" type="PackedScene" id=2]
@@ -7,6 +7,7 @@
 [ext_resource path="res://weapons/baton.tscn" type="PackedScene" id=5]
 [ext_resource path="res://weapons/Knife.tscn" type="PackedScene" id=6]
 [ext_resource path="res://weapons/Crossbow.tscn" type="PackedScene" id=7]
+[ext_resource path="res://props/binocs_hand.tscn" type="PackedScene" id=8]
 
 [sub_resource type="SphereShape" id=1]
 radius = 0.146924
@@ -421,6 +422,10 @@ visible = false
 transform = Transform( -2.18557e-08, 0, -0.5, 0, 0.5, 0, 0.5, 0, -2.18557e-08, 0, 0, 0 )
 visible = false
 
+[node name="binocs_hand" parent="Armature/WeaponHold" index="5" instance=ExtResource( 8 )]
+transform = Transform( 0.5, 0, 0, 0, 0.5, 0, 0, 0, 1, 0, 0, 0.1 )
+visible = false
+cast_shadow = 0
 [node name="CameraHold" type="BoneAttachment" parent="Armature" index="3"]
 transform = Transform( -0.999016, -0.000578936, -0.0443465, 0.000578745, 0.99966, -0.026088, 0.0443465, -0.0260881, -0.998676, 0.00233999, 1.74028, 0.043952 )
 bone_name = "Camera"
