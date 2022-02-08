@@ -219,12 +219,15 @@ func wield_again():
 	get_node("Control/Center/Crosshair").show()
 	get_node("Control/Center/Control").hide()
 
+# this is run every tick when we have a grabbed object
+# avoids the need to reparent the object
 func place_grabbed_object(grabbed_object):
 	var rotation = global_transform.basis.get_euler()
 	
 	var x_offset = camera.global_transform.basis.y.normalized() * -0.5
 	
 	if grabbed_object is KinematicBody:
+		# this represents pulling by the chest at our chest level (think DX1)
 		x_offset = Vector3(0,-1.5,0) # experimentally determined
 	
 	var z_offset = (-camera.global_transform.basis.z.normalized() * VIS_OBJECT_GRAB_DISTANCE)
@@ -573,6 +576,8 @@ func process_input(delta):
 				#stop the ragdoll
 				grabbed_object.get_node("RotationHelper/Character2/Armature").physical_bones_stop_simulation()
 				grabbed_object.get_node("RotationHelper/Character2").set_rotation(Vector3(deg2rad(0), 0, 0))
+				# test partial ragdoll
+				grabbed_object.get_node("RotationHelper/Character2/Armature").physical_bones_start_simulation(["Head", "Chest", "Torso", "UpperLeg.R", "UpperLeg.L", "LowerLeg.R", "LowerLeg.L"])
 
 		else:
 			# are we aiming at another interactable?
