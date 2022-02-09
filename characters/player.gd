@@ -40,6 +40,7 @@ const OBJECT_THROW_FORCE = 5
 const VIS_OBJECT_GRAB_DISTANCE = 1
 #const OBJECT_GRAB_RAY_DISTANCE = 10
 
+var binocs = false
 var scoping = false
 var wpn_spread = 1.2
 var cur_spread = 0
@@ -324,6 +325,10 @@ func process_input(delta):
 	# ----------------------------------
 	# Firing the weapons
 	if Input.is_action_just_pressed("shoot"):
+		# can't shoot while using binocs
+		if binocs:
+			return
+			
 		if state == UNARMED:
 			wield_again()
 			return
@@ -339,17 +344,27 @@ func process_input(delta):
 			camera.get_node("Spatial").fire_weapon()
 		
 	if Input.is_action_just_pressed("shoot_alt"):
+		# right click cancels binocs
+		if binocs:
+			# disable binocs zoom
+			weapon_hold.get_node("binocs/BinocsCamera").set_current(false)
+			weapon_hold.get_node("binocs/BinocsCamera/MeshInstance").hide()
+			binocs = false
+			camera.current = true
+			return
+		
 		if not state == RIFLE:
 			return
 			
-		if not scoping:
+		if not scoping and not binocs:
 			scoping = true
 			$RotationHelper/Character/Armature/WeaponHold/Rifle2/Sight/AimCamera.current = true
 		else:
 			camera.current = true
 			scoping = false
 
-	# Crouch
+	# -------------------------------------------------------
+	# Change stance (prone/crouch.standing)
 	if Input.is_action_just_pressed("movement_crouch"):
 		if stance == PRONE:
 			print("Back to standing")
@@ -806,7 +821,7 @@ func show_binocs_menu():
 	
 func _on_gadget_mode(index):
 	# visual: show binocs in hand
-	weapon_hold.get_node("binocs_hand").show()
+	weapon_hold.get_node("binocs/binocs_hand").show()
 	weapon_hold.get_node("Rifle2").hide()
 	weapon_hold.get_node("Baton").hide()
 	weapon_hold.get_node("Knife").hide()
@@ -819,6 +834,11 @@ func _on_gadget_mode(index):
 	
 	if index == 0:
 		get_tree().get_nodes_in_group("root")[0].get_node("WorldEnvironment").environment.adjustment_enabled = false
+		# disable binocs zoom
+		weapon_hold.get_node("binocs/BinocsCamera").set_current(false)
+		weapon_hold.get_node("binocs/BinocsCamera/MeshInstance").hide()
+		camera.set_current(true)
+		binocs = false
 	elif index == 1:
 		# turn nightvision on
 		get_tree().get_nodes_in_group("root")[0].get_node("WorldEnvironment").environment.adjustment_enabled = true
@@ -827,11 +847,15 @@ func _on_gadget_mode(index):
 		# thermal effect
 		for c in get_tree().get_nodes_in_group("AI"):
 			c._on_thermal_vision(true)
+	elif index == 3:
+		weapon_hold.get_node("binocs/BinocsCamera").set_current(true)
+		weapon_hold.get_node("binocs/BinocsCamera/MeshInstance").show()
+		binocs = true
 			
 	# wait a bit
 	yield(get_tree().create_timer(1), "timeout")
 	# put binocs away
-	weapon_hold.get_node("binocs_hand").hide()
+	weapon_hold.get_node("binocs/binocs_hand").hide()
 	# show the current weapon again
 	if state == RIFLE:
 		weapon_hold.get_node("Rifle2").show()

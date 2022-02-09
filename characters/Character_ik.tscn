@@ -1,4 +1,4 @@
-[gd_scene load_steps=95 format=2]
+[gd_scene load_steps=98 format=2]
 
 [ext_resource path="res://characters/shoot.gd" type="Script" id=1]
 [ext_resource path="res://assets/Rifle.escn" type="PackedScene" id=2]
@@ -8,11 +8,23 @@
 [ext_resource path="res://weapons/Knife.tscn" type="PackedScene" id=6]
 [ext_resource path="res://weapons/Crossbow.tscn" type="PackedScene" id=7]
 [ext_resource path="res://props/binocs_hand.tscn" type="PackedScene" id=8]
+[ext_resource path="res://assets/gfps/lens_overlay.png" type="Texture" id=9]
 
-[sub_resource type="SphereShape" id=1]
+[sub_resource type="QuadMesh" id=1]
+size = Vector2( 0.3, 0.15 )
+
+[sub_resource type="SpatialMaterial" id=2]
+flags_transparent = true
+flags_unshaded = true
+flags_no_depth_test = true
+flags_fixed_size = true
+flags_do_not_receive_shadows = true
+albedo_texture = ExtResource( 9 )
+
+[sub_resource type="SphereShape" id=87]
 radius = 0.146924
 
-[sub_resource type="CylinderShape" id=2]
+[sub_resource type="CylinderShape" id=88]
 radius = 0.0690702
 height = 0.0980346
 
@@ -422,10 +434,31 @@ visible = false
 transform = Transform( -2.18557e-08, 0, -0.5, 0, 0.5, 0, 0.5, 0, -2.18557e-08, 0, 0, 0 )
 visible = false
 
-[node name="binocs_hand" parent="Armature/WeaponHold" index="5" instance=ExtResource( 8 )]
-transform = Transform( 0.5, 0, 0, 0, 0.5, 0, 0, 0, 1, 0, 0, 0.1 )
+[node name="binocs" type="Spatial" parent="Armature/WeaponHold" index="5"]
+transform = Transform( 1, 1.16415e-10, 0, 0, 1, 0, 3.72529e-09, 0, 1, 0, 0, 0.1 )
+
+[node name="binocs_hand" parent="Armature/WeaponHold/binocs" index="0" instance=ExtResource( 8 )]
+transform = Transform( 0.5, 4.07454e-10, -3.72529e-09, 1.16415e-10, 0.5, 3.72529e-09, -1.86265e-09, 0, 1, 0, 0, 0 )
 visible = false
 cast_shadow = 0
+skeleton = NodePath("../..")
+
+[node name="BinocsCamera" type="Camera" parent="Armature/WeaponHold/binocs" index="1"]
+transform = Transform( -1, 4.96861e-07, 5.02914e-07, -6.98492e-10, 0.99955, -7.62939e-06, -1.75089e-07, -1.86265e-09, -1, -1.49012e-08, 0.25, 0.1 )
+fov = 25.0
+size = 6.0
+near = 0.001
+far = 1000.0
+
+[node name="MeshInstance" type="MeshInstance" parent="Armature/WeaponHold/binocs/BinocsCamera" index="0"]
+transform = Transform( 2, 1.74623e-10, 8.34465e-07, -2.32831e-10, 1.5, -4.54747e-13, -1.66893e-06, 6.81975e-13, 1, 0, 0, -0.2 )
+visible = false
+cast_shadow = 0
+extra_cull_margin = 4.0
+mesh = SubResource( 1 )
+skeleton = NodePath("")
+material/0 = SubResource( 2 )
+
 [node name="CameraHold" type="BoneAttachment" parent="Armature" index="3"]
 transform = Transform( -0.999016, -0.000578936, -0.0443465, 0.000578745, 0.99966, -0.026088, 0.0443465, -0.0260881, -0.998676, 0.00233999, 1.74028, 0.043952 )
 bone_name = "Camera"

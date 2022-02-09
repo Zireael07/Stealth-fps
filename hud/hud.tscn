@@ -520,7 +520,7 @@ __meta__ = {
 margin_right = 101.0
 margin_bottom = 20.0
 text = "Off"
-items = [ "Off", null, false, 0, null, "Nightvision", null, false, 1, null, "Thermal camera", null, false, 2, null ]
+items = [ "Off", null, false, 0, null, "Nightvision", null, false, 1, null, "Thermal camera", null, false, 2, null, "Binoculars", null, false, 3, null ]
 selected = 0
 __meta__ = {
 "_edit_use_anchors_": false
