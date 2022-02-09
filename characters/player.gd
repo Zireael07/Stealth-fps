@@ -828,7 +828,7 @@ func _on_gadget_mode(index):
 	weapon_hold.get_node("Crossbow").hide()
 	#left_hand_empty_ik()
 	
-	if index < 2:
+	if index < 3:
 		for c in get_tree().get_nodes_in_group("AI"):
 			c._on_thermal_vision(false)
 	
@@ -840,17 +840,18 @@ func _on_gadget_mode(index):
 		camera.set_current(true)
 		binocs = false
 	elif index == 1:
+		weapon_hold.get_node("binocs/BinocsCamera").set_current(true)
+		weapon_hold.get_node("binocs/BinocsCamera/MeshInstance").show()
+		binocs = true
+	elif index == 2:
 		# turn nightvision on
 		get_tree().get_nodes_in_group("root")[0].get_node("WorldEnvironment").environment.adjustment_enabled = true
-	elif index == 2:
+	elif index == 3:
 		get_tree().get_nodes_in_group("root")[0].get_node("WorldEnvironment").environment.adjustment_enabled = false
 		# thermal effect
 		for c in get_tree().get_nodes_in_group("AI"):
 			c._on_thermal_vision(true)
-	elif index == 3:
-		weapon_hold.get_node("binocs/BinocsCamera").set_current(true)
-		weapon_hold.get_node("binocs/BinocsCamera/MeshInstance").show()
-		binocs = true
+		
 			
 	# wait a bit
 	yield(get_tree().create_timer(1), "timeout")
