@@ -433,20 +433,27 @@ func _physics_process(delta):
 			
 		if is_in_group("ally"):
 			if not player.talking:
-				# stay "a step behind" the player
-				# TODO: the x offset could be randomized or depend on direction to obstacles/enemies
-				brain.target = player.get_global_transform().xform(Vector3(1, 0, -3))
+				if brain.get_state() == brain.STATE_FOLLOW:
+					# stay "a step behind" the player
+					# TODO: the x offset could be randomized or depend on direction to obstacles/enemies
+					brain.target = player.get_global_transform().xform(Vector3(1, 0, -3))
+				elif brain.get_state() == brain.STATE_IDLE:
+					pass
+				else:
+					brain.set_state(brain.STATE_FOLLOW)
+				
 				# debug
 				get_node("MeshInstance2").set_translation(brain.target)
-				brain.set_state(brain.STATE_FOLLOW)
 				#return
 			#elif hold: brain.set_state(brain.STATE_IDLE)
 			else:
-				brain.set_state(brain.STATE_IDLE)
-				# look at the player while talking to him
-				look_at(player.global_transform.origin, Vector3(0,1,0))
-				# because this looks the opposite way for some reason
-				rotate_y(deg2rad(180))
+				# only do it once
+				if brain.get_state() != brain.STATE_IDLE:
+					brain.set_state(brain.STATE_IDLE)
+					# look at the player while talking to him
+					look_at(player.global_transform.origin, Vector3(0,1,0))
+					# because this looks the opposite way for some reason
+					rotate_y(deg2rad(180))
 				return
 		
 		# if we're unarmed, disengage
@@ -855,3 +862,21 @@ func optic_camo_effect():
 	var mesh = get_node("RotationHelper/Character2/Armature/Body")
 	mesh.set_surface_material(0, optic_camo)
 	mesh.set_surface_material(1, optic_camo)
+
+func _on_answer_selected(id):
+	print("On answer selected, id ", id)
+	if is_in_group("civilian"):
+		return
+		
+	if is_in_group("ally"):
+		# wait a bit
+		#yield(get_tree().create_timer(1), "timeout")
+		# toggle the state
+		if id == 2:
+			# check prev state because talking sets us to idle temporarily
+			if brain.prev_state == brain.STATE_FOLLOW:
+				brain.set_state(brain.STATE_IDLE)
+				print("Ally should idle")
+			else:
+				brain.set_state(brain.STATE_FOLLOW)
+				print("Ally should follow")

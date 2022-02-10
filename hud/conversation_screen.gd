@@ -6,7 +6,7 @@ var talker = null
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	$"Panel2/VBoxContainerAnswers/Label".connect("gui_input", self, "_on_answer_gui_input", [$"Panel2/VBoxContainerAnswers/Label"] )
+	$"Panel2/VBoxContainerAnswers/Label1".connect("gui_input", self, "_on_answer_gui_input", [$"Panel2/VBoxContainerAnswers/Label1"] )
 	$"Panel2/VBoxContainerAnswers/Label2".connect("gui_input", self, "_on_answer_gui_input", [$"Panel2/VBoxContainerAnswers/Label2"] )
 	
 func set_talker(npc):
@@ -29,7 +29,9 @@ func show_answers():
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta):
 #	pass
-
+func _on_answer_selected(id):
+	#if '_on_answer_selected' in talker:
+	talker._on_answer_selected(id)
 
 func _on_Label_gui_input(event):
 	#print(event)
@@ -42,6 +44,10 @@ func _on_answer_gui_input(event, node):
 	#print(event)
 	if event is InputEventMouseButton:
 		print("Clicked on answer ", node)
+		
+		var number = node.get_name().split("Label")[1]
+		#print(number)
+		_on_answer_selected(int(number))
 		
 		# end convo
 		queue_free()

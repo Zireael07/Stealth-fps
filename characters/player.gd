@@ -560,7 +560,12 @@ func process_input(delta):
 				var c = conv.instance()
 				get_node("Control").add_child(c)
 				c.show_line(line)
-				c.set_answers(["Nothing."])
+				var answers = ["Nothing"]
+				if inter.brain.get_state() == inter.brain.STATE_FOLLOW:
+					answers.append("Stay here!")
+				else:
+					answers.append("After me!")
+				c.set_answers(answers)
 				c.set_talker(inter)
 				return
 				

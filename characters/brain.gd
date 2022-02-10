@@ -221,7 +221,7 @@ class AlarmedState:
 			#interact with it
 			ch.get_tree().get_nodes_in_group("alarm")[0].get_child(0)._on_interact()
 
-			emit_signal("emit_bark", self, "Alarm raised! Going back to patrol...")
+			ch.emit_signal("emit_bark", self, "Alarm raised! Going back to patrol...")
 			ch.brain.target = ch.target_array[ch.current]
 			ch.brain.set_state(ch.brain.STATE_PATROL)
 			ch.strafe = false
