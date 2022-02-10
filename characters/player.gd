@@ -529,11 +529,41 @@ func process_input(delta):
 					get_node("Control").add_child(c)
 					c.set_answers(d.answers)
 					c.show_line(d.line)
-					
+					c.set_talker(inter)
 					
 				else:
 					print("You try to talk to ", inter.get_name(), " but he has nothing to say")
 				return
+				
+			# if an ally, talk to him to give orders
+			if inter.is_in_group("ally"):
+				# unwield guns because we don't want to accidentally shoot the ally
+				if state != UNARMED:
+					unwield()
+					
+				var line = ""
+				if inter.get_name() == "Herman Gunther":
+					line = "Yes?"
+				else:
+					line = "Agent?"
+				
+				# hide HUD
+				get_node("Control/ReferenceRect").hide()
+				get_node("Control/Center/Control").hide()
+				
+				# allow moving mouse
+				Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+				# prevent some other things
+				talking = true
+				# show conversation
+				var conv = preload("res://hud/conversation.tscn")
+				var c = conv.instance()
+				get_node("Control").add_child(c)
+				c.show_line(line)
+				c.set_answers(["Nothing."])
+				c.set_talker(inter)
+				return
+				
 			
 			# if it's a static object, run its function instead
 			if inter.is_in_group("static"):
@@ -815,7 +845,14 @@ func is_moving():
 	var move = vel.length() > 0.5 and stance != PRONE
 	return move
 
+func _on_convo_end(npc):
+	# wait a bit
+	yield(get_tree().create_timer(1), "timeout")
+	if npc.is_in_group("ally"):
+		wield_again()
+
 # ---------------------------------------------
+# this is mostly UI stuff
 func show_binocs_menu():
 	get_node("Control/UtilityItems").show()
 	

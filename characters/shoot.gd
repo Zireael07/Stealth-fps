@@ -288,10 +288,11 @@ func detect_interactable():
 					#draw_screen_outline(target.get_child(1).get_node("Character2/Armature/Body"))
 
 		# live NPCs
-		elif body is KinematicBody and body.is_in_group("civilian"):
+		elif body is KinematicBody and body.is_in_group("civilian") or body.is_in_group("ally"):
 			if last_interactable and is_instance_valid(last_interactable):
 				var target = body
-				draw_screen_outline(target.get_node("RotationHelper/model/Human Armature/Skeleton/Human_Mesh"), body)
+				if body.is_in_group("civilian"):
+					draw_screen_outline(target.get_node("RotationHelper/model/Human Armature/Skeleton/Human_Mesh"), body)
 				if last_interactable != body:
 					# remove outline from previous interactable
 					var lt = last_interactable
@@ -303,8 +304,9 @@ func detect_interactable():
 			else:
 				last_interactable = body
 				var target = body
-				draw_screen_outline(target.get_node("RotationHelper/model/Human Armature/Skeleton/Human_Mesh"), body)
-					
+				if body.is_in_group("civilian"):
+					draw_screen_outline(target.get_node("RotationHelper/model/Human Armature/Skeleton/Human_Mesh"), body)
+				# ally doesn't draw an outline, for now	
 					
 		# interactable items
 		# doors are StaticBodies ;)

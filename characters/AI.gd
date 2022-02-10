@@ -432,13 +432,22 @@ func _physics_process(delta):
 			return
 			
 		if is_in_group("ally"):
-			# stay "a step behind" the player
-			# TODO: the x offset could be randomized or depend on direction to obstacles/enemies
-			brain.target = player.get_global_transform().xform(Vector3(1, 0, -3))
-			# debug
-			get_node("MeshInstance2").set_translation(brain.target)
-			brain.set_state(brain.STATE_FOLLOW)
-			#return
+			if not player.talking:
+				# stay "a step behind" the player
+				# TODO: the x offset could be randomized or depend on direction to obstacles/enemies
+				brain.target = player.get_global_transform().xform(Vector3(1, 0, -3))
+				# debug
+				get_node("MeshInstance2").set_translation(brain.target)
+				brain.set_state(brain.STATE_FOLLOW)
+				#return
+			#elif hold: brain.set_state(brain.STATE_IDLE)
+			else:
+				brain.set_state(brain.STATE_IDLE)
+				# look at the player while talking to him
+				look_at(player.global_transform.origin, Vector3(0,1,0))
+				# because this looks the opposite way for some reason
+				rotate_y(deg2rad(180))
+				return
 		
 		# if we're unarmed, disengage
 		if !is_armed() and in_sight and possible_tg != null:
