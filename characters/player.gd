@@ -7,7 +7,7 @@ var vel = Vector3()
 var MAX_SPEED = 20 # depends on stance
 var ACCEL = 1 #4.5
 const JUMP_SPEED = 10 #18
-
+const SWIM_SPEED = 5
 
 var dir = Vector3()
 
@@ -71,6 +71,8 @@ var backdrop = null
 var action = null
 
 var talking = false
+
+var swimming = false
 
 func _ready():
 	camera = $RotationHelper/Character/Armature/CameraBoneAttachment/Camera
@@ -703,11 +705,18 @@ func process_input(delta):
 
 # Process our movements (influenced by our input) and sending them to KinematicBody
 func process_movement(delta):
-	# Assure our movement direction on the Y axis is zero, and then normalize it.
-	dir.y = 0
+	if not swimming:
+		# Assure our movement direction on the Y axis is zero, and then normalize it.
+		dir.y = 0
+	else: 
+		vel.y += delta * dir.y * SWIM_SPEED
 	dir = dir.normalized()
-	# Apply gravity
-	vel.y += delta * GRAVITY
+	if not swimming:
+		# Apply gravity
+		vel.y += delta * GRAVITY
+	else:
+		vel.y += delta * GRAVITY/30 # buoyancy
+	
 	# Set our velocity to a new variable (hvel) and remove the Y velocity.
 	var hvel = vel
 	hvel.y = 0

@@ -1,4 +1,4 @@
-[gd_scene load_steps=54 format=2]
+[gd_scene load_steps=55 format=2]
 
 [ext_resource path="res://better_env.tres" type="Environment" id=1]
 [ext_resource path="res://assets/blue.material" type="Material" id=2]
@@ -29,6 +29,7 @@
 [ext_resource path="res://Main.gd" type="Script" id=27]
 [ext_resource path="res://props/wooden_box_stack.tscn" type="PackedScene" id=28]
 [ext_resource path="res://props/bench.tscn" type="PackedScene" id=29]
+[ext_resource path="res://water.tscn" type="PackedScene" id=30]
 
 [sub_resource type="SpatialMaterial" id=1]
 albedo_texture = ExtResource( 10 )
@@ -39,7 +40,7 @@ size = Vector2( 100, 100 )
 subdivide_width = 25
 
 [sub_resource type="BoxShape" id=3]
-extents = Vector3( 100, 0.25, 100 )
+extents = Vector3( 50, 0.25, 100 )
 
 [sub_resource type="CubeMesh" id=4]
 
@@ -229,6 +230,8 @@ shape = SubResource( 10 )
 transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -8.68424, 1.25124, 22.5075 )
 
 [node name="laser_alarm" parent="level" instance=ExtResource( 22 )]
+
+[node name="water" parent="level" instance=ExtResource( 30 )]
 
 [node name="nav" type="Spatial" parent="."]
 

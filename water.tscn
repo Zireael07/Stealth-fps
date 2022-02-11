@@ -1,0 +1,59 @@
+[gd_scene load_steps=9 format=2]
+
+[ext_resource path="res://water.gd" type="Script" id=1]
+[ext_resource path="res://assets/wood_dark.tres" type="Material" id=2]
+
+[sub_resource type="QuadMesh" id=25]
+size = Vector2( 20, 50 )
+
+[sub_resource type="SpatialMaterial" id=26]
+flags_transparent = true
+params_cull_mode = 2
+albedo_color = Color( 0.027451, 1, 0.909804, 0.290196 )
+
+[sub_resource type="BoxShape" id=27]
+extents = Vector3( 30, 1, 50 )
+
+[sub_resource type="CubeMesh" id=29]
+size = Vector3( 2, 5, 60 )
+
+[sub_resource type="BoxShape" id=31]
+extents = Vector3( 1, 2.5, 30 )
+
+[sub_resource type="BoxShape" id=30]
+extents = Vector3( 10, 2.5, 25 )
+
+[node name="water" type="Spatial"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -60.9619, 0, 0 )
+script = ExtResource( 1 )
+
+[node name="surface" type="MeshInstance" parent="."]
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0 )
+mesh = SubResource( 25 )
+material/0 = SubResource( 26 )
+
+[node name="StaticBottom" type="StaticBody" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -4, 0 )
+
+[node name="CollisionShape" type="CollisionShape" parent="StaticBottom"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 0, 0 )
+shape = SubResource( 27 )
+
+[node name="MeshInstance" type="MeshInstance" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 8.89649, -1.68525, 0 )
+mesh = SubResource( 29 )
+material/0 = ExtResource( 2 )
+
+[node name="StaticBody" type="StaticBody" parent="MeshInstance"]
+
+[node name="CollisionShape" type="CollisionShape" parent="MeshInstance/StaticBody"]
+shape = SubResource( 31 )
+
+[node name="WaterArea" type="Area" parent="."]
+
+[node name="CollisionShape" type="CollisionShape" parent="WaterArea"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -2, -2.5, 0 )
+shape = SubResource( 30 )
+
+[connection signal="body_entered" from="WaterArea" to="." method="_on_WaterArea_body_entered"]
+[connection signal="body_exited" from="WaterArea" to="." method="_on_WaterArea_body_exited"]
