@@ -1,4 +1,4 @@
-[gd_scene load_steps=55 format=2]
+[gd_scene load_steps=60 format=2]
 
 [ext_resource path="res://better_env.tres" type="Environment" id=1]
 [ext_resource path="res://assets/blue.material" type="Material" id=2]
@@ -30,6 +30,7 @@
 [ext_resource path="res://props/wooden_box_stack.tscn" type="PackedScene" id=28]
 [ext_resource path="res://props/bench.tscn" type="PackedScene" id=29]
 [ext_resource path="res://water.tscn" type="PackedScene" id=30]
+[ext_resource path="res://assets/wood_dark.tres" type="Material" id=31]
 
 [sub_resource type="SpatialMaterial" id=1]
 albedo_texture = ExtResource( 10 )
@@ -59,6 +60,18 @@ points = PoolVector3Array( 0, 1, 1, 0, 1, -1, 0, 1, 1, 0, 1, -1, -1, -1, 1, 1, -
 
 [sub_resource type="ConvexPolygonShape" id=10]
 points = PoolVector3Array( 0, 1, 1, 0, 1, -1, 0, 1, 1, 0, 1, -1, -1, -1, 1, 1, -1, -1, 1, -1, 1, -1, -1, -1, 0, 1, 1, 0, 1, -1, 0, 1, -1, 0, 1, 1, 1, -1, 1, -1, -1, -1, 1, -1, -1, -1, -1, 1, -1, -1, 1, 1, -1, 1, -1, -1, -1, 1, -1, -1 )
+
+[sub_resource type="CubeMesh" id=25]
+size = Vector3( 2, 5, 60 )
+
+[sub_resource type="BoxShape" id=26]
+extents = Vector3( 1, 2.5, 30 )
+
+[sub_resource type="PlaneMesh" id=27]
+size = Vector2( 50, 50 )
+
+[sub_resource type="BoxShape" id=28]
+extents = Vector3( 25, 1, 50 )
 
 [sub_resource type="CubeMesh" id=11]
 size = Vector3( 0.5, 0.5, 0.5 )
@@ -99,11 +112,11 @@ void fragment() {
 	//ALBEDO = texture(refl_tx, UV).rgb;
 }"
 
-[sub_resource type="ViewportTexture" id=25]
+[sub_resource type="ViewportTexture" id=29]
 
 [sub_resource type="ShaderMaterial" id=22]
 shader = SubResource( 20 )
-shader_param/refl_tx = SubResource( 25 )
+shader_param/refl_tx = SubResource( 29 )
 
 [sub_resource type="QuadMesh" id=23]
 size = Vector2( 1, 0.5 )
@@ -232,6 +245,31 @@ transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -8.6842
 [node name="laser_alarm" parent="level" instance=ExtResource( 22 )]
 
 [node name="water" parent="level" instance=ExtResource( 30 )]
+
+[node name="MeshInstance8" type="MeshInstance" parent="level"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -72.3448, -1.68525, 0 )
+mesh = SubResource( 25 )
+material/0 = ExtResource( 31 )
+
+[node name="StaticBody" type="StaticBody" parent="level/MeshInstance8"]
+
+[node name="CollisionShape" type="CollisionShape" parent="level/MeshInstance8/StaticBody"]
+shape = SubResource( 26 )
+
+[node name="MeshInstance9" type="MeshInstance" parent="level"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -97, 0, 0 )
+material_override = SubResource( 1 )
+cast_shadow = 0
+mesh = SubResource( 27 )
+material/0 = null
+
+[node name="StaticBody2" type="StaticBody" parent="level" groups=["floor"]]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -97, 0, 0 )
+collision_layer = 5
+
+[node name="CollisionShape" type="CollisionShape" parent="level/StaticBody2"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.25, 0 )
+shape = SubResource( 28 )
 
 [node name="nav" type="Spatial" parent="."]
 
@@ -460,7 +498,7 @@ material/0 = null
 script = ExtResource( 8 )
 
 [node name="TopDownCamera" type="Camera" parent="."]
-transform = Transform( -1, 3.25841e-07, 5.30863e-14, 0, -1.62921e-07, 1, 3.25841e-07, 1, 1.62921e-07, 0, 20, 19.737 )
+transform = Transform( -1, 3.25841e-07, 5.30863e-14, 0, -1.62921e-07, 1, 3.25841e-07, 1, 1.62921e-07, 0, 15, 19.737 )
 
 [connection signal="body_entered" from="map/target_range/Area" to="map/target_range" method="_on_Area_body_entered"]
 [connection signal="body_exited" from="map/target_range/Area" to="map/target_range" method="_on_Area_body_exited"]
