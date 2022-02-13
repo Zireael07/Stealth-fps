@@ -13,11 +13,12 @@ func _ready():
 	var map_rect = map.contain
 	var map_screen = player.get_node("Control/map_screen/map")
 
+	# TODO: make map scale depend on level size
 	# scale things up for drawing (map scale is 1 = 1m)
-	# 1 m = 10 px on map
+	# 1 m = X px on map
 	var draw_rect = []	
 	for m in map_rect:
-		var d = [m[0]*10, m[1]*10, m[2]*10, m[3]*10]
+		var d = [m[0]*5, m[1]*5, m[2]*5, m[3]*5]
 		draw_rect.append(d)
 
 	

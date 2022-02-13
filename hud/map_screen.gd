@@ -7,9 +7,10 @@ var poi_color = Color(1,0.5,0,1) # orange
 var draw_rect
 var poi = []
 
-func _3d_tomap2d(vec):
-	# map is 1 = 1m scale; so rects are scaled up by 10 to be visible (1m = 10 px)
-	return Vector2(vec.x*10, vec.z*10)
+# TODO: make map scale depend on level size
+func _3d_tomap2d(vec, lvl_start=Vector2(-50,-50)):
+	# map is 1 = 1m scale; so rects are scaled up to be visible (1m = X px)
+	return Vector2((vec.x-lvl_start.x)*5, (vec.z-lvl_start.y)*5)
 
 
 # Called when the node enters the scene tree for the first time.

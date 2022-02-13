@@ -13,8 +13,12 @@ var avail
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	bsp()
+	place()
+	
+func bsp():
 	# x,y,w,h
-	start_rect = [0,0, 35, 35]
+	start_rect = [0,0, 85, 85]
 	contain = [start_rect]
 	
 	rect(contain)
@@ -25,23 +29,37 @@ func _ready():
 	for c in contain:
 		print(c, center(c))
 	
+# lvl_start is the leftmost end of level extents
+# remember that coordinates will increase, so should be min(x) and min(y)
+func place(lvl_start=Vector2(-50,-50)):
 	# random selection
 	avail = contain.duplicate()
 	randomize()
 	var i = randi() % 3 # between 0 and 3
 	var sel = avail[i]
-
+	var pos = _2d_to_level(lvl_start, center(sel))
+	
 	# target range
-	get_child(0).set_translation(Vector3(center(sel).x, 0, center(sel).y))
+	get_child(0).set_translation(Vector3(pos.x, 0, pos.y))
+	print("Placed target range at ", Vector3(pos.x, 0, pos.y))
 	
 	avail.remove(i)
 	
 	i = randi() % 2
 	sel = avail[i]
+	pos = _2d_to_level(lvl_start, center(sel))
+	
 	# crates
-	get_child(1).set_translation(Vector3(center(sel).x, 0, center(sel).y))
+	get_child(1).set_translation(Vector3(pos.x, 0, pos.y))
 	# move the crate nav to match
-	get_node("/root/Spatial/nav2").set_translation(Vector3(center(sel).x, 0, center(sel).y))
+	get_node("/root/Spatial/nav2").set_translation(Vector3(pos.x, 0, pos.y))
+	print("Placed crates at ", Vector3(pos.x, 0, pos.y))
+	
+	# TODO: ensure at least 30 m of separation between POIs?
+
+func _2d_to_level(lvl_start, pos_2d):
+	# see line 21
+	return Vector2(lvl_start.x+pos_2d.x, lvl_start.y+pos_2d.y)
 
 
 # --------------------------
