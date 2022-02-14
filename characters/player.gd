@@ -414,6 +414,7 @@ func process_input(delta):
 		elif stance == PRONE:
 			MAX_SPEED = 10
 			ACCEL = 0.25
+			# the changes mean we're roughly 0.7 units tall (Z value)
 			$RotationHelper/Character.set_rotation_degrees(Vector3(90, 0, 0))
 			$RotationHelper/Character.set_translation(Vector3(1, 0, -1))
 			$CollisionShape.set_rotation_degrees(Vector3(90,0,0))

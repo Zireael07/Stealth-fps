@@ -1,0 +1,44 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://assets/Grey.material" type="Material" id=1]
+[ext_resource path="res://assets/White.material" type="Material" id=2]
+
+[node name="Spatial" type="Spatial"]
+
+[node name="CSGCombiner" type="CSGCombiner" parent="."]
+use_collision = true
+collision_layer = 5
+
+[node name="CSGBox" type="CSGBox" parent="CSGCombiner"]
+cast_shadow = 0
+width = 6.75
+height = 4.5
+depth = 3.75
+material = ExtResource( 1 )
+
+[node name="CSGBox2_door" type="CSGBox" parent="CSGCombiner"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2.5, -0.139, 0 )
+cast_shadow = 0
+operation = 2
+width = 3.3
+height = 3.375
+depth = 1.5
+material = ExtResource( 1 )
+
+[node name="CSGBox2_door2" type="CSGBox" parent="CSGCombiner"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -2.5, -0.139, 0 )
+cast_shadow = 0
+operation = 2
+width = 3.3
+height = 3.375
+depth = 1.5
+material = ExtResource( 1 )
+
+[node name="CSGBox3_inside" type="CSGBox" parent="CSGCombiner"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.136275, -0.142929, 0 )
+cast_shadow = 0
+operation = 2
+width = 6.0
+height = 3.375
+depth = 3.0
+material = ExtResource( 2 )
