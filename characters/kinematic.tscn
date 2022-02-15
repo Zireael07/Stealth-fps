@@ -33,6 +33,12 @@ shape = SubResource( 2 )
 [node name="see_tg" type="Position3D" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.927, 0.15 )
 
+[node name="ShadowRayCast" type="RayCast" parent="see_tg"]
+transform = Transform( 1, 0, 0, 0, 0.866025, 0.5, 0, -0.5, 0.866025, 0, 0, 0 )
+enabled = true
+cast_to = Vector3( 0, 0, 100 )
+collision_mask = 4
+
 [node name="ActionTimer" type="Timer" parent="."]
 wait_time = 5.0
 one_shot = true

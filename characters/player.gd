@@ -67,6 +67,9 @@ var uniform = DEFAULT
 
 var backdrop = null
 
+var shadow_ray = null
+var shadow_ray_tg = null
+
 # long actions
 var action = null
 
@@ -83,6 +86,8 @@ func _ready():
 	left_ik_tg = camera_helper.get_node("left_ik_tg")
 	
 	state_machine = $RotationHelper/Character/AnimationTree
+	
+	shadow_ray = $see_tg/ShadowRayCast
 	
 	# mission setup
 	get_node("Control/troop selection").show()
@@ -102,7 +107,14 @@ func game_start(data):
 	get_tree().get_nodes_in_group("ally")[0].set_name(data[0])
 	get_node("Control/bottom_panel/AllyPanel/ColorRect/Label").set_text(data[0])
 	
-	get_node("Control/scoring/ToBeat").set_text("To Beat: " + data[0] + " 80/100")
+	# make the shadow ray rotation match the sun rotation
+	shadow_ray.rotation.x = get_tree().get_nodes_in_group("root")[0].get_node("DirectionalLight").rotation.x
+	# set the shadow ray tg
+	shadow_ray_tg = get_tree().get_nodes_in_group("root")[0].get_node("shadow_ray_tg")
+	# place the tg at a correct spot
+	# since tangent is opposite/adjacent, opposite is tan*adjacent
+	var y = tan(shadow_ray.rotation.x)*200
+	shadow_ray_tg.translate(Vector3(0,-y,0))
 
 	# if we picked Ana, she comes with an optic camo
 	if data[0] == "Ana Navarro":
@@ -854,6 +866,21 @@ func is_hiding():
 			if uniform == CAMO:
 				hidden = true
 	#print("Hidden: ", hidden)
+	
+	# check shadows
+	shadow_ray.cast_to = shadow_ray.to_local(shadow_ray_tg.get_global_transform().origin)
+	
+	# Force the raycast to update. This will force the raycast to detect collisions when we call it.
+	# This means we are getting a frame perfect collision check with the 3D world.
+	shadow_ray.force_raycast_update()
+	# Did the ray hit something?
+	if shadow_ray.is_colliding():
+		var body_r = shadow_ray.get_collider()
+		#print("Body_r", body_r)
+		if body_r is StaticBody or body_r is CSGCombiner:
+			print("We're in shadow")
+			hidden = true
+	
 	return hidden
 
 func is_moving():

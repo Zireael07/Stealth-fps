@@ -8,7 +8,7 @@ sky_horizon_color = Color( 0.545098, 0.686275, 0.811765, 1 )
 sky_curve = 0.127279
 ground_bottom_color = Color( 0.545098, 0.686275, 0.811765, 1 )
 ground_horizon_color = Color( 0.545098, 0.686275, 0.811765, 1 )
-sun_latitude = 90.0
+sun_latitude = 150.0
 sun_angle_max = 30.0
 sun_energy = 30.0
 
