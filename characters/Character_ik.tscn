@@ -1,4 +1,4 @@
-[gd_scene load_steps=98 format=2]
+[gd_scene load_steps=97 format=2]
 
 [ext_resource path="res://characters/shoot.gd" type="Script" id=1]
 [ext_resource path="res://assets/Rifle.escn" type="PackedScene" id=2]
@@ -389,9 +389,6 @@ node_connections = [ "output", 0, "weapon_blend", "look_blend", 0, "move_speed",
 [sub_resource type="AnimationNodeStateMachinePlayback" id=82]
 
 [sub_resource type="AnimationNodeStateMachinePlayback" id=83]
-
-[sub_resource type="BoxShape" id=84]
-extents = Vector3( 0.249499, 0.919909, 0.50665 )
 
 [node name="Character" instance=ExtResource( 3 )]
 
@@ -1056,8 +1053,3 @@ parameters/weaponstate/hold/fire/active = false
 
 [node name="RootMotionView" type="RootMotionView" parent="AnimationTree" index="0"]
 animation_path = NodePath("..")
-
-[node name="CollisionShape" type="CollisionShape" parent="." index="2"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.926618, 0.254346 )
-shape = SubResource( 84 )
-disabled = true
