@@ -400,6 +400,7 @@ func process_input(delta):
 			$CollisionShape.set_translation(Vector3(0,0.527,0.324))
 			$see_tg.set_translation(Vector3(0, 0.527, 0.324))
 			$CollisionShape.get_shape().extents = Vector3(0.249, 0.52, 0.757)
+			#$"CollisionShapeGun".disabled = false
 			# change anim
 			state_machine["parameters/move_state/playback"].start("crouch")
 		elif stance == STANDING:
@@ -412,6 +413,8 @@ func process_input(delta):
 			$RotationHelper/Character.set_translation(Vector3(0, 0, 0))
 			$CollisionShape.set_rotation_degrees(Vector3(0,0,0))
 			$see_tg.set_translation(Vector3(0,0.927, 0.15))
+			$"CollisionShapeGun".set_translation(Vector3(-0.205, 1.525, 0.694))
+			#$"CollisionShapeGun".disabled = false
 			#$CollisionShape.set_translation(Vector3(0,0.927,0.15))
 			camera_helper.get_node("head_ik_tg").rotation_degrees = Vector3(0, 0, 0)
 			camera_helper.set_translation(Vector3(-0.014, -0.026, 1.244))
@@ -453,6 +456,10 @@ func process_input(delta):
 			#$RotationHelper/Character/Armature/rifleik.root_bone = "UpperArm.R"
 			$RotationHelper/Character/Armature/rifleik2.start()
 			$RotationHelper/Character/Armature/left_ik2.start()
+			
+			$"CollisionShapeGun".set_translation(Vector3(-0.205, 0, 0.95))
+			# disable gun collision
+			#$"CollisionShapeGun".disabled = true
 
 	# --------------------------------------
 	# weapon switching
