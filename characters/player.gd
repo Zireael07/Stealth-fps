@@ -514,6 +514,16 @@ func process_input(delta):
 			grabbed_object = inventory["GRENADE2"]
 			place_grabbed_object(grabbed_object)
 			grabbed_object.show()
+	if Input.is_action_just_pressed("weapon_7"):
+		if inventory.has("UTILITY") and inventory["UTILITY"] != null:
+			if inventory["UTILITY"].get_name() != "binocs":
+				print("Have lockpick in inventory")
+				# unwield any weapons
+				unwield()
+				# hack
+				grabbed_object = inventory["UTILITY"]
+				place_grabbed_object(grabbed_object)
+				grabbed_object.show()
 
 	# ----------------------------------
 	if Input.is_action_just_pressed("interact"):
@@ -621,16 +631,17 @@ func process_input(delta):
 				else:
 					return
 			elif inter.is_in_group("pickup"):
-				if inter.get_name() == "binocs":
-					if !inventory.has("UTILITY"):
-						inventory["UTILITY"] = inter
-						inter.slot = "UTILITY"
-						print("Put " + inter.get_name() + " in utility")
-						add_to_inventory(inter)
+				#if inter.get_name() == "binocs":
+				if !inventory.has("UTILITY"):
+					inventory["UTILITY"] = inter
+					inter.slot = "UTILITY"
+					print("Put " + inter.get_name() + " in utility")
+					add_to_inventory(inter)
+					if inter.has_method("_on_add_to_inventory"):
 						inter._on_add_to_inventory(self)
-					else:
-						# TODO feedback for slot taken
-						return
+				else:
+					# TODO feedback for slot taken
+					return
 					
 			grabbed_object = inter
 			# clear interactable
@@ -660,6 +671,12 @@ func process_input(delta):
 			# are we aiming at another interactable?
 			if camera.get_node("Spatial").last_interactable:
 				#print("Aiming at interactable...")
+				
+				# can we interact with that interactable?
+				if camera.get_node("Spatial").last_interactable.is_in_group("static"):
+					# interact instead
+					camera.get_node("Spatial").last_interactable._on_interact()
+					return
 				
 				# get interactable's mesh aabb
 				var mesh = camera.get_node("Spatial").last_interactable.get_child(1)

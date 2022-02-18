@@ -28,6 +28,15 @@ func _ready():
 		pt.global_transform.origin =  point
 
 func _on_interact():
+	if locked:
+		var player = get_tree().get_nodes_in_group("player")[0]
+		if player.grabbed_object == null:
+			return
+			
+		if player.grabbed_object.get_name() == "lockpick":
+			print("We can try to lockpick closed door")
+			locked = false
+	
 	if !animating:
 		if state == CLOSED:
 			$AnimationPlayer.play("open")
