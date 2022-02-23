@@ -788,6 +788,11 @@ func process_movement(delta):
 	vel = move_and_slide(vel, Vector3(0, 1, 0), 0.05, 4, deg2rad(MAX_SLOPE_ANGLE), false)
 	#print("Vel: ", vel)
 	
+	# FIX: if very big y and prone, bugs happen
+	if vel.y < -30:
+		print("Bug!")
+		vel.y = 0
+	
 	# https://kidscancode.org/godot_recipes/physics/kinematic_to_rigidbody/
 	# after calling move_and_slide()
 	for index in get_slide_count():
@@ -1032,7 +1037,7 @@ func on_enemy_seen():
 	#	get_node("Control/AnimationPlayer2").play("New Anim")
 
 func _on_emit_bark(who, msg):
-	print("Bark emitted: ", msg)
+	#print("Bark emitted: ", msg)
 	get_node("Control/bottom_panel/AIBarksPanel").show()
 	get_node("Control/bottom_panel/AIBarksPanel/Label").set_text(msg)
 	
