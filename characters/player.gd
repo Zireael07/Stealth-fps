@@ -669,7 +669,7 @@ func process_input(delta):
 
 		else:
 			# are we aiming at another interactable?
-			if camera.get_node("Spatial").last_interactable:
+			if camera.get_node("Spatial").last_interactable and is_instance_valid(camera.get_node("Spatial").last_interactable):
 				#print("Aiming at interactable...")
 				
 				# can we interact with that interactable?

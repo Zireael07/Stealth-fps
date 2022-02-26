@@ -99,6 +99,10 @@ func fire_weapon():
 		if body is RigidBody:
 			if body.is_in_group("explosive"):
 				body.explode()
+			if body.is_in_group("destructible"):
+				last_interactable = null
+				player.get_node("Control/ReferenceRect").hide()
+				body.queue_free()
 
 # so-called 'hitscan' weapon
 # wasn't hitscan in DX, but instead used projectile physics (gravity pulling down)
@@ -159,6 +163,11 @@ func melee_weapon(knockout):
 		if body is RigidBody:
 			if body.is_in_group("explosive"):
 				body.explode()
+			if body.is_in_group("destructible"):
+				#print("We hit a destructible")
+				last_interactable = null
+				player.get_node("Control/ReferenceRect").hide()
+				body.queue_free()
 
 # --------------------------------------------------
 # interactables use raycasting, so this code is also here
@@ -343,6 +352,7 @@ func detect_interactable():
 						lt.get_child(1).get_surface_material(0).next_pass.set_shader_param("thickness", 0)
 				last_interactable = null
 				player.get_node("Control/ReferenceRect").hide()
+	# not detected anything
 	else:
 		if last_interactable and is_instance_valid(last_interactable):
 			# remove outline from previous interactable
@@ -352,7 +362,8 @@ func detect_interactable():
 				if lt.get_child(1).get_surface_material(0).get_next_pass() != null:
 					lt.get_child(1).get_surface_material(0).next_pass.set_shader_param("thickness", 0)
 			last_interactable = null
-			player.get_node("Control/ReferenceRect").hide()
+		
+		player.get_node("Control/ReferenceRect").hide()
 
 func iff():
 	# Get the raycast node
