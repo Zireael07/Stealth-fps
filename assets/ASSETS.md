@@ -9,3 +9,4 @@
 * knife - from Kenney's low poly weapons pack https://opengameart.org/content/weapon-pack (CC0)
 * smoke - from Godot docs FPS demo tutorial
 * metal texture - by rubberduck https://opengameart.org/content/40-free-metal-textures-from-mtc-sets (CC0)
+* crate - edited from asset by Proxy Games https://opengameart.org/content/crate-0 (CCO)
