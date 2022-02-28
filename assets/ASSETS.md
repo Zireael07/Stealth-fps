@@ -8,3 +8,4 @@
 * Grenade and Crossbow - LowPoly models by Quaternius https://quaternius.com/packs/scifimodularguns.html (CC0)
 * knife - from Kenney's low poly weapons pack https://opengameart.org/content/weapon-pack (CC0)
 * smoke - from Godot docs FPS demo tutorial
+* metal texture - by rubberduck https://opengameart.org/content/40-free-metal-textures-from-mtc-sets (CC0)
