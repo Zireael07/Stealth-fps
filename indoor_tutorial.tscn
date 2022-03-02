@@ -232,5 +232,9 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -17.2614, 0.250364, -0.573833 
 
 [node name="supply box" parent="." instance=ExtResource( 7 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -19.5594, 0.739852, 0.0764925 )
+sleeping = true
+axis_lock_linear_x = true
+axis_lock_linear_y = true
+axis_lock_linear_z = true
 
 [editable path="Door3"]
