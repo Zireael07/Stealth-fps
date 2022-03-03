@@ -76,6 +76,7 @@ var action = null
 var talking = false
 
 var swimming = false
+var climbing = false
 
 func _ready():
 	camera = $RotationHelper/Character/Armature/CameraBoneAttachment/Camera
@@ -754,13 +755,16 @@ func process_input(delta):
 
 # Process our movements (influenced by our input) and sending them to KinematicBody
 func process_movement(delta):
-	if not swimming:
+	if not swimming and not climbing:
 		# Assure our movement direction on the Y axis is zero, and then normalize it.
 		dir.y = 0
-	else: 
-		vel.y += delta * dir.y * SWIM_SPEED
+	else:
+		if swimming:
+			vel.y += delta * dir.y * SWIM_SPEED
+		elif climbing:
+			vel.y += delta * dir.y * 5
 	dir = dir.normalized()
-	if not swimming:
+	if not swimming and not climbing:
 		# Apply gravity
 		vel.y += delta * GRAVITY
 	else:
