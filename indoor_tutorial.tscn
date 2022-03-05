@@ -1,4 +1,4 @@
-[gd_scene load_steps=29 format=2]
+[gd_scene load_steps=25 format=2]
 
 [ext_resource path="res://assets/cement.png" type="Texture" id=1]
 [ext_resource path="res://assets/White.material" type="Material" id=2]
@@ -7,9 +7,8 @@
 [ext_resource path="res://props/Door.tscn" type="PackedScene" id=5]
 [ext_resource path="res://props/lockpick_pickup.tscn" type="PackedScene" id=6]
 [ext_resource path="res://props/supply_box.tscn" type="PackedScene" id=7]
-[ext_resource path="res://assets/gfps/ladder_arraymesh.tres" type="ArrayMesh" id=8]
-[ext_resource path="res://ladder.gd" type="Script" id=9]
 [ext_resource path="res://water.tscn" type="PackedScene" id=10]
+[ext_resource path="res://props/ladder.tscn" type="PackedScene" id=11]
 
 [sub_resource type="SpatialMaterial" id=1]
 albedo_texture = ExtResource( 1 )
@@ -39,20 +38,11 @@ extents = Vector3( 1, 0.5, 2 )
 [sub_resource type="BoxShape" id=8]
 extents = Vector3( 6.75, 1.75, 2 )
 
-[sub_resource type="BoxShape" id=13]
-extents = Vector3( 0.5, 2.25, 0.5 )
-
-[sub_resource type="BoxShape" id=12]
-extents = Vector3( 0.25, 2.25, 1 )
-
 [sub_resource type="CubeMesh" id=10]
 size = Vector3( 4, 0.5, 2 )
 
 [sub_resource type="BoxShape" id=11]
 extents = Vector3( 1, 0.25, 1 )
-
-[sub_resource type="BoxShape" id=15]
-extents = Vector3( 0.5, 2.25, 0.5 )
 
 [sub_resource type="CubeMesh" id=14]
 size = Vector3( 2, 0.5, 2 )
@@ -253,27 +243,7 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 1.64, 3 )
 [node name="CollisionShape" type="CollisionShape" parent="Spatial/StaticBody2"]
 shape = SubResource( 8 )
 
-[node name="Spatial" type="Spatial" parent="Spatial"]
-transform = Transform( 1, 0, 0, 0, 0.5, 0, 0, 0, 1, -18.678, 0, 0 )
-script = ExtResource( 9 )
-
-[node name="MeshInstance3" type="MeshInstance" parent="Spatial/Spatial"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -9, 0, -9 )
-mesh = ExtResource( 8 )
-skeleton = NodePath("../..")
-material/0 = null
-
-[node name="Area" type="Area" parent="Spatial/Spatial"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.25, 3, 0 )
-
-[node name="CollisionShape" type="CollisionShape" parent="Spatial/Spatial/Area"]
-shape = SubResource( 13 )
-
-[node name="StaticBody" type="StaticBody" parent="Spatial/Spatial"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.25, 3, 0 )
-
-[node name="CollisionShape" type="CollisionShape" parent="Spatial/Spatial/StaticBody"]
-shape = SubResource( 12 )
+[node name="Spatial" parent="Spatial" instance=ExtResource( 11 )]
 
 [node name="MeshInstance3" type="MeshInstance" parent="Spatial"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -19.419, 2.39816, 0 )
@@ -285,27 +255,8 @@ material/0 = null
 [node name="CollisionShape" type="CollisionShape" parent="Spatial/MeshInstance3/StaticBody"]
 shape = SubResource( 11 )
 
-[node name="Spatial2" type="Spatial" parent="Spatial"]
-transform = Transform( 1, 0, 0, 0, 0.5, 0, 0, 0, 1, -32.7495, 0.665832, 0 )
-script = ExtResource( 9 )
-
-[node name="MeshInstance3" type="MeshInstance" parent="Spatial/Spatial2"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -9, 0, -9 )
-mesh = ExtResource( 8 )
-skeleton = NodePath("../..")
-material/0 = null
-
-[node name="Area" type="Area" parent="Spatial/Spatial2"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.25, 3, 0 )
-
-[node name="CollisionShape" type="CollisionShape" parent="Spatial/Spatial2/Area"]
-shape = SubResource( 15 )
-
-[node name="StaticBody" type="StaticBody" parent="Spatial/Spatial2"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.25, 3, 0 )
-
-[node name="CollisionShape" type="CollisionShape" parent="Spatial/Spatial2/StaticBody"]
-shape = SubResource( 12 )
+[node name="Spatial2" parent="Spatial" instance=ExtResource( 11 )]
+transform = Transform( 1, 0, 0, 0, 0.5, 0, 0, 0, 1, -32.75, 0.666, 0 )
 
 [node name="MeshInstance4" type="MeshInstance" parent="Spatial"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -32.4235, 3.06399, 0 )
@@ -317,27 +268,8 @@ material/0 = null
 [node name="CollisionShape" type="CollisionShape" parent="Spatial/MeshInstance4/StaticBody"]
 shape = SubResource( 11 )
 
-[node name="Spatial3" type="Spatial" parent="Spatial"]
-transform = Transform( 1, 0, 0, 0, 0.5, 0, 0, 0, 1, -34.7568, 0.665832, 0 )
-script = ExtResource( 9 )
-
-[node name="MeshInstance3" type="MeshInstance" parent="Spatial/Spatial3"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -9, 0, -9 )
-mesh = ExtResource( 8 )
-skeleton = NodePath("../..")
-material/0 = null
-
-[node name="Area" type="Area" parent="Spatial/Spatial3"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.25, 3, 0 )
-
-[node name="CollisionShape" type="CollisionShape" parent="Spatial/Spatial3/Area"]
-shape = SubResource( 15 )
-
-[node name="StaticBody" type="StaticBody" parent="Spatial/Spatial3"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.25, 3, 0 )
-
-[node name="CollisionShape" type="CollisionShape" parent="Spatial/Spatial3/StaticBody"]
-shape = SubResource( 12 )
+[node name="Spatial3" parent="Spatial" instance=ExtResource( 11 )]
+transform = Transform( 1, 0, 0, 0, 0.5, 0, 0, 0, 1, -34.757, 0.666, 0 )
 
 [node name="water" parent="Spatial" instance=ExtResource( 10 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -26.139, 2.5, 0 )
@@ -372,13 +304,6 @@ sleeping = true
 axis_lock_linear_x = true
 axis_lock_linear_y = true
 axis_lock_linear_z = true
-
-[connection signal="body_entered" from="Spatial/Spatial/Area" to="Spatial/Spatial" method="_on_Area_body_entered"]
-[connection signal="body_exited" from="Spatial/Spatial/Area" to="Spatial/Spatial" method="_on_Area_body_exited"]
-[connection signal="body_entered" from="Spatial/Spatial2/Area" to="Spatial/Spatial2" method="_on_Area_body_entered"]
-[connection signal="body_exited" from="Spatial/Spatial2/Area" to="Spatial/Spatial2" method="_on_Area_body_exited"]
-[connection signal="body_entered" from="Spatial/Spatial3/Area" to="Spatial/Spatial3" method="_on_Area_body_entered"]
-[connection signal="body_exited" from="Spatial/Spatial3/Area" to="Spatial/Spatial3" method="_on_Area_body_exited"]
 
 [editable path="Spatial/water"]
 [editable path="Door3"]
