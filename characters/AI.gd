@@ -92,8 +92,12 @@ func _ready():
 	state_machine = $RotationHelper/Character2/AnimationTree
 	
 	if is_in_group("boss"):
+		# feet
 		get_node("RotationHelper/model/CharacterArmature/Skeleton/SkeletonIK").start()
 		get_node("RotationHelper/model/CharacterArmature/Skeleton/SkeletonIK2").start()
+		# legs
+		get_node("RotationHelper/model/CharacterArmature/Skeleton/SkeletonIK3").start()
+		get_node("RotationHelper/model/CharacterArmature/Skeleton/SkeletonIK4").start()
 	
 	brain = $brain
 	

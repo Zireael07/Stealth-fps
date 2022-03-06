@@ -7,25 +7,45 @@
 [node name="Position3D" type="Spatial" parent="CharacterArmature/Skeleton" index="5"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.75, 0.5 )
 
-[node name="Position3D2" type="Position3D" parent="CharacterArmature/Skeleton/Position3D" index="0"]
+[node name="Position3D" type="Position3D" parent="CharacterArmature/Skeleton/Position3D" index="0"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.103011, 0 )
 
-[node name="Position3D3" type="Position3D" parent="CharacterArmature/Skeleton/Position3D" index="1"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.2, 0, 0 )
+[node name="Position3D2" type="Position3D" parent="CharacterArmature/Skeleton/Position3D" index="1"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.2, 0.126197, 0.0318871 )
+
+[node name="Position3D3" type="Position3D" parent="CharacterArmature/Skeleton/Position3D" index="2"]
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0.1, -0.646, 0 )
+
+[node name="Position3D4" type="Position3D" parent="CharacterArmature/Skeleton/Position3D" index="3"]
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, -0.2, -0.646, 0.035 )
 
 [node name="SkeletonIK" type="SkeletonIK" parent="CharacterArmature/Skeleton" index="6"]
 process_priority = 1
-root_bone = "Root"
-tip_bone = "LowerLeg.L"
-override_tip_basis = false
-target_node = NodePath("../Position3D/Position3D2")
+root_bone = "Head"
+tip_bone = "Foot.L"
+magnet = Vector3( 2, 0, 0 )
+target_node = NodePath("../Position3D/Position3D3")
 
 [node name="SkeletonIK2" type="SkeletonIK" parent="CharacterArmature/Skeleton" index="7"]
 process_priority = 1
-root_bone = "Root"
+root_bone = "Head"
+tip_bone = "Foot.R"
+magnet = Vector3( 0, 0.5, 0.5 )
+target_node = NodePath("../Position3D/Position3D4")
+
+[node name="SkeletonIK3" type="SkeletonIK" parent="CharacterArmature/Skeleton" index="8"]
+process_priority = 1
+root_bone = "Head"
+tip_bone = "LowerLeg.L"
+override_tip_basis = false
+target_node = NodePath("../Position3D/Position3D")
+
+[node name="SkeletonIK4" type="SkeletonIK" parent="CharacterArmature/Skeleton" index="9"]
+process_priority = 1
+root_bone = "Head"
 tip_bone = "LowerLeg.R"
 override_tip_basis = false
-magnet = Vector3( 0, 0.5, 0.5 )
-target_node = NodePath("../Position3D/Position3D3")
+target_node = NodePath("../Position3D/Position3D2")
 
 [node name="Position3D" type="Position3D" parent="." index="2"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.911354, 0 )
