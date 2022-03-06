@@ -50,6 +50,8 @@ var danger = []
 var chosen_dir = Vector3.ZERO
 var context_has_danger = false
 
+var mesh = null
+
 # material
 var camo = preload("res://assets/camo_triplanar_mat.tres")
 var thermal = preload("res://assets/thermal_vis_material.tres")
@@ -81,9 +83,11 @@ func _ready():
 	danger.resize(num_rays)
 	add_rays()
 	
-	var mesh = get_node("RotationHelper/Character2/Armature/Body")
+	mesh = get_node("RotationHelper/Character2/Armature/Body")
 	if is_in_group("civilian"):
 		mesh = get_node("RotationHelper/model/Human Armature/Skeleton/Human_Mesh")
+		if not mesh:
+			mesh = get_node("RotationHelper/model/CharacterArmature/Skeleton/Suit_Body")
 	
 	state_machine = $RotationHelper/Character2/AnimationTree
 	
@@ -107,7 +111,8 @@ func _ready():
 	var scale = Vector3(1,1,1)
 	if is_in_group("civilian"):
 		aabb_center = $"RotationHelper/model/Position3D"
-		scale = Vector3(0.35, 0.35, 0.35)
+		if not is_in_group("boss"):
+			scale = Vector3(0.35, 0.35, 0.35)
 	
 	for i in range(7):
 		var end_point = mesh.get_aabb().get_endpoint(i) * scale # local space

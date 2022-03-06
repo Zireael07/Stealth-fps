@@ -201,6 +201,7 @@ func draw_screen_outline(mesh, target):
 			point = target.get_node("Position3D").get_child(i).global_transform.origin
 			# so just plug it in
 			originalVerticesArray.append(point)
+		# use the real aabb
 		else:
 			point = mesh.get_aabb().get_endpoint(i) # this is in local space
 			originalVerticesArray.append(point + origin) # AABB are unrotated by design, so we can just add
@@ -301,7 +302,8 @@ func detect_interactable():
 			if last_interactable and is_instance_valid(last_interactable):
 				var target = body
 				if body.is_in_group("civilian"):
-					draw_screen_outline(target.get_node("RotationHelper/model/Human Armature/Skeleton/Human_Mesh"), body)
+					#var msh = target.get_node("RotationHelper/model/Human Armature/Skeleton/Human_Mesh")
+					draw_screen_outline(target.mesh, body)
 				if last_interactable != body:
 					# remove outline from previous interactable
 					var lt = last_interactable
@@ -314,7 +316,8 @@ func detect_interactable():
 				last_interactable = body
 				var target = body
 				if body.is_in_group("civilian"):
-					draw_screen_outline(target.get_node("RotationHelper/model/Human Armature/Skeleton/Human_Mesh"), body)
+					#var msh = target.get_node("RotationHelper/model/Human Armature/Skeleton/Human_Mesh")
+					draw_screen_outline(target.mesh, body)
 				# ally doesn't draw an outline, for now	
 					
 		# interactable items
@@ -341,7 +344,7 @@ func detect_interactable():
 					target.get_child(1).get_surface_material(0).next_pass.set_shader_param("thickness", 0.1)
 				draw_screen_outline(target.get_child(1), target)
 				
-				
+		# collided with something that's not interactable
 		else:
 			if last_interactable and is_instance_valid(last_interactable):
 				# remove outline from previous interactable
@@ -351,7 +354,8 @@ func detect_interactable():
 					if lt.get_child(1).get_surface_material(0).get_next_pass() != null:
 						lt.get_child(1).get_surface_material(0).next_pass.set_shader_param("thickness", 0)
 				last_interactable = null
-				player.get_node("Control/ReferenceRect").hide()
+			
+			player.get_node("Control/ReferenceRect").hide()
 	# not detected anything
 	else:
 		if last_interactable and is_instance_valid(last_interactable):

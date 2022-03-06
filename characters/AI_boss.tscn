@@ -19,7 +19,7 @@ size = Vector3( 0.25, 0.25, 0.25 )
 [sub_resource type="PrismMesh" id=3]
 size = Vector3( 1, 1, 1 )
 
-[node name="Spatial" type="KinematicBody" groups=["AI", "civilian"]]
+[node name="Spatial" type="KinematicBody" groups=["AI", "boss", "civilian"]]
 script = ExtResource( 2 )
 
 [node name="CollisionShape" type="CollisionShape" parent="."]
@@ -32,7 +32,7 @@ __meta__ = {
 
 [node name="RotationHelper" type="Spatial" parent="."]
 
-[node name="Suit" parent="RotationHelper" instance=ExtResource( 7 )]
+[node name="model" parent="RotationHelper" instance=ExtResource( 7 )]
 
 [node name="Area" type="Area" parent="RotationHelper"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0 )
