@@ -32,10 +32,14 @@ func _on_interact():
 		var player = get_tree().get_nodes_in_group("player")[0]
 		if player.grabbed_object == null:
 			return
-			
+		
+		# open doors if we have a lockpick	
 		if player.grabbed_object.get_name() == "lockpick":
 			print("We can try to lockpick closed door")
-			locked = false
+			# queue up a long action
+			player.long_action("Opening", 3, null, self)
+			#locked = false
+			return
 	
 	if !animating:
 		if state == CLOSED:

@@ -1010,8 +1010,8 @@ func uniform_change(index):
 		msh.set_surface_material(1, camo)
 		uniform = CAMO
 
-func long_action(kind, time, data=null):
-	action = [kind, data]
+func long_action(kind, time, data=null, tg=null):
+	action = [kind, data, tg]
 	# actually run stuff
 	get_node("ActionTimer").start(time)
 	get_node("Control/Center/ActionProgress").show()
@@ -1021,6 +1021,8 @@ func _on_action_finished(act):
 	print("Action finished: ", act)
 	if act[0] == "Dressing":
 		uniform_change(act[1])
+	if act[0] == "Opening":
+		act[2].locked = false
 
 func _on_ActionTimer_timeout():
 	get_node("Control/Center/ActionProgress").hide()
