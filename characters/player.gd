@@ -405,6 +405,12 @@ func process_input(delta):
 			# change anim
 			state_machine["parameters/move_state/playback"].start("crouch")
 		elif stance == STANDING:
+			var coll= move_and_collide(Vector3(0.5,0.1,0), false, true, true)
+			print("standing, coll: ", coll)
+			if coll:
+				stance = PRONE # don't change stance
+				return
+			
 			MAX_SPEED = 20
 			ACCEL = 1
 			$RotationHelper/Character/Armature/rifleik2.stop()
@@ -433,8 +439,22 @@ func process_input(delta):
 			$CollisionShape.get_shape().extents = Vector3(0.249, 0.92, 0.757)
 			state_machine["parameters/move_state/playback"].start("run")
 		elif stance == PRONE:
+			# FIXME: stop things if we detect big y velocity (Shouldn't happen!)
+			# FIXME: check for collisions before going prone
+#			var tr = $CollisionShape.transform.rotated(Vector3(1,0,0), 90)
+#			tr.translated(Vector3(1,0,0))
+#			#test_move(tr, Vector3(Vector3(0,0,-1)
+#			print("Test move: ")
+			var coll= move_and_collide(Vector3(1,0.1,0), false, true, true)
+			var coll2= move_and_collide(Vector3(-1,0.1,0), false, true, true)
+			print("prone, coll: ", coll, "coll2", coll2)
+			if coll or coll2:
+				stance -= 1 # don't change stance
+				return
+			
 			MAX_SPEED = 10
 			ACCEL = 0.25
+			
 			# the changes mean we're roughly 0.7 units tall (Z value)
 			$RotationHelper/Character.set_rotation_degrees(Vector3(90, 0, 0))
 			$RotationHelper/Character.set_translation(Vector3(1, 0, -1))
