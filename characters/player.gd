@@ -405,11 +405,11 @@ func process_input(delta):
 			# change anim
 			state_machine["parameters/move_state/playback"].start("crouch")
 		elif stance == STANDING:
-			var coll= move_and_collide(Vector3(0.5,0.1,0), false, true, true)
-			print("standing, coll: ", coll)
-			if coll:
-				stance = PRONE # don't change stance
-				return
+#			var coll= move_and_collide(Vector3(0.5,0.1,0), false, true, true)
+#			print("standing, coll: ", coll)
+#			if coll:
+#				stance = PRONE # don't change stance
+#				return
 			
 			MAX_SPEED = 20
 			ACCEL = 1
@@ -445,10 +445,13 @@ func process_input(delta):
 #			tr.translated(Vector3(1,0,0))
 #			#test_move(tr, Vector3(Vector3(0,0,-1)
 #			print("Test move: ")
-			var coll= move_and_collide(Vector3(1,0.1,0), false, true, true)
-			var coll2= move_and_collide(Vector3(-1,0.1,0), false, true, true)
-			print("prone, coll: ", coll, "coll2", coll2)
-			if coll or coll2:
+#			var coll= move_and_collide(Vector3(1,0.1,0), false, true, true)
+#			var coll2= move_and_collide(Vector3(-1,0.1,0), false, true, true)
+#			print("prone, coll: ", coll, "coll2", coll2)
+			
+			# check three rays to be sure we don't miss anything
+			if $StanceRayCast.is_colliding() or $StanceRayCast2.is_colliding() or $StanceRayCast3.is_colliding():
+				print("Colliding")
 				stance -= 1 # don't change stance
 				return
 			

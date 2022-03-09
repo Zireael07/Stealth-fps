@@ -43,4 +43,18 @@ collision_mask = 4
 wait_time = 5.0
 one_shot = true
 
+[node name="StanceRayCast" type="RayCast" parent="."]
+enabled = true
+cast_to = Vector3( 0.5, 0, 0 )
+
+[node name="StanceRayCast2" type="RayCast" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.63 )
+enabled = true
+cast_to = Vector3( 0.5, 0, 0 )
+
+[node name="StanceRayCast3" type="RayCast" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.33 )
+enabled = true
+cast_to = Vector3( 0.5, 0, 0 )
+
 [connection signal="timeout" from="ActionTimer" to="." method="_on_ActionTimer_timeout"]
