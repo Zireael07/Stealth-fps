@@ -305,5 +305,8 @@ axis_lock_linear_x = true
 axis_lock_linear_y = true
 axis_lock_linear_z = true
 
+[node name="TopDownCamera" type="Camera" parent="."]
+transform = Transform( -1, 3.25841e-07, 5.30863e-14, 0, -1.62921e-07, 1, 3.25841e-07, 1, 1.62921e-07, 20, 3, 0 )
+
 [editable path="Spatial/water"]
 [editable path="Door3"]
