@@ -13,7 +13,7 @@ extents = Vector3( 3, 0.35, 0.5 )
 
 [node name="bench" type="Spatial"]
 
-[node name="MeshInstance" type="MeshInstance" parent="."]
+[node name="MeshInstance" type="MeshInstance" parent="." groups=["x-ray"]]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.584937, 0 )
 mesh = SubResource( 1 )
 material/0 = ExtResource( 1 )

@@ -34,7 +34,7 @@ angular_damp = 100.0
 [node name="CollisionShape" type="CollisionShape" parent="."]
 shape = SubResource( 5 )
 
-[node name="MeshInstance" type="MeshInstance" parent="."]
+[node name="MeshInstance" type="MeshInstance" parent="." groups=["x-ray"]]
 transform = Transform( 1.5, 0, 0, 0, 2, 0, 0, 0, 1, 0, 0, 0 )
 mesh = ExtResource( 3 )
 material/0 = SubResource( 4 )

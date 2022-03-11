@@ -835,10 +835,10 @@ func _on_Timer_timeout():
 
 func _on_thermal_vision(on):
 	# visual effect
-	var mesh = get_node("RotationHelper/Character2/Armature/Body")
+	#var mesh = get_node("RotationHelper/Character2/Armature/Body")
 	var index = 1
 	if is_in_group("civilian"):
-		mesh = get_node("RotationHelper/model/Human Armature/Skeleton/Human_Mesh")
+		#mesh = get_node("RotationHelper/model/Human Armature/Skeleton/Human_Mesh")
 		index = 0
 	if on:
 		mesh.set_surface_material(index, thermal)

@@ -440,7 +440,7 @@ func process_input(delta):
 			state_machine["parameters/move_state/playback"].start("run")
 		elif stance == PRONE:
 			# FIXME: stop things if we detect big y velocity (Shouldn't happen!)
-			# FIXME: check for collisions before going prone
+			
 #			var tr = $CollisionShape.transform.rotated(Vector3(1,0,0), 90)
 #			tr.translated(Vector3(1,0,0))
 #			#test_move(tr, Vector3(Vector3(0,0,-1)
@@ -449,6 +449,7 @@ func process_input(delta):
 #			var coll2= move_and_collide(Vector3(-1,0.1,0), false, true, true)
 #			print("prone, coll: ", coll, "coll2", coll2)
 			
+			# check for collisions before going prone
 			# check three rays to be sure we don't miss anything
 			if $StanceRayCast.is_colliding() or $StanceRayCast2.is_colliding() or $StanceRayCast3.is_colliding():
 				print("Colliding")
@@ -981,6 +982,12 @@ func _on_gadget_mode(index):
 	if index < 3:
 		for c in get_tree().get_nodes_in_group("AI"):
 			c._on_thermal_vision(false)
+	if index < 4:
+		for o in get_tree().get_nodes_in_group("x-ray"):
+			o.get_node("MeshInstance").set_material_override(null)
+			# for bordered setup o needs to be the parent Glowing node
+			#o.glow_border_effect = false
+			#o.get_node("MeshInstance").get_surface_material(0).set_feature(SpatialMaterial.FEATURE_TRANSPARENT, false)
 	
 	if index == 0:
 		get_tree().get_nodes_in_group("root")[0].get_node("WorldEnvironment").environment.adjustment_enabled = false
@@ -1001,7 +1008,12 @@ func _on_gadget_mode(index):
 		# thermal effect
 		for c in get_tree().get_nodes_in_group("AI"):
 			c._on_thermal_vision(true)
-		
+	elif index == 4:
+		for o in get_tree().get_nodes_in_group("x-ray"):
+			o.set_material_override(preload("res://assets/xray_material2.tres"))
+			# for bordered setup, o needs to be the parent GlowingObject
+			#o.glow_border_effect = true
+			#o.get_node("MeshInstance").get_surface_material(0).set_feature(SpatialMaterial.FEATURE_TRANSPARENT, true)
 			
 	# wait a bit
 	yield(get_tree().create_timer(1), "timeout")

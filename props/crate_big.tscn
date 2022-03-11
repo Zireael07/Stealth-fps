@@ -1,6 +1,6 @@
 [gd_scene load_steps=6 format=2]
 
-[ext_resource path="res://assets/outline3D.shader" type="Shader" id=1]
+[ext_resource path="res://assets/White.material" type="Material" id=1]
 
 [sub_resource type="BoxShape" id=1]
 extents = Vector3( 1.55, 2, 2 )
@@ -31,6 +31,6 @@ angular_damp = 2.0
 [node name="CollisionShape" type="CollisionShape" parent="."]
 shape = SubResource( 1 )
 
-[node name="MeshInstance" type="MeshInstance" parent="."]
+[node name="MeshInstance" type="MeshInstance" parent="." groups=["x-ray"]]
 mesh = SubResource( 2 )
-material/0 = SubResource( 4 )
+material/0 = ExtResource( 1 )
