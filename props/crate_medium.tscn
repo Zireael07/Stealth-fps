@@ -1,6 +1,6 @@
 [gd_scene load_steps=7 format=2]
 
-[ext_resource path="res://assets/outline3D.shader" type="Shader" id=1]
+[ext_resource path="res://outlines/outline3D.shader" type="Shader" id=1]
 [ext_resource path="res://assets/m-009.jpg" type="Texture" id=2]
 [ext_resource path="res://props/box_mesh.tres" type="ArrayMesh" id=3]
 
