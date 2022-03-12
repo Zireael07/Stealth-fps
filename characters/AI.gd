@@ -124,6 +124,9 @@ func _ready():
 	
 	for i in range(7):
 		var end_point = mesh.get_aabb().get_endpoint(i) * scale # local space
+		if is_in_group("boss"):
+			end_point = mesh.get_aabb().merge(get_node("RotationHelper/model/CharacterArmature/Skeleton/Suit_Legs").get_aabb()).get_endpoint(i)
+			
 		 # because we're looking at relative to center
 		var point = to_global(end_point)
 		var pt = Position3D.new()
