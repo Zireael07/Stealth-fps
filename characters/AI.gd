@@ -87,7 +87,8 @@ func _ready():
 	if is_in_group("civilian"):
 		mesh = get_node("RotationHelper/model/Human Armature/Skeleton/Human_Mesh")
 		if not mesh:
-			mesh = get_node("RotationHelper/model/CharacterArmature/Skeleton/Suit_Body")
+			# head because we merge it with legs later to get the whole lot
+			mesh = get_node("RotationHelper/model/CharacterArmature/Skeleton/Suit_Head") 
 	
 	state_machine = $RotationHelper/Character2/AnimationTree
 	
