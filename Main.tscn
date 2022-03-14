@@ -1,4 +1,4 @@
-[gd_scene load_steps=65 format=2]
+[gd_scene load_steps=66 format=2]
 
 [ext_resource path="res://better_env.tres" type="Environment" id=1]
 [ext_resource path="res://assets/blue.material" type="Material" id=2]
@@ -31,6 +31,7 @@
 [ext_resource path="res://props/bench.tscn" type="PackedScene" id=29]
 [ext_resource path="res://water.tscn" type="PackedScene" id=30]
 [ext_resource path="res://assets/wood_dark.tres" type="Material" id=31]
+[ext_resource path="res://office room.tscn" type="PackedScene" id=32]
 
 [sub_resource type="SpatialMaterial" id=1]
 albedo_texture = ExtResource( 10 )
@@ -127,11 +128,11 @@ void fragment() {
 	//ALBEDO = texture(refl_tx, UV).rgb;
 }"
 
-[sub_resource type="ViewportTexture" id=31]
+[sub_resource type="ViewportTexture" id=35]
 
 [sub_resource type="ShaderMaterial" id=22]
 shader = SubResource( 20 )
-shader_param/refl_tx = SubResource( 31 )
+shader_param/refl_tx = SubResource( 35 )
 
 [sub_resource type="QuadMesh" id=23]
 size = Vector2( 1, 0.5 )
@@ -316,6 +317,9 @@ collision_layer = 5
 [node name="CollisionShape" type="CollisionShape" parent="level/StaticBody2"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.25, 0 )
 shape = SubResource( 28 )
+
+[node name="Spatial2" parent="level" instance=ExtResource( 32 )]
+transform = Transform( 1.19249e-08, 0, -1, 0, 1, 0, 1, 0, 1.19249e-08, 0, 0, -9.49007 )
 
 [node name="nav" type="Spatial" parent="."]
 
