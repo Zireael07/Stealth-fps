@@ -1,7 +1,8 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://props/box_mesh.tres" type="ArrayMesh" id=1]
 [ext_resource path="res://assets/crate_Material_Base_Color2.png" type="Texture" id=2]
+[ext_resource path="res://props/supply_box.gd" type="Script" id=3]
 
 [sub_resource type="BoxShape" id=1]
 extents = Vector3( 0.5, 0.5, 0.65 )
@@ -17,6 +18,7 @@ gravity_scale = 4.0
 axis_lock_angular_x = true
 axis_lock_angular_z = true
 angular_damp = 6.0
+script = ExtResource( 3 )
 
 [node name="CollisionShape" type="CollisionShape" parent="."]
 shape = SubResource( 1 )

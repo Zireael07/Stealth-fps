@@ -165,9 +165,11 @@ func melee_weapon(knockout):
 				body.explode()
 			if body.is_in_group("destructible"):
 				#print("We hit a destructible")
-				last_interactable = null
-				player.get_node("Control/ReferenceRect").hide()
-				body.queue_free()
+				if body._on_hit():
+					# destroyed
+					last_interactable = null
+					player.get_node("Control/ReferenceRect").hide()
+					#body.queue_free()
 
 # --------------------------------------------------
 # interactables use raycasting, so this code is also here
