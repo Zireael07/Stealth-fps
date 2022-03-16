@@ -1,0 +1,33 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://assets/wood_dark.tres" type="Material" id=1]
+[ext_resource path="res://props/csg_to_mesh.gd" type="Script" id=2]
+
+[node name="Spatial" type="Spatial"]
+
+[node name="CSGCombiner" type="CSGCombiner" parent="."]
+material_override = ExtResource( 1 )
+script = ExtResource( 2 )
+
+[node name="CSGBox" type="CSGBox" parent="CSGCombiner"]
+width = 0.2
+height = 0.1
+depth = 1.0
+
+[node name="CSGBox2" type="CSGBox" parent="CSGCombiner"]
+transform = Transform( 0.866025, 0, 0.5, 0, 1, 0, -0.5, 0, 0.866025, 0, 0, 0 )
+width = 0.2
+height = 0.1
+depth = 1.0
+
+[node name="CSGBox3" type="CSGBox" parent="CSGCombiner"]
+transform = Transform( 0.5, 0.150384, -0.852869, 0, 0.984808, 0.173648, 0.866025, -0.0868241, 0.492404, 0.257976, 0, 0 )
+width = 0.2
+height = 0.1
+depth = 1.0
+
+[node name="CSGBox4" type="CSGBox" parent="CSGCombiner"]
+transform = Transform( 0.766044, -0.166366, -0.620885, 0, 0.965926, -0.258819, 0.642788, 0.198267, 0.739942, -0.383668, 0, -0.353557 )
+width = 0.2
+height = 0.1
+depth = 1.0
