@@ -4,6 +4,7 @@ extends RigidBody
 # Declare member variables here. Examples:
 var hits = 0
 
+var splinters = load("res://props/splinters.tscn")
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -16,7 +17,11 @@ func _ready():
 
 func _on_destroy():
 	queue_free()
-	# TODO: spawn splinters
+	# spawn splinters
+	var s = splinters.instance()
+	get_parent().add_child(s)
+	s.global_transform.origin = self.global_transform.origin
+	s.translate_object_local(Vector3(1,-0.5, 0)) # the box was 1m tall and 1 m deep, so we put the splinters on the floor
 
 func _on_hit():
 	var destruct = false
