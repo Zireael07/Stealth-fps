@@ -1,0 +1,49 @@
+[gd_scene load_steps=6 format=2]
+
+[sub_resource type="ParticlesMaterial" id=3]
+emission_shape = 1
+emission_sphere_radius = 0.1
+spread = 180.0
+gravity = Vector3( 0, 0, 0 )
+initial_velocity = 1.85
+angular_velocity = 2.8026e-44
+damping = 0.75
+
+[sub_resource type="SpatialMaterial" id=4]
+flags_transparent = true
+flags_unshaded = true
+params_blend_mode = 1
+albedo_color = Color( 1, 0.851685, 0.0507813, 0.734824 )
+
+[sub_resource type="SphereMesh" id=5]
+material = SubResource( 4 )
+radius = 0.2
+height = 0.4
+radial_segments = 4
+rings = 4
+
+[sub_resource type="SpatialMaterial" id=6]
+flags_transparent = true
+flags_unshaded = true
+albedo_color = Color( 1, 0.28125, 0, 1 )
+
+[sub_resource type="SphereMesh" id=7]
+material = SubResource( 6 )
+radius = 0.16
+height = 0.32
+radial_segments = 4
+rings = 4
+
+[node name="Explosion" type="Particles"]
+transform = Transform( 3, 0, 0, 0, 3, 0, 0, 0, 3, 0, -0.0767642, 0 )
+emitting = false
+amount = 128
+lifetime = 1.45
+one_shot = true
+speed_scale = 3.0
+explosiveness = 1.0
+local_coords = false
+process_material = SubResource( 3 )
+draw_passes = 2
+draw_pass_1 = SubResource( 5 )
+draw_pass_2 = SubResource( 7 )
