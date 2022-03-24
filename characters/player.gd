@@ -660,16 +660,17 @@ func process_input(delta):
 					return
 			elif inter.is_in_group("pickup"):
 				#if inter.get_name() == "binocs":
-				if !inventory.has("UTILITY"):
+				#if !inventory.has("UTILITY"):
 					inventory["UTILITY"] = inter
 					inter.slot = "UTILITY"
 					print("Put " + inter.get_name() + " in utility")
 					add_to_inventory(inter)
 					if inter.has_method("_on_add_to_inventory"):
 						inter._on_add_to_inventory(self)
-				else:
+					
+				#else:
 					# TODO feedback for slot taken
-					return
+				#	return
 					
 			grabbed_object = inter
 			# clear interactable
