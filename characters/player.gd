@@ -91,11 +91,19 @@ func _ready():
 	shadow_ray = $see_tg/ShadowRayCast
 	
 	# mission setup
+	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 	get_node("Control/troop selection").show()
+	# give it the focus just in case
+	get_node("Control/troop selection").get_node("HBoxContainer/VBoxContainer/Button").grab_focus()
 	get_tree().set_pause(true)
 	get_node("Control/scoring").hide()
 
 func game_start(data):
+	# hackfix for change level
+	self.set_physics_process(true)
+	camera.get_node("Spatial").player = self
+	
+	print("Game started!")
 	# FPS input
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	

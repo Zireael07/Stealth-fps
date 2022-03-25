@@ -3,7 +3,7 @@ extends Spatial
 
 # Declare member variables here. Examples:
 var player
-
+var indoor_tut = preload("res://indoor_tutorial.tscn")
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -33,3 +33,10 @@ func _ready():
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta):
 #	pass
+
+func change_level():
+	self.queue_free()
+	var lvl = indoor_tut.instance()
+	get_node("/root").add_child(lvl)
+	# hackfix
+	get_tree().get_nodes_in_group("player")[1].set_physics_process(false)

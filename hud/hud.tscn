@@ -568,6 +568,7 @@ __meta__ = {
 }
 
 [node name="troop selection" parent="." instance=ExtResource( 7 )]
+pause_mode = 2
 visible = false
 
 [node name="AnimationPlayer2" type="AnimationPlayer" parent="."]

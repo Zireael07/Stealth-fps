@@ -882,6 +882,9 @@ func optic_camo_effect():
 
 func _on_answer_selected(id):
 	print("On answer selected, id ", id)
+	if is_in_group("boss"):
+		get_node("/root/Spatial").change_level()
+	
 	if is_in_group("civilian"):
 		return
 		
