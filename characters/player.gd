@@ -597,12 +597,8 @@ func process_input(delta):
 					var conv = preload("res://hud/conversation.tscn")
 					var c = conv.instance()
 					get_node("Control").add_child(c)
-					c.set_answers(d.answers)
-					c.show_line(d.line)
+					c.load_dialogue(d.dialogue)
 					c.set_talker(inter)
-					if inter.is_in_group("boss"):
-						c.show_line("Welcome to the Coalition, Agent!")
-						c.set_answers(["Thank you, sir!", "What is my task?"])
 					
 				else:
 					print("You try to talk to ", inter.get_name(), " but he has nothing to say")

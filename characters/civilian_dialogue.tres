@@ -1,0 +1,12 @@
+[gd_resource type="Resource" load_steps=2 format=2]
+
+[ext_resource path="res://characters/dialogue_res.gd" type="Script" id=1]
+
+[resource]
+script = ExtResource( 1 )
+lines = {
+"start": "The rich are getting richer and the poor, well, poorer..."
+}
+answers = {
+"start": [ "Your point?", "Whatever" ]
+}

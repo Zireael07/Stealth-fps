@@ -8,7 +8,8 @@ var talker = null
 func _ready():
 	$"Panel2/VBoxContainerAnswers/Label1".connect("gui_input", self, "_on_answer_gui_input", [$"Panel2/VBoxContainerAnswers/Label1"] )
 	$"Panel2/VBoxContainerAnswers/Label2".connect("gui_input", self, "_on_answer_gui_input", [$"Panel2/VBoxContainerAnswers/Label2"] )
-	
+
+# for things that need the npc (e.g. changing AI's behavior)	
 func set_talker(npc):
 	talker = npc
 
@@ -26,9 +27,15 @@ func show_answers():
 	$"Panel2/VBoxContainer".hide()
 	$"Panel2/VBoxContainerAnswers".show()
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-#func _process(delta):
-#	pass
+func load_dialogue(dialogue):
+	# paranoia
+	if not dialogue is DialogueResource:
+		return
+	
+	set_answers(dialogue.answers["start"])
+	show_line(dialogue.lines["start"])
+
+
 func _on_answer_selected(id):
 	#if '_on_answer_selected' in talker:
 	talker._on_answer_selected(id)
