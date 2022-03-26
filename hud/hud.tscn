@@ -299,6 +299,14 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="LevelNameLabel" type="Label" parent="Center"]
+visible = false
+margin_left = -15.0
+margin_top = 40.0
+margin_right = 25.0
+margin_bottom = 54.0
+rect_scale = Vector2( 1.5, 1.5 )
+
 [node name="ReferenceRect" type="ReferenceRect" parent="."]
 visible = false
 margin_left = 485.0

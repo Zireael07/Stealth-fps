@@ -34,6 +34,7 @@ func _ready():
 #func _process(delta):
 #	pass
 
+# TODO: level change effect (e.g. fade to black)
 func change_level():
 	self.queue_free()
 	var lvl = indoor_tut.instance()

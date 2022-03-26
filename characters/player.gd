@@ -104,6 +104,9 @@ func game_start(data):
 	camera.get_node("Spatial").player = self
 	
 	print("Game started!")
+	
+	_on_level_loaded() #to show after we close troop select
+	
 	# FPS input
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	
@@ -1092,3 +1095,11 @@ func _on_emit_bark(who, msg):
 	
 	yield(get_tree().create_timer(2), "timeout")
 	get_node("Control/bottom_panel/AIBarksPanel").hide()
+
+func _on_level_loaded():
+	get_node("Control/Center/LevelNameLabel").show()
+	var nm = get_tree().get_nodes_in_group("level")[0].get_name()
+	get_node("Control/Center/LevelNameLabel").set_text(nm.capitalize() + ", unknown")
+	
+	yield(get_tree().create_timer(2), "timeout")
+	get_node("Control/Center/LevelNameLabel").hide()	
