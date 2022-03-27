@@ -419,6 +419,40 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="MessagePanel" type="Panel" parent="."]
+visible = false
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -150.0
+margin_right = 150.0
+margin_bottom = 100.0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MessagePanel"]
+margin_left = 5.0
+margin_top = 5.0
+margin_right = 69.0
+margin_bottom = 95.0
+rect_min_size = Vector2( 60, 90 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="portrait2" type="ColorRect" parent="MessagePanel/HBoxContainer"]
+margin_right = 60.0
+margin_bottom = 90.0
+rect_min_size = Vector2( 60, 90 )
+__meta__ = {
+"_edit_use_anchors_": false,
+"_editor_description_": "(stand-in for sprite of ally)"
+}
+
+[node name="RichTextLabel" type="RichTextLabel" parent="MessagePanel/HBoxContainer"]
+margin_left = 64.0
+margin_right = 289.0
+margin_bottom = 90.0
+rect_min_size = Vector2( 225, 30 )
+text = "Welcome! The boss is in a safe place behind you. Talk to him for your next objective."
+
 [node name="bottom_panel" type="Control" parent="."]
 margin_top = 500.0
 margin_right = 1024.0
@@ -457,7 +491,7 @@ margin_left = 5.0
 margin_top = 5.0
 margin_right = 65.0
 margin_bottom = 95.0
-rect_min_size = Vector2( 40, 0 )
+rect_min_size = Vector2( 60, 90 )
 __meta__ = {
 "_edit_use_anchors_": false,
 "_editor_description_": "(stand-in for sprite of ally)"
