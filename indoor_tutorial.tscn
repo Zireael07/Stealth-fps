@@ -54,7 +54,7 @@ size = Vector2( 10, 3 )
 extents = Vector3( 10, 1, 5 )
 
 [sub_resource type="BoxShape" id=18]
-extents = Vector3( 10, 2.5, 3 )
+extents = Vector3( 5, 2.5, 2 )
 
 [sub_resource type="BoxShape" id=9]
 extents = Vector3( 1, 1.5, 1 )
@@ -281,6 +281,7 @@ mesh = SubResource( 16 )
 shape = SubResource( 17 )
 
 [node name="CollisionShape" parent="Spatial/water/WaterArea" index="0"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2.5, 0 )
 shape = SubResource( 18 )
 
 [node name="Door3" parent="." instance=ExtResource( 5 )]

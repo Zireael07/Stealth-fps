@@ -24,7 +24,10 @@ func _process(delta):
 	# update action bar
 	if $Center/ActionProgress.visible:
 		$Center/ActionProgress/VBoxContainer/ProgressBar.value = get_parent().get_node("ActionTimer").get_time_left()
-#	pass
+
+	# update air bar
+	if $AirProgressBar.visible and not get_parent().get_node("AirTimer").is_stopped():
+		$AirProgressBar.value = get_parent().get_node("AirTimer").get_time_left()
 
 func update_hiding():
 	if get_parent().is_hiding():

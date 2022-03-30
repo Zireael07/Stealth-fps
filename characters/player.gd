@@ -76,6 +76,7 @@ var action = null
 var talking = false
 
 var swimming = false
+var water_body = null
 var climbing = false
 
 func _ready():
@@ -181,6 +182,19 @@ func _physics_process(delta):
 	process_movement(delta)
 	camera.get_node("Spatial").iff()
 	camera.get_node("Spatial").detect_interactable()
+
+	# are we underwater?
+	if swimming and water_body:
+		var rel_pos = water_body.to_local(self.global_transform.origin)
+		print("Height: ", rel_pos.y)
+		# the character is roughly 1,8m tall so at -1,5 the head is above the water
+		if rel_pos.y < -1.5:
+			_on_underwater()
+		else:
+			# above water
+			get_node("AirTimer").stop()
+			# reset bar
+			get_node("Control/AirProgressBar").value = 20
 
 func left_hand_empty_ik():
 	var g_pos = $RotationHelper/Character/Armature/WeaponHold/Rifle2/Position3D.get_global_transform().origin #+ Vector3(0,0, 0.5)
@@ -1074,6 +1088,16 @@ func _on_ActionTimer_timeout():
 	get_node("Control/Center/ActionProgress").hide()
 	_on_action_finished(action)
 	action = null
+
+func _on_underwater():
+	if get_node("AirTimer").is_stopped():
+		get_node("AirTimer").start()
+
+func _on_AirTimer_timeout():
+	get_node("Control/AirProgressBar").hide()
+	# game over for now
+	get_node("Control/gameover").show()
+	get_tree().paused = true
 
 func on_enemy_seen():
 	get_node("Control/bottom_panel/AllyPanel/ColorRect/radio_indicator").show()

@@ -19,10 +19,13 @@ func _ready():
 func _on_WaterArea_body_entered(body):
 	if body.is_in_group("player"):
 		body.swimming = true
+		body.water_body = self
+		body.get_node("Control/AirProgressBar").show()
 	#pass # Replace with function body.
 
 
 func _on_WaterArea_body_exited(body):
 	if body.is_in_group("player"):
 		body.swimming = false
-	pass # Replace with function body.
+		body.water_body = null
+		body.get_node("Control/AirProgressBar").hide()
