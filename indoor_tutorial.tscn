@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=2]
+[gd_scene load_steps=26 format=2]
 
 [ext_resource path="res://assets/cement.png" type="Texture" id=1]
 [ext_resource path="res://assets/White.material" type="Material" id=2]
@@ -7,6 +7,7 @@
 [ext_resource path="res://props/Door.tscn" type="PackedScene" id=5]
 [ext_resource path="res://props/lockpick_pickup.tscn" type="PackedScene" id=6]
 [ext_resource path="res://props/supply_box.tscn" type="PackedScene" id=7]
+[ext_resource path="res://assets/water_material.tres" type="Material" id=8]
 [ext_resource path="res://water.tscn" type="PackedScene" id=10]
 [ext_resource path="res://props/ladder.tscn" type="PackedScene" id=11]
 
@@ -276,6 +277,10 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -26.139, 2.5, 0 )
 
 [node name="surface" parent="Spatial/water" index="0"]
 mesh = SubResource( 16 )
+material/0 = ExtResource( 8 )
+
+[node name="MeshInstance2" parent="Spatial/water" index="2"]
+transform = Transform( 5, 0, 0, 0, 1.25, 0, 0, 0, 1.15, 0, -1.24966, 0 )
 
 [node name="CollisionShape" parent="Spatial/water/StaticBottom" index="0"]
 shape = SubResource( 17 )
