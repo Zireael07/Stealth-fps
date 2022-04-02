@@ -290,6 +290,9 @@ shape = SubResource( 30 )
 [node name="surface" parent="outdoor/water" index="0"]
 mesh = SubResource( 32 )
 
+[node name="MeshInstance2" parent="outdoor/water" index="2"]
+transform = Transform( 10, 0, 0, 0, 2, 0, 0, 0, 25, 0, -2.21372, 0 )
+
 [node name="CollisionShape" parent="outdoor/water/StaticBottom" index="0"]
 shape = SubResource( 33 )
 

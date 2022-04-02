@@ -8,6 +8,7 @@ extends Spatial
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	# TODO: auto size things
 	pass # Replace with function body.
 
 
