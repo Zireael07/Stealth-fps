@@ -1,14 +1,23 @@
+tool
 extends Spatial
 
 
 # Declare member variables here. Examples:
-# var a = 2
-# var b = "text"
+export var size = Vector3(10,2.5, 10)
 
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	# TODO: auto size things
+	# auto size things
+	get_node("WaterArea/CollisionShape").get_shape().set_extents(size/2) #extents are half the actual size
+	get_node("surface").get_mesh().set_size(Vector2(size.x, size.z))
+	get_node("MeshInstance2").set_scale(size/2)
+	# fix y offset
+	var offset = (-size.y/2)-0.05
+	get_node("WaterArea/CollisionShape").set_translation(Vector3(0, offset, 0))
+	get_node("MeshInstance2").set_translation(Vector3(0,offset, 0))
+	
+	
 	pass # Replace with function body.
 
 

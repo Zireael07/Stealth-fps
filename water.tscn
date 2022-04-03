@@ -3,14 +3,10 @@
 [ext_resource path="res://water.gd" type="Script" id=1]
 [ext_resource path="res://assets/water_volume_material.tres" type="Material" id=2]
 [ext_resource path="res://assets/open_box.obj" type="ArrayMesh" id=3]
+[ext_resource path="res://assets/water_material.tres" type="Material" id=4]
 
 [sub_resource type="QuadMesh" id=25]
-size = Vector2( 10, 5 )
-
-[sub_resource type="SpatialMaterial" id=26]
-flags_transparent = true
-params_cull_mode = 2
-albedo_color = Color( 0.027451, 1, 0.909804, 0.290196 )
+size = Vector2( 10, 10 )
 
 [sub_resource type="CubeMesh" id=32]
 material = ExtResource( 2 )
@@ -20,7 +16,7 @@ size = Vector3( 10, 2, 2 )
 extents = Vector3( 10, 1, 20 )
 
 [sub_resource type="BoxShape" id=30]
-extents = Vector3( 10, 2.5, 25 )
+extents = Vector3( 5, 1.25, 5 )
 
 [node name="water" type="Spatial"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -60.9619, 0, 0 )
@@ -33,7 +29,7 @@ __meta__ = {
 transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0 )
 cast_shadow = 0
 mesh = SubResource( 25 )
-material/0 = SubResource( 26 )
+material/0 = ExtResource( 4 )
 
 [node name="MeshInstance" type="MeshInstance" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.0487, 0 )
@@ -43,7 +39,7 @@ mesh = SubResource( 32 )
 material/0 = null
 
 [node name="MeshInstance2" type="MeshInstance" parent="."]
-transform = Transform( 4, 0, 0, 0, 2, 0, 0, 0, 2, 0, -2.21372, 0 )
+transform = Transform( 5, 0, 0, 0, 1.25, 0, 0, 0, 5, 0, -1.05, 0 )
 cast_shadow = 0
 mesh = ExtResource( 3 )
 material/0 = ExtResource( 2 )
@@ -58,7 +54,7 @@ shape = SubResource( 27 )
 [node name="WaterArea" type="Area" parent="."]
 
 [node name="CollisionShape" type="CollisionShape" parent="WaterArea"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -2, -2.5, 0 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.05, 0 )
 shape = SubResource( 30 )
 
 [connection signal="body_entered" from="WaterArea" to="." method="_on_WaterArea_body_entered"]

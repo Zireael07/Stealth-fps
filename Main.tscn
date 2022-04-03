@@ -70,13 +70,13 @@ size = Vector3( 2, 5, 60 )
 extents = Vector3( 1, 2.5, 30 )
 
 [sub_resource type="QuadMesh" id=32]
-size = Vector2( 20, 50 )
+size = Vector2( 20, 60 )
 
 [sub_resource type="BoxShape" id=33]
 extents = Vector3( 20, 1, 50 )
 
 [sub_resource type="BoxShape" id=34]
-extents = Vector3( 20, 2.5, 50 )
+extents = Vector3( 10, 2, 30 )
 
 [sub_resource type="CubeMesh" id=25]
 size = Vector3( 2, 5, 60 )
@@ -286,17 +286,19 @@ material/0 = ExtResource( 31 )
 shape = SubResource( 30 )
 
 [node name="water" parent="outdoor" instance=ExtResource( 30 )]
+size = Vector3( 20, 4, 60 )
 
 [node name="surface" parent="outdoor/water" index="0"]
 mesh = SubResource( 32 )
 
 [node name="MeshInstance2" parent="outdoor/water" index="2"]
-transform = Transform( 10, 0, 0, 0, 2, 0, 0, 0, 25, 0, -2.21372, 0 )
+transform = Transform( 10, 0, 0, 0, 2, 0, 0, 0, 30, 0, -2.05, 0 )
 
 [node name="CollisionShape" parent="outdoor/water/StaticBottom" index="0"]
 shape = SubResource( 33 )
 
 [node name="CollisionShape" parent="outdoor/water/WaterArea" index="0"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2.05, 0 )
 shape = SubResource( 34 )
 
 [node name="MeshInstance8" type="MeshInstance" parent="outdoor"]
