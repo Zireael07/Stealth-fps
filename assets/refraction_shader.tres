@@ -3,7 +3,7 @@
 [resource]
 code = "//https://github.com/NathanWarden/godot_refraction_shader
 shader_type spatial;
-render_mode blend_mix,depth_draw_opaque,cull_disabled,diffuse_burley,specular_schlick_ggx;
+render_mode blend_mix,depth_draw_opaque,diffuse_burley,specular_schlick_ggx,cull_disabled;
 uniform vec4 tint : hint_color = vec4(1,1,1,0);
 uniform float specular = 0.9;
 uniform float roughness = 0.4;
@@ -19,11 +19,20 @@ void fragment()
 	float yNorm = NORMAL.y;
 	offset.x += NORMAL.z * xNorm * strength * 0.01;
 	offset.y += NORMAL.z * yNorm * strength * -0.01;
+	
+//	vec2 distort_uv = SCREEN_UV - NORMAL.xz*0.05;
+	vec3 water_color = texture(SCREEN_TEXTURE, offset).rgb;
 
-	ALBEDO = ((texture(SCREEN_TEXTURE, offset).xyz * (1.0 - tint.a)) + (tint.xyz * tint.a)) / 2.0;
+	vec3 tinted = (tint.xyz * tint.a);
+	float frac = 2.0;
+	
+	// need to clamp to fix weird issue with the sun
+	ALBEDO = clamp((water_color * (1.0 - tint.a) + tinted)/frac, vec3(0.0), vec3(1.0));
+	//ALBEDO = ((texture(SCREEN_TEXTURE, offset).xyz * (1.0 - tint.a)) + (tint.xyz * tint.a)) / 2.0;
 	SPECULAR = specular;
 	ROUGHNESS = roughness;
 	METALLIC = metallic;
+	ALPHA = 1.0;
 
 	if (use_normal_map)
 		NORMALMAP = texture(normalmap, UV).xyz;
