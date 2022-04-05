@@ -207,7 +207,7 @@ class AlarmedState:
 	
 	func update(delta):
 		# yellow indicator
-		ch.get_node("RotationHelper/MeshInstance").get_material_override().set_albedo(Color(1,1,0))
+		ch.get_node("RotationHelper/MeshInstance").get_material_override().set_texture(0, ch.alarmed_emote)
 		
 		ch.brain.steer = ch.brain.arrive(ch.brain.target, 3)
 		ch.strafe = false

@@ -64,6 +64,12 @@ signal enemy_seen
 
 export var debug = false
 
+# emotes
+var hostile_emote = preload("res://assets/kenney_emotes/emote_exclamations.png")
+var alarmed_emote = preload("res://assets/kenney_emotes/emote_exclamation.png")
+var seen_emote = preload("res://assets/kenney_emotes/emote_dots2.png")
+var think_emote = preload("res://assets/kenney_emotes/emote_circle.png")
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	# b/c it's placed in global space
@@ -551,7 +557,7 @@ func _physics_process(delta):
 			
 		else:
 			#white
-			get_node("RotationHelper/MeshInstance").get_material_override().set_albedo(Color(1,1,1))
+			get_node("RotationHelper/MeshInstance").get_material_override().set_texture(0, think_emote)
 	
 	# debug
 	if typeof(brain.target) == TYPE_VECTOR3:
@@ -633,11 +639,11 @@ func _physics_process(delta):
 							alarmed = true
 							emit_signal("emit_bark", self, "Raising an alarm!")
 							# yellow
-							get_node("RotationHelper/MeshInstance").get_material_override().set_albedo(Color(1,1,0))
+							get_node("RotationHelper/MeshInstance").get_material_override().set_texture(0, alarmed_emote)
 						else:
 							if not brain.get_state() == brain.STATE_ALARMED:
 								# red
-								get_node("RotationHelper/MeshInstance").get_material_override().set_albedo(Color(1,0,0))
+								get_node("RotationHelper/MeshInstance").get_material_override().set_texture(0, hostile_emote)
 							
 								# look at player
 								look_at(body_r.global_transform.origin, Vector3(0,1,0))
@@ -649,7 +655,7 @@ func _physics_process(delta):
 					else:
 						if not brain.get_state() == brain.STATE_ALARMED:
 							# cyan
-							get_node("RotationHelper/MeshInstance").get_material_override().set_albedo(Color(0,1,1))
+							get_node("RotationHelper/MeshInstance").get_material_override().set_texture(0, seen_emote)
 						in_sight = false
 						# straighten out
 						set_rotation(Vector3(0,get_rotation().y,0))
@@ -662,7 +668,7 @@ func _physics_process(delta):
 					face_pos = Vector3()
 					
 					# red
-					get_node("RotationHelper/MeshInstance").get_material_override().set_albedo(Color(1,0,0))
+					get_node("RotationHelper/MeshInstance").get_material_override().set_texture(0, hostile_emote)
 					
 					
 					# look at target
@@ -679,7 +685,7 @@ func _physics_process(delta):
 		else:
 			if not brain.get_state() == brain.STATE_ALARMED:
 				# white
-				get_node("RotationHelper/MeshInstance").get_material_override().set_albedo(Color(1,1,1))
+				get_node("RotationHelper/MeshInstance").get_material_override().set_texture(0, think_emote)
 			in_sight = false
 			# straighten out
 			set_rotation(Vector3(0,get_rotation().y,0))
@@ -813,7 +819,7 @@ func _on_Area_body_exited(body):
 	if body.is_in_group("player"):
 		print("Player left the viewcone")
 		possible_tg = null
-		get_node("RotationHelper/MeshInstance").get_material_override().set_albedo(Color(1,1,1))
+		get_node("RotationHelper/MeshInstance").get_material_override().set_texture(0, think_emote)
 		# straighten out
 		set_rotation(Vector3(0,get_rotation().y,0))
 
@@ -828,7 +834,7 @@ func _on_Area_body_exited2(body):
 	if !body.is_in_group("ally") and !body.is_in_group("civilian") and body.is_in_group("AI"):
 		#print("Enemy left view")
 		possible_tg = null
-		get_node("RotationHelper/MeshInstance").get_material_override().set_albedo(Color(1,1,1))
+		get_node("RotationHelper/MeshInstance").get_material_override().set_texture(0, think_emote)
 		# straighten out
 		set_rotation(Vector3(0,get_rotation().y,0))
 
