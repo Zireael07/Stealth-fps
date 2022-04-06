@@ -7,9 +7,11 @@ var hits = 0
 var splinters = load("res://props/splinters.tscn")
 export(PackedScene) var drop
 
+var player
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	pass # Replace with function body.
+	player = get_tree().get_nodes_in_group("player")[0]
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -29,6 +31,15 @@ func _on_destroy():
 		get_parent().add_child(d)
 		d.global_transform.origin = self.global_transform.origin
 		d.translate_object_local(Vector3(1,-0.5,0))
+	
+	if self.is_in_group("tutorial"):
+		# congratulatory message
+		player.get_node("Control/MessagePanel").show()
+		player.get_node("Control/MessagePanel/HBoxContainer/RichTextLabel").set_text("Congratulations! You've finished the mission!")
+		yield(get_tree().create_timer(5), "timeout")
+		# TODO: add a fancy fadeout effect
+		player.get_node("Control/MessagePanel").hide()
+		
 
 func _on_hit():
 	var destruct = false

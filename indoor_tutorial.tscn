@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=2]
+[gd_scene load_steps=26 format=2]
 
 [ext_resource path="res://assets/cement.png" type="Texture" id=1]
 [ext_resource path="res://assets/White.material" type="Material" id=2]
@@ -7,6 +7,7 @@
 [ext_resource path="res://props/Door.tscn" type="PackedScene" id=5]
 [ext_resource path="res://props/lockpick_pickup.tscn" type="PackedScene" id=6]
 [ext_resource path="res://props/supply_box.tscn" type="PackedScene" id=7]
+[ext_resource path="res://props/medkit_pickup.tscn" type="PackedScene" id=8]
 [ext_resource path="res://water.tscn" type="PackedScene" id=10]
 [ext_resource path="res://props/ladder.tscn" type="PackedScene" id=11]
 
@@ -303,13 +304,13 @@ shape = SubResource( 9 )
 [node name="lockpick" parent="." instance=ExtResource( 6 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -17.2614, 0.250364, -0.573833 )
 
-[node name="supply box" parent="." instance=ExtResource( 7 )]
+[node name="supply box" parent="." groups=["tutorial"] instance=ExtResource( 7 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -19.5594, 0.739852, 0.0764925 )
 sleeping = true
 axis_lock_linear_x = true
 axis_lock_linear_y = true
 axis_lock_linear_z = true
-drop = ExtResource( 6 )
+drop = ExtResource( 8 )
 
 [node name="TopDownCamera" type="Camera" parent="."]
 transform = Transform( -1, 3.25841e-07, 5.30863e-14, 0, -1.62921e-07, 1, 3.25841e-07, 1, 1.62921e-07, 20, 3, 0 )
