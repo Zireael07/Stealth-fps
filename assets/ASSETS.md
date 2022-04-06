@@ -11,3 +11,4 @@
 * metal texture - by rubberduck https://opengameart.org/content/40-free-metal-textures-from-mtc-sets (CC0)
 * crate - edited from asset by Proxy Games https://opengameart.org/content/crate-0 (CCO)
 * emotes - from Kenney's Emotes Pack https://kenney.nl/assets/emotes-pack (CCO)
+* medkit - edited from https://opengameart.org/content/low-poly-medkit-2 (CC0)

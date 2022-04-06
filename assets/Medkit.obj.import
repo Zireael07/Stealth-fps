@@ -1,0 +1,20 @@
+[remap]
+
+importer="wavefront_obj"
+type="Mesh"
+path="res://.import/Medkit.obj-cf480b6dbcb63a9ae89df2d4797f8b47.mesh"
+
+[deps]
+
+files=[ "res://.import/Medkit.obj-cf480b6dbcb63a9ae89df2d4797f8b47.mesh" ]
+
+source_file="res://assets/Medkit.obj"
+dest_files=[ "res://.import/Medkit.obj-cf480b6dbcb63a9ae89df2d4797f8b47.mesh", "res://.import/Medkit.obj-cf480b6dbcb63a9ae89df2d4797f8b47.mesh" ]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3( 1, 1, 1 )
+offset_mesh=Vector3( 0, 0, 0 )
+octahedral_compression=true
+optimize_mesh_flags=4286
