@@ -37,3 +37,8 @@ func update_hiding():
 
 func _on_OptionButton_item_selected(index):
 	get_parent()._on_gadget_mode(index)
+
+
+func _on_MessageTimer_timeout():
+	# TODO: add a fancy fadeout effect
+	get_node("MessagePanel").hide()

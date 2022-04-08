@@ -473,6 +473,9 @@ margin_bottom = 90.0
 rect_min_size = Vector2( 225, 30 )
 text = "Welcome! The boss is in a safe place behind you. Talk to him for your next objective."
 
+[node name="MessageTimer" type="Timer" parent="."]
+wait_time = 5.0
+
 [node name="bottom_panel" type="Control" parent="."]
 margin_top = 500.0
 margin_right = 1024.0
@@ -662,4 +665,5 @@ rect_scale = Vector2( 2, 2 )
 text = "mission failed!"
 uppercase = true
 
+[connection signal="timeout" from="MessageTimer" to="." method="_on_MessageTimer_timeout"]
 [connection signal="item_selected" from="UtilityItems/OptionButton" to="." method="_on_OptionButton_item_selected"]

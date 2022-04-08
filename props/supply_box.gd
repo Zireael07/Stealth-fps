@@ -35,10 +35,11 @@ func _on_destroy():
 	if self.is_in_group("tutorial"):
 		# congratulatory message
 		player.get_node("Control/MessagePanel").show()
+		player.get_node("Control/MessageTimer").start()
 		player.get_node("Control/MessagePanel/HBoxContainer/RichTextLabel").set_text("Congratulations! You've finished the mission!")
-		yield(get_tree().create_timer(5), "timeout")
-		# TODO: add a fancy fadeout effect
-		player.get_node("Control/MessagePanel").hide()
+#		yield(get_tree().create_timer(5), "timeout")
+#		# TODO: add a fancy fadeout effect
+#		player.get_node("Control/MessagePanel").hide()
 		
 
 func _on_hit():
