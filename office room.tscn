@@ -1,10 +1,11 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://assets/Grey.material" type="Material" id=1]
 [ext_resource path="res://assets/White.material" type="Material" id=2]
 [ext_resource path="res://assets/furniture/chairModernFrameCushion.glb" type="PackedScene" id=3]
 [ext_resource path="res://assets/furniture/desk.glb" type="PackedScene" id=4]
 [ext_resource path="res://characters/AI_boss.tscn" type="PackedScene" id=5]
+[ext_resource path="res://props/datapad.tscn" type="PackedScene" id=6]
 
 [node name="Spatial" type="Spatial"]
 
@@ -49,3 +50,6 @@ transform = Transform( 2, 0, 0, 0, 2, 0, 0, 0, 2, -0.63788, 0, 1.44223 )
 
 [node name="chairModernFrameCushion" parent="Spatial" instance=ExtResource( 3 )]
 transform = Transform( 2.5, 0, 0, 0, 2.5, 0, 0, 0, 2.5, -0.180229, 0, 0.0863035 )
+
+[node name="datapad" parent="Spatial" instance=ExtResource( 6 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.381204, 0.783254, 1.27867 )
