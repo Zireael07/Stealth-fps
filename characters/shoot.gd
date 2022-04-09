@@ -311,7 +311,7 @@ func detect_interactable():
 					var lt = last_interactable
 					# AI don't have next pass set up
 					if lt is Area or lt is RigidBody:
-						if 'next_pass' in lt.get_child(1).get_surface_material(0):
+						if lt.get_child(1).get_surface_material(0).get_next_pass():
 							lt.get_child(1).get_surface_material(0).next_pass.set_shader_param("thickness", 0)
 					last_interactable = body
 			else:
