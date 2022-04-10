@@ -692,7 +692,11 @@ func process_input(delta):
 				#else:
 					# TODO feedback for slot taken
 				#	return
-					
+			
+			if inter is StaticBody:
+				print("Tried to grab a StaticBody")
+				return
+				
 			grabbed_object = inter
 			# clear interactable
 			#camera.get_node("Spatial").last_interactable = null
@@ -733,6 +737,12 @@ func process_input(delta):
 				var origin = mesh.get_global_transform().origin
 				var end_point = mesh.get_aabb().end
 				var siz = mesh.get_aabb().size
+				# make this work for meshes which are scaled and do not have centered origins
+				if mesh.has_node("Position3D"):
+					origin = mesh.get_node("Position3D").get_global_transform().origin
+				if mesh.get_scale() != Vector3(1,1,1):
+					#end_point = end_point * mesh.get_scale()
+					siz = siz * mesh.get_scale()
 				
 				var gl = origin + end_point + Vector3(-siz.x/2,0.2,-siz.y/2) # slightly above the surface
 				grabbed_object.global_transform.origin = gl
