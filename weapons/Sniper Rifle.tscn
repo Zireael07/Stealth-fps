@@ -4,7 +4,7 @@
 [ext_resource path="res://assets/Rifle.escn" type="PackedScene" id=2]
 
 [sub_resource type="QuadMesh" id=1]
-size = Vector2( 0.15, 0.15 )
+size = Vector2( 0.3, 0.15 )
 
 [sub_resource type="SpatialMaterial" id=2]
 flags_transparent = true
