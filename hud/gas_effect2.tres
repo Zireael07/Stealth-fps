@@ -1,0 +1,174 @@
+[gd_resource type="Shader" format=2]
+
+[resource]
+code = "//adapted from https://www.shadertoy.com/view/sdjGRc
+shader_type canvas_item;
+
+const int MAGIC_BOX_ITERS = 11; //Adjust this: higher = more detail, 11
+const float MAGIC_BOX_MAGIC = .55; //This number is scary, dont mess with it, .55
+
+uniform float centerThreshold = 0.0; //Closer they are, further it goes?
+uniform float edgeThreshold = 80.0;
+uniform float splatFalloffSize = .9;
+uniform float splatCutoffSize = .9;
+uniform vec4 defaultColor = vec4(0,0,0,0);
+
+uniform vec4 paintColor = vec4(0.0,0.2, 0.0, 1.0);
+
+//1d noise https://www.shadertoy.com/view/4ssSRS
+float noise(float n,float s,float res)
+{
+	float a = fract(sin(((floor((n)/s-0.5)*s)/res)*43632.6326)*53356.6426);
+	float b = fract(sin(((floor((n)/s+0.5)*s)/res)*43632.6326)*53356.6426);
+	return mix(a,b,smoothstep(0.0,1.0,+mod(n/s+0.5,1.0)));
+}
+
+//Fractal from https://www.shadertoy.com/view/4ljGDd
+float magicBox(vec3 p) {
+    // The fractal lives in a 1x1x1 box with mirrors on all sides.
+    // Take p anywhere in space and calculate the corresponding position
+    // inside the box, 0<(x,y,z)<1
+    p = 1.0 - abs(1.0 - mod(p, 2.0));
+    
+    float lastLength = length(p);
+    float tot = 0.0;
+    // This is the fractal.  More iterations gives a more detailed
+    // fractal at the expense of more computation.
+    for (int i=0; i < MAGIC_BOX_ITERS; i++) {
+      // The number subtracted here is a \"magic\" paremeter that
+      // produces rather different fractals for different values.
+      p = abs(p)/(lastLength*lastLength) - MAGIC_BOX_MAGIC;
+      float newLength = length(p);
+      tot += abs(newLength-lastLength);
+      lastLength = newLength;
+    }
+
+    return tot;
+}
+
+
+// A random 3x3 unitary matrix, used to avoid artifacts from slicing the
+// volume along the same axes as the fractal's bounding box.
+const mat3 M = mat3(vec3(0.28862355854826727, 0.6997227302779844, 0.6535170557707412),
+                    vec3(0.06997493955670424, 0.6653237235314099, -0.7432683571499161),
+                    vec3(-0.9548821651308448, 0.26025457467376617, 0.14306504491456504));
+
+
+float euclideanDistance(vec2 a, vec2 b){
+    return sqrt(pow((a.x - b.x), 2.0) + pow((a.y - b.y), 2.0));
+}
+
+float lerp(float a, float b, float w)
+{
+  return a + w*(b-a);
+}
+
+bool inRange(vec2 a, vec2 b, float maxDist, vec2 res){
+    return (euclideanDistance(a, b)/res.y) < maxDist;
+}
+
+vec4 overlayColors(vec4 first, vec4 second){
+    return first * first.w + second * (1.0 - first.w);
+}
+
+vec4 splatColor(vec2 splatCenter, vec4 paint, vec2 fragCoord, vec2 uv, vec2 res)
+{
+
+    //FRACTAL FUN:
+    // Rotate uv onto the random axes given by M, and scale
+    // it down a bit so we aren't looking at the entire
+    // 1x1x1 fractal volume.  Making the coefficient smaller
+    // \"zooms in\", which may reduce large-scale repetition
+    // but requires more fractal iterations to get the same
+    // level of detail.
+    vec3 p = 0.3*M*vec3(uv, 0.0);
+    
+    float result = magicBox(p);
+    // Scale to taste.  Also consider non-linear mappings.
+    //result *= 0.025; 
+       //TODO: Scale to dist
+        //Removed this since can just scale threshold by distance
+        
+        
+    //Setup Colors (fun)
+    //vec3 paintColor = vec3(255.0, 0.0, 0.0);
+    //vec3 paintColor = 0.5 + 0.5*cos(iTime+uv.xyx+vec3(0,2,4));
+
+    vec4 retColor;
+    
+    //Now clamp them values
+    //Set threshold to inverse distance
+    float dist = euclideanDistance(fragCoord, splatCenter); //Pixels
+    float screenDist = dist/res.y; //0 to 1 scale, percent of screen
+	
+	//FIXME: doesn't work for low coordinates
+
+    //float threshold = centerThreshold + slope * adjDist; //.25
+    float threshold = lerp(centerThreshold, edgeThreshold, screenDist/splatFalloffSize);
+    
+    //circle
+    //if(screenDist/splatCutoffSize > splatCutoffSize){retColor = black;}
+    
+    if (result > threshold){
+        retColor = paintColor;
+    }else{
+        retColor = defaultColor;
+    }
+ 
+    
+	return retColor;
+}
+
+
+vec4 getOneSplat(vec2 splatCenter, vec4 paint, vec2 fragCoord, vec2 uv, vec2 res){
+    if(inRange(splatCenter, fragCoord, splatCutoffSize, res)){
+        return splatColor(splatCenter, paintColor, fragCoord, uv, res);
+    }
+    return defaultColor;
+}
+
+//Return the color at a point, (0,0,0) alpha 0 by default
+
+vec4 getSplatColorAtPixel(vec2 fragCoord, vec2 uv, vec2 res){
+    
+	//vec2 s1 = vec2(noise(float(uv.x)*10.0, 550.0, res.x), 250.0);
+	
+    vec2 s1 = vec2(600.0*abs(sin(TIME)+1.0), 250.0*abs(cos(TIME)+1.0)); //250.0*sin(TIME));
+    //s1.y = clamp(s1.y, 200.0, 600.0);
+	//s1.x = clamp(s1.x, 200.0, 1000.0);
+	
+	vec2 s2 = vec2(800.0*abs(sin(TIME)+1.0), 350.0*abs(sin(TIME)));
+	
+    //vec2 s2 = vec2(200.0,200.0);
+    //vec2 s3 = vec2(250.0,300.0);
+    //vec2 s4 = vec2(300.0,200.0);
+    
+    vec4 retColor = defaultColor;
+    retColor = overlayColors(retColor, getOneSplat(s1, paintColor, fragCoord, uv, res));
+    retColor = overlayColors(retColor, getOneSplat(s2, paintColor, fragCoord, uv, res));
+    //retColor = overlayColors(retColor, getOneSplat(s3, c3, fragCoord, uv));
+    //retColor = overlayColors(retColor, getOneSplat(s4, c4, fragCoord, uv));
+    return retColor;
+}
+
+
+
+void fragment(){
+
+    // uv are screen coordinates, uniformly scaled to go from 0..1 vertically
+	vec2 uv = UV; //FRAGCOORD.xy / 1.0/TEXTURE_PIXEL_SIZE.yy;
+    
+	vec2 res = 1.0/TEXTURE_PIXEL_SIZE;
+	
+    // scroll a certain number of screenfuls/second
+    //uv.x += iTime * 0.2;
+    
+    //splatColor(s1, fragCoord, uv, c1);
+    vec4 dotColor = getSplatColorAtPixel(FRAGCOORD.xy,uv,res);
+    
+    //Alpha blending - replace black w Result from textures
+    vec4 result = overlayColors(dotColor, defaultColor);
+    
+    COLOR = result;
+}
+"
