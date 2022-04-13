@@ -1,8 +1,8 @@
-[gd_scene load_steps=24 format=2]
+[gd_scene load_steps=23 format=2]
 
 [ext_resource path="res://hud/Crosshair.tscn" type="PackedScene" id=1]
 [ext_resource path="res://assets/pointer.png" type="Texture" id=2]
-[ext_resource path="res://assets/texture (1).png" type="Texture" id=3]
+[ext_resource path="res://hud/gas_effect2.tres" type="Shader" id=3]
 [ext_resource path="res://hud/hud.gd" type="Script" id=4]
 [ext_resource path="res://hud/Inventory.tscn" type="PackedScene" id=5]
 [ext_resource path="res://hud/font.tres" type="DynamicFont" id=6]
@@ -40,43 +40,15 @@ shader_param/speech_sim = true
 shader_param/speech_intensity = 0.8
 shader_param/progress = 1.0
 
-[sub_resource type="Shader" id=9]
-code = "shader_type canvas_item;
-
-uniform float size_x = 0.01;
-uniform float size_y = 0.01;
-uniform float intensity = 1;
-
-uniform sampler2D noise;
-
-void fragment() {
-	float alpha = COLOR.a * intensity;
-
-	//vec2 uv = SCREEN_UV;
-
-	//uv -= mod(uv,vec2(size_x,size_y))*alpha;
-
-	vec2 noise_uv = UV;
-	//vec2 noise_uv = SCREEN_UV;
-	//noise_uv.x *= 0.05;
-	noise_uv.x += sin(TIME/4.0);
-	//noise_uv.y += TIME/4.0;
-	
-	vec4 clr = vec4(0.0, 0.04, 0.0, 0.75);
-	
-	if (texture(noise, noise_uv).r > 0.30) {
-		clr.a = 0.0;
-	}
-	
-	COLOR = clr;
-}"
-
 [sub_resource type="ShaderMaterial" id=7]
-shader = SubResource( 9 )
-shader_param/size_x = 0.01
-shader_param/size_y = 0.01
-shader_param/intensity = 1.0
-shader_param/noise = ExtResource( 3 )
+shader = ExtResource( 3 )
+shader_param/centerThreshold = 1.0
+shader_param/edgeThreshold = 90.0
+shader_param/splatFalloffSize = 0.7
+shader_param/splatCutoffSize = 0.4
+shader_param/defaultColor = Plane( 0, 0, 0, 0 )
+shader_param/paintColor = Plane( 0, 0.2, 0, 1 )
+shader_param/pos = Vector2( 550, 250 )
 
 [sub_resource type="ImageTexture" id=8]
 size = Vector2( 1023, 512 )
@@ -162,6 +134,30 @@ tracks/1/keys = {
 "transitions": PoolRealArray( 1 ),
 "update": 1,
 "values": [ false ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("gas_overlay:material:shader_param/pos")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 1, 2, 3, 4 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ Vector2( 200, 150 ), Vector2( 750, 500 ), Vector2( 550, 250 ), Vector2( 950, 450 ), Vector2( 200, 150 ) ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("gas_overlay:material:shader_param/paintColor")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0, 0.00924253, 0.2, 1, 1.2, 2, 2.3, 3, 3.3, 4 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Plane( 0, 0.2, 0, 0 ), Plane( 0, 0.2, 0, 1 ), Plane( 0, 0.2, 0, 0 ), Plane( 0, 0.2, 0, 1 ), Plane( 0, 0.2, 0, 0 ), Plane( 0, 0.2, 0, 1 ), Plane( 0, 0.2, 0, 0 ), Plane( 0, 0.2, 0, 1 ), Plane( 0, 0.2, 0, 0 ), Plane( 0, 0.2, 0, 1 ) ]
 }
 
 [sub_resource type="Animation" id=15]

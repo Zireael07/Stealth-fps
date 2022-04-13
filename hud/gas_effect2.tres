@@ -14,6 +14,7 @@ uniform float splatCutoffSize = .9;
 uniform vec4 defaultColor = vec4(0,0,0,0);
 
 uniform vec4 paintColor = vec4(0.0,0.2, 0.0, 1.0);
+uniform vec2 pos = vec2(600.0, 250.0);
 
 //1d noise https://www.shadertoy.com/view/4ssSRS
 float noise(float n,float s,float res)
@@ -131,13 +132,14 @@ vec4 getOneSplat(vec2 splatCenter, vec4 paint, vec2 fragCoord, vec2 uv, vec2 res
 
 vec4 getSplatColorAtPixel(vec2 fragCoord, vec2 uv, vec2 res){
     
+	vec2 s1 = pos;
 	//vec2 s1 = vec2(noise(float(uv.x)*10.0, 550.0, res.x), 250.0);
 	
-    vec2 s1 = vec2(600.0*abs(sin(TIME)+1.0), 250.0*abs(cos(TIME)+1.0)); //250.0*sin(TIME));
+    //vec2 s1 = vec2(600.0*abs(sin(TIME)+1.0), 250.0*abs(cos(TIME)+1.0)); //250.0*sin(TIME));
     //s1.y = clamp(s1.y, 200.0, 600.0);
 	//s1.x = clamp(s1.x, 200.0, 1000.0);
 	
-	vec2 s2 = vec2(800.0*abs(sin(TIME)+1.0), 350.0*abs(sin(TIME)));
+	//vec2 s2 = vec2(800.0*abs(sin(TIME)+1.0), 350.0*abs(sin(TIME)));
 	
     //vec2 s2 = vec2(200.0,200.0);
     //vec2 s3 = vec2(250.0,300.0);
@@ -145,7 +147,7 @@ vec4 getSplatColorAtPixel(vec2 fragCoord, vec2 uv, vec2 res){
     
     vec4 retColor = defaultColor;
     retColor = overlayColors(retColor, getOneSplat(s1, paintColor, fragCoord, uv, res));
-    retColor = overlayColors(retColor, getOneSplat(s2, paintColor, fragCoord, uv, res));
+    //retColor = overlayColors(retColor, getOneSplat(s2, paintColor, fragCoord, uv, res));
     //retColor = overlayColors(retColor, getOneSplat(s3, c3, fragCoord, uv));
     //retColor = overlayColors(retColor, getOneSplat(s4, c4, fragCoord, uv));
     return retColor;
