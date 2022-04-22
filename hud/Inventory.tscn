@@ -67,10 +67,29 @@ text = "Default"
 items = [ "Default", null, false, 0, null, "Camo", null, false, 1, null ]
 selected = 0
 
-[node name="HBoxGrenade1" type="HBoxContainer" parent="VBoxContainer"]
+[node name="HBoxRifle" type="HBoxContainer" parent="VBoxContainer"]
 margin_top = 24.0
 margin_right = 131.0
 margin_bottom = 44.0
+
+[node name="Label" type="Label" parent="VBoxContainer/HBoxRifle"]
+margin_top = 3.0
+margin_right = 28.0
+margin_bottom = 17.0
+text = "Rifle"
+
+[node name="OptionButtonR" type="OptionButton" parent="VBoxContainer/HBoxRifle"]
+margin_left = 32.0
+margin_right = 130.0
+margin_bottom = 20.0
+text = "Sniper rifle"
+items = [ "Sniper rifle", null, false, 0, null ]
+selected = 0
+
+[node name="HBoxGrenade1" type="HBoxContainer" parent="VBoxContainer"]
+margin_top = 48.0
+margin_right = 131.0
+margin_bottom = 68.0
 
 [node name="Label" type="Label" parent="VBoxContainer/HBoxGrenade1"]
 margin_top = 3.0
@@ -95,9 +114,9 @@ disabled = true
 text = "Drop"
 
 [node name="HBoxGrenade2" type="HBoxContainer" parent="VBoxContainer"]
-margin_top = 48.0
+margin_top = 72.0
 margin_right = 131.0
-margin_bottom = 68.0
+margin_bottom = 92.0
 
 [node name="Label2" type="Label" parent="VBoxContainer/HBoxGrenade2"]
 margin_top = 3.0

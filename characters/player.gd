@@ -97,9 +97,12 @@ func _ready():
 	# give it the focus just in case
 	get_node("Control/troop selection").get_node("HBoxContainer/VBoxContainer/Button").grab_focus()
 	get_tree().set_pause(true)
+	# TODO: equipment selection
 	get_node("Control/scoring").hide()
 
 func game_start(data):
+	inventory["RIFLE"] = Node.new() # dummy until we have equipment selection screen
+	
 	# hackfix for change level
 	self.set_physics_process(true)
 	camera.get_node("Spatial").player = self
@@ -515,11 +518,12 @@ func process_input(delta):
 	# weapon switching
 	# main gun
 	if Input.is_action_just_pressed("weapon_1"):
-		state = RIFLE
-		weapon_hold.get_node("Rifle2").show()
-		weapon_hold.get_node("Baton").hide()
-		weapon_hold.get_node("Knife").hide()
-		weapon_hold.get_node("Crossbow").hide()
+		if inventory.has("RIFLE") and inventory["RIFLE"] != null:
+			state = RIFLE
+			weapon_hold.get_node("Rifle2").show()
+			weapon_hold.get_node("Baton").hide()
+			weapon_hold.get_node("Knife").hide()
+			weapon_hold.get_node("Crossbow").hide()
 	# secondary gun
 	if Input.is_action_just_pressed("weapon_2"):
 		state = XBOW
