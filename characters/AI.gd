@@ -293,7 +293,7 @@ func process_movement(delta):
 	# after calling move_and_slide()
 	for index in get_slide_count():
 		var collision = get_slide_collision(index)
-		if collision.collider.is_in_group("interactable"):
+		if collision.collider.is_in_group("interactable") and collision.collider is RigidBody:
 			collision.collider.apply_central_impulse(-collision.normal * 2)
 
 func move(delta):

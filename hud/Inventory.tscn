@@ -80,10 +80,10 @@ text = "Rifle"
 
 [node name="OptionButtonR" type="OptionButton" parent="VBoxContainer/HBoxRifle"]
 margin_left = 32.0
-margin_right = 130.0
+margin_right = 89.0
 margin_bottom = 20.0
-text = "Sniper rifle"
-items = [ "Sniper rifle", null, false, 0, null ]
+text = "Rifle"
+items = [ "Rifle", null, false, 0, null ]
 selected = 0
 
 [node name="HBoxGrenade1" type="HBoxContainer" parent="VBoxContainer"]
