@@ -724,6 +724,9 @@ func die(pos):
 	$RotationHelper/Character2/Armature/rifleik.stop()
 	$RotationHelper/Character2/Armature/left_ik.stop()
 	
+	# hide the state marker
+	get_node("RotationHelper/MeshInstance").hide()
+	
 	#get_node("RotationHelper/Character2/Timer").start()
 	
 	# ragdoll
