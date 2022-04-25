@@ -413,10 +413,14 @@ bones/27/bound_children = [ NodePath("CameraHold"), NodePath("CameraBoneAttachme
 transform = Transform( 0.998767, -0.0136718, 0.0477312, 0.0124272, 1.00003, 0.0261312, -0.048068, -0.0255249, 0.998518, -0.196293, 1.45317, 0.372752 )
 bone_name = "HandHold.R"
 
-[node name="Rifle" parent="Armature/WeaponHold" index="0" instance=ExtResource( 2 )]
+[node name="Sniper Rifle" parent="Armature/WeaponHold" index="0" instance=ExtResource( 10 )]
+transform = Transform( 1, -3.84171e-09, 0, -8.14907e-10, 1, 0, 0, -1.86265e-09, 1, 0, 0, 0 )
 visible = false
 
-[node name="Rifle2" parent="Armature/WeaponHold" index="1" instance=ExtResource( 4 )]
+[node name="Rifle" parent="Armature/WeaponHold" index="1" instance=ExtResource( 2 )]
+visible = false
+
+[node name="Rifle2" parent="Armature/WeaponHold" index="2" instance=ExtResource( 4 )]
 visible = false
 
 [node name="Position3D" type="Position3D" parent="Armature/WeaponHold/Rifle2" index="4"]
