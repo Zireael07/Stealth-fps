@@ -47,12 +47,13 @@ var cur_spread = 0
 
 # states (weapons)
 const UNARMED = 0
-const RIFLE = 1
+const PISTOL = 1
 const BATON = 2
 const KNIFE = 3
 const XBOW = 4
-var state = RIFLE
-var prev_state = RIFLE
+const RIFLE = 5
+var state = PISTOL
+var prev_state = PISTOL
 
 var inventory = {}
 
@@ -101,7 +102,7 @@ func _ready():
 	get_node("Control/scoring").hide()
 
 func game_start(data):
-	inventory["RIFLE"] = Node.new() # dummy until we have equipment selection screen
+	#inventory["RIFLE"] = Node.new() # dummy until we have equipment selection screen
 	
 	# hackfix for change level
 	self.set_physics_process(true)
@@ -142,7 +143,7 @@ func game_start(data):
 			get_tree().get_nodes_in_group("ally")[0].optic_camo_effect()
 
 func is_gun():
-	return state == RIFLE or state == XBOW
+	return state == PISTOL or state == RIFLE or state == XBOW
 
 
 # these things don't need physics
@@ -229,12 +230,20 @@ func wield_again():
 	state = prev_state
 	# wield current weapon
 	$CollisionShapeGun.disabled = false
+	if state == PISTOL:
+		weapon_hold.get_node("Pistol").show()
+		weapon_hold.get_node("Rifle2").hide()
+		weapon_hold.get_node("Baton").hide()
+		weapon_hold.get_node("Knife").hide()
+		weapon_hold.get_node("Crossbow").hide()
 	if state == RIFLE:
+		weapon_hold.get_node("Pistol").hide()
 		weapon_hold.get_node("Rifle2").show()
 		weapon_hold.get_node("Baton").hide()
 		weapon_hold.get_node("Knife").hide()
 		weapon_hold.get_node("Crossbow").hide()
 	elif state == BATON:
+		weapon_hold.get_node("Pistol").hide()
 		weapon_hold.get_node("Rifle2").hide()
 		weapon_hold.get_node("Baton").show()
 		weapon_hold.get_node("Knife").hide()
@@ -242,6 +251,7 @@ func wield_again():
 		if stance != PRONE:
 			left_hand_empty_ik()
 	elif state == KNIFE:
+		weapon_hold.get_node("Pistol").hide()
 		weapon_hold.get_node("Rifle2").hide()
 		weapon_hold.get_node("Knife").show()
 		weapon_hold.get_node("Baton").hide()
@@ -249,6 +259,7 @@ func wield_again():
 		if stance != PRONE:
 			left_hand_empty_ik()
 	elif state == XBOW:
+		weapon_hold.get_node("Pistol").hide()
 		weapon_hold.get_node("Rifle2").hide()
 		weapon_hold.get_node("Knife").hide()
 		weapon_hold.get_node("Baton").hide()
@@ -518,8 +529,18 @@ func process_input(delta):
 	# weapon switching
 	# main gun
 	if Input.is_action_just_pressed("weapon_1"):
+		# default to pistol 
+		state = PISTOL
+		weapon_hold.get_node("Pistol").show()
+		weapon_hold.get_node("Rifle2").hide()
+		weapon_hold.get_node("Baton").hide()
+		weapon_hold.get_node("Knife").hide()
+		weapon_hold.get_node("Crossbow").hide()
+		
+		# unless we have something bigger on hand...
 		if inventory.has("RIFLE") and inventory["RIFLE"] != null:
 			state = RIFLE
+			weapon_hold.get_node("Pistol").hide()
 			weapon_hold.get_node("Rifle2").show()
 			weapon_hold.get_node("Baton").hide()
 			weapon_hold.get_node("Knife").hide()
@@ -527,6 +548,7 @@ func process_input(delta):
 	# secondary gun
 	if Input.is_action_just_pressed("weapon_2"):
 		state = XBOW
+		weapon_hold.get_node("Pistol").hide()
 		weapon_hold.get_node("Rifle2").hide()
 		weapon_hold.get_node("Baton").hide()
 		weapon_hold.get_node("Knife").hide()
@@ -535,6 +557,7 @@ func process_input(delta):
 	# melee wp on belt
 	if Input.is_action_just_pressed("weapon_3"):
 		state = KNIFE
+		weapon_hold.get_node("Pistol").hide()
 		weapon_hold.get_node("Rifle2").hide()
 		weapon_hold.get_node("Baton").hide()
 		weapon_hold.get_node("Knife").show()
@@ -543,6 +566,7 @@ func process_input(delta):
 	# 4-9 other assorted stuff
 	if Input.is_action_just_pressed("weapon_4"):
 		state = BATON
+		weapon_hold.get_node("Pistol").hide()
 		weapon_hold.get_node("Rifle2").hide()
 		weapon_hold.get_node("Baton").show()
 		weapon_hold.get_node("Knife").hide()
@@ -1059,6 +1083,8 @@ func _on_gadget_mode(index):
 	# put binocs away
 	weapon_hold.get_node("binocs/binocs_hand").hide()
 	# show the current weapon again
+	if state == PISTOL:
+		weapon_hold.get_node("Pistol").show()
 	if state == RIFLE:
 		weapon_hold.get_node("Rifle2").show()
 	if state == BATON:
