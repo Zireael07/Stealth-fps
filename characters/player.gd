@@ -102,7 +102,11 @@ func _ready():
 	get_node("Control/scoring").hide()
 
 func game_start(data):
-	#inventory["RIFLE"] = Node.new() # dummy until we have equipment selection screen
+	# dummy until we have equipment selection screen
+	var pistol = Node.new()
+	pistol.name = "pistol"
+	inventory["SIDEARM"] = pistol # dummy
+	#inventory["RIFLE"] = Node.new() # dummy 
 	
 	# hackfix for change level
 	self.set_physics_process(true)
@@ -547,13 +551,23 @@ func process_input(delta):
 			weapon_hold.get_node("Crossbow").hide()
 	# secondary gun
 	if Input.is_action_just_pressed("weapon_2"):
-		state = XBOW
-		weapon_hold.get_node("Pistol").hide()
-		weapon_hold.get_node("Rifle2").hide()
-		weapon_hold.get_node("Baton").hide()
-		weapon_hold.get_node("Knife").hide()
-		weapon_hold.get_node("Crossbow").show()
-		left_hand_empty_ik()
+		if inventory.has("SIDEARM") and inventory["SIDEARM"].name == "xbow":
+			state = XBOW
+			weapon_hold.get_node("Pistol").hide()
+			weapon_hold.get_node("Rifle2").hide()
+			weapon_hold.get_node("Baton").hide()
+			weapon_hold.get_node("Knife").hide()
+			weapon_hold.get_node("Crossbow").show()
+			left_hand_empty_ik()
+		# if we have a rifle in slot 1, slot 2 is pistol if we have it
+		if inventory.has("RIFLE") and inventory["RIFLE"] != null \
+		and inventory.has("SIDEARM") and inventory["SIDEARM"].name == "pistol":
+			state = PISTOL
+			weapon_hold.get_node("Pistol").show()
+			weapon_hold.get_node("Rifle2").hide()
+			weapon_hold.get_node("Baton").hide()
+			weapon_hold.get_node("Knife").hide()
+			weapon_hold.get_node("Crossbow").hide()
 	# melee wp on belt
 	if Input.is_action_just_pressed("weapon_3"):
 		state = KNIFE
