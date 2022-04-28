@@ -108,6 +108,15 @@ func game_start(data):
 	inventory["SIDEARM"] = pistol # dummy
 	#inventory["RIFLE"] = Node.new() # dummy 
 	
+	# auto switch to rifle if we have it 
+	if inventory.has("RIFLE") and inventory["RIFLE"] != null:
+		state = RIFLE
+		weapon_hold.get_node("Pistol").hide()
+		weapon_hold.get_node("Rifle2").show()
+		weapon_hold.get_node("Baton").hide()
+		weapon_hold.get_node("Knife").hide()
+		weapon_hold.get_node("Crossbow").hide()
+	
 	# hackfix for change level
 	self.set_physics_process(true)
 	camera.get_node("Spatial").player = self
