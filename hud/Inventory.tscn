@@ -105,10 +105,29 @@ text = "Pistol"
 items = [ "Pistol", null, false, 0, null, "Crossbow", null, true, 1, null ]
 selected = 0
 
-[node name="HBoxGrenade1" type="HBoxContainer" parent="VBoxContainer"]
+[node name="HBoxBelt1" type="HBoxContainer" parent="VBoxContainer"]
 margin_top = 72.0
 margin_right = 131.0
 margin_bottom = 92.0
+
+[node name="Label" type="Label" parent="VBoxContainer/HBoxBelt1"]
+margin_top = 3.0
+margin_right = 38.0
+margin_bottom = 17.0
+text = "Belt 1"
+
+[node name="OptionButtonS" type="OptionButton" parent="VBoxContainer/HBoxBelt1"]
+margin_left = 42.0
+margin_right = 103.0
+margin_bottom = 20.0
+text = "Knife"
+items = [ "Knife", null, false, 0, null, "Baton", null, false, 1, null ]
+selected = 0
+
+[node name="HBoxGrenade1" type="HBoxContainer" parent="VBoxContainer"]
+margin_top = 96.0
+margin_right = 131.0
+margin_bottom = 116.0
 
 [node name="Label" type="Label" parent="VBoxContainer/HBoxGrenade1"]
 margin_top = 3.0
@@ -133,9 +152,9 @@ disabled = true
 text = "Drop"
 
 [node name="HBoxGrenade2" type="HBoxContainer" parent="VBoxContainer"]
-margin_top = 96.0
+margin_top = 120.0
 margin_right = 131.0
-margin_bottom = 116.0
+margin_bottom = 140.0
 
 [node name="Label2" type="Label" parent="VBoxContainer/HBoxGrenade2"]
 margin_top = 3.0
