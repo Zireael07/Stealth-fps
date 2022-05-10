@@ -106,6 +106,9 @@ func game_start(data):
 	var pistol = Node.new()
 	pistol.name = "pistol"
 	inventory["SIDEARM"] = pistol # dummy
+	var knife = Node.new()
+	knife.name = "knife"
+	inventory["BELT"] = knife # dummy
 	#inventory["RIFLE"] = Node.new() # dummy 
 	
 	# auto switch to rifle if we have it 
@@ -579,22 +582,26 @@ func process_input(delta):
 			weapon_hold.get_node("Crossbow").hide()
 	# melee wp on belt
 	if Input.is_action_just_pressed("weapon_3"):
-		state = KNIFE
-		weapon_hold.get_node("Pistol").hide()
-		weapon_hold.get_node("Rifle2").hide()
-		weapon_hold.get_node("Baton").hide()
-		weapon_hold.get_node("Knife").show()
-		weapon_hold.get_node("Crossbow").hide()
-		left_hand_empty_ik()
-	# 4-9 other assorted stuff
+		if inventory.has("BELT") and inventory["BELT"].name == "knife":
+			state = KNIFE
+			weapon_hold.get_node("Pistol").hide()
+			weapon_hold.get_node("Rifle2").hide()
+			weapon_hold.get_node("Baton").hide()
+			weapon_hold.get_node("Knife").show()
+			weapon_hold.get_node("Crossbow").hide()
+			left_hand_empty_ik()
+		if inventory.has("BELT") and inventory["BELT"].name == "baton":
+			state = BATON
+			weapon_hold.get_node("Pistol").hide()
+			weapon_hold.get_node("Rifle2").hide()
+			weapon_hold.get_node("Baton").show()
+			weapon_hold.get_node("Knife").hide()
+			weapon_hold.get_node("Crossbow").hide()
+			left_hand_empty_ik()
+	# 4 - potentially second belt slot?
 	if Input.is_action_just_pressed("weapon_4"):
-		state = BATON
-		weapon_hold.get_node("Pistol").hide()
-		weapon_hold.get_node("Rifle2").hide()
-		weapon_hold.get_node("Baton").show()
-		weapon_hold.get_node("Knife").hide()
-		weapon_hold.get_node("Crossbow").hide()
-		left_hand_empty_ik()
+		pass
+	# 5-9 other assorted stuff
 	if Input.is_action_just_pressed("weapon_5"):
 		print("Trying to access inventory slot grenade 1..")
 		if inventory.has("GRENADE") and inventory["GRENADE"] != null:
