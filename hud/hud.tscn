@@ -473,9 +473,13 @@ text = "Welcome! The boss is in a safe place behind you. Talk to him for your ne
 wait_time = 5.0
 
 [node name="bottom_panel" type="Control" parent="."]
-margin_top = 500.0
-margin_right = 1024.0
-margin_bottom = 600.0
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -512.0
+margin_top = -100.0
+margin_right = 512.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
