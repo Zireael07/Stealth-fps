@@ -34,7 +34,7 @@ surfaces/1 = {
 "vertex_count": 416
 }
 
-[node name="chair" type="RigidBody" groups=["interactable"]]
+[node name="chair" type="RigidBody" groups=["interactable", "static"]]
 mass = 50.0
 sleeping = true
 axis_lock_angular_x = true

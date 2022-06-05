@@ -354,6 +354,31 @@ func drop_item(item):
 	get_node("Control/inventory").hide()
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 
+func talk_to_NPC(inter):
+	var d = inter.get_node("dialogue")
+	if d:
+		# hide HUD
+		get_node("Control/ReferenceRect").hide()
+		get_node("Control/Center/Control").hide()
+		
+		# allow moving mouse
+		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+		# prevent some other things
+		talking = true
+		
+		# stop the headbob
+		state_machine["parameters/move_speed/scale"] = 0
+		
+		# show conversation
+		var conv = preload("res://hud/conversation.tscn")
+		var c = conv.instance()
+		get_node("Control").add_child(c)
+		c.load_dialogue(d.dialogue)
+		c.set_talker(inter)
+		
+	else:
+		print("You try to talk to ", inter.get_name(), " but he has nothing to say")
+
 func process_input(delta):
 
 	# ----------------------------------
@@ -658,25 +683,7 @@ func process_input(delta):
 				if state != UNARMED:
 					unwield()
 				
-				var d = inter.get_node("dialogue")
-				if d:
-					# hide HUD
-					get_node("Control/ReferenceRect").hide()
-					get_node("Control/Center/Control").hide()
-					
-					# allow moving mouse
-					Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
-					# prevent some other things
-					talking = true
-					# show conversation
-					var conv = preload("res://hud/conversation.tscn")
-					var c = conv.instance()
-					get_node("Control").add_child(c)
-					c.load_dialogue(d.dialogue)
-					c.set_talker(inter)
-					
-				else:
-					print("You try to talk to ", inter.get_name(), " but he has nothing to say")
+				talk_to_NPC(inter)
 				return
 				
 			# if an ally, talk to him to give orders

@@ -56,12 +56,12 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.381204, 0.783254, 1.27867 )
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -5.55204e-08, 0.934652, 1.27016 )
 sleeping = true
 
-[node name="chair" parent="Spatial" instance=ExtResource( 3 )]
+[node name="chair" parent="Spatial" groups=["chair"] instance=ExtResource( 3 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.07, 0, 0.086 )
 axis_lock_linear_x = true
 axis_lock_linear_y = true
 axis_lock_linear_z = true
 
-[node name="chair2" parent="Spatial" instance=ExtResource( 3 )]
+[node name="chair2" parent="Spatial" groups=["chair"] instance=ExtResource( 3 )]
 transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0.237289, 0, 2.03767 )
 sitting = false

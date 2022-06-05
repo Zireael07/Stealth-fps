@@ -33,6 +33,25 @@ func set_interact():
 	add_to_group("interactable")
 	$CollisionShape.disabled = false
 
-#func _on_interact():
-#	pass
+func _on_interact():
+	set_sitting(true)
+	var player = get_tree().get_nodes_in_group("player")[0]
+	player.global_transform = self.global_transform
+	
+	# crouching character is roughly 0.4 (1.7 to 1.3) lower
+	player.get_node("CollisionShape").set_translation(Vector3(0,0.527,0.324))
+	player.get_node("see_tg").set_translation(Vector3(0, 0.527, 0.324))
+	player.get_node("CollisionShape").get_shape().extents = Vector3(0.249, 0.52, 0.757)
+	
+	# dummy to prevent player doing things while sitting
+	player.talking = true
+	
+	# trigger convo if there is another chair
+	var chairs = get_tree().get_nodes_in_group("chair")
+	for c in chairs:
+		if c != self:
+			print("Detected another chair")
+			# FIXME: hardcoded for now
+			var b = get_tree().get_nodes_in_group("boss")[0]
+			player.talk_to_NPC(b)
 
