@@ -2,7 +2,7 @@
 
 [ext_resource path="res://assets/Grey.material" type="Material" id=1]
 [ext_resource path="res://assets/White.material" type="Material" id=2]
-[ext_resource path="res://assets/furniture/chairModernFrameCushion.glb" type="PackedScene" id=3]
+[ext_resource path="res://props/chair.tscn" type="PackedScene" id=3]
 [ext_resource path="res://props/desk.tscn" type="PackedScene" id=4]
 [ext_resource path="res://characters/AI_boss.tscn" type="PackedScene" id=5]
 [ext_resource path="res://props/datapad.tscn" type="PackedScene" id=6]
@@ -49,12 +49,19 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0644658, -0.272937, -0.18052
 [node name="desk2" parent="Spatial" instance=ExtResource( 4 )]
 transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0.930913, 0, 0.672982 )
 
-[node name="chairModernFrameCushion" parent="Spatial" instance=ExtResource( 3 )]
-transform = Transform( 2.5, 0, 0, 0, 2.5, 0, 0, 0, 2.5, -0.180229, 0, 0.0863035 )
-
 [node name="datapad" parent="Spatial" instance=ExtResource( 6 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.381204, 0.783254, 1.27867 )
 
 [node name="potted plant" parent="Spatial" instance=ExtResource( 7 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -5.55204e-08, 0.934652, 1.27016 )
 sleeping = true
+
+[node name="chair" parent="Spatial" instance=ExtResource( 3 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.07, 0, 0.086 )
+axis_lock_linear_x = true
+axis_lock_linear_y = true
+axis_lock_linear_z = true
+
+[node name="chair2" parent="Spatial" instance=ExtResource( 3 )]
+transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0.237289, 0, 2.03767 )
+sitting = false

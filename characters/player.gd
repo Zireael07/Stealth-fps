@@ -784,6 +784,10 @@ func process_input(delta):
 			if camera.get_node("Spatial").last_interactable and is_instance_valid(camera.get_node("Spatial").last_interactable):
 				#print("Aiming at interactable...")
 				
+				# ignore AI/characters
+				if camera.get_node("Spatial").last_interactable is KinematicBody:
+					return
+				
 				# can we interact with that interactable?
 				if camera.get_node("Spatial").last_interactable.is_in_group("static"):
 					# interact instead
