@@ -34,6 +34,7 @@ func _on_destroy():
 	
 	if self.is_in_group("tutorial"):
 		# congratulatory message
+		player = get_tree().get_nodes_in_group("player")[0]
 		player.get_node("Control/MessagePanel").show()
 		player.get_node("Control/MessageTimer").start()
 		player.get_node("Control/MessagePanel/HBoxContainer/RichTextLabel").set_text("Congratulations! You've finished the mission!")

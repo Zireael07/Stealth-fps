@@ -936,7 +936,7 @@ func process_movement(delta):
 			print("Collided with crate, imp: ", Vector3(cr_imp.x, 0, cr_imp.z))
 			collision.collider.apply_impulse(Vector3(0,-2,0), Vector3(cr_imp.x, 0, cr_imp.z))
 			
-	if vel.length() > 0 and stance != PRONE:
+	if is_moving():
 		state_machine["parameters/move_state/run/blend_position"] = Vector2(0,1) # actually animates leg movement
 		state_machine["parameters/move_speed/scale"] = 1.2
 	else:
