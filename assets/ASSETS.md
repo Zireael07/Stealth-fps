@@ -12,3 +12,4 @@
 * crate - edited from asset by Proxy Games https://opengameart.org/content/crate-0 (CCO)
 * emotes - from Kenney's Emotes Pack https://kenney.nl/assets/emotes-pack (CCO)
 * medkit - edited from https://opengameart.org/content/low-poly-medkit-2 (CC0)
+* helicopter - https://opengameart.org/content/cartoon-helicopter-0 (CC0)
