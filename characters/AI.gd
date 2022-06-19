@@ -889,11 +889,16 @@ func optic_camo_effect():
 	mesh.set_surface_material(0, optic_camo)
 	mesh.set_surface_material(1, optic_camo)
 
-func _on_answer_selected(id):
+func _on_answer_selected(screen, id):
 	print("On answer selected, id ", id)
 	if is_in_group("boss"):
-		#get_node("/root/Spatial").change_level()
-		pass
+		if screen.current_tag == "start":
+			screen.clear_answers()
+			screen.set_answers(["Yes, sir!"])
+			screen.show_line(screen.dialog.lines["mission"], "mission")
+			return false
+		else:
+			return
 		
 	if is_in_group("civilian"):
 		return

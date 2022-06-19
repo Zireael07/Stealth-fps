@@ -10,6 +10,7 @@ func _ready():
 	# pass things around (map is initialized too late to access it from player setup)
 	player = get_tree().get_nodes_in_group("player")[0]
 	var map = get_tree().get_nodes_in_group("root")[0].get_node("map")
+	# FIXME: generate map for indoor level too
 	var map_rect = map.contain
 	var map_screen = player.get_node("Control/map_screen/map")
 
@@ -29,6 +30,7 @@ func _ready():
 
 	poi.append(map_screen._3d_tomap2d(map.get_child(0).get_translation())) #target range
 	poi.append(map_screen._3d_tomap2d(map.get_child(1).get_translation())) # crates
+	poi.append(map_screen._3d_tomap2d(map.get_child(2).get_translation())) # helicopter
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta):

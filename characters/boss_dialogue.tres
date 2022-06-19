@@ -5,6 +5,7 @@
 [resource]
 script = ExtResource( 1 )
 lines = {
+"mission": "Go to the helicopter, he'll take you to your next objective.",
 "start": "Welcome to the Coalition, Agent!"
 }
 answers = {

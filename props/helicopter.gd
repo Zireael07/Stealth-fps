@@ -14,7 +14,7 @@ func _on_interact():
 	var player = get_tree().get_nodes_in_group("player")[0]
 	player.talk_to_NPC(self)
 
-func _on_answer_selected(id):
+func _on_answer_selected(screen, id):
 	if id == 1:
 		get_node("/root/Spatial").change_level()
 
