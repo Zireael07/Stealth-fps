@@ -109,6 +109,7 @@ func _ready():
 	brain = $brain
 	
 	# get points
+	# get_tree().get_nodes_in_group("root")[0]
 	if get_node(nav):
 		for c in get_node(nav).get_children():
 			target_array.append(c)

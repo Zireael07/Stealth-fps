@@ -52,7 +52,8 @@ func place(lvl_start=Vector2(-50,-50)):
 	# crates
 	get_child(1).set_translation(Vector3(pos.x, 0, pos.y))
 	# move the crate nav to match
-	get_node("/root/Spatial/nav2").set_translation(Vector3(pos.x, 0, pos.y))
+	var root = get_tree().get_nodes_in_group("root")[0]
+	root.get_node("nav2").set_translation(Vector3(pos.x, 0, pos.y))
 	print("Placed crates at ", Vector3(pos.x, 0, pos.y))
 	
 	# TODO: ensure at least 30 m of separation between POIs?

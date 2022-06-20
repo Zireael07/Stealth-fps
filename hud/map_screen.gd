@@ -18,10 +18,6 @@ func _3d_tomap2d(vec, lvl_start=Vector2(-50,-50)):
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	var map = get_tree().get_nodes_in_group("root")[0].get_node("map")
-	
-#	poi.append(_3d_tomap2d(map.get_child(0).get_translation())) #target range
-#	poi.append(_3d_tomap2d(map.get_child(1).get_translation())) # crates
-	
 
 
 

@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=2]
+[gd_scene load_steps=27 format=2]
 
 [ext_resource path="res://assets/cement.png" type="Texture" id=1]
 [ext_resource path="res://assets/White.material" type="Material" id=2]
@@ -8,6 +8,7 @@
 [ext_resource path="res://props/lockpick_pickup.tscn" type="PackedScene" id=6]
 [ext_resource path="res://props/supply_box.tscn" type="PackedScene" id=7]
 [ext_resource path="res://props/medkit_pickup.tscn" type="PackedScene" id=8]
+[ext_resource path="res://level_root.gd" type="Script" id=9]
 [ext_resource path="res://water.tscn" type="PackedScene" id=10]
 [ext_resource path="res://props/ladder.tscn" type="PackedScene" id=11]
 
@@ -61,6 +62,7 @@ extents = Vector3( 5, 1.25, 1.225 )
 extents = Vector3( 1, 1.5, 1 )
 
 [node name="Spatial" type="Spatial" groups=["root"]]
+script = ExtResource( 9 )
 
 [node name="marker_North" type="Spatial" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 200, 0, 0 )
