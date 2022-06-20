@@ -10,7 +10,9 @@ var poi = []
 # TODO: make map scale depend on level size
 func _3d_tomap2d(vec, lvl_start=Vector2(-50,-50)):
 	# map is 1 = 1m scale; so rects are scaled up to be visible (1m = X px)
-	return Vector2((vec.x-lvl_start.x)*5, (vec.z-lvl_start.y)*5)
+	var pos = Vector2((vec.x-lvl_start.x)*5, (vec.z-lvl_start.y)*5)
+	print("Vec: ", vec, " - 2d map pos: ", pos)
+	return pos
 
 
 # Called when the node enters the scene tree for the first time.

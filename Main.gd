@@ -30,7 +30,7 @@ func _ready():
 
 	poi.append(map_screen._3d_tomap2d(map.get_child(0).get_translation())) #target range
 	poi.append(map_screen._3d_tomap2d(map.get_child(1).get_translation())) # crates
-	poi.append(map_screen._3d_tomap2d(map.get_child(2).get_translation())) # helicopter
+	poi.append(map_screen._3d_tomap2d(map.get_child(3).get_translation())) # helicopter
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta):

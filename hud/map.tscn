@@ -24,13 +24,20 @@ __meta__ = {
 }
 
 [node name="Label" type="Label" parent="."]
-visible = false
 anchor_left = 0.5
 anchor_right = 0.5
 margin_left = -20.0
 margin_right = 98.0
 margin_bottom = 14.0
 text = "MAPS"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label2" type="Label" parent="."]
+margin_right = 40.0
+margin_bottom = 14.0
+text = "1m=5px"
 __meta__ = {
 "_edit_use_anchors_": false
 }
