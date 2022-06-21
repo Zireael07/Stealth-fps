@@ -29,4 +29,8 @@ func _on_Button_pressed(src):
 	# unpause
 	get_tree().set_pause(false)
 	
+	player.get_node("Control/outfit_select").show()
+	get_tree().set_pause(true)
+	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+	
 	player.game_start(data)

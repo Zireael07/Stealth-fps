@@ -98,18 +98,24 @@ func _ready():
 	# give it the focus just in case
 	get_node("Control/troop selection").get_node("HBoxContainer/VBoxContainer/Button").grab_focus()
 	get_tree().set_pause(true)
-	# TODO: equipment selection
+	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+	
 	get_node("Control/scoring").hide()
+
+func starting_inventory(index):
+	var it = Node.new()
+	if index == 0:
+		it.name = "knife"
+	else:
+		it.name = "baton"
+	
+	inventory["BELT"] = it
 
 func game_start(data):
 	# dummy until we have equipment selection screen
 	var pistol = Node.new()
 	pistol.name = "pistol"
 	inventory["SIDEARM"] = pistol # dummy
-	var knife = Node.new()
-	knife.name = "knife"
-	inventory["BELT"] = knife # dummy
-	#inventory["RIFLE"] = Node.new() # dummy 
 	
 	# auto switch to rifle if we have it 
 	if inventory.has("RIFLE") and inventory["RIFLE"] != null:
@@ -181,7 +187,13 @@ func _process(delta):
 		top_down.set_current(!top_down.is_current())
 		if !top_down.is_current():
 			camera.set_current(true)
-
+	# Capturing/Freeing the cursor
+	if Input.is_action_just_pressed("ui_cancel") and not talking:
+		if Input.get_mouse_mode() == Input.MOUSE_MODE_VISIBLE:
+			Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+		else:
+			Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+	# ----------------------------------
 
 func _physics_process(delta):
 	# adjust current spread
@@ -872,13 +884,6 @@ func process_input(delta):
 	if grabbed_object != null:
 		place_grabbed_object(grabbed_object)
 	
-	# ----------------------------------
-	# Capturing/Freeing the cursor
-	if Input.is_action_just_pressed("ui_cancel") and not talking:
-		if Input.get_mouse_mode() == Input.MOUSE_MODE_VISIBLE:
-			Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
-		else:
-			Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 	# ----------------------------------
 
 # Process our movements (influenced by our input) and sending them to KinematicBody

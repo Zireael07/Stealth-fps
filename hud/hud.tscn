@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=2]
+[gd_scene load_steps=24 format=2]
 
 [ext_resource path="res://hud/Crosshair.tscn" type="PackedScene" id=1]
 [ext_resource path="res://assets/pointer.png" type="Texture" id=2]
@@ -11,6 +11,7 @@
 [ext_resource path="res://hud/radio.gdshader" type="Shader" id=9]
 [ext_resource path="res://hud/map.tscn" type="PackedScene" id=10]
 [ext_resource path="res://hud/info.tscn" type="PackedScene" id=11]
+[ext_resource path="res://hud/outfit_select.tscn" type="PackedScene" id=12]
 
 [sub_resource type="StyleBoxFlat" id=12]
 bg_color = Color( 0, 1, 0.976471, 1 )
@@ -218,6 +219,7 @@ tracks/1/keys = {
 [node name="Control" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
+mouse_filter = 2
 script = ExtResource( 4 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -636,6 +638,10 @@ __meta__ = {
 }
 
 [node name="troop selection" parent="." instance=ExtResource( 7 )]
+pause_mode = 2
+visible = false
+
+[node name="outfit_select" parent="." instance=ExtResource( 12 )]
 pause_mode = 2
 visible = false
 
