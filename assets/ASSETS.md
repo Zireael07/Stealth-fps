@@ -13,3 +13,4 @@
 * emotes - from Kenney's Emotes Pack https://kenney.nl/assets/emotes-pack (CCO)
 * medkit - edited from https://opengameart.org/content/low-poly-medkit-2 (CC0)
 * helicopter - https://opengameart.org/content/cartoon-helicopter-0 (CC0)
+* train and tracks - https://opengameart.org/content/rail-basic-assets-v1, CC0 licensed, edited
