@@ -1,10 +1,11 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://assets/cement.png" type="Texture" id=1]
 [ext_resource path="res://props/stairs.tscn" type="PackedScene" id=2]
 [ext_resource path="res://characters/kinematic.tscn" type="PackedScene" id=3]
 [ext_resource path="res://props/straight_track.tscn" type="PackedScene" id=4]
 [ext_resource path="res://props/train.tscn" type="PackedScene" id=5]
+[ext_resource path="res://assets/White.material" type="Material" id=6]
 
 [sub_resource type="SpatialMaterial" id=1]
 albedo_texture = ExtResource( 1 )
@@ -81,6 +82,70 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -16 )
 
 [node name="train" parent="subway/Spatial" instance=ExtResource( 5 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0647631, 1.27429, 0 )
+
+[node name="CSGCombiner" type="CSGCombiner" parent="subway"]
+cast_shadow = 0
+use_collision = true
+
+[node name="CSGPolygon_wall" type="CSGPolygon" parent="subway/CSGCombiner"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.79052, 3.53361, 9.90424 )
+polygon = PoolVector2Array( -1.70766, -0.0380907, -4.78756, 3.50844, -5.22866, 7.32651, 2.506, 7.10466, 2.54941, -0.00129747 )
+depth = 3.0
+material = ExtResource( 6 )
+
+[node name="CSGPolygon_inside" type="CSGPolygon" parent="subway/CSGCombiner"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.79052, 3.78107, 9.67871 )
+cast_shadow = 0
+operation = 2
+polygon = PoolVector2Array( -1.42939, 0.0440552, -5.12373, 3.62951, -5.1939, 6.9252, 1.84672, 5.85631, 2.54941, -0.00129747 )
+depth = 2.5
+material = ExtResource( 6 )
+
+[node name="CSGBox_door" type="CSGBox" parent="subway/CSGCombiner"]
+transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -1.0735, 5.57626, 7.28095 )
+cast_shadow = 0
+operation = 2
+width = 2.552
+height = 2.5
+depth = 2.5
+material = ExtResource( 6 )
+
+[node name="CSGPolygon_wall2" type="CSGPolygon" parent="subway/CSGCombiner"]
+transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0.726784, -0.0360301, 3.04184 )
+polygon = PoolVector2Array( -1.70766, -0.0380907, -5.08263, 3.60725, -3.99585, 7.25838, 2.506, 7.10466, 2.54941, -0.00129747 )
+depth = 3.5
+material = ExtResource( 6 )
+
+[node name="CSGBox_door3" type="CSGBox" parent="subway/CSGCombiner"]
+transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -1.18451, 1.20056, 1.15288 )
+cast_shadow = 0
+operation = 2
+width = 2.552
+height = 2.5
+depth = 2.5
+material = ExtResource( 6 )
+
+[node name="CSGPolygon2_inside" type="CSGPolygon" parent="subway/CSGCombiner"]
+transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0.0922034, -0.0360303, 3.04184 )
+cast_shadow = 0
+operation = 2
+polygon = PoolVector2Array( -1.42939, 0.0440552, -4.92871, 3.70725, -5.21007, 7.14338, 1.84672, 5.85631, 2.54941, -0.00129747 )
+depth = 2.5
+material = ExtResource( 6 )
+
+[node name="CSGBox_door2" type="CSGBox" parent="subway/CSGCombiner"]
+transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -1.18809, 5.55456, 8.12228 )
+cast_shadow = 0
+operation = 2
+width = 1.0
+height = 2.5
+depth = 2.5
+material = ExtResource( 6 )
+
+[node name="CSGCombiner2" type="CSGCombiner" parent="subway"]
+transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -9.13509, -3.8171, 0.304307 )
+cast_shadow = 0
+use_collision = true
 
 [node name="Spatial" type="Spatial" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -16.1675, 8.87584, 0 )
