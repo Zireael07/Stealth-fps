@@ -60,6 +60,7 @@ var inventory = {}
 # material
 var default = preload("res://assets/blue_principled_bsdf.tres")
 var camo = preload("res://assets/camo_triplanar_mat.tres")
+var camo2 = preload("res://assets/camo_triplanar_mat2.tres")
 
 # hiding
 const DEFAULT = 0
@@ -858,6 +859,8 @@ func process_input(delta):
 						# reenable stickiness
 						grabbed_object.get_node("StickyArea/CollisionShape2").disabled = false
 						
+						# TODO: ballistic arc for grenades
+						
 						grabbed_object.get_node("Timer").start()
 						grabbed_object.get_node("Area").collision_layer = 1
 						grabbed_object.get_node("Area").collision_mask = 1
@@ -1155,6 +1158,9 @@ func uniform_change(index):
 	elif index == 1:
 		msh.set_surface_material(1, camo)
 		uniform = CAMO
+	elif index == 2:
+		msh.set_surface_material(1, camo2)
+		uniform = CAMO # for now
 
 func long_action(kind, time, data=null, tg=null):
 	action = [kind, data, tg]

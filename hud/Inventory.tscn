@@ -64,7 +64,7 @@ margin_left = 56.0
 margin_right = 131.0
 margin_bottom = 20.0
 text = "Default"
-items = [ "Default", null, false, 0, null, "Camo", null, false, 1, null ]
+items = [ "Default", null, false, 0, null, "Camo", null, false, 1, null, "Camo 2", null, false, 2, null ]
 selected = 0
 
 [node name="HBoxRifle" type="HBoxContainer" parent="VBoxContainer"]

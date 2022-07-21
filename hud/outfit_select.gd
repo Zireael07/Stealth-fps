@@ -6,6 +6,7 @@ var player
 # material
 var default = preload("res://assets/blue_principled_bsdf.tres")
 var camo = preload("res://assets/camo_triplanar_mat.tres")
+var camo2 = preload("res://assets/camo_triplanar_mat2.tres")
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -25,6 +26,8 @@ func _on_uniform_change(index):
 		msh.set_surface_material(1, default)
 	elif index == 1:
 		msh.set_surface_material(1, camo)
+	elif index == 2:
+		msh.set_surface_material(1, camo2)
 
 	player.uniform_change(index)
 
