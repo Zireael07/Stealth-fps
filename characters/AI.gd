@@ -630,8 +630,8 @@ func _physics_process(delta):
 						# if we see an enemy, no longer need to turn to face a shot
 						face_pos = Vector3()
 						
-						# if we see the player for the first time and alarm hasn't been raised
-						if not in_sight and !get_tree().get_nodes_in_group("alarm")[0].get_child(0).alarmed \
+						# if we see the player for the first time and alarm hasn't been raised (if any in level)
+						if not in_sight and get_tree().get_nodes_in_group("alarm").size() > 0 and !get_tree().get_nodes_in_group("alarm")[0].get_child(0).alarmed \
 						and not alarmed:
 							brain.set_state(brain.STATE_ALARMED)
 							brain.target = get_tree().get_nodes_in_group("alarm")[0]

@@ -65,6 +65,7 @@ var camo2 = preload("res://assets/camo_triplanar_mat2.tres")
 # hiding
 const DEFAULT = 0
 const CAMO = 1
+const FOREST_CAMO = 2
 var uniform = DEFAULT
 
 var backdrop = null
@@ -1040,6 +1041,10 @@ func is_hiding():
 		if uniform == CAMO:
 			hidden = true
 	else:
+		# backdrop is a string (name of object) - see Ai.gd l.619
+		if "Bush" in backdrop:
+			if uniform == FOREST_CAMO:
+				hidden = true
 		if backdrop != "Spatial":
 			if uniform == DEFAULT:
 				hidden = true
@@ -1160,7 +1165,7 @@ func uniform_change(index):
 		uniform = CAMO
 	elif index == 2:
 		msh.set_surface_material(1, camo2)
-		uniform = CAMO # for now
+		uniform = FOREST_CAMO
 
 func long_action(kind, time, data=null, tg=null):
 	action = [kind, data, tg]
