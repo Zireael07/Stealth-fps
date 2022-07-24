@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=2]
+[gd_scene load_steps=21 format=2]
 
 [ext_resource path="res://assets/cement.png" type="Texture" id=1]
 [ext_resource path="res://props/stairs.tscn" type="PackedScene" id=2]
@@ -7,7 +7,7 @@
 [ext_resource path="res://props/train.tscn" type="PackedScene" id=5]
 [ext_resource path="res://assets/White.material" type="Material" id=6]
 [ext_resource path="res://assets/Main.material" type="Material" id=7]
-[ext_resource path="res://assets/green_test.tres" type="Material" id=8]
+[ext_resource path="res://assets/nature/Bush_Large_rotated.tscn" type="PackedScene" id=8]
 [ext_resource path="res://characters/AI.tscn" type="PackedScene" id=9]
 
 [sub_resource type="SpatialMaterial" id=1]
@@ -44,11 +44,8 @@ albedo_color = Color( 1, 1, 1, 0 )
 [sub_resource type="BoxShape" id=9]
 extents = Vector3( 1, 2.5, 25 )
 
-[sub_resource type="CubeMesh" id=10]
-size = Vector3( 2, 4, 2 )
-
 [sub_resource type="BoxShape" id=11]
-extents = Vector3( 1, 2, 1 )
+extents = Vector3( 1, 2, 0.5 )
 
 [sub_resource type="CubeMesh" id=12]
 size = Vector3( 0.5, 0.5, 0.5 )
@@ -255,71 +252,68 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -16.1675, 7.67166, 0 )
 
 [node name="player" parent="Spatial" instance=ExtResource( 3 )]
 
-[node name="Bush" type="MeshInstance" parent="Spatial"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.7484, 8.57004 )
-mesh = SubResource( 10 )
-material/0 = ExtResource( 8 )
+[node name="Bush_Large" parent="Spatial" instance=ExtResource( 8 )]
+transform = Transform( 2, 0, 0, 0, 2, 0, 0, 0, 2, 0.656778, 1.50033, 7.72086 )
 
-[node name="StaticBody" type="StaticBody" parent="Spatial/Bush"]
+[node name="StaticBody" type="StaticBody" parent="Spatial/Bush_Large"]
+transform = Transform( 0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, -0.5, 0, 0 )
 collision_layer = 5
 
-[node name="CollisionShape" type="CollisionShape" parent="Spatial/Bush/StaticBody"]
+[node name="CollisionShape" type="CollisionShape" parent="Spatial/Bush_Large/StaticBody"]
 shape = SubResource( 11 )
 
-[node name="Bush2" type="MeshInstance" parent="Spatial"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.7484, -10.9998 )
-mesh = SubResource( 10 )
-material/0 = ExtResource( 8 )
+[node name="Bush_Large2" parent="Spatial" instance=ExtResource( 8 )]
+transform = Transform( 2, 0, 0, 0, 2, 0, 0, 0, 2, 0.657, 1.5, -11 )
 
-[node name="StaticBody" type="StaticBody" parent="Spatial/Bush2"]
+[node name="StaticBody" type="StaticBody" parent="Spatial/Bush_Large2"]
+transform = Transform( 0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, -0.5, 0, 0 )
 collision_layer = 5
 
-[node name="CollisionShape" type="CollisionShape" parent="Spatial/Bush2/StaticBody"]
+[node name="CollisionShape" type="CollisionShape" parent="Spatial/Bush_Large2/StaticBody"]
 shape = SubResource( 11 )
 
-[node name="Bush3" type="MeshInstance" parent="Spatial"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 4.04083, 1.7484, -0.144677 )
-mesh = SubResource( 10 )
-material/0 = ExtResource( 8 )
+[node name="Bush_Large3" parent="Spatial" instance=ExtResource( 8 )]
+transform = Transform( -8.74228e-08, 0, -2, 0, 2, 0, 2, 0, -8.74228e-08, 4, 1.5, 0.78301 )
 
-[node name="StaticBody" type="StaticBody" parent="Spatial/Bush3"]
+[node name="StaticBody" type="StaticBody" parent="Spatial/Bush_Large3"]
+transform = Transform( 0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, -0.5, 0, 0 )
 collision_layer = 5
 
-[node name="CollisionShape" type="CollisionShape" parent="Spatial/Bush3/StaticBody"]
+[node name="CollisionShape" type="CollisionShape" parent="Spatial/Bush_Large3/StaticBody"]
 shape = SubResource( 11 )
 
 [node name="nav" type="Spatial" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -15.3399, 7.3451, -24.7458 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -17.0844, 7.3451, -24.7458 )
 
 [node name="Position3D" type="Position3D" parent="nav"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.90269, 0, 22.605 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.6042, 0, 22.605 )
 
 [node name="MeshInstance" type="MeshInstance" parent="nav/Position3D"]
 mesh = SubResource( 12 )
 material/0 = null
 
 [node name="Position3D2" type="Position3D" parent="nav"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.90269, 0, 17.7312 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.90269, 0, 22.5093 )
 
 [node name="MeshInstance2" type="MeshInstance" parent="nav/Position3D2"]
 mesh = SubResource( 12 )
 material/0 = null
 
 [node name="Position3D3" type="Position3D" parent="nav"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.66558, 0, 17.7312 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -2.1467, 0, 17.7312 )
 
 [node name="MeshInstance3" type="MeshInstance" parent="nav/Position3D3"]
 mesh = SubResource( 12 )
 material/0 = null
 
 [node name="Position3D4" type="Position3D" parent="nav"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.66558, 0, 23.5559 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.66558, 0, 17.5446 )
 
 [node name="MeshInstance4" type="MeshInstance" parent="nav/Position3D4"]
 mesh = SubResource( 12 )
 material/0 = null
 
 [node name="AI" parent="." instance=ExtResource( 9 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -16.4522, 8.7722, -6.15432 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -16.4522, 7.47042, -6.15432 )
 nav = NodePath("../nav")
 debug = true

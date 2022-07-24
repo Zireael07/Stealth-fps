@@ -14,3 +14,4 @@
 * medkit - edited from https://opengameart.org/content/low-poly-medkit-2 (CC0)
 * helicopter - https://opengameart.org/content/cartoon-helicopter-0 (CC0)
 * train and tracks - https://opengameart.org/content/rail-basic-assets-v1, CC0 licensed, edited
+* bushes - ultimate stylized nature pack by Quaternius https://quaternius.com/packs/ultimatestylizednature.html (CC0)
