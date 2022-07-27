@@ -626,7 +626,7 @@ func _physics_process(delta):
 			
 					# ----------------------------------
 					# we can see the player because he's not hidden
-					if !possible_tg.get_parent().is_hiding():
+					if !possible_tg.get_parent().is_hiding()[0]:
 						# if we see an enemy, no longer need to turn to face a shot
 						face_pos = Vector3()
 						

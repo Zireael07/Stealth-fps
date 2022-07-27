@@ -17,6 +17,11 @@ func _process(delta):
 	
 	var clr = update_hiding()
 	$HidingRect.color = clr
+	if get_parent().is_hiding()[1]:
+		$HidingLabel.set_text("Shadow")
+	else:
+		$HidingLabel.set_text("")
+	
 	
 	# update crosshair
 	$"Center/Crosshair".set_spread(get_parent())
@@ -30,7 +35,7 @@ func _process(delta):
 		$AirProgressBar.value = get_parent().get_node("AirTimer").get_time_left()
 
 func update_hiding():
-	if get_parent().is_hiding():
+	if get_parent().is_hiding()[0]:
 		return Color(0,0,0) # black
 	else:
 		return Color(1,1,1) # white

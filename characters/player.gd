@@ -1033,6 +1033,7 @@ func get_heading():
 
 # ----------------------------------------------
 func is_hiding():
+	var shadow = false
 	var hidden = false
 	
 	# if no backdrop, assume the floor (concrete)
@@ -1067,10 +1068,11 @@ func is_hiding():
 		var body_r = shadow_ray.get_collider()
 		#print("Body_r", body_r)
 		if body_r is StaticBody or body_r is CSGCombiner:
-			print("We're in shadow")
+			#print("We're in shadow")
 			hidden = true
+			shadow = true
 	
-	return hidden
+	return [hidden, shadow]
 
 func is_moving():
 	var move = vel.length() > 0.5 and stance != PRONE
