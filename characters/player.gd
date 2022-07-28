@@ -724,7 +724,7 @@ func process_input(delta):
 				var conv = preload("res://hud/conversation.tscn")
 				var c = conv.instance()
 				get_node("Control").add_child(c)
-				c.show_line(line)
+				c.show_line(line, "")
 				var answers = ["Nothing"]
 				if inter.brain.get_state() == inter.brain.STATE_FOLLOW:
 					answers.append("Stay here!")
@@ -1019,11 +1019,12 @@ func get_compass_heading():
 func get_heading():
 	var forward_global = get_global_transform().xform(Vector3(0, 0, -2))
 	var forward_vec = forward_global-get_global_transform().origin
+	var root = get_tree().get_nodes_in_group("root")[0]
 
-	if !has_node("/root/Spatial/marker_North"):
+	if !root.has_node("marker_North"):
 		return 0
 	
-	var North = get_node("/root/Spatial/marker_North")
+	var North = root.get_node("marker_North")
 
 	var rel_loc = get_global_transform().xform_inv(North.get_global_transform().origin)
 	#2D angle to target (local coords)
