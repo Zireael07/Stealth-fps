@@ -1,4 +1,4 @@
-[gd_scene load_steps=69 format=2]
+[gd_scene load_steps=70 format=2]
 
 [ext_resource path="res://BSP.gd" type="Script" id=1]
 [ext_resource path="res://better_env.tres" type="Environment" id=2]
@@ -91,6 +91,9 @@ size = Vector2( 50, 50 )
 [sub_resource type="BoxShape" id=28]
 extents = Vector3( 25, 1, 50 )
 
+[sub_resource type="BoxShape" id=36]
+extents = Vector3( 1.75, 1.5, 3.75 )
+
 [sub_resource type="BoxShape" id=35]
 
 [sub_resource type="CubeMesh" id=11]
@@ -132,11 +135,11 @@ void fragment() {
 	//ALBEDO = texture(refl_tx, UV).rgb;
 }"
 
-[sub_resource type="ViewportTexture" id=36]
+[sub_resource type="ViewportTexture" id=37]
 
 [sub_resource type="ShaderMaterial" id=22]
 shader = SubResource( 20 )
-shader_param/refl_tx = SubResource( 36 )
+shader_param/refl_tx = SubResource( 37 )
 
 [sub_resource type="QuadMesh" id=23]
 size = Vector2( 1, 0.5 )
@@ -329,6 +332,12 @@ shape = SubResource( 28 )
 
 [node name="Spatial2" parent="outdoor" instance=ExtResource( 14 )]
 transform = Transform( 1.19249e-08, 0, -1, 0, 1, 0, 1, 0, 1.19249e-08, 0, 0, -9.49007 )
+
+[node name="AreaIndoor" type="Area" parent="outdoor" groups=["indoor"]]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -9.49 )
+
+[node name="CollisionShape" type="CollisionShape" parent="outdoor/AreaIndoor"]
+shape = SubResource( 36 )
 
 [node name="Area" type="Area" parent="outdoor"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -3.1767, 0, 13.9568 )

@@ -1069,9 +1069,17 @@ func is_hiding():
 		var body_r = shadow_ray.get_collider()
 		#print("Body_r", body_r)
 		if body_r is StaticBody or body_r is CSGCombiner:
+			# we're in shadow
 			#print("We're in shadow")
 			hidden = true
 			shadow = true
+			# ... unless we are in an indoor area...
+			for a in get_tree().get_nodes_in_group("indoor"):
+				for b in a.get_overlapping_bodies():
+					if b == self:
+						hidden = false
+						shadow = false
+						break
 	
 	return [hidden, shadow]
 
