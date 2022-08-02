@@ -1057,7 +1057,7 @@ func is_hiding():
 	
 	# check shadows
 	if shadow_ray_tg == null:
-		return hidden
+		return [hidden, false]
 		
 	shadow_ray.cast_to = shadow_ray.to_local(shadow_ray_tg.get_global_transform().origin)
 	
