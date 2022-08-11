@@ -80,6 +80,7 @@ class PatrolState:
 		
 		ch.strafe = false
 		
+		# FIXME: AI sometimes "orbits" around the target
 		# rotations if any
 		ch.rotate_y(deg2rad(ch.brain.steer.x * ch.STEER_SENSITIVITY))  #* -1))
 

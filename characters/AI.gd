@@ -309,7 +309,7 @@ func move(delta):
 	set_danger()
 	# only do stuff if we need to (if we detected danger)
 	if context_has_danger:
-		set_interest()
+		set_interest_steer()
 		merge_direction()
 		choose_direction()
 		
@@ -368,7 +368,7 @@ func move(delta):
 
 # ------------------------------------------------------------
 # based on Kidscancode's https://kidscancode.org/godot_recipes/ai/context_map/
-func set_interest():
+func set_interest_steer():
 	# Go forward unless we have somewhere to steer
 	var path_direction = transform.basis.z
 	
@@ -797,7 +797,6 @@ func _on_hurt(pos):
 func is_armed():
 	if is_in_group("civilian"):
 		return false
-	
 	
 	var hold = get_node("RotationHelper/Character2/Armature/WeaponHold")
 	# for now, AI can only have rifles
