@@ -80,9 +80,12 @@ class PatrolState:
 		
 		ch.strafe = false
 		
-		# FIXME: AI sometimes "orbits" around the target
 		# rotations if any
+		# FIXME: AI sometimes "orbits" around the target
+		#print("St: ", ch.brain.steer.x, " rot: ", deg2rad(ch.brain.steer.x * ch.STEER_SENSITIVITY))
+		# possible fixes: look_at within 1.75m of target?
 		ch.rotate_y(deg2rad(ch.brain.steer.x * ch.STEER_SENSITIVITY))  #* -1))
+		
 
 class DisengageState:
 	var ch

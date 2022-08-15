@@ -542,6 +542,10 @@ func _physics_process(delta):
 			
 			else:
 				if is_close_to_target() and not brain.get_state() == brain.STATE_ALARMED and not brain.get_state() == brain.STATE_DISENGAGE:
+					# should look around for a while
+					if get_node("Timer2").is_stopped():
+						get_node("Timer2").start()
+					
 					##do we have a next point?
 					if (target_array.size() > current+1):
 						prev = current
@@ -552,6 +556,22 @@ func _physics_process(delta):
 
 					# send to brain
 					brain.target = target_array[current]
+				
+				# look around
+				if get_node("Timer2").time_left > 0 and not brain.get_state() == brain.STATE_ALARMED and not brain.get_state() == brain.STATE_DISENGAGE:
+					#print("Timer's on, ", get_node("Timer2").time_left)
+					var w = get_node("Timer2").time_left/2.0 # 2 is the total timer
+					print("lerp weight: ", w)
+					var look_at = lerp(Vector2(-0.5, 0), Vector2(0.5, 0), w)
+					print("Look at: ", look_at.x)
+					var rot = lerp(-45, 45, w)
+					#var look_at = Vector2(0.5, 0) # 1 is 90 degrees
+					state_machine["parameters/look/blend_position"] = look_at
+					# adjust vision cone to match
+					$RotationHelper/Area.rotation_degrees = Vector3(0,rot,0) # nullify any previous
+					#$RotationHelper/Area.rotate_y(deg2rad(-45))
+					
+						
 		
 		if brain.get_state() == brain.STATE_ALARMED and !is_in_group("ally"):
 			move(delta)
