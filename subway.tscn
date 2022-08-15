@@ -63,7 +63,6 @@ material_override = SubResource( 1 )
 cast_shadow = 0
 mesh = SubResource( 2 )
 skeleton = NodePath("../..")
-material/0 = null
 
 [node name="StaticBody" type="StaticBody" parent="subway" groups=["floor"]]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -16, 0, 0 )
@@ -81,7 +80,6 @@ material_override = SubResource( 1 )
 cast_shadow = 0
 mesh = SubResource( 4 )
 skeleton = NodePath("../..")
-material/0 = null
 
 [node name="StaticBody2" type="StaticBody" parent="subway" groups=["floor"]]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -30.4799, 7.29876, 0 )
@@ -283,37 +281,36 @@ collision_layer = 5
 shape = SubResource( 11 )
 
 [node name="nav" type="Spatial" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -17.0844, 7.3451, -24.7458 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -16.3848, 7.3451, -24.7458 )
 
 [node name="Position3D" type="Position3D" parent="nav"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.6042, 0, 22.605 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -2.27759, 0, 17.5574 )
 
 [node name="MeshInstance" type="MeshInstance" parent="nav/Position3D"]
 mesh = SubResource( 12 )
-material/0 = null
 
 [node name="Position3D2" type="Position3D" parent="nav"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.90269, 0, 22.5093 )
 
 [node name="MeshInstance2" type="MeshInstance" parent="nav/Position3D2"]
 mesh = SubResource( 12 )
-material/0 = null
 
 [node name="Position3D3" type="Position3D" parent="nav"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -2.1467, 0, 17.7312 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2.74964, 0, 20.7102 )
 
 [node name="MeshInstance3" type="MeshInstance" parent="nav/Position3D3"]
 mesh = SubResource( 12 )
-material/0 = null
 
 [node name="Position3D4" type="Position3D" parent="nav"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.66558, 0, 17.5446 )
 
 [node name="MeshInstance4" type="MeshInstance" parent="nav/Position3D4"]
 mesh = SubResource( 12 )
-material/0 = null
 
 [node name="AI" parent="." instance=ExtResource( 9 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -16.4522, 7.47042, -6.15432 )
 nav = NodePath("../nav")
 debug = true
+
+[node name="TopDownCamera" type="Camera" parent="."]
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, -12.357, 16.9404, -1.73548 )

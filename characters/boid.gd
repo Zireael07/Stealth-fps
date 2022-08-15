@@ -56,7 +56,7 @@ func seek(target):
 	#print("max speed des: " + str(desired))
 	#print("vel " + str(velocity))
 	# desired minus current vel
-	steering = (desired - velocity).clamped(MAX_FORCE)
+	steering = (desired - velocity).limit_length(MAX_FORCE)
 	#print(str(steering))
 	#steering = steering.clamped(max_force)
 	#print(str(steering))
@@ -95,7 +95,7 @@ func arrive(target, slowing_radius):
 		desired = desired.normalized() * MAX_SPEED
 
 	# desired minus current vel
-	steering = (desired - velocity).clamped(MAX_FORCE)
+	steering = (desired - velocity).limit_length(MAX_FORCE)
 	#print("Steering", steering)
 
 	return (steering)
@@ -117,5 +117,5 @@ func get_steering_flee(target):
 	desired = Vector2(get_translation().x, get_translation().z) - target
 	
 	desired = desired.normalized() * MAX_SPEED
-	steering = (desired - velocity).clamped(MAX_FORCE)
+	steering = (desired - velocity).limit_length(MAX_FORCE)
 	return (steering)
