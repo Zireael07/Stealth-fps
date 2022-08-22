@@ -145,6 +145,32 @@ func _ready():
 		aabb_center.add_child(pt)
 		pt.global_transform.origin =  point
 
+	# the sniper drops prone immediately
+	if get_name() == "sniper":
+		# the changes mean we're roughly 0.7 units tall (Z value)
+		$RotationHelper/Character2.set_rotation_degrees(Vector3(90, 0, 0))
+		$RotationHelper/Character2.set_translation(Vector3(1, 0, -1))
+		$CollisionShape.set_rotation_degrees(Vector3(90,0,0))
+		$CollisionShape.set_translation(Vector3(1, 0, 0))
+		$CollisionShape.get_shape().extents = Vector3(0.249, 0.95, 0.757)
+		#$"CollisionShapeGun".set_translation(Vector3(-0.205, 0, 0.95))
+		# rotate the head
+		state_machine["parameters/look/blend_position"] = Vector2(0, 0.5)  # 1 is 90 degrees
+		# fix vision cone to match
+		$RotationHelper/Area.global_transform.origin = $RotationHelper/Character2/Armature/HitBoxHead.global_transform.origin
+		$RotationHelper/Area.translate(Vector3(0,0.5,-0.5)) # fudge to match rotated head
+		$RotationHelper/Area.rotation = Vector3(0.5,0, 0)
+		# aim the gun
+		var camera_helper = $RotationHelper/Character2/Armature/HitBoxChest/Spatial
+		camera_helper.get_node("rifle_ik_tg").set_translation(Vector3(0.15, 2.2,1.75))
+		camera_helper.get_node("rifle_ik_tg").rotation_degrees = Vector3(-40,0,0)
+		# we need to move the upper arms in prone position, too
+		camera_helper.get_node("left_ik_tg").set_translation(Vector3(0.15, 2.2,1.75))
+		$RotationHelper/Character2/Armature/rifleik.start()
+		$RotationHelper/Character2/Armature/left_ik.start()
+		# move visual indicator to above character's head
+		get_node("RotationHelper/MeshInstance").global_transform.origin = $RotationHelper/Character2/Armature/HitBoxHead.global_transform.origin
+		get_node("RotationHelper/MeshInstance").translate(Vector3(0,0.75, -0.2))
 
 #- ----------------------------
 func add_rays():
@@ -444,6 +470,10 @@ func _physics_process(delta):
 		return
 	
 	if not dead and not unconscious:
+		if get_name() == "sniper":
+			brain.set_state(brain.STATE_IDLE)
+			return
+		
 		# animate movement
 		if state_machine:
 			if vel.length() > 0:
@@ -531,6 +561,10 @@ func _physics_process(delta):
 			#rotate_y(deg2rad(180))
 		
 		if not in_sight and not face_pos:
+			# paranoia
+			if target_array == null:
+				return
+			
 			# movement
 			move(delta)
 			
@@ -737,8 +771,10 @@ func die(pos):
 	var knock = deg2rad(-40)
 	if rel_loc.z < 0:
 		knock = deg2rad(40)
-	# tip him back
-	get_node("RotationHelper/Character2").set_rotation(Vector3(knock, 0, 0))
+	
+	if !get_name() == "sniper":
+		# tip him back
+		get_node("RotationHelper/Character2").set_rotation(Vector3(knock, 0, 0))
 	# switch off animtree
 	get_node("RotationHelper/Character2/AnimationTree").active = false
 	# .. and IK
@@ -935,3 +971,12 @@ func _on_answer_selected(screen, id):
 			else:
 				brain.set_state(brain.STATE_FOLLOW)
 				print("Ally should follow")
+
+
+func _on_Timer2_timeout():
+	# reset back to defaults
+	var look_at = Vector2(0, 0) # 1 is 90 degrees
+	state_machine["parameters/look/blend_position"] = look_at
+	# adjust vision cone to match
+	$RotationHelper/Area.rotation_degrees = Vector3(0,0,0) # nullify any previous
+	#$RotationHelper/Area.rotate_y(deg2rad(-45))

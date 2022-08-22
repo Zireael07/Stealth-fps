@@ -37,9 +37,16 @@ func setup_map(player=null):
 	else:
 		poi.append(map_screen._3d_tomap2d(get_node("supply box").get_translation(), Vector2(-25, -25)))
 
+	# place sniper on biggest crate
+	var pos = map.get_child(1).get_child(1).global_transform.origin
+	var y = map.get_child(1).get_child(1).get_node("CollisionShape").get_shape().extents.y
+	var z = map.get_child(1).get_child(1).get_node("CollisionShape").get_shape().extents.z
+	$sniper.global_transform.origin = pos + Vector3(0,y+0.25,-z+0.75) # roughly 3/4 the character height
+	
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	setup_map()	
+
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.

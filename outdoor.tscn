@@ -526,6 +526,10 @@ debug = true
 transform = Transform( -1, 0, -3.25841e-07, 0, 1, 0, 3.25841e-07, 0, -1, 12.488, 0, 22.0317 )
 nav = NodePath("../nav2")
 
+[node name="sniper" parent="." instance=ExtResource( 24 )]
+transform = Transform( -1, 0, -3.25841e-07, 0, 1, 0, 3.25841e-07, 0, -1, 4.77432, 3.77736, 14.2698 )
+nav = NodePath("")
+
 [node name="ally" parent="." instance=ExtResource( 30 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -2.78489, 0.000332832, 10.8948 )
 nav = NodePath("")
