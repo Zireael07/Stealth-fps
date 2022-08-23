@@ -147,6 +147,8 @@ func _ready():
 
 	# the sniper drops prone immediately
 	if get_name() == "sniper":
+		brain.set_state(brain.STATE_IDLE)
+		get_node("Timer2").start()
 		# the changes mean we're roughly 0.7 units tall (Z value)
 		$RotationHelper/Character2.set_rotation_degrees(Vector3(90, 0, 0))
 		$RotationHelper/Character2.set_translation(Vector3(1, 0, -1))
@@ -471,8 +473,19 @@ func _physics_process(delta):
 	
 	if not dead and not unconscious:
 		if get_name() == "sniper":
-			brain.set_state(brain.STATE_IDLE)
-			return
+			# look around
+			if not in_sight and get_node("Timer2").time_left > 0 and not brain.get_state() == brain.STATE_ALARMED and not brain.get_state() == brain.STATE_DISENGAGE:
+				#print("Sniper looks around...")
+				#print("Timer's on, ", get_node("Timer2").time_left)
+				var w = get_node("Timer2").time_left/2.0 # 2 is the total timer
+				#print("lerp weight: ", w)
+				var look_at = lerp(Vector2(-0.5, 0.5), Vector2(0.5, 0.5), w) # different for sniper
+				#print("Look at: ", look_at.x)
+				var rot = lerp(-45, 45, w)
+				state_machine["parameters/look/blend_position"] = look_at
+				# adjust vision cone to match
+				$RotationHelper/Area.rotation_degrees = Vector3(rad2deg(0.5),rot,0) # nullify any previous
+
 		
 		# animate movement
 		if state_machine:
@@ -591,8 +604,9 @@ func _physics_process(delta):
 					# send to brain
 					brain.target = target_array[current]
 				
-				# look around
-				if get_node("Timer2").time_left > 0 and not brain.get_state() == brain.STATE_ALARMED and not brain.get_state() == brain.STATE_DISENGAGE:
+				# look around (sniper's version is elsewhere)
+				if get_name() != "sniper" \
+				and get_node("Timer2").time_left > 0 and not brain.get_state() == brain.STATE_ALARMED and not brain.get_state() == brain.STATE_DISENGAGE:
 					#print("Timer's on, ", get_node("Timer2").time_left)
 					var w = get_node("Timer2").time_left/2.0 # 2 is the total timer
 					print("lerp weight: ", w)
@@ -901,6 +915,9 @@ func _on_Area_body_exited2(body):
 func _on_Timer_timeout():
 	# haven't seen anyone, go back to normal
 	face_pos = Vector3()
+	# sniper: special case - wait before starting to look around again
+	if get_name() == "sniper" and not in_sight:
+		get_node("Timer2").start()
 
 func _on_thermal_vision(on):
 	# visual effect
@@ -975,8 +992,18 @@ func _on_answer_selected(screen, id):
 
 func _on_Timer2_timeout():
 	# reset back to defaults
-	var look_at = Vector2(0, 0) # 1 is 90 degrees
+	var look_y = 0
+	var x = 0
+	if get_name() == "sniper":
+		look_y = 0.5
+		x = rad2deg(0.5)
+	var look_at = Vector2(0, look_y) # 1 is 90 degrees
 	state_machine["parameters/look/blend_position"] = look_at
+	
+	# special case
+	if get_name() == "sniper":
+		if not in_sight:
+			get_node("Timer").start()
+
 	# adjust vision cone to match
-	$RotationHelper/Area.rotation_degrees = Vector3(0,0,0) # nullify any previous
-	#$RotationHelper/Area.rotate_y(deg2rad(-45))
+	$RotationHelper/Area.rotation_degrees = Vector3(x,0,0) # nullify any previous
