@@ -575,11 +575,13 @@ func _physics_process(delta):
 		
 		if not in_sight and not face_pos:
 			# paranoia
-			if target_array == null:
-				return
+			#if target_array == null or target_array.size() < 1:
+			#	return
 			
-			# movement
-			move(delta)
+			# for now, snipers don't move
+			if get_name() != "sniper":
+				# movement
+				move(delta)
 			
 			if is_in_group("ally"):
 				if is_close_to_target(2):
@@ -588,7 +590,9 @@ func _physics_process(delta):
 					face_pos = player.get_global_transform().xform(Vector3(0, 0, 5))
 			
 			else:
-				if is_close_to_target() and not brain.get_state() == brain.STATE_ALARMED and not brain.get_state() == brain.STATE_DISENGAGE:
+				#paranoia
+				if target_array.size() > 0 \
+				and is_close_to_target() and not brain.get_state() == brain.STATE_ALARMED and not brain.get_state() == brain.STATE_DISENGAGE:
 					# should look around for a while
 					if get_node("Timer2").is_stopped():
 						get_node("Timer2").start()
@@ -697,9 +701,12 @@ func _physics_process(delta):
 					if !possible_tg.get_parent().is_hiding()[0]:
 						# if we see an enemy, no longer need to turn to face a shot
 						face_pos = Vector3()
+						# stop the look around timer, too
+						get_node("Timer2").stop()
 						
 						# if we see the player for the first time and alarm hasn't been raised (if any in level)
-						if not in_sight and get_tree().get_nodes_in_group("alarm").size() > 0 and !get_tree().get_nodes_in_group("alarm")[0].get_child(0).alarmed \
+						if not in_sight and not get_name() == "sniper" \
+						and get_tree().get_nodes_in_group("alarm").size() > 0 and !get_tree().get_nodes_in_group("alarm")[0].get_child(0).alarmed \
 						and not alarmed:
 							brain.set_state(brain.STATE_ALARMED)
 							brain.target = get_tree().get_nodes_in_group("alarm")[0]
@@ -714,10 +721,17 @@ func _physics_process(delta):
 								# red
 								get_node("RotationHelper/MeshInstance").get_material_override().set_texture(0, hostile_emote)
 							
-								# look at player
-								look_at(body_r.global_transform.origin, Vector3(0,1,0))
-								# because this looks the opposite way for some reason
-								rotate_y(deg2rad(180))
+								if get_name() == "sniper":
+									print("Sniper spotted player")
+									# fix viewcone back
+									$RotationHelper/Area.rotation_degrees = Vector3(rad2deg(0.5),0,0)
+								# sniper doesn't need to rotate but everyone else does
+								else:
+									# look at player
+									look_at(body_r.global_transform.origin, Vector3(0,1,0))
+									# because this looks the opposite way for some reason
+									rotate_y(deg2rad(180))
+								
 								in_sight = true
 					
 					# hidden, can't see
@@ -738,7 +752,6 @@ func _physics_process(delta):
 					
 					# red
 					get_node("RotationHelper/MeshInstance").get_material_override().set_texture(0, hostile_emote)
-					
 					
 					# look at target
 					look_at(body_r.global_transform.origin, Vector3(0,1,0))
@@ -890,11 +903,24 @@ func _on_Area_body_entered(body):
 
 func _on_Area_body_exited(body):
 	if body.is_in_group("player"):
+		# paranoia/bugfix (it's possible to trigger this while still being in_sight of a sniper)
+#		if get_name() == "sniper" \
+#		and get_global_transform().origin.distance_to(possible_tg.get_global_transform().origin) < 8:
+#			return
+		
 		print("Player left the viewcone")
+#		if get_name() == "sniper":
+#			# debug
+#			print("Dist to sniper: ", get_global_transform().origin.distance_to(possible_tg.get_global_transform().origin))
 		possible_tg = null
 		get_node("RotationHelper/MeshInstance").get_material_override().set_texture(0, think_emote)
-		# straighten out
-		set_rotation(Vector3(0,get_rotation().y,0))
+		
+		if get_name() != "sniper":
+			# straighten out
+			set_rotation(Vector3(0,get_rotation().y,0))
+		else:
+			get_node("Timer2").start()
+
 
 # ally versions
 func _on_Area_body_entered2(body):
