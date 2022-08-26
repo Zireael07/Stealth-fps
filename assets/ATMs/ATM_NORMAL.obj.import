@@ -1,0 +1,20 @@
+[remap]
+
+importer="wavefront_obj"
+type="Mesh"
+path="res://.import/ATM_NORMAL.obj-7c0bf0e626c597810d38abc0840cf69b.mesh"
+
+[deps]
+
+files=[ "res://.import/ATM_NORMAL.obj-7c0bf0e626c597810d38abc0840cf69b.mesh" ]
+
+source_file="res://assets/ATMs/ATM_NORMAL.obj"
+dest_files=[ "res://.import/ATM_NORMAL.obj-7c0bf0e626c597810d38abc0840cf69b.mesh", "res://.import/ATM_NORMAL.obj-7c0bf0e626c597810d38abc0840cf69b.mesh" ]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3( 1, 1, 1 )
+offset_mesh=Vector3( 0, 0, 0 )
+octahedral_compression=true
+optimize_mesh_flags=4286
