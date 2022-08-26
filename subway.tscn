@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=2]
+[gd_scene load_steps=24 format=2]
 
 [ext_resource path="res://assets/cement.png" type="Texture" id=1]
 [ext_resource path="res://props/stairs.tscn" type="PackedScene" id=2]
@@ -9,6 +9,8 @@
 [ext_resource path="res://assets/Main.material" type="Material" id=7]
 [ext_resource path="res://assets/nature/Bush_Large_rotated.tscn" type="PackedScene" id=8]
 [ext_resource path="res://characters/AI.tscn" type="PackedScene" id=9]
+[ext_resource path="res://assets/ATMs/ATM_NORMAL.obj" type="ArrayMesh" id=10]
+[ext_resource path="res://props/atm.gd" type="Script" id=11]
 
 [sub_resource type="SpatialMaterial" id=1]
 albedo_texture = ExtResource( 1 )
@@ -44,6 +46,9 @@ albedo_color = Color( 1, 1, 1, 0 )
 [sub_resource type="BoxShape" id=9]
 extents = Vector3( 1, 2.5, 25 )
 
+[sub_resource type="BoxShape" id=13]
+extents = Vector3( 0.5, 1.1, 0.5 )
+
 [sub_resource type="BoxShape" id=11]
 extents = Vector3( 1, 2, 0.5 )
 
@@ -51,6 +56,9 @@ extents = Vector3( 1, 2, 0.5 )
 size = Vector3( 0.5, 0.5, 0.5 )
 
 [node name="Spatial" type="Spatial" groups=["root"]]
+__meta__ = {
+"_editor_description_": "TODO: add an ATM downstairs"
+}
 
 [node name="marker_North" type="Spatial" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 200, 0, 0 )
@@ -244,6 +252,18 @@ transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -15.019
 [node name="CollisionShape" type="CollisionShape" parent="subway/Spatial2/StaticBody4"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0 )
 shape = SubResource( 9 )
+
+[node name="ATM" type="StaticBody" parent="subway" groups=["interactable", "static"]]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -4.33091, -0.725315, 25.4898 )
+script = ExtResource( 11 )
+
+[node name="CollisionShape" type="CollisionShape" parent="subway/ATM"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.832, -1 )
+shape = SubResource( 13 )
+
+[node name="ATM_NORMAL" type="MeshInstance" parent="subway/ATM"]
+transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 2, -1 )
+mesh = ExtResource( 10 )
 
 [node name="Spatial" type="Spatial" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -16.1675, 7.67166, 0 )
