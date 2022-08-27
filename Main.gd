@@ -5,8 +5,8 @@ extends Spatial
 var player
 
 # missions/levels
-var outdoor = preload("res://outdoor.tscn")
-var indoor_tut = preload("res://indoor_tutorial.tscn")
+var outdoor = preload("res://levels/outdoor.tscn")
+var indoor_tut = preload("res://levels/indoor_tutorial.tscn")
 
 # Called when the node enters the scene tree for the first time.
 func _ready():

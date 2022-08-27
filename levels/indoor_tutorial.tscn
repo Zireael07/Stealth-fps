@@ -1,19 +1,19 @@
 [gd_scene load_steps=27 format=2]
 
-[ext_resource path="res://assets/cement.png" type="Texture" id=1]
-[ext_resource path="res://assets/White.material" type="Material" id=2]
-[ext_resource path="res://assets/Main.material" type="Material" id=3]
-[ext_resource path="res://characters/kinematic.tscn" type="PackedScene" id=4]
-[ext_resource path="res://props/Door.tscn" type="PackedScene" id=5]
-[ext_resource path="res://props/lockpick_pickup.tscn" type="PackedScene" id=6]
-[ext_resource path="res://props/supply_box.tscn" type="PackedScene" id=7]
-[ext_resource path="res://props/medkit_pickup.tscn" type="PackedScene" id=8]
-[ext_resource path="res://level_root.gd" type="Script" id=9]
-[ext_resource path="res://water.tscn" type="PackedScene" id=10]
+[ext_resource path="res://assets/White.material" type="Material" id=1]
+[ext_resource path="res://props/Door.tscn" type="PackedScene" id=2]
+[ext_resource path="res://levels/level_root.gd" type="Script" id=3]
+[ext_resource path="res://assets/cement.png" type="Texture" id=4]
+[ext_resource path="res://assets/Main.material" type="Material" id=5]
+[ext_resource path="res://characters/kinematic.tscn" type="PackedScene" id=6]
+[ext_resource path="res://water.tscn" type="PackedScene" id=7]
+[ext_resource path="res://props/lockpick_pickup.tscn" type="PackedScene" id=8]
+[ext_resource path="res://props/supply_box.tscn" type="PackedScene" id=9]
+[ext_resource path="res://props/medkit_pickup.tscn" type="PackedScene" id=10]
 [ext_resource path="res://props/ladder.tscn" type="PackedScene" id=11]
 
 [sub_resource type="SpatialMaterial" id=1]
-albedo_texture = ExtResource( 1 )
+albedo_texture = ExtResource( 4 )
 uv1_scale = Vector3( 10, 10, 1 )
 
 [sub_resource type="PlaneMesh" id=2]
@@ -62,7 +62,7 @@ extents = Vector3( 5, 1.25, 1.225 )
 extents = Vector3( 1, 1.5, 1 )
 
 [node name="Spatial" type="Spatial" groups=["root"]]
-script = ExtResource( 9 )
+script = ExtResource( 3 )
 
 [node name="marker_North" type="Spatial" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 200, 0, 0 )
@@ -94,7 +94,7 @@ cast_shadow = 0
 width = 46.0
 height = 8.0
 depth = 46.0
-material = ExtResource( 3 )
+material = ExtResource( 5 )
 
 [node name="CSGBox3_wall" type="CSGBox" parent="indoor tutorial/Spatial/CSGCombiner"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 19.8, 1.929, 0 )
@@ -102,7 +102,7 @@ cast_shadow = 0
 width = 6.0
 height = 3.375
 depth = 3.0
-material = ExtResource( 2 )
+material = ExtResource( 1 )
 
 [node name="CSGBox3_inside" type="CSGBox" parent="indoor tutorial/Spatial/CSGCombiner"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 19.9, 1.929, 0 )
@@ -111,7 +111,7 @@ operation = 2
 width = 6.0
 height = 3.375
 depth = 2.5
-material = ExtResource( 2 )
+material = ExtResource( 1 )
 
 [node name="CSGBox_door" type="CSGBox" parent="indoor tutorial/Spatial/CSGCombiner"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 16.271, 1.295, 0.182 )
@@ -120,7 +120,7 @@ operation = 2
 width = 2.552
 height = 2.1
 depth = 1.0
-material = ExtResource( 2 )
+material = ExtResource( 1 )
 
 [node name="CSGBox3_wall3" type="CSGBox" parent="indoor tutorial/Spatial/CSGCombiner"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 5.8, 1.929, 0 )
@@ -128,7 +128,7 @@ cast_shadow = 0
 width = 8.5
 height = 3.375
 depth = 3.0
-material = ExtResource( 2 )
+material = ExtResource( 1 )
 
 [node name="CSGBox3_inside3" type="CSGBox" parent="indoor tutorial/Spatial/CSGCombiner"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 12.2224, 1.92934, 0 )
@@ -137,7 +137,7 @@ operation = 2
 width = 8.0
 height = 3.375
 depth = 2.5
-material = ExtResource( 2 )
+material = ExtResource( 1 )
 
 [node name="CSGBox_door3" type="CSGBox" parent="indoor tutorial/Spatial/CSGCombiner"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 7.41006, 1.3, 0.182 )
@@ -146,7 +146,7 @@ operation = 2
 width = 2.552
 height = 2.15
 depth = 1.0
-material = ExtResource( 2 )
+material = ExtResource( 1 )
 
 [node name="CSGBox3_wall4" type="CSGBox" parent="indoor tutorial/Spatial/CSGCombiner"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -4.72035, 2.329, 0 )
@@ -154,7 +154,7 @@ cast_shadow = 0
 width = 25.5
 height = 6.0
 depth = 2.5
-material = ExtResource( 2 )
+material = ExtResource( 1 )
 
 [node name="CSGBox3_inside4" type="CSGBox" parent="indoor tutorial/Spatial/CSGCombiner"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -4.72, 2.329, 0 )
@@ -163,7 +163,7 @@ operation = 2
 width = 25.5
 height = 5.75
 depth = 2.5
-material = ExtResource( 2 )
+material = ExtResource( 1 )
 
 [node name="CSGBox_door4" type="CSGBox" parent="indoor tutorial/Spatial/CSGCombiner"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -18.0948, 1.3, 0.182 )
@@ -172,7 +172,7 @@ operation = 2
 width = 2.552
 height = 2.15
 depth = 1.0
-material = ExtResource( 2 )
+material = ExtResource( 1 )
 
 [node name="rooms" type="CSGCombiner" parent="indoor tutorial/Spatial/CSGCombiner"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 0, 0 )
@@ -186,7 +186,7 @@ cast_shadow = 0
 width = 2.7
 height = 2.25
 depth = 1.5
-material = ExtResource( 2 )
+material = ExtResource( 1 )
 
 [node name="CSGBox_door4" type="CSGBox" parent="indoor tutorial/Spatial/CSGCombiner_end"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -18.7155, 1.3, 0.182 )
@@ -195,18 +195,18 @@ operation = 2
 width = 2.552
 height = 2.15
 depth = 1.0
-material = ExtResource( 2 )
+material = ExtResource( 1 )
 
 [node name="Spatial" type="Spatial" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 0, 0 )
 
-[node name="player" parent="Spatial" instance=ExtResource( 4 )]
+[node name="player" parent="Spatial" instance=ExtResource( 6 )]
 transform = Transform( -4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 0.25, 0 )
 
-[node name="Door" parent="Spatial" instance=ExtResource( 5 )]
+[node name="Door" parent="Spatial" instance=ExtResource( 2 )]
 transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -2.88, 0.3, -0.291 )
 
-[node name="Door2" parent="Spatial" instance=ExtResource( 5 )]
+[node name="Door2" parent="Spatial" instance=ExtResource( 2 )]
 transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -11.8025, 0.3, -0.291 )
 
 [node name="MeshInstance" type="MeshInstance" parent="Spatial"]
@@ -274,7 +274,7 @@ shape = SubResource( 11 )
 [node name="Spatial3" parent="Spatial" instance=ExtResource( 11 )]
 transform = Transform( 1, 0, 0, 0, 0.5, 0, 0, 0, 1, -34.757, 0.666, 0 )
 
-[node name="water" parent="Spatial" instance=ExtResource( 10 )]
+[node name="water" parent="Spatial" instance=ExtResource( 7 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -26.139, 2.5, 0 )
 size = Vector3( 10, 2.5, 2.45 )
 
@@ -291,7 +291,7 @@ shape = SubResource( 17 )
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.3, 0 )
 shape = SubResource( 18 )
 
-[node name="Door3" parent="." instance=ExtResource( 5 )]
+[node name="Door3" parent="." instance=ExtResource( 2 )]
 transform = Transform( -4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -17.9498, 0.3, 0.678345 )
 
 [node name="Door" parent="Door3" index="0"]
@@ -303,16 +303,16 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -21.75, 1.307, 0 )
 [node name="CollisionShape" type="CollisionShape" parent="StaticBody3"]
 shape = SubResource( 9 )
 
-[node name="lockpick" parent="." instance=ExtResource( 6 )]
+[node name="lockpick" parent="." instance=ExtResource( 8 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -17.2614, 0.250364, -0.573833 )
 
-[node name="supply box" parent="." groups=["tutorial"] instance=ExtResource( 7 )]
+[node name="supply box" parent="." groups=["tutorial"] instance=ExtResource( 9 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -19.5594, 0.739852, 0.0764925 )
 sleeping = true
 axis_lock_linear_x = true
 axis_lock_linear_y = true
 axis_lock_linear_z = true
-drop = ExtResource( 8 )
+drop = ExtResource( 10 )
 
 [node name="TopDownCamera" type="Camera" parent="."]
 transform = Transform( -1, 3.25841e-07, 5.30863e-14, 0, -1.62921e-07, 1, 3.25841e-07, 1, 1.62921e-07, 20, 3, 0 )
