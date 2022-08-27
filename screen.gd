@@ -23,22 +23,32 @@ func get_cursor():
 	var ray = player.camera.get_node("Spatial/RayCast")
 	var cursor = ray.get_collision_point()
 	self.virutal_cursor = cursor
+	#print("Virt cursor is", cursor)
+
+func too_far():
+	var dist = 2
+	# be more lenient on dist if we are parented to something else interactable
+	if get_parent().is_in_group("interactable"):
+		dist = 3
+		
+	var dst = get_tree().get_nodes_in_group("player")[0].global_transform.origin.distance_to(global_transform.origin)
+	#print("Dist: ", dst)
+	return dst > dist
 
 func _process(_delta):
 	if is_mouse_inside:
 		get_cursor()
 		
-	if get_tree().get_nodes_in_group("player")[0].global_transform.origin.distance_to(global_transform.origin) > 2 \
-	and is_mouse_inside:
+	if too_far() and is_mouse_inside:
 		# disable
 		is_mouse_inside = false
 		$Quad.get_active_material(0).albedo_texture = null
+		print("Moved too far away")
 	pass
 
 func _on_interact():
 	# switch on - set the texture
 	$Quad.get_active_material(0).albedo_texture = $Viewport.get_texture()
-	
 	
 	#Target.owner.is_mouse_inside = true
 	self.is_mouse_inside = true

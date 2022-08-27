@@ -272,6 +272,24 @@ mesh = ExtResource( 10 )
 [node name="screen" parent="subway/ATM" instance=ExtResource( 12 )]
 transform = Transform( -1, 0, -1.50996e-07, 0, 1, 0, 1.50996e-07, 0, -1, 0.0726657, 2.46548, -1.18236 )
 
+[node name="Label" parent="subway/ATM/screen/Viewport" index="1"]
+margin_right = 200.0
+margin_bottom = 100.0
+text = "Welcome to the ATM system!
+How much money do you want to withdraw?"
+autowrap = true
+
+[node name="SpinBox" type="SpinBox" parent="subway/ATM/screen/Viewport" index="2"]
+margin_left = 20.0
+margin_top = 50.0
+margin_right = 94.0
+margin_bottom = 74.0
+
+[node name="Button" parent="subway/ATM/screen/Viewport" index="3"]
+margin_top = 80.0
+margin_bottom = 100.0
+text = "OK"
+
 [node name="Quad" parent="subway/ATM/screen" index="1"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.0660381 )
 skeleton = NodePath("../../..")
@@ -348,5 +366,7 @@ debug = true
 
 [node name="TopDownCamera" type="Camera" parent="."]
 transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, -12.357, 16.9404, -1.73548 )
+
+[connection signal="pressed" from="subway/ATM/screen/Viewport/Button" to="subway/ATM" method="_on_Button_pressed"]
 
 [editable path="subway/ATM/screen"]
