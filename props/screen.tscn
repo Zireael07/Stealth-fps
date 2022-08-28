@@ -15,7 +15,6 @@ size = Vector2( 0.4, 0.4 )
 extents = Vector3( 0.5, 0.5, 0.2 )
 
 [node name="screen" type="Area" groups=["static", "terminal"]]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, 1.342, -12.458 )
 script = ExtResource( 1 )
 cursor_sprite = NodePath("Viewport/Sprite")
 

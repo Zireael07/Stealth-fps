@@ -44,7 +44,8 @@ func _process(_delta):
 		is_mouse_inside = false
 		$Quad.get_active_material(0).albedo_texture = null
 		print("Moved too far away")
-	pass
+		# unset flag
+		get_tree().get_nodes_in_group("player")[0].using_terminal = false
 
 func _on_interact():
 	# switch on - set the texture

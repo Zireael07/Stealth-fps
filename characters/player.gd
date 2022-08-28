@@ -77,6 +77,7 @@ var shadow_ray_tg = null
 var action = null
 
 var talking = false
+var using_terminal = false
 
 var swimming = false
 var water_body = null
@@ -428,6 +429,10 @@ func process_input(delta):
 	dir += -cam_xform.basis.z * input_movement_vector.y
 	dir += cam_xform.basis.x * input_movement_vector.x
 	# ----------------------------------
+
+	# all other keys except movement are disabled when using a terminal
+	if using_terminal:
+		return
 
 	# ----------------------------------
 	# Jumping

@@ -323,6 +323,7 @@ shape = SubResource( 28 )
 transform = Transform( 1.19249e-08, 0, -1, 0, 1, 0, 1, 0, 1.19249e-08, 0, 0, -9.49007 )
 
 [node name="screen" parent="outdoor" groups=["interactable"] instance=ExtResource( 22 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, 1.342, -12.458 )
 
 [node name="AreaIndoor" type="Area" parent="outdoor" groups=["indoor"]]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -9.49 )
