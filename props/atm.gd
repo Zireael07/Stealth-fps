@@ -20,8 +20,9 @@ func _on_interact():
 	player.using_terminal = true
 	
 	# give input the focus
-	$screen/Viewport/SpinBox.grab_click_focus()
-	$screen/Viewport/SpinBox.grab_focus()
+	$screen/Viewport/SpinBox.set_focus_mode(Control.FOCUS_ALL)
+	$screen/Viewport/SpinBox.call_deferred("grab_click_focus")
+	$screen/Viewport/SpinBox.call_deferred("grab_focus")
 	$screen/Viewport/SpinBox.get_child(0).context_menu_enabled = false
 	# clear to prevent any previous values showing up
 	$screen/Viewport/SpinBox.get_child(0).clear()

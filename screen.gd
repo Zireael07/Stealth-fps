@@ -18,10 +18,27 @@ onready var node_quad = $Quad
 func _ready():
 	pass
 
+# https://github.com/godotengine/godot/issues/21113#issuecomment-413839581
+static func plane(normal: Vector3, p: Vector3) -> Plane:
+	var n = normal.normalized()
+	return Plane(n, p.dot(n))
+
+
 func get_cursor():
 	var player = get_tree().get_nodes_in_group("player")[0]
+	
 	var ray = player.camera.get_node("Spatial/RayCast")
-	var cursor = ray.get_collision_point()
+	
+	# TODO: get normal from our own normal...
+	var plan = plane(Vector3(0,0,1), $Quad.global_transform.origin)
+	if get_parent().is_in_group("interactable"):
+		plan = plane(Vector3(0,0,-1), $Quad.global_transform.origin)
+
+	# no more weird offsets
+	var cursor = plan.intersects_segment(ray.global_transform.origin, ray.global_transform * ray.cast_to)
+	if cursor == null:
+		# fallback to old method
+		cursor = ray.get_collision_point() #global space
 	self.virutal_cursor = cursor
 	#print("Virt cursor is", cursor)
 
@@ -77,7 +94,8 @@ func handle_mouse(event):
 	var mouse_pos3D = find_mouse()
 
 	if is_mouse_inside:
-		mouse_pos3D = $Quad.global_transform.affine_inverse() * mouse_pos3D
+		mouse_pos3D = $Quad.to_local(mouse_pos3D)
+		#mouse_pos3D = $Quad.global_transform.affine_inverse() * mouse_pos3D
 		last_mouse_pos3D = mouse_pos3D
 	else:
 		mouse_pos3D = last_mouse_pos3D
@@ -87,7 +105,7 @@ func handle_mouse(event):
 
 	var mouse_pos2D = Vector2(mouse_pos3D.x, -mouse_pos3D.y)
 	
-	
+	# 3D's origin is in the middle, 2D's origin is top left
 	mouse_pos2D.x += quad_mesh_size.x / 2
 	mouse_pos2D.y += quad_mesh_size.y / 2
 
