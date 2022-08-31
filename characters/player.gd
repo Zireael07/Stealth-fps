@@ -185,6 +185,16 @@ func _process(delta):
 			get_node("Control/map_screen").show()
 		else:
 			get_node("Control/map_screen").hide()
+	if Input.is_action_just_pressed("notes"):
+		if !get_node("Control/notes_screen").visible:
+			get_node("Control/notes_screen").show()
+			get_node("Control/notes_screen/VBoxContainer/LineEdit").clear()
+			Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+		else:
+			get_node("Control/notes_screen").hide()
+			Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+			talking = false # hackfix
+	
 	if Input.is_action_just_pressed("topdown"):
 		var top_down = get_tree().get_nodes_in_group("root")[0].get_node("TopDownCamera")
 		top_down.set_current(!top_down.is_current())
@@ -192,6 +202,11 @@ func _process(delta):
 			camera.set_current(true)
 	# Capturing/Freeing the cursor
 	if Input.is_action_just_pressed("ui_cancel") and not talking:
+		# close open screen
+		if get_node("Control/info").visible:
+			get_node("Control/info").hide()
+		
+		# default
 		if Input.get_mouse_mode() == Input.MOUSE_MODE_VISIBLE:
 			Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 		else:
@@ -1240,3 +1255,6 @@ func _on_level_loaded():
 	
 	yield(get_tree().create_timer(2), "timeout")
 	get_node("Control/Center/LevelNameLabel").hide()	
+
+func add_note(txt):
+	get_node("Control/notes_screen").add_notes(txt)

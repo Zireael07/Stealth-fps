@@ -15,8 +15,9 @@ func _ready():
 func _on_interact():
 	# TODO: pickup animation; change color of the "screen"
 	player.get_node("Control/info").show()
-	player.get_node("Control/info/RichTextLabel").set_text("TODO: send the newest Agent on the training mission")
-
+	var txt = "TODO: send the newest Agent on the training mission"
+	player.get_node("Control/info/RichTextLabel").set_text(txt)
+	player.add_note(txt)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta):

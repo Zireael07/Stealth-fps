@@ -327,6 +327,7 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, 1.342, -12.458 )
 
 [node name="AreaIndoor" type="Area" parent="outdoor" groups=["indoor"]]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -9.49 )
+collision_layer = 0
 
 [node name="CollisionShape" type="CollisionShape" parent="outdoor/AreaIndoor"]
 shape = SubResource( 36 )
