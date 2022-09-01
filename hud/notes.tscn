@@ -53,4 +53,3 @@ margin_right = 900.0
 margin_bottom = 32.0
 
 [connection signal="gui_input" from="VBoxContainer/LineEdit" to="." method="_on_LineEdit_gui_input"]
-[connection signal="text_entered" from="VBoxContainer/LineEdit" to="." method="_on_LineEdit_text_entered"]
