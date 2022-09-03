@@ -2,8 +2,8 @@ extends Control
 
 
 # Declare member variables here. Examples:
-# var a = 2
-# var b = "text"
+var full = preload("res://assets/Lightmeter full.png")
+var empty = preload("res://assets/Lightmeter empty.png")
 
 
 # Called when the node enters the scene tree for the first time.
@@ -15,8 +15,8 @@ func _ready():
 func _process(delta):
 	$"bottom_panel/Compass".set_text(get_parent().get_compass_heading())
 	
-	var clr = update_hiding()
-	$HidingRect.color = clr
+	var icon = update_hiding()
+	$HidingRect.texture = icon
 	if get_parent().is_hiding()[1]:
 		$HidingLabel.set_text("Shadow")
 	else:
@@ -36,9 +36,11 @@ func _process(delta):
 
 func update_hiding():
 	if get_parent().is_hiding()[0]:
-		return Color(0,0,0) # black
+		return empty
+		#return Color(0,0,0) # black
 	else:
-		return Color(1,1,1) # white
+		return full
+		#return Color(1,1,1) # white
 
 func _on_OptionButton_item_selected(index):
 	get_parent()._on_gadget_mode(index)
