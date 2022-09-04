@@ -40,7 +40,7 @@ var alarmed = false
 
 var face_pos = Vector3()
 var timetospot = 1.0 # brief research seems to indicate anything between 0.3 to 1.5 is realistic
-
+var last_seen_pos = Vector3()
 
 var player = null
 var draw = null
@@ -70,6 +70,7 @@ export var debug = false
 # emotes
 var hostile_emote = preload("res://assets/kenney_emotes/emote_exclamations.png")
 var alarmed_emote = preload("res://assets/kenney_emotes/emote_exclamation.png")
+var cantsee_emote = preload("res://assets/kenney_emotes/emote_cross.png")
 var seen_emote = preload("res://assets/kenney_emotes/emote_dots2.png")
 var think_emote = preload("res://assets/kenney_emotes/emote_circle.png")
 
@@ -710,20 +711,24 @@ func _physics_process(delta):
 						#get_node("time_to_look").start()
 						if timetospot > 0:
 							timetospot = timetospot- delta
-							print("Timetospot: ", timetospot)
+							#print("Timetospot: ", timetospot)
 						if timetospot <= 0:
 							_on_player_seen(body_r)
 					
 					# hidden, can't see
 					else:
 						if not brain.get_state() == brain.STATE_ALARMED:
-							# cyan
-							get_node("RotationHelper/MeshInstance").get_material_override().set_texture(0, seen_emote)
+							get_node("RotationHelper/MeshInstance").get_material_override().set_texture(0, cantsee_emote)
 						in_sight = false
 						# straighten out
 						set_rotation(Vector3(0,get_rotation().y,0))
 						# reset time to spot
 						timetospot = 1.0
+						
+						# we lost sight of an enemy?
+						if last_seen_pos != Vector3.ZERO:
+							get_node("RotationHelper/MeshInstance").get_material_override().set_texture(0, seen_emote)
+							print("Lost sight of an enemy last seen @: ", last_seen_pos)
 			
 			# kinematic body detected that isn't player 
 			else:
@@ -731,11 +736,15 @@ func _physics_process(delta):
 				if body_r == possible_tg:
 					# if we see an enemy, no longer need to turn to face a shot
 					face_pos = Vector3()
+					if has_node("Timer2"):
+						# stop the look around timer, too
+						get_node("Timer2").stop()
 					
 					if timetospot > 0:
 						timetospot = timetospot - delta
 						#print("Timetospot: ", timetospot)
 					if timetospot <= 0:
+						last_seen_pos = body_r.global_transform.origin
 						# red
 						get_node("RotationHelper/MeshInstance").get_material_override().set_texture(0, hostile_emote)
 						
@@ -759,9 +768,16 @@ func _physics_process(delta):
 			set_rotation(Vector3(0,get_rotation().y,0))
 			# reset time to spot
 			timetospot = 1.0
+			# we lost sight of an enemy?
+			if last_seen_pos != Vector3.ZERO:
+				get_node("RotationHelper/MeshInstance").get_material_override().set_texture(0, seen_emote)
+				print("Lost sight of an enemy last seen @: ", last_seen_pos)
 
 # enemy_seen is allied AI specific for now
 func _on_player_seen(body_r):
+	# note that we've seen an enemy
+	last_seen_pos = body_r.global_transform.origin
+	
 	# if we see the player for the first time and alarm hasn't been raised (if any in level)
 	if not in_sight and not get_name() == "sniper" \
 	and get_tree().get_nodes_in_group("alarm").size() > 0 and !get_tree().get_nodes_in_group("alarm")[0].get_child(0).alarmed \
