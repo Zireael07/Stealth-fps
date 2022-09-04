@@ -633,8 +633,9 @@ func _physics_process(delta):
 			move(delta)
 			
 		else:
-			#white
-			get_node("RotationHelper/MeshInstance").get_material_override().set_texture(0, think_emote)
+			if not brain.get_state() == brain.STATE_SEARCH:
+				#white
+				get_node("RotationHelper/MeshInstance").get_material_override().set_texture(0, think_emote)
 	
 	# debug
 	if typeof(brain.target) == TYPE_VECTOR3:
@@ -717,7 +718,7 @@ func _physics_process(delta):
 					
 					# hidden, can't see
 					else:
-						if not brain.get_state() == brain.STATE_ALARMED:
+						if not brain.get_state() in [brain.STATE_ALARMED, brain.STATE_SEARCH]:
 							get_node("RotationHelper/MeshInstance").get_material_override().set_texture(0, cantsee_emote)
 						in_sight = false
 						# straighten out
@@ -726,9 +727,11 @@ func _physics_process(delta):
 						timetospot = 1.0
 						
 						# we lost sight of an enemy?
-						if last_seen_pos != Vector3.ZERO:
-							get_node("RotationHelper/MeshInstance").get_material_override().set_texture(0, seen_emote)
+						if last_seen_pos != Vector3.ZERO and not brain.get_state() == brain.STATE_SEARCH:
+							#get_node("RotationHelper/MeshInstance").get_material_override().set_texture(0, seen_emote)
 							print("Lost sight of an enemy last seen @: ", last_seen_pos)
+							brain.set_state(brain.STATE_SEARCH)
+							emit_signal("emit_bark", self, "Seen something! Searching now...")
 			
 			# kinematic body detected that isn't player 
 			else:
@@ -760,7 +763,7 @@ func _physics_process(delta):
 			
 		# no body detected means can't see the player
 		else:
-			if not brain.get_state() == brain.STATE_ALARMED:
+			if not brain.get_state() in [brain.STATE_ALARMED, brain.STATE_SEARCH]:
 				# white
 				get_node("RotationHelper/MeshInstance").get_material_override().set_texture(0, think_emote)
 			in_sight = false
@@ -769,9 +772,11 @@ func _physics_process(delta):
 			# reset time to spot
 			timetospot = 1.0
 			# we lost sight of an enemy?
-			if last_seen_pos != Vector3.ZERO:
-				get_node("RotationHelper/MeshInstance").get_material_override().set_texture(0, seen_emote)
+			if last_seen_pos != Vector3.ZERO and not brain.get_state() == brain.STATE_SEARCH:
+				#get_node("RotationHelper/MeshInstance").get_material_override().set_texture(0, seen_emote)
 				print("Lost sight of an enemy last seen @: ", last_seen_pos)
+				brain.set_state(brain.STATE_SEARCH)
+				emit_signal("emit_bark", self, "Seen something! Searching now...")
 
 # enemy_seen is allied AI specific for now
 func _on_player_seen(body_r):
@@ -807,6 +812,11 @@ func _on_player_seen(body_r):
 				rotate_y(deg2rad(180))
 			
 			in_sight = true
+			if brain.get_state() == brain.STATE_SEARCH:
+				brain.state.found = true # we found the enemy, no more searching
+				emit_signal("emit_bark", "Found him!")
+				# reset last seen
+				last_seen_pos = Vector3()
 
 # ------------------------------------------------------------
 func physical_bones_set_collision(boo):

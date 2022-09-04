@@ -10,6 +10,7 @@ const STATE_DISENGAGE = 2
 const STATE_IDLE = 3
 const STATE_FOLLOW = 4
 const STATE_ALARMED = 5
+const STATE_SEARCH = 6
 
 signal state_changed
 
@@ -20,6 +21,7 @@ var pretty_states = {
 	3 : "idle",
 	4 : "following",
 	5 : "alarmed",
+	6 : "search",
 }
 
 # Called when the node enters the scene tree for the first time.
@@ -46,6 +48,8 @@ func set_state(new_state, param=null):
 		state = FollowState.new(get_parent())
 	if new_state == STATE_ALARMED:
 		state = AlarmedState.new(get_parent())
+	if new_state == STATE_SEARCH:
+		state = SearchState.new(get_parent())
 	
 	emit_signal("state_changed", self)
 
@@ -60,6 +64,8 @@ func get_state():
 		return STATE_FOLLOW
 	if state is AlarmedState:
 		return STATE_ALARMED
+	if state is SearchState:
+		return STATE_SEARCH
 
 # just call the state
 #func _physics_process(delta):
@@ -230,3 +236,40 @@ class AlarmedState:
 			ch.brain.set_state(ch.brain.STATE_PATROL)
 			ch.strafe = false
 			
+class SearchState:
+	var ch
+	var seek_time
+	var found = false
+	
+	func _init(cha):
+		self.ch = cha
+		self.seek_time = 10.0;
+	
+	func update(delta):
+		ch.get_node("RotationHelper/MeshInstance").get_material_override().set_texture(0, ch.seen_emote)
+		
+		# count down
+		self.seek_time = self.seek_time - delta
+		
+		ch.brain.steer = ch.brain.arrive(ch.last_seen_pos, 3)
+		ch.strafe = false
+		
+		# rotations if any
+		ch.rotate_y(deg2rad(ch.brain.steer.x * ch.STEER_SENSITIVITY))  #* -1))
+		
+		if ch.is_close_to_target(2):
+			# look around
+			if ch.get_node("Timer2").is_stopped():
+				ch.get_node("Timer2").start()
+		
+		# give up, go back to patrolling
+		if self.seek_time <= 0:
+			ch.get_node("Timer2").stop()
+			ch.brain.target = ch.target_array[ch.current]
+			ch.brain.set_state(ch.brain.STATE_PATROL)
+			ch.emit_signal("emit_bark", self, "No one here... Going back to patrol...")
+			
+		if found:
+			ch.get_node("Timer2").stop()
+			ch.brain.target = ch.target_array[ch.current]
+			ch.brain.set_state(ch.brain.STATE_PATROL)
