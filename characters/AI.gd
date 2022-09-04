@@ -39,6 +39,9 @@ var prev = 0
 var alarmed = false
 
 var face_pos = Vector3()
+var timetospot = 1.0 # brief research seems to indicate anything between 0.3 to 1.5 is realistic
+
+
 var player = null
 var draw = null
 var elapsed_sec = 0
@@ -613,9 +616,9 @@ func _physics_process(delta):
 				and get_node("Timer2").time_left > 0 and not brain.get_state() == brain.STATE_ALARMED and not brain.get_state() == brain.STATE_DISENGAGE:
 					#print("Timer's on, ", get_node("Timer2").time_left)
 					var w = get_node("Timer2").time_left/2.0 # 2 is the total timer
-					print("lerp weight: ", w)
+					#print("lerp weight: ", w)
 					var look_at = lerp(Vector2(-0.5, 0), Vector2(0.5, 0), w)
-					print("Look at: ", look_at.x)
+					#print("Look at: ", look_at.x)
 					var rot = lerp(-45, 45, w)
 					#var look_at = Vector2(0.5, 0) # 1 is 90 degrees
 					state_machine["parameters/look/blend_position"] = look_at
@@ -704,35 +707,12 @@ func _physics_process(delta):
 						# stop the look around timer, too
 						get_node("Timer2").stop()
 						
-						# if we see the player for the first time and alarm hasn't been raised (if any in level)
-						if not in_sight and not get_name() == "sniper" \
-						and get_tree().get_nodes_in_group("alarm").size() > 0 and !get_tree().get_nodes_in_group("alarm")[0].get_child(0).alarmed \
-						and not alarmed:
-							brain.set_state(brain.STATE_ALARMED)
-							brain.target = get_tree().get_nodes_in_group("alarm")[0]
-							print("ALARM!!!")
-							# AI can only be alarmed by you once
-							alarmed = true
-							emit_signal("emit_bark", self, "Raising an alarm!")
-							# yellow
-							get_node("RotationHelper/MeshInstance").get_material_override().set_texture(0, alarmed_emote)
-						else:
-							if not brain.get_state() == brain.STATE_ALARMED:
-								# red
-								get_node("RotationHelper/MeshInstance").get_material_override().set_texture(0, hostile_emote)
-							
-								if get_name() == "sniper":
-									print("Sniper spotted player")
-									# fix viewcone back
-									$RotationHelper/Area.rotation_degrees = Vector3(rad2deg(0.5),0,0)
-								# sniper doesn't need to rotate but everyone else does
-								else:
-									# look at player
-									look_at(body_r.global_transform.origin, Vector3(0,1,0))
-									# because this looks the opposite way for some reason
-									rotate_y(deg2rad(180))
-								
-								in_sight = true
+						#get_node("time_to_look").start()
+						if timetospot > 0:
+							timetospot = timetospot- delta
+							print("Timetospot: ", timetospot)
+						if timetospot <= 0:
+							_on_player_seen(body_r)
 					
 					# hidden, can't see
 					else:
@@ -742,6 +722,8 @@ func _physics_process(delta):
 						in_sight = false
 						# straighten out
 						set_rotation(Vector3(0,get_rotation().y,0))
+						# reset time to spot
+						timetospot = 1.0
 			
 			# kinematic body detected that isn't player 
 			else:
@@ -750,18 +732,22 @@ func _physics_process(delta):
 					# if we see an enemy, no longer need to turn to face a shot
 					face_pos = Vector3()
 					
-					# red
-					get_node("RotationHelper/MeshInstance").get_material_override().set_texture(0, hostile_emote)
-					
-					# look at target
-					look_at(body_r.global_transform.origin, Vector3(0,1,0))
-					# because this looks the opposite way for some reason
-					rotate_y(deg2rad(180))
-					in_sight = true
-					
-					if not alarmed:
-						emit_signal("enemy_seen")
-						alarmed = true
+					if timetospot > 0:
+						timetospot = timetospot - delta
+						#print("Timetospot: ", timetospot)
+					if timetospot <= 0:
+						# red
+						get_node("RotationHelper/MeshInstance").get_material_override().set_texture(0, hostile_emote)
+						
+						# look at target
+						look_at(body_r.global_transform.origin, Vector3(0,1,0))
+						# because this looks the opposite way for some reason
+						rotate_y(deg2rad(180))
+						in_sight = true
+						
+						if not alarmed:
+							emit_signal("enemy_seen")
+							alarmed = true
 			
 		# no body detected means can't see the player
 		else:
@@ -771,6 +757,40 @@ func _physics_process(delta):
 			in_sight = false
 			# straighten out
 			set_rotation(Vector3(0,get_rotation().y,0))
+			# reset time to spot
+			timetospot = 1.0
+
+# enemy_seen is allied AI specific for now
+func _on_player_seen(body_r):
+	# if we see the player for the first time and alarm hasn't been raised (if any in level)
+	if not in_sight and not get_name() == "sniper" \
+	and get_tree().get_nodes_in_group("alarm").size() > 0 and !get_tree().get_nodes_in_group("alarm")[0].get_child(0).alarmed \
+	and not alarmed:
+		brain.set_state(brain.STATE_ALARMED)
+		brain.target = get_tree().get_nodes_in_group("alarm")[0]
+		print("ALARM!!!")
+		# AI can only be alarmed by you once
+		alarmed = true
+		emit_signal("emit_bark", self, "Raising an alarm!")
+		# yellow
+		get_node("RotationHelper/MeshInstance").get_material_override().set_texture(0, alarmed_emote)
+	else:
+		if not brain.get_state() == brain.STATE_ALARMED:
+			# red
+			get_node("RotationHelper/MeshInstance").get_material_override().set_texture(0, hostile_emote)
+		
+			if get_name() == "sniper":
+				print("Sniper spotted player")
+				# fix viewcone back
+				$RotationHelper/Area.rotation_degrees = Vector3(rad2deg(0.5),0,0)
+			# sniper doesn't need to rotate but everyone else does
+			else:
+				# look at player
+				look_at(body_r.global_transform.origin, Vector3(0,1,0))
+				# because this looks the opposite way for some reason
+				rotate_y(deg2rad(180))
+			
+			in_sight = true
 
 # ------------------------------------------------------------
 func physical_bones_set_collision(boo):
@@ -926,8 +946,7 @@ func _on_Area_body_exited(body):
 func _on_Area_body_entered2(body):
 	if !body.is_in_group("ally") and !body.is_in_group("civilian") and body.is_in_group("AI"):
 		possible_tg = body
-		
-	pass # Replace with function body.
+
 
 func _on_Area_body_exited2(body):
 	if !body.is_in_group("ally") and !body.is_in_group("civilian") and body.is_in_group("AI"):
@@ -1033,3 +1052,9 @@ func _on_Timer2_timeout():
 
 	# adjust vision cone to match
 	$RotationHelper/Area.rotation_degrees = Vector3(x,0,0) # nullify any previous
+
+
+# can't use a timer because we need a reference to the actual body_r
+#func _on_time_to_look_timeout():
+#	_on_player_seen(body_r)
+#	pass # Replace with function body.
