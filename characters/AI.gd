@@ -932,6 +932,19 @@ func is_armed():
 	return hold.has_node("Rifle2")
 
 
+func reset_head():
+	# reset back to defaults
+	var look_y = 0
+	var x = 0
+	if get_name() == "sniper":
+		look_y = 0.5
+		x = rad2deg(0.5)
+	var look_at = Vector2(0, look_y) # 1 is 90 degrees
+	state_machine["parameters/look/blend_position"] = look_at
+	
+	# adjust vision cone to match
+	$RotationHelper/Area.rotation_degrees = Vector3(x,0,0) # nullify any previous
+
 # AI targeting
 func _on_Area_body_entered(body):
 	if body.is_in_group("player"):
@@ -992,18 +1005,19 @@ func _on_Timer_timeout():
 	if get_name() == "sniper" and not in_sight:
 		get_node("Timer2").start()
 
-func _on_thermal_vision(on):
-	# visual effect
-	#var mesh = get_node("RotationHelper/Character2/Armature/Body")
-	var index = 1
-	if is_in_group("civilian"):
-		#mesh = get_node("RotationHelper/model/Human Armature/Skeleton/Human_Mesh")
-		index = 0
-	if on:
-		mesh.set_surface_material(index, thermal)
-	else:
-		mesh.set_surface_material(index, camo)
+func _on_Timer2_timeout():
+	reset_head()
+	
+	# special case
+	if get_name() == "sniper":
+		if not in_sight:
+			get_node("Timer").start()
 
+
+# can't use a timer because we need a reference to the actual body_r
+#func _on_time_to_look_timeout():
+#	_on_player_seen(body_r)
+#	pass # Replace with function body.
 
 func _on_knockout_timer_timeout():
 	# tranqs are silent and don't hurt much (just a pinch) so they can't tell the direction...
@@ -1028,7 +1042,20 @@ func _on_wake_timer_timeout():
 
 func _on_enemy_seen():
 	pass
-	#print("Enemy seen!")
+	#print("Enemy seen!")	
+
+# ---------------------------------------------------------
+func _on_thermal_vision(on):
+	# visual effect
+	#var mesh = get_node("RotationHelper/Character2/Armature/Body")
+	var index = 1
+	if is_in_group("civilian"):
+		#mesh = get_node("RotationHelper/model/Human Armature/Skeleton/Human_Mesh")
+		index = 0
+	if on:
+		mesh.set_surface_material(index, thermal)
+	else:
+		mesh.set_surface_material(index, camo)
 
 func optic_camo_effect():
 	var mesh = get_node("RotationHelper/Character2/Armature/Body")
@@ -1063,26 +1090,3 @@ func _on_answer_selected(screen, id):
 				print("Ally should follow")
 
 
-func _on_Timer2_timeout():
-	# reset back to defaults
-	var look_y = 0
-	var x = 0
-	if get_name() == "sniper":
-		look_y = 0.5
-		x = rad2deg(0.5)
-	var look_at = Vector2(0, look_y) # 1 is 90 degrees
-	state_machine["parameters/look/blend_position"] = look_at
-	
-	# special case
-	if get_name() == "sniper":
-		if not in_sight:
-			get_node("Timer").start()
-
-	# adjust vision cone to match
-	$RotationHelper/Area.rotation_degrees = Vector3(x,0,0) # nullify any previous
-
-
-# can't use a timer because we need a reference to the actual body_r
-#func _on_time_to_look_timeout():
-#	_on_player_seen(body_r)
-#	pass # Replace with function body.
