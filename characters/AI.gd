@@ -802,10 +802,12 @@ func _on_player_seen(body_r):
 		
 			if get_name() == "sniper":
 				print("Sniper spotted player")
-				# fix viewcone back
-				$RotationHelper/Area.rotation_degrees = Vector3(rad2deg(0.5),0,0)
+				reset_head()
+				
 			# sniper doesn't need to rotate but everyone else does
 			else:
+				reset_head()
+				
 				# look at player
 				look_at(body_r.global_transform.origin, Vector3(0,1,0))
 				# because this looks the opposite way for some reason
