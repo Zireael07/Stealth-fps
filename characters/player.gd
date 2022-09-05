@@ -73,6 +73,8 @@ var backdrop = null
 var shadow_ray = null
 var shadow_ray_tg = null
 
+var possibly_seen_by = null
+
 # long actions
 var action = null
 
@@ -211,9 +213,27 @@ func _process(delta):
 			Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 		else:
 			Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+			
+	# update hiding
+	check_shadow()
+	
+	
 	# ----------------------------------
 
 func _physics_process(delta):
+	# update hiding state/icon when not in AI viewcones
+	if possibly_seen_by == null:
+		#print("Player not seen by AI")
+		# update backdrop
+		var space_state = get_world().direct_space_state
+		# use global coordinates, not local to node
+		var result = space_state.intersect_ray(to_global(Vector3(0,0,10)), to_global(Vector3(0, 0, -4)), [self], 0b00000000000000000100)
+		if result:
+			backdrop = result.collider.get_parent().get_name()
+			print("New backdrop: ", backdrop)
+		else: 
+			backdrop = null
+	
 	# adjust current spread
 	# do first so that taking long actions also lowers your spread
 	if !is_moving():
@@ -1053,6 +1073,9 @@ func get_heading():
 	return angle
 
 # ----------------------------------------------
+func check_shadow():
+	pass
+
 func is_hiding():
 	var shadow = false
 	var hidden = false

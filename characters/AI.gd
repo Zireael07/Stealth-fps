@@ -814,7 +814,7 @@ func _on_player_seen(body_r):
 			in_sight = true
 			if brain.get_state() == brain.STATE_SEARCH:
 				brain.state.found = true # we found the enemy, no more searching
-				emit_signal("emit_bark", "Found him!")
+				emit_signal("emit_bark", self, "Found him!")
 				# reset last seen
 				last_seen_pos = Vector3()
 
@@ -936,6 +936,7 @@ func is_armed():
 func _on_Area_body_entered(body):
 	if body.is_in_group("player"):
 		possible_tg = body.get_node("see_tg")
+		player.possibly_seen_by = self
 		#print("Possible tg: ", body.get_node("see_tg").get_global_transform().origin)
 	# detecting bodies
 	elif body is PhysicalBone:
@@ -954,6 +955,7 @@ func _on_Area_body_exited(body):
 #		and get_global_transform().origin.distance_to(possible_tg.get_global_transform().origin) < 8:
 #			return
 		
+		player.possibly_seen_by = null
 		print("Player left the viewcone")
 #		if get_name() == "sniper":
 #			# debug
