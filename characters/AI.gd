@@ -37,6 +37,7 @@ var current = 0
 var prev = 0
 
 var alarmed = false
+var grenade_threat = null
 
 var face_pos = Vector3()
 var timetospot = 1.0 # brief research seems to indicate anything between 0.3 to 1.5 is realistic
@@ -217,6 +218,9 @@ func _process(delta):
 			return
 			
 		var _tg = brain.target
+		if brain.target == null or !is_instance_valid(brain.target):
+			return
+		
 		if not typeof(brain.target) == TYPE_VECTOR3:
 			_tg = brain.target.global_transform.origin
 			
@@ -230,6 +234,10 @@ func _process(delta):
 
 # ---------------------------------------------
 func dist_to_target():
+	# paranoia
+	if not brain.target or brain.target == null or !is_instance_valid(brain.target):
+		return 0
+		
 	var loc = to_local(brain.target.get_global_transform().origin)
 	var dist = Vector2(loc.x, loc.z).length()
 	return dist
@@ -490,7 +498,6 @@ func _physics_process(delta):
 				# adjust vision cone to match
 				$RotationHelper/Area.rotation_degrees = Vector3(rad2deg(0.5),rot,0) # nullify any previous
 
-		
 		# animate movement
 		if state_machine:
 			if vel.length() > 0:
@@ -498,6 +505,7 @@ func _physics_process(delta):
 			else:
 				state_machine["parameters/move_state/run/blend_position"] = Vector2(0,0) # stop moving
 		
+		# special cases
 		if is_in_group("civilian"):
 			brain.set_state(brain.STATE_IDLE)
 			return
@@ -526,6 +534,20 @@ func _physics_process(delta):
 					# because this looks the opposite way for some reason
 					rotate_y(deg2rad(180))
 				return
+
+		# AI behaviors start here
+		# TODO: move some/most of this to brain.gd?
+		
+		if grenade_threat:
+			if timetospot > 0:
+				timetospot = timetospot- delta*2
+				#print("Timetospot: ", timetospot)
+			if timetospot <= 0 and grenade_threat != null:
+				if brain.get_state() != brain.STATE_AVOID_GREN:
+					brain.set_state(brain.STATE_AVOID_GREN, grenade_threat)
+					brain.target = grenade_threat
+					emit_signal("emit_bark", self, "Saw a 'nade!")
+					return
 		
 		# if we're unarmed, disengage
 		if !is_armed() and in_sight and possible_tg != null:
@@ -536,8 +558,7 @@ func _physics_process(delta):
 				brain.target = possible_tg
 				return
 		
-		# AI behaviors start here
-		# TODO: move some/most of this to brain.gd?
+
 		if !is_armed() and in_sight: # not in_sight is handled further down
 			# movement
 			move(delta)
@@ -638,11 +659,12 @@ func _physics_process(delta):
 				get_node("RotationHelper/MeshInstance").get_material_override().set_texture(0, think_emote)
 	
 	# debug
-	if typeof(brain.target) == TYPE_VECTOR3:
-		get_node("MeshInstance2").set_translation(brain.target)
-	else:
-		get_node("MeshInstance2").set_translation(brain.target.get_global_transform().origin)
-		
+	if brain.target != null and is_instance_valid(brain.target):
+		if typeof(brain.target) == TYPE_VECTOR3:
+			get_node("MeshInstance2").set_translation(brain.target)
+		else:
+			get_node("MeshInstance2").set_translation(brain.target.get_global_transform().origin)
+			
 	if not possible_tg:
 		in_sight = false
 		# reset ally's alarmed flag
@@ -961,7 +983,10 @@ func _on_Area_body_entered(body):
 #		if body.unconscious or body.dead:
 			print("I saw a body")
 			alarmed = true
-
+	elif body is RigidBody:
+		if body.is_in_group("grenade"):
+			print("I saw a grenade")
+			grenade_threat = body
 
 func _on_Area_body_exited(body):
 	if body.is_in_group("player"):
@@ -983,6 +1008,10 @@ func _on_Area_body_exited(body):
 			set_rotation(Vector3(0,get_rotation().y,0))
 		else:
 			get_node("Timer2").start()
+	if body is RigidBody:
+		if body.is_in_group("grenade"):
+			print("Grenade out of sight")
+			grenade_threat = null
 
 
 # ally versions

@@ -11,6 +11,7 @@ const STATE_IDLE = 3
 const STATE_FOLLOW = 4
 const STATE_ALARMED = 5
 const STATE_SEARCH = 6
+const STATE_AVOID_GREN = 7
 
 signal state_changed
 
@@ -22,6 +23,7 @@ var pretty_states = {
 	4 : "following",
 	5 : "alarmed",
 	6 : "search",
+	7 : "avoiding grenades",
 }
 
 # Called when the node enters the scene tree for the first time.
@@ -50,6 +52,8 @@ func set_state(new_state, param=null):
 		state = AlarmedState.new(get_parent())
 	if new_state == STATE_SEARCH:
 		state = SearchState.new(get_parent())
+	if new_state == STATE_AVOID_GREN:
+		state = AvoidGrenade.new(get_parent(), param)
 	
 	emit_signal("state_changed", self)
 
@@ -66,6 +70,8 @@ func get_state():
 		return STATE_ALARMED
 	if state is SearchState:
 		return STATE_SEARCH
+	if state is AvoidGrenade:
+		return STATE_AVOID_GREN
 
 # just call the state
 #func _physics_process(delta):
@@ -271,5 +277,31 @@ class SearchState:
 			
 		if found:
 			ch.get_node("Timer2").stop()
+			ch.brain.target = ch.target_array[ch.current]
+			ch.brain.set_state(ch.brain.STATE_PATROL)
+
+class AvoidGrenade:
+	var ch
+	var grenade
+	
+	func _init(cha, nade):
+		self.ch = cha
+		self.grenade = nade
+	
+	func update(delta):
+		if (self.grenade != null and is_instance_valid(self.grenade)) \
+		and ch.dist_to_target() < 8:
+			print("Fleeing from a grenade...")
+			ch.brain.steer = ch.brain.get_steering_flee(self.grenade)
+		else:
+			if self.grenade == null or !is_instance_valid(self.grenade):
+				# clear the flags
+				ch.grenade_threat = null
+				ch.emit_signal("emit_bark", self, "Danger has exploded!")
+			
+			if ch.dist_to_target() > 8:
+				ch.grenade_threat = null
+				ch.emit_signal("emit_bark", self, "Should be out of range now!")
+				
 			ch.brain.target = ch.target_array[ch.current]
 			ch.brain.set_state(ch.brain.STATE_PATROL)

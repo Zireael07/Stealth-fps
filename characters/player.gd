@@ -881,7 +881,7 @@ func process_input(delta):
 
 					grabbed_object.apply_impulse(Vector3(0, 0, 0), -camera.global_transform.basis.z.normalized() * OBJECT_THROW_FORCE)
 					
-					if grabbed_object.is_in_group("inventory"):
+					if grabbed_object.is_in_group("inventory") and !grabbed_object.is_in_group("grenade"):
 						# remove from inventory
 						grabbed_object.remove_from_group("inventory")
 						inventory[grabbed_object.slot] = null
