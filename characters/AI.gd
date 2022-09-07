@@ -682,6 +682,8 @@ func _physics_process(delta):
 	# Can we see the player?
 	# Get the raycast node
 	var ray = $RotationHelper/Area/RayCast
+	ray.collision_mask = 1
+	ray.collide_with_areas = false
 	
 	# set the proper cast_to
 	ray.cast_to = ray.to_local(possible_tg.get_global_transform().origin) #*1.5
@@ -779,6 +781,8 @@ func _physics_process(delta):
 						rotate_y(deg2rad(180))
 						in_sight = true
 						
+						#AI_shoot(body_r)
+						
 						if not alarmed:
 							emit_signal("enemy_seen")
 							alarmed = true
@@ -834,6 +838,8 @@ func _on_player_seen(body_r):
 				look_at(body_r.global_transform.origin, Vector3(0,1,0))
 				# because this looks the opposite way for some reason
 				rotate_y(deg2rad(180))
+				
+				AI_shoot(body_r)
 			
 			in_sight = true
 			if brain.get_state() == brain.STATE_SEARCH:
@@ -841,6 +847,52 @@ func _on_player_seen(body_r):
 				emit_signal("emit_bark", self, "Found him!")
 				# reset last seen
 				last_seen_pos = Vector3()
+
+# assumes we get passed a valid target
+func AI_shoot(target):
+	var shoot_loc = target.global_transform.origin
+	var target_collision_h = 0.92 # hardcoded
+	#print("Shoot target: ", target)
+	var offset = Vector3(0,1,0)*((randf()*2-1)*target_collision_h)
+	print("offset: ", offset)
+	shoot_loc = shoot_loc + offset
+	# this is global
+	print("Shoot loc", shoot_loc)
+	# this one actually fires
+	AI_fire_weapon(shoot_loc)
+	
+	
+# fire_weapon() in shoot.gd has a lot of player-centric stuff so here we go...
+# hitscan weapon
+func AI_fire_weapon(shoot_loc):
+	# Get the raycast node
+	var ray = $RotationHelper/Area/RayCast
+	ray.collision_mask = 2
+	ray.collide_with_areas = true
+	
+	# cast to our shoot loc
+	ray.cast_to = ray.to_local(shoot_loc) #* 1.25
+	
+	# Force the raycast to update. This will force the raycast to detect collisions when we call it.
+	# This means we are getting a frame perfect collision check with the 3D world.
+	ray.force_raycast_update()
+
+	# Did the ray hit something?
+	if ray.is_colliding():
+		var body = ray.get_collider()
+		#print("Body...", body.get_name())
+		
+		# body parts support (requires detecting areas!)
+		if body is Area and body.get_parent() is BoneAttachment:
+			# player version
+			var bone = body.get_parent().get_name()
+			#print("Bone...", bone)
+			if bone.find("Chest") != -1 or bone.find("Head") != -1 or bone.find("Neck") != -1:
+				print("AI shot you in ", bone)
+			elif bone.find("Arm") != -1:
+				print("AI shot you in the arm")
+			else:
+				print("AI shot you somewhere non-lethal")
 
 # ------------------------------------------------------------
 func physical_bones_set_collision(boo):

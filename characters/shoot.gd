@@ -186,6 +186,7 @@ func draw_screen_outline(mesh, target):
 	var point = null
 
 	# both array meshes and primitive meshes have AABB
+	# TODO: hopefully we'll be able to just reuse editor's AABB and drawing at some point...
 	for i in range(7):
 		# use a fake (rotated) aabb instead for AI
 		if target is KinematicBody:

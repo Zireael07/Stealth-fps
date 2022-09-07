@@ -63,6 +63,9 @@ mesh = SubResource( 8 )
 [node name="Area2" type="Area" parent="RotationHelper"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0 )
 collision_layer = 0
+__meta__ = {
+"_editor_description_": "This is for detecting things nearby"
+}
 
 [node name="CollisionShape" type="CollisionShape" parent="RotationHelper/Area2"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 1 )
