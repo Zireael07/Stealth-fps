@@ -781,7 +781,7 @@ func _physics_process(delta):
 						rotate_y(deg2rad(180))
 						in_sight = true
 						
-						#AI_shoot(body_r)
+						AI_shoot(body_r)
 						
 						if not alarmed:
 							emit_signal("enemy_seen")
@@ -884,15 +884,31 @@ func AI_fire_weapon(shoot_loc):
 		
 		# body parts support (requires detecting areas!)
 		if body is Area and body.get_parent() is BoneAttachment:
+			print(body.get_node("../../../../..").get_name())
 			# player version
-			var bone = body.get_parent().get_name()
-			#print("Bone...", bone)
-			if bone.find("Chest") != -1 or bone.find("Head") != -1 or bone.find("Neck") != -1:
-				print("AI shot you in ", bone)
-			elif bone.find("Arm") != -1:
-				print("AI shot you in the arm")
-			else:
-				print("AI shot you somewhere non-lethal")
+			if body.get_node("../../../../..").is_in_group("player"):
+				var bone = body.get_parent().get_name()
+				#print("Bone...", bone)
+				if bone.find("Chest") != -1 or bone.find("Head") != -1 or bone.find("Neck") != -1:
+					print("AI shot you in ", bone)
+				elif bone.find("Arm") != -1:
+					print("AI shot you in the arm")
+				else:
+					print("AI shot you somewhere non-lethal")
+			# AI version
+			
+			if body.get_node("../../../../..").is_in_group("AI"):
+				var bone = body.get_parent().get_name()
+				print("Bone...", bone)
+				if bone.find("Chest") != -1 or bone.find("Head") != -1 or bone.find("Neck") != -1:
+					body.get_node("../../../../..").die(get_global_transform().origin)
+					#print(body.get_node("../../../../..").get_name()) #die()
+				elif bone.find("Arm") != -1:
+					body.get_node("../../../../..").drop_gun(player)
+					body.get_node("../../../../..")._on_hurt(get_global_transform().origin)
+				else:
+					body.get_node("../../../../..")._on_hurt(get_global_transform().origin)
+
 
 # ------------------------------------------------------------
 func physical_bones_set_collision(boo):
