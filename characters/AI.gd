@@ -150,6 +150,20 @@ func _ready():
 		aabb_center.add_child(pt)
 		pt.global_transform.origin =  point
 
+
+	if not is_in_group("civilian"):
+		var ray = $RotationHelper/Area/RayCast
+	
+		# exclude all of our own bones so that we can't shoot ourselves
+		var bones = [$RotationHelper/Character2/Armature/HitBoxHead/Area, $RotationHelper/Character2/Armature/HitBoxNeck/Area, $RotationHelper/Character2/Armature/HitBoxChest/Area,
+	$RotationHelper/Character2/Armature/HitBoxTorso/Area, $RotationHelper/Character2/Armature/HitBoxPelvis/Area, 
+	$RotationHelper/Character2/Armature/HitBoxUpperArmL/Area, $RotationHelper/Character2/Armature/HitBoxLowerArmL/Area, $RotationHelper/Character2/Armature/HitBoxLowerArmR/Area, $RotationHelper/Character2/Armature/HitBoxUpperArmR/Area
+	]
+	
+		for b in bones:
+			ray.add_exception(b)
+
+
 	# the sniper drops prone immediately
 	if get_name() == "sniper":
 		brain.set_state(brain.STATE_IDLE)
@@ -880,11 +894,16 @@ func AI_fire_weapon(shoot_loc):
 	# Did the ray hit something?
 	if ray.is_colliding():
 		var body = ray.get_collider()
+		
+		#debug
+		if body == self or body.get_node("../../../../..") == self:
+			print("Hit self!")
+			
 		#print("Body...", body.get_name())
 		
 		# body parts support (requires detecting areas!)
 		if body is Area and body.get_parent() is BoneAttachment:
-			print(body.get_node("../../../../..").get_name())
+			#print(body.get_node("../../../../..").get_name())
 			# player version
 			if body.get_node("../../../../..").is_in_group("player"):
 				var bone = body.get_parent().get_name()
@@ -896,15 +915,13 @@ func AI_fire_weapon(shoot_loc):
 				else:
 					print("AI shot you somewhere non-lethal")
 			# AI version
-			
 			if body.get_node("../../../../..").is_in_group("AI"):
 				var bone = body.get_parent().get_name()
-				print("Bone...", bone)
+				#print("Bone...", bone)
 				if bone.find("Chest") != -1 or bone.find("Head") != -1 or bone.find("Neck") != -1:
 					body.get_node("../../../../..").die(get_global_transform().origin)
-					#print(body.get_node("../../../../..").get_name()) #die()
 				elif bone.find("Arm") != -1:
-					body.get_node("../../../../..").drop_gun(player)
+					body.get_node("../../../../..").drop_gun(self)
 					body.get_node("../../../../..")._on_hurt(get_global_transform().origin)
 				else:
 					body.get_node("../../../../..")._on_hurt(get_global_transform().origin)
