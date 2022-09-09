@@ -907,13 +907,10 @@ func AI_fire_weapon(shoot_loc):
 			# player version
 			if body.get_node("../../../../..").is_in_group("player"):
 				var bone = body.get_parent().get_name()
-				#print("Bone...", bone)
-				if bone.find("Chest") != -1 or bone.find("Head") != -1 or bone.find("Neck") != -1:
-					print("AI shot you in ", bone)
-				elif bone.find("Arm") != -1:
-					print("AI shot you in the arm")
-				else:
-					print("AI shot you somewhere non-lethal")
+				print("Bone...", bone)
+				
+				body.get_node("../../../../..").body_part_damaged(body.get_node("../../../../..").bone_to_bp(bone))
+				
 			# AI version
 			if body.get_node("../../../../..").is_in_group("AI"):
 				var bone = body.get_parent().get_name()

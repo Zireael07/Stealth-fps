@@ -1130,6 +1130,30 @@ func is_moving():
 	var move = vel.length() > 0.5 and stance != PRONE
 	return move
 
+func bone_to_bp(bone):
+	if bone.find("Chest") != -1 or bone.find("Neck") != -1 or bone.find("Pelvis") != -1:
+		return "Torso"
+	elif bone.find("Head") != -1:
+		return "Head"
+	elif bone.find("ArmL") != -1:
+		return "LeftArm"
+	elif bone.find("ArmR") != -1:
+		return "RightArm"
+	elif bone.find("LegL") != -1:
+		return "LeftLeg"
+	elif bone.find("LegR") != -1:
+		return "RightLeg"
+	else:
+		print("Unknown body part for bone: ", bone)
+
+func body_part_damaged(part):
+	# TODO: actual damage effects
+	# HUD - color damaged body part
+	#print("Part: " , part)
+	#print(get_node("Control/Health").get_node(part))
+	$Control/Health.get_node(part).set_modulate(Color(1,0,0))
+
+
 func _on_convo_end(npc):
 	# wait a bit
 	yield(get_tree().create_timer(1), "timeout")
