@@ -536,7 +536,11 @@ func _physics_process(delta):
 					brain.set_state(brain.STATE_FOLLOW)
 				
 				# debug
-				get_node("MeshInstance2").set_translation(brain.target)
+				if brain.target != null and is_instance_valid(brain.target):
+					if typeof(brain.target) == TYPE_VECTOR3:
+						get_node("MeshInstance2").set_translation(brain.target)
+					else:
+						get_node("MeshInstance2").set_translation(brain.target.get_global_transform().origin)
 				#return
 			#elif hold: brain.set_state(brain.STATE_IDLE)
 			else:

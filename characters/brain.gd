@@ -206,6 +206,12 @@ class FollowState:
 	func update(delta):
 		if not ch.brain or not is_instance_valid(ch.brain):
 			return
+		
+		if typeof(ch.brain.target) == TYPE_VECTOR3:
+			pass
+		else:
+			ch.brain.target = ch.brain.target.get_global_transform().origin
+		
 			
 		ch.brain.steer = ch.brain.arrive(ch.brain.target, 3)
 		
