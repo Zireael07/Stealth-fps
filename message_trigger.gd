@@ -23,3 +23,6 @@ func _on_Area_body_entered(body):
 		yield(get_tree().create_timer(5), "timeout")
 		# TODO: add a fancy fadeout effect
 		body.get_node("Control/MessagePanel").hide()
+		
+		# remove self since this message is one-time only
+		self.queue_free()
