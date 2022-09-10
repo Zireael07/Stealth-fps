@@ -18,3 +18,4 @@
 * ATMs - https://opengameart.org/content/low-poly-atms by PixelMannen (CC0)
 * light/shadow icon - https://opengameart.org/content/lightmeter by Rallix (CC0), separated into individual pictures
 * human body outline - vecteezy.com ("human body outline in three colors") (CC0) - split into individual pics, rescaled. removed background
+* flag icons - https://opengameart.org/content/pixel-europe by AVReference (CC0)

@@ -19,7 +19,7 @@ func _ready():
 #	pass
 
 func _on_Button_pressed(src):
-	var nm = src.get_parent().get_node("Label").get_text()
+	var nm = src.get_parent().get_node("HBoxContainer/Label").get_text()
 	print("Selected ", nm)
 	
 	var data = [nm]
