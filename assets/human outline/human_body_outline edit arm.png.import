@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/human_body_outline edit arm1.png-1bb29a21ad77016d0c75cab56be6d068.stex"
+path="res://.import/human_body_outline edit arm.png-a0e9198830d2fe4df7ebb2e48a3b4fec.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/human_body_outline edit arm1.png"
-dest_files=[ "res://.import/human_body_outline edit arm1.png-1bb29a21ad77016d0c75cab56be6d068.stex" ]
+source_file="res://assets/human outline/human_body_outline edit arm.png"
+dest_files=[ "res://.import/human_body_outline edit arm.png-a0e9198830d2fe4df7ebb2e48a3b4fec.stex" ]
 
 [params]
 
