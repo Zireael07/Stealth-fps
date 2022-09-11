@@ -557,15 +557,34 @@ func _physics_process(delta):
 		# TODO: move some/most of this to brain.gd?
 		
 		if grenade_threat:
-			if timetospot > 0:
-				timetospot = timetospot- delta*2
-				#print("Timetospot: ", timetospot)
-			if timetospot <= 0 and grenade_threat != null:
-				if brain.get_state() != brain.STATE_AVOID_GREN:
-					brain.set_state(brain.STATE_AVOID_GREN, grenade_threat)
-					brain.target = grenade_threat
-					emit_signal("emit_bark", self, "Saw a 'nade!")
-					return
+			
+			if grenade_threat != null and is_instance_valid(grenade_threat):
+				# is it in direct sight (not behind a wall)
+				# Get the raycast node
+				var ray = $RotationHelper/Area/RayCast
+				ray.collision_mask = 1
+				ray.collide_with_areas = false
+				
+				# set the proper cast_to
+				ray.cast_to = ray.to_local(grenade_threat.get_global_transform().origin) #*1.5
+				
+				# Force the raycast to update. This will force the raycast to detect collisions when we call it.
+				# This means we are getting a frame perfect collision check with the 3D world.
+				ray.force_raycast_update()
+
+				# Did the ray hit something?
+				if ray.is_colliding() and ray.get_collider() == grenade_threat:
+					if timetospot > 0:
+						timetospot = timetospot- delta*2
+						#print("Timetospot: ", timetospot)
+					if timetospot <= 0 and grenade_threat != null:
+						if brain.get_state() != brain.STATE_AVOID_GREN:
+							brain.set_state(brain.STATE_AVOID_GREN, grenade_threat)
+							brain.target = grenade_threat
+							emit_signal("emit_bark", self, "Saw a 'nade!")
+							return
+				else:
+					print("Grenade behind a wall")
 		
 		# if we're unarmed, disengage
 		if !is_armed() and in_sight and possible_tg != null:
@@ -799,7 +818,7 @@ func _physics_process(delta):
 						rotate_y(deg2rad(180))
 						in_sight = true
 						
-						AI_shoot(body_r)
+						#AI_shoot(body_r)
 						
 						if not alarmed:
 							emit_signal("enemy_seen")
@@ -872,10 +891,10 @@ func AI_shoot(target):
 	var target_collision_h = 0.92 # hardcoded
 	#print("Shoot target: ", target)
 	var offset = Vector3(0,1,0)*((randf()*2-1)*target_collision_h)
-	print("offset: ", offset)
+	#print("offset: ", offset)
 	shoot_loc = shoot_loc + offset
 	# this is global
-	print("Shoot loc", shoot_loc)
+	#print("Shoot loc", shoot_loc)
 	# this one actually fires
 	AI_fire_weapon(shoot_loc)
 	
@@ -911,7 +930,7 @@ func AI_fire_weapon(shoot_loc):
 			# player version
 			if body.get_node("../../../../..").is_in_group("player"):
 				var bone = body.get_parent().get_name()
-				print("Bone...", bone)
+				#print("Bone...", bone)
 				
 				body.get_node("../../../../..").body_part_damaged(body.get_node("../../../../..").bone_to_bp(bone))
 				
