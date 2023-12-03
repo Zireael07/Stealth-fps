@@ -1179,7 +1179,8 @@ func _on_gadget_mode(index):
 			c._on_thermal_vision(false)
 	if index < 4:
 		for o in get_tree().get_nodes_in_group("x-ray"):
-			o.get_node("MeshInstance").set_material_override(null)
+			pass
+			#o.get_node("MeshInstance").set_material_override(null)
 			# for bordered setup o needs to be the parent Glowing node
 			#o.glow_border_effect = false
 			#o.get_node("MeshInstance").get_surface_material(0).set_feature(SpatialMaterial.FEATURE_TRANSPARENT, false)
