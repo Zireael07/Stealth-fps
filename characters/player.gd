@@ -85,6 +85,10 @@ var swimming = false
 var water_body = null
 var climbing = false
 
+# nightvision effects
+var nightvision_mk1 = preload("res://nightvision_color_correct.tres")
+var nightvision_mk2 = preload("res://nightvision_color_correct_mk2.tres")
+
 func _ready():
 	camera = $RotationHelper/Character/Armature/CameraBoneAttachment/Camera
 	weapon_hold = $RotationHelper/Character/Armature/WeaponHold/
@@ -1177,7 +1181,7 @@ func _on_gadget_mode(index):
 	if index < 3:
 		for c in get_tree().get_nodes_in_group("AI"):
 			c._on_thermal_vision(false)
-	if index < 4:
+	if index < 5:
 		for o in get_tree().get_nodes_in_group("x-ray"):
 			pass
 			#o.get_node("MeshInstance").set_material_override(null)
@@ -1198,13 +1202,19 @@ func _on_gadget_mode(index):
 		binocs = true
 	elif index == 2:
 		# turn nightvision on
+		get_tree().get_nodes_in_group("root")[0].get_node("WorldEnvironment").environment.set_adjustment_color_correction(nightvision_mk1)
 		get_tree().get_nodes_in_group("root")[0].get_node("WorldEnvironment").environment.adjustment_enabled = true
+	# NOTE: rain/humidity defeats thermals
 	elif index == 3:
 		get_tree().get_nodes_in_group("root")[0].get_node("WorldEnvironment").environment.adjustment_enabled = false
 		# thermal effect
 		for c in get_tree().get_nodes_in_group("AI"):
 			c._on_thermal_vision(true)
 	elif index == 4:
+		# turn nightvision on
+		get_tree().get_nodes_in_group("root")[0].get_node("WorldEnvironment").environment.set_adjustment_color_correction(nightvision_mk2)
+		get_tree().get_nodes_in_group("root")[0].get_node("WorldEnvironment").environment.adjustment_enabled = true
+	elif index == 5:
 		for o in get_tree().get_nodes_in_group("x-ray"):
 			o.set_material_override(preload("res://assets/xray_material2.tres"))
 			# for bordered setup, o needs to be the parent GlowingObject
